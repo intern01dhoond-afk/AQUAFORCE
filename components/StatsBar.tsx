@@ -1,0 +1,127 @@
+export default function StatsBar() {
+  return (
+    <section className="bg-[#f8f9fb] border-y border-slate-200/60 py-6 sm:py-8 w-full">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[80px]">
+        <div className="grid grid-cols-2 lg:grid-cols-4 items-center">
+          {/* Stat 1: Battery */}
+          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2 border-r border-b lg:border-b-0 border-slate-200/80">
+            {/* Battery Icon */}
+            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+              <svg
+                width="26"
+                height="16"
+                viewBox="0 0 26 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="currentColor"
+                strokeWidth="1.6"
+              >
+                <rect x="1" y="1" width="20" height="14" rx="2" />
+                <path d="M23 5.5V10.5" strokeLinecap="round" />
+              </svg>
+            </div>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              BATTERY
+            </span>
+            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+              3 HRS
+            </span>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              CONTINUOUS USE
+            </span>
+          </div>
+
+          {/* Stat 2: Pressure */}
+          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2 border-b lg:border-b-0 lg:border-r border-slate-200/80">
+            {/* Spark / Burst Icon */}
+            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+              </svg>
+            </div>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              PRESSURE
+            </span>
+            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+              HIGH
+            </span>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              PRESSURE PUMP
+            </span>
+          </div>
+
+          {/* Stat 3: Power */}
+          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2 border-r border-slate-200/80">
+            {/* Wind / Air Flow Icon */}
+            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+              <svg
+                width="24"
+                height="20"
+                viewBox="0 0 24 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              >
+                <path d="M2 5H16C17.6569 5 19 3.65685 19 2C19 0.8 17.8 0 16.5 0" />
+                <path d="M2 10H20C21.6569 10 23 11.3431 23 13C23 14.6569 21.6569 16 20 16" />
+                <path d="M2 15H13C14.1 15 15 15.9 15 17C15 18.1 14.1 19 13 19" />
+              </svg>
+            </div>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              POWER
+            </span>
+            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+              0
+            </span>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              SOCKETS NEEDED
+            </span>
+          </div>
+
+          {/* Stat 4: Cordless */}
+          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2">
+            {/* Feather / Lightweight Icon */}
+            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+                <line x1="16" y1="8" x2="2" y2="22" />
+                <line x1="17.5" y1="15" x2="9" y2="15" />
+              </svg>
+            </div>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              CORDLESS
+            </span>
+            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+              100%
+            </span>
+            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+              WIRELESS
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
