@@ -85,13 +85,13 @@ export default function Header() {
 
       {/* Mobile Dropdown Menu */}
       {open && (
-        <div className="md:hidden mt-2 max-w-7xl mx-auto bg-black/90 backdrop-blur-2xl border border-white/15 rounded-[12px] p-5 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col gap-3.5">
+        <div className="md:hidden mt-2.5 max-w-7xl mx-auto bg-black/45 backdrop-blur-2xl border border-white/20 rounded-[14px] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] animate-in fade-in slide-in-from-top-2 duration-200">
+          <nav className="flex flex-col gap-3">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-base font-semibold text-white/90 hover:text-white py-1.5 px-2 rounded-lg hover:bg-white/10 transition-colors"
+                className="text-[17px] font-semibold text-white/95 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition-colors"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
@@ -102,9 +102,9 @@ export default function Header() {
                 setOpen(false);
                 openModal();
               }}
-              className="mt-2 w-full inline-flex items-center justify-center bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs font-black tracking-wider uppercase px-5 py-3 rounded-[6px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98"
+              className="mt-2 w-full inline-flex items-center justify-center bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs font-black tracking-wider uppercase px-5 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98 transition-all"
             >
-              SHOP NOW →
+              SHOP NOW &rarr;
             </button>
           </nav>
         </div>
