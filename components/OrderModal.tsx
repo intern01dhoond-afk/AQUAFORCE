@@ -118,13 +118,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     setActiveImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
+  const MAX_QUANTITY_LIMIT = 10;
+
   const handleColorChange = (idx: number) => {
     setSelectedColorIndex(idx);
     setActiveImageIndex(0);
   };
 
   const handleQuantityChange = (delta: number) => {
-    setQuantity((prev) => Math.max(1, prev + delta));
+    setQuantity((prev) => Math.min(MAX_QUANTITY_LIMIT, Math.max(1, prev + delta)));
   };
 
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
@@ -561,7 +563,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               <div className="w-full h-px bg-slate-100 my-3.5 sm:my-5" />
 
               {/* Quantity Stepper */}
-              <div className="flex items-center">
+              <div className="flex items-center gap-3">
                 <div
                   className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 transition-opacity ${
                     !currentColor.inStock ? "opacity-40 pointer-events-none" : ""
@@ -580,13 +582,18 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </span>
                   <button
                     onClick={() => handleQuantityChange(1)}
-                    disabled={!currentColor.inStock}
-                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg cursor-pointer"
+                    disabled={quantity >= MAX_QUANTITY_LIMIT || !currentColor.inStock}
+                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
                     aria-label="Increase quantity"
                   >
                     &#43;
                   </button>
                 </div>
+                {quantity >= MAX_QUANTITY_LIMIT && (
+                  <span className="text-xs text-amber-600 font-semibold font-open-sans">
+                    Max limit: 10 units
+                  </span>
+                )}
               </div>
 
               {/* Shipping Badges */}

@@ -16,6 +16,13 @@ export async function POST(req: Request) {
       );
     }
 
+    if (notes?.quantity && Number(notes.quantity) > 10) {
+      return NextResponse.json(
+        { error: "Maximum cart value limit is 10 devices per order." },
+        { status: 400 }
+      );
+    }
+
     const razorpay = new Razorpay({
       key_id,
       key_secret,
