@@ -129,7 +129,7 @@ export default function Hero() {
           <div className="flex flex-col gap-2.5 mt-4 w-full">
             <button
               onClick={openModal}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>SHOP NOW</span>
               <ArrowRight className="w-4 h-4 shrink-0" />
@@ -181,7 +181,7 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
               <button
                 onClick={openModal}
-                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 <span>SHOP NOW</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
@@ -262,7 +262,7 @@ export default function Hero() {
           <div className="mt-3.5 w-full">
             <button
               onClick={openModal}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-inter text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-inter text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>SHOP NOW</span>
               <ArrowRight className="w-4 h-4 shrink-0" />
@@ -307,7 +307,7 @@ export default function Hero() {
             <div className="mt-6 sm:mt-7">
               <button
                 onClick={openModal}
-                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-inter text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-inter text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <span>SHOP NOW</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
@@ -384,7 +384,7 @@ export default function Hero() {
           <div className="flex flex-col gap-2.5 mt-4 w-full">
             <button
               onClick={openModal}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>SHOP NOW</span>
               <ArrowRight className="w-4 h-4 shrink-0" />
@@ -429,7 +429,7 @@ export default function Hero() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={openModal}
-                  className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="inline-flex items-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   <span>SHOP NOW</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />
@@ -497,7 +497,7 @@ export default function Hero() {
           </div>
           <button
             onClick={openModal}
-            className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
           >
             <span>SHOP NOW</span>
             <ArrowRight className="w-4 h-4 shrink-0" />
@@ -533,7 +533,7 @@ export default function Hero() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={openModal}
-                  className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="inline-flex items-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   <span>SHOP NOW</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />

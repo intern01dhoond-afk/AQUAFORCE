@@ -1,6 +1,12 @@
+"use client";
+
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import { useOrderModal } from "@/context/OrderModalContext";
 
 export default function WashWithoutLimits() {
+  const { openModal } = useOrderModal();
+
   return (
     <section className="relative overflow-hidden bg-white w-full">
       {/* ========================================================= */}
@@ -15,7 +21,7 @@ export default function WashWithoutLimits() {
         </h2>
 
         {/* Blue Accent Underline */}
-        <div className="w-14 h-[2.5px] bg-[#0066cc] mt-2.5 mb-2.5 rounded-full" />
+        <div className="w-14 h-[2.5px] bg-[#005DA6] mt-2.5 mb-2.5 rounded-full" />
 
         {/* Subtitle */}
         <p className="text-[#8892a0] font-open-sans text-xs font-bold tracking-[0.24em] uppercase mb-6">
@@ -74,6 +80,15 @@ export default function WashWithoutLimits() {
             </span>
           </div>
         </div>
+
+        {/* CTA Action Button */}
+        <button
+          onClick={openModal}
+          className="mt-6 inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
+        >
+          <span>SHOP NOW</span>
+          <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
+        </button>
       </div>
 
       {/* ========================================================= */}
@@ -92,7 +107,7 @@ export default function WashWithoutLimits() {
           />
         </div>
 
-        {/* Center Column: Clean White Card with Title, Subtitle & Badges */}
+        {/* Center Column: Clean White Card with Title, Subtitle, Badges & CTA */}
         <div className="md:col-span-4 bg-white flex flex-col items-center justify-center text-center px-6 sm:px-8 py-12 md:py-8 z-10 shadow-xs">
           {/* Main Title */}
           <h2 className="text-[#0e1726] font-montserrat text-3xl sm:text-4xl lg:text-[40px] font-medium uppercase tracking-tight leading-[1.08]">
@@ -102,10 +117,10 @@ export default function WashWithoutLimits() {
           </h2>
 
           {/* Blue Accent Underline */}
-          <div className="w-14 h-[2px] bg-[#0080ff] my-3.5 rounded-full" />
+          <div className="w-14 h-[2px] bg-[#005DA6] my-3.5 rounded-full" />
 
           {/* Subtitle */}
-          <p className="text-slate-500 font-open-sans text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-8">
+          <p className="text-slate-500 font-open-sans text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-6">
             AQUAFORCE 1400
           </p>
 
@@ -134,6 +149,15 @@ export default function WashWithoutLimits() {
               </span>
             </div>
           </div>
+
+          {/* CTA Action Button */}
+          <button
+            onClick={openModal}
+            className="mt-7 inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all hover:scale-[1.03] active:scale-95 cursor-pointer font-montserrat group"
+          >
+            <span>SHOP NOW</span>
+            <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
+          </button>
         </div>
 
         {/* Right Column Image (Edge-to-Edge) */}
