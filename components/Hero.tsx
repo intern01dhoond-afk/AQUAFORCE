@@ -427,8 +427,21 @@ export default function Hero() {
             : "opacity-0 z-0 pointer-events-none"
         }`}
       >
-        {/* Full-Bleed Background Image (Banner 04.png) */}
-        <div className="absolute inset-0 z-0">
+        {/* Mobile Background Image (Banner 04 mobile.png) */}
+        <div className="sm:hidden absolute inset-0 z-0">
+          <Image
+            src="/images/Banner 04 mobile.png"
+            alt="AMEC Aquaforce 1400 Cordless Powerful Portable Motorbike Detailing"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+        </div>
+
+        {/* Desktop Background Image (Banner 04.png) */}
+        <div className="hidden sm:block absolute inset-0 z-0">
           <Image
             src="/images/Banner 04.png"
             alt="AMEC Aquaforce 1400 Cordless Powerful Portable Motorbike Detailing"
