@@ -17,24 +17,12 @@ export default function Footer() {
           rel="noopener noreferrer"
           className="flex flex-col items-center group mb-8"
         >
-          {/* AMEC Shield Icon */}
-          <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 mb-3">
+          <div className="relative w-[120px] h-[77px] sm:w-[143px] sm:h-[92px] shrink-0">
             <Image
-              src="/logo_shield.png"
-              alt="AMEC Shield Logo"
+              src="/images/Amec Logo Footer.svg"
+              alt="AMEC Technology"
               fill
-              sizes="40px"
-              className="object-contain"
-            />
-          </div>
-
-          {/* AMEC Technology Wordmark */}
-          <div className="relative h-6 sm:h-7 w-32 sm:w-40 shrink-0">
-            <Image
-              src="/logo_amec_new.png"
-              alt="AMEC TECHNOLOGY"
-              fill
-              sizes="160px"
+              sizes="(max-width: 640px) 120px, 143px"
               className="object-contain object-center"
             />
           </div>
