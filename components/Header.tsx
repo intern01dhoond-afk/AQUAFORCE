@@ -28,9 +28,9 @@ export default function Header() {
   return (
     <header className="fixed top-2.5 sm:top-4 left-0 right-0 z-50 px-3 sm:px-6 lg:px-10 transition-all duration-300">
       <div
-        className={`max-w-[1360px] w-full h-[62px] sm:h-[70px] lg:h-[74px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
+        className={`max-w-[1360px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
           scrolled
-            ? "bg-white/10 backdrop-blur-md border border-white/20 rounded-[14px] sm:rounded-[16px] shadow-[0_8px_32px_0_rgba(0,0,0,0.25)]"
+            ? "bg-[#10243e]/70 backdrop-blur-xl border border-white/20 rounded-[14px] sm:rounded-[18px] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
             : "bg-transparent border-transparent shadow-none"
         }`}
       >
