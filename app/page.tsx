@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import SaleTicker from "@/components/SaleTicker";
 import StatsBar from "@/components/StatsBar";
 import ProfessionalCleaning from "@/components/ProfessionalCleaning";
 import EngineeredPerformance from "@/components/EngineeredPerformance";
@@ -16,6 +17,7 @@ export default function Home() {
     <main>
       <Header />
       <Hero />
+      <SaleTicker />
       <StatsBar />
       <EngineeredPerformance />
       <ProfessionalCleaning />
