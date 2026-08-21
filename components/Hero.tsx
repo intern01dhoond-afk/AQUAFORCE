@@ -75,7 +75,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
         </div>
 
         {/* Desktop Background Image */}
@@ -88,9 +87,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-center sm:object-[center_35%]"
           />
-          {/* Left Contrast Gradient Mask for crisp text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent sm:w-3/5 lg:w-1/2" />
-          <div className="absolute inset-0 bg-black/10" />
         </div>
 
         {/* Mobile Slide 1 Content Overlay */}
@@ -218,7 +214,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
         </div>
 
         {/* Desktop Background Image (special-offer.png) */}
@@ -231,8 +226,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          {/* Left vignette gradient to guarantee high text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent lg:w-3/5" />
         </div>
 
         {/* Mobile Slide 2 Content Overlay */}
@@ -344,7 +337,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
         </div>
 
         {/* Desktop Background Image (hero-banner-3.png) */}
@@ -357,8 +349,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          {/* Subtle bottom vignette to ensure bottom text clarity */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20" />
         </div>
 
         {/* Mobile Slide 3 Content Overlay */}
@@ -469,7 +459,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
         </div>
 
         {/* Desktop Background Image (Banner 04.png) */}
@@ -482,8 +471,6 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-center sm:object-[center_40%]"
           />
-          {/* Subtle bottom gradient to ensure action buttons are crystal clear */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent sm:h-2/5 sm:top-auto sm:bottom-0" />
         </div>
 
         {/* Mobile Slide 4 Overlay - Action buttons pinned to bottom without blocking top graphic */}
