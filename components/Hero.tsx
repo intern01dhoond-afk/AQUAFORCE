@@ -49,7 +49,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/hero-banner-1.png"
+            src="/Banner 1 highres.png"
             alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
             fill
             priority
