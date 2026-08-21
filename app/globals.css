@@ -5,6 +5,7 @@
   --font-display: var(--font-montserrat), "Montserrat", sans-serif;
   --font-montserrat: var(--font-montserrat), "Montserrat", sans-serif;
   --font-montserrat-alternates: var(--font-montserrat-alternates), "Montserrat Alternates", sans-serif;
+  --font-unbounded: var(--font-unbounded), "Unbounded", sans-serif;
   --font-open-sans: var(--font-open-sans), "Open Sans", sans-serif;
 
   --color-navy: #0b1a2e;
@@ -26,6 +27,10 @@
 
 .font-montserrat-alternates {
   font-family: var(--font-montserrat-alternates), "Montserrat Alternates", sans-serif;
+}
+
+.font-unbounded {
+  font-family: var(--font-unbounded), "Unbounded", sans-serif;
 }
 
 .font-open-sans {

@@ -17,12 +17,12 @@ export default function SaleTicker() {
         {/* Double array to create a seamless infinite loop */}
         {[...items, ...items].map((text, idx) => (
           <div key={idx} className="flex items-center">
-            <span className="text-white font-montserrat font-black text-[13px] sm:text-[15px] lg:text-[16px] tracking-wider uppercase drop-shadow-xs px-4 sm:px-6">
+            <span className="text-white font-unbounded font-semibold text-[15px] sm:text-[18px] lg:text-[22.488px] tracking-[-0.337px] uppercase drop-shadow-xs px-4 sm:px-6">
               {text}
             </span>
             {/* 4-point Diamond Sparkle Star */}
             <svg
-              className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white fill-current shrink-0 drop-shadow-xs"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-white fill-current shrink-0 drop-shadow-xs"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >

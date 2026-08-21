@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Montserrat_Alternates, Open_Sans } from "next/font/google";
+import { Montserrat, Montserrat_Alternates, Open_Sans, Unbounded } from "next/font/google";
 import "./globals.css";
 import { OrderModalProvider } from "@/context/OrderModalContext";
 
@@ -24,6 +24,13 @@ const openSans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
+const unbounded = Unbounded({
+  subsets: ["latin"],
+  variable: "--font-unbounded",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
 export const metadata: Metadata = {
   title: "AMEC Aquaforce 1400 | Cordless. Powerful. Portable.",
   description:
@@ -38,7 +45,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${montserrat.variable} ${montserratAlternates.variable} ${openSans.variable} antialiased font-sans`}>
+      <body className={`${montserrat.variable} ${montserratAlternates.variable} ${openSans.variable} ${unbounded.variable} antialiased font-sans`}>
         <OrderModalProvider>{children}</OrderModalProvider>
       </body>
     </html>
