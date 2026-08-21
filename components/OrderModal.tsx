@@ -233,14 +233,16 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           isCheckingOut ? "max-w-[600px] p-6 sm:p-8 md:p-10" : "max-w-[440px] lg:max-w-[1045px] p-5 sm:p-8 lg:p-10"
         } bg-white rounded-[24px] sm:rounded-[20px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[94vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200`}
       >
-        {/* Close Button (Circle icon top-right) */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-20 cursor-pointer shadow-xs"
-          aria-label="Close modal"
-        >
-          <X size={16} />
-        </button>
+        {/* Top Close Button for Product Detail and Success Views */}
+        {!isCheckingOut && (
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-20 cursor-pointer shadow-xs"
+            aria-label="Close modal"
+          >
+            <X size={16} />
+          </button>
+        )}
 
         {isSubmitted ? (
           /* Order Confirmed View */
@@ -286,13 +288,23 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           </div>
         ) : isCheckingOut ? (
           /* Exact Delivery Checkout Form from Screenshot */
-          <div className="pt-2 sm:pt-4">
-            <button
-              onClick={() => setIsCheckingOut(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-700 mb-6 cursor-pointer transition-colors font-open-sans"
-            >
-              &larr; Back to Product Details
-            </button>
+          <div>
+            {/* Header row: Back button on left, Close button on right, perfectly aligned */}
+            <div className="flex items-center justify-between mb-5 sm:mb-6">
+              <button
+                onClick={() => setIsCheckingOut(false)}
+                className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-bold text-slate-400 hover:text-slate-700 cursor-pointer transition-colors font-open-sans"
+              >
+                &larr; Back to Product Details
+              </button>
+              <button
+                onClick={onClose}
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-xs shrink-0"
+                aria-label="Close modal"
+              >
+                <X size={16} />
+              </button>
+            </div>
 
             <form onSubmit={handleCheckoutSubmit} className="space-y-4 sm:space-y-5">
               {/* Row 1: Full Name & Mobile Number */}
