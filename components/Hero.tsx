@@ -10,6 +10,35 @@ export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { openModal } = useOrderModal();
 
+  // Touch Swipe State
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const minSwipeDistance = 40;
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      // Swipe left -> Next slide
+      setCurrentSlide((prev) => (prev + 1) % TOTAL_SLIDES);
+    } else if (isRightSwipe) {
+      // Swipe right -> Prev slide
+      setCurrentSlide((prev) => (prev - 1 + TOTAL_SLIDES) % TOTAL_SLIDES);
+    }
+  };
+
   // Auto-advance slides every 4.5 seconds and reset timer on slide change
   useEffect(() => {
     const timer = setInterval(() => {
@@ -21,7 +50,10 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[720px] sm:min-h-[660px] lg:min-h-[760px] xl:min-h-[820px] flex items-center overflow-hidden bg-slate-950 select-none group"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      className="relative min-h-[720px] sm:min-h-[660px] lg:min-h-[760px] xl:min-h-[820px] flex items-center overflow-hidden bg-slate-950 select-none group touch-pan-y"
     >
       {/* ========================================================= */}
       {/* SLIDE 1: Outdoor Patio SUV Foam Washing Scene */}
