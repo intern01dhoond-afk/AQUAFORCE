@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 
 export default function PromoBanner() {
@@ -54,9 +55,10 @@ export default function PromoBanner() {
           <div className="mt-6 sm:mt-7">
             <button
               onClick={openModal}
-              className="inline-flex items-center gap-2.5 bg-[#0066cc] hover:bg-[#0052a3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0052a3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
-              SHOP NOW <span className="text-base leading-none">&rarr;</span>
+              <span>SHOP NOW</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
           </div>
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 
 const TOTAL_SLIDES = 4;
@@ -130,7 +131,8 @@ export default function Hero() {
               onClick={openModal}
               className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
-              SHOP NOW <span className="text-base leading-none">&rarr;</span>
+              <span>SHOP NOW</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
             <a
               href="#features"
@@ -181,7 +183,8 @@ export default function Hero() {
                 onClick={openModal}
                 className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                SHOP NOW <span className="text-base leading-none">&rarr;</span>
+                <span>SHOP NOW</span>
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
               <a
                 href="#features"
@@ -261,7 +264,8 @@ export default function Hero() {
               onClick={openModal}
               className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-inter text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
-              SHOP NOW <span className="text-base leading-none">&rarr;</span>
+              <span>SHOP NOW</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
           </div>
 
@@ -305,7 +309,8 @@ export default function Hero() {
                 onClick={openModal}
                 className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-inter text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
-                SHOP NOW <span className="text-base leading-none">&rarr;</span>
+                <span>SHOP NOW</span>
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
             </div>
 
@@ -381,7 +386,8 @@ export default function Hero() {
               onClick={openModal}
               className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
-              SHOP NOW <span className="text-base leading-none">&rarr;</span>
+              <span>SHOP NOW</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
             <a
               href="#features"
@@ -425,7 +431,8 @@ export default function Hero() {
                   onClick={openModal}
                   className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
-                  SHOP NOW <span className="text-base leading-none">&rarr;</span>
+                  <span>SHOP NOW</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
                 <a
                   href="#features"
@@ -492,7 +499,8 @@ export default function Hero() {
             onClick={openModal}
             className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
           >
-            SHOP NOW <span className="text-base leading-none">&rarr;</span>
+            <span>SHOP NOW</span>
+            <ArrowRight className="w-4 h-4 shrink-0" />
           </button>
         </div>
 
@@ -527,7 +535,8 @@ export default function Hero() {
                   onClick={openModal}
                   className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
-                  SHOP NOW <span className="text-base leading-none">&rarr;</span>
+                  <span>SHOP NOW</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
                 <a
                   href="#features"

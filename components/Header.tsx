@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 
 const NAV_LINKS = [
@@ -67,9 +67,10 @@ export default function Header() {
         <div className="hidden md:flex items-center">
           <button
             onClick={openModal}
-            className="bg-white hover:bg-slate-100 text-[#0f172a] text-xs font-black tracking-wider uppercase px-5 lg:px-6 py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat"
+            className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-[#0062ff] text-xs font-bold tracking-wider uppercase px-5 lg:px-6 py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat group"
           >
-            SHOP NOW
+            <span>SHOP NOW</span>
+            <ArrowRight className="w-4 h-4 text-[#0062ff] transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
           </button>
         </div>
 
@@ -102,9 +103,10 @@ export default function Header() {
                 setOpen(false);
                 openModal();
               }}
-              className="mt-2 w-full inline-flex items-center justify-center bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs font-black tracking-wider uppercase px-5 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98 transition-all"
+              className="mt-2 w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs font-black tracking-wider uppercase px-5 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98 transition-all"
             >
-              SHOP NOW &rarr;
+              <span>SHOP NOW</span>
+              <ArrowRight className="w-4 h-4 text-white shrink-0" />
             </button>
           </nav>
         </div>
