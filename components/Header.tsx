@@ -19,7 +19,12 @@ export default function Header() {
     <header className="fixed top-3 sm:top-6 left-0 right-0 z-50 px-3 sm:px-8 lg:px-[60px]">
       <div className="max-w-[1320px] w-full h-[62px] sm:h-[76px] lg:h-[80px] mx-auto bg-black/45 backdrop-blur-xl border border-white/15 rounded-[12px] sm:rounded-[8px] px-3.5 sm:px-5 py-2.5 flex items-center justify-between shadow-2xl">
         {/* AMEC Technology Brand Logo */}
-        <a href="#home" className="flex items-center gap-2 sm:gap-[8px] group shrink-0">
+        <a
+          href="https://www.amectechnology.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 sm:gap-[8px] group shrink-0"
+        >
           {/* AMEC Shield Image */}
           <div className="relative w-[34px] h-[34px] sm:w-[42px] sm:h-[42px] lg:w-[48px] lg:h-[48px] shrink-0">
             <Image

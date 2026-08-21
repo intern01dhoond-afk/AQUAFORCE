@@ -11,7 +11,12 @@ export default function Footer() {
     <footer className="bg-[#0b0c0e] text-white py-16 sm:py-20 border-t border-white/5 w-full">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
         {/* Brand Shield Emblem & Wordmark */}
-        <a href="#home" className="flex flex-col items-center group mb-8">
+        <a
+          href="https://www.amectechnology.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center group mb-8"
+        >
           {/* AMEC Shield Icon */}
           <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 mb-3">
             <Image
