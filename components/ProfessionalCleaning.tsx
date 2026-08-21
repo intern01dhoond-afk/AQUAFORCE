@@ -39,26 +39,26 @@ export default function ProfessionalCleaning() {
         {/* Bottom Image Cards (Exact Figma: Left 940px, Right 324px, Height 364px, Gap 16px) */}
         <div className="flex flex-col lg:flex-row gap-4 mt-10 sm:mt-12 w-full">
           {/* Left Wide Card: 940px x 364px */}
-          <div className="w-full lg:w-[940px] h-[240px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group shrink-0">
+          <div className="w-full lg:w-[940px] h-[240px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg shrink-0">
             <Image
               src="/images/pro-clean-car.png"
               alt="Car detailing with high pressure water spray outdoors"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 940px"
-              className="object-cover group-hover:scale-102 transition-transform duration-500"
+              className="object-cover"
             />
           </div>
 
           {/* Right Card: 324px x 364px */}
-          <div className="w-full lg:w-[324px] h-[240px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group shrink-0">
+          <div className="w-full lg:w-[324px] h-[240px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg shrink-0">
             <Image
               src="/images/pro-clean-bike.png"
               alt="Pressure washing motorbike outdoors"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 324px"
-              className="object-cover group-hover:scale-102 transition-transform duration-500"
+              className="object-cover"
             />
           </div>
         </div>

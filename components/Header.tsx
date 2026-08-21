@@ -33,7 +33,7 @@ export default function Header() {
               fill
               priority
               sizes="(max-width: 640px) 34px, 48px"
-              className="object-contain drop-shadow-sm group-hover:scale-105 transition-transform"
+              className="object-contain drop-shadow-sm"
             />
           </div>
 

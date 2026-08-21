@@ -24,7 +24,7 @@ export default function Footer() {
               alt="AMEC Shield Logo"
               fill
               sizes="40px"
-              className="object-contain group-hover:scale-105 transition-transform"
+              className="object-contain"
             />
           </div>
 
