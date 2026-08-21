@@ -231,22 +231,22 @@ export default function Hero() {
         {/* Mobile Slide 2 Content Overlay */}
         <div className="sm:hidden relative z-10 w-full h-full flex flex-col justify-end px-5 pb-10 pt-20">
           {/* Red Promotional Launch Offer Badge */}
-          <div className="inline-block bg-[#e53e3e] text-white font-montserrat text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-[3px] shadow-sm mb-2 w-fit">
+          <div className="inline-block bg-[#e53e3e] text-white font-inter text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-[3px] shadow-sm mb-2 w-fit">
             PROMOTIONAL LAUNCH OFFER
           </div>
 
-          {/* Subtitle (Exact Figma: font-semibold 32px text-white/80) */}
-          <p className="text-white/80 font-open-sans font-semibold text-lg sm:text-2xl drop-shadow">
+          {/* Subtitle (Exact Figma: Inter font-semibold 32px text-white/85) */}
+          <p className="text-white/85 font-inter font-semibold text-lg sm:text-2xl drop-shadow">
             Get AQUAFORCE 1400 at
           </p>
 
-          {/* Huge 24% OFF Headline (Exact Figma: font-black 120px text-white) */}
-          <h2 className="text-white font-montserrat text-5xl sm:text-6xl font-black tracking-tight leading-none my-1 drop-shadow-md">
+          {/* Huge 24% OFF Headline with vertical gradient text fill */}
+          <h2 className="font-inter text-5xl sm:text-6xl font-black tracking-tight leading-none my-1 bg-gradient-to-b from-white via-[#f0f6ff] to-[#cfe2fe] bg-clip-text text-transparent drop-shadow-md">
             24% OFF
           </h2>
 
           {/* Pricing Row */}
-          <div className="text-white font-open-sans text-xs sm:text-sm font-bold flex items-center gap-2 mt-1.5 drop-shadow">
+          <div className="text-white font-inter text-xs sm:text-sm font-bold flex items-center gap-2 mt-1.5 drop-shadow">
             <span className="text-white/70 font-normal">
               MRP: <span className="line-through">₹49,999</span>
             </span>
@@ -259,14 +259,14 @@ export default function Hero() {
           <div className="mt-3.5 w-full">
             <button
               onClick={openModal}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-inter text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
               SHOP NOW <span className="text-base leading-none">&rarr;</span>
             </button>
           </div>
 
           {/* Micro Footer Note */}
-          <p className="text-white/70 font-open-sans text-[11px] mt-2 text-center drop-shadow">
+          <p className="text-white/70 font-inter text-[11px] mt-2 text-center drop-shadow">
             Limited-period promotional offer.
           </p>
         </div>
@@ -275,22 +275,22 @@ export default function Hero() {
         <div className="hidden sm:flex relative z-10 w-full px-6 sm:px-12 lg:px-16 xl:px-20 pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 h-full flex-col justify-center">
           <div className="max-w-[620px] lg:max-w-[760px] xl:max-w-[820px]">
             {/* Red Promotional Launch Offer Badge */}
-            <div className="inline-block bg-[#e53e3e] text-white font-montserrat text-xs sm:text-[13px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-[4px] shadow-sm mb-3.5 w-fit drop-shadow">
+            <div className="inline-block bg-[#e53e3e] text-white font-inter text-xs sm:text-[13px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-[4px] shadow-sm mb-3.5 w-fit drop-shadow">
               PROMOTIONAL LAUNCH OFFER
             </div>
 
-            {/* Subtitle (Exact Figma: font-semibold 32.12px text-white/80) */}
-            <p className="text-white/80 font-open-sans font-semibold text-xl sm:text-2xl lg:text-[32px] leading-[1.2] drop-shadow">
+            {/* Subtitle (Exact Figma: Inter font-semibold 32px text-white/85) */}
+            <p className="text-white/85 font-inter font-semibold text-xl sm:text-2xl lg:text-[32px] leading-[1.2] drop-shadow">
               Get AQUAFORCE 1400 at
             </p>
 
-            {/* Huge 24% OFF Headline (Exact Figma: font-black 120px text-white) */}
-            <h2 className="text-white font-montserrat text-6xl sm:text-8xl lg:text-[104px] xl:text-[120px] font-black tracking-tight leading-none my-2 drop-shadow-md">
+            {/* Huge 24% OFF Headline (Exact Figma: Inter 120px, font-weight 900, line-height 100%, vertical gradient text fill) */}
+            <h2 className="font-inter text-6xl sm:text-8xl lg:text-[104px] xl:text-[120px] font-black tracking-tight leading-none my-2 bg-gradient-to-b from-white via-[#f0f6ff] to-[#cfe2fe] bg-clip-text text-transparent drop-shadow-md">
               24% OFF
             </h2>
 
             {/* Pricing Row */}
-            <div className="text-white font-open-sans text-base sm:text-lg font-bold flex items-center gap-2 mt-3 drop-shadow">
+            <div className="text-white font-inter text-base sm:text-lg font-bold flex items-center gap-2 mt-3 drop-shadow">
               <span className="text-white/70 font-normal">
                 MRP: <span className="line-through">₹49,999</span>
               </span>
@@ -303,14 +303,14 @@ export default function Hero() {
             <div className="mt-6 sm:mt-7">
               <button
                 onClick={openModal}
-                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-inter text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 SHOP NOW <span className="text-base leading-none">&rarr;</span>
               </button>
             </div>
 
             {/* Micro Footer Note */}
-            <p className="text-white/70 font-open-sans text-xs mt-3 drop-shadow">
+            <p className="text-white/70 font-inter text-xs mt-3 drop-shadow">
               Limited-period promotional offer.
             </p>
           </div>

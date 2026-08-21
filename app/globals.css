@@ -3,6 +3,7 @@
 @theme {
   --font-sans: var(--font-open-sans), "Open Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-montserrat), "Montserrat", sans-serif;
+  --font-inter: var(--font-inter), "Inter", sans-serif;
   --font-montserrat: var(--font-montserrat), "Montserrat", sans-serif;
   --font-montserrat-alternates: var(--font-montserrat-alternates), "Montserrat Alternates", sans-serif;
   --font-unbounded: var(--font-unbounded), "Unbounded", sans-serif;
@@ -19,6 +20,10 @@
   --color-green: #3ac06e;
   --color-red: #e5473f;
   --color-slate: #5b6b80;
+}
+
+.font-inter {
+  font-family: var(--font-inter), "Inter", sans-serif;
 }
 
 .font-montserrat {

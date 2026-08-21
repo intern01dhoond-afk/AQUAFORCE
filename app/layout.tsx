@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
-import { Montserrat, Montserrat_Alternates, Open_Sans, Unbounded } from "next/font/google";
+import { Inter, Montserrat, Montserrat_Alternates, Open_Sans, Unbounded } from "next/font/google";
 import "./globals.css";
 import { OrderModalProvider } from "@/context/OrderModalContext";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -45,7 +52,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${montserrat.variable} ${montserratAlternates.variable} ${openSans.variable} ${unbounded.variable} antialiased font-sans`}>
+      <body className={`${inter.variable} ${montserrat.variable} ${montserratAlternates.variable} ${openSans.variable} ${unbounded.variable} antialiased font-sans`}>
         <OrderModalProvider>{children}</OrderModalProvider>
       </body>
     </html>
