@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useOrderModal } from "@/context/OrderModalContext";
 
-const TOTAL_SLIDES = 3;
+const TOTAL_SLIDES = 4;
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -418,6 +418,98 @@ export default function Hero() {
       </div>
 
       {/* ========================================================= */}
+      {/* SLIDE 4: Adventure Motorbike Washing Scene (Banner 04.png) */}
+      {/* ========================================================= */}
+      <div
+        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+          currentSlide === 3
+            ? "opacity-100 z-10 pointer-events-auto"
+            : "opacity-0 z-0 pointer-events-none"
+        }`}
+      >
+        {/* Full-Bleed Background Image (Banner 04.png) */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/Banner 04.png"
+            alt="AMEC Aquaforce 1400 Cordless Powerful Portable Motorbike Detailing"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center sm:object-[center_40%]"
+          />
+          {/* Subtle bottom gradient to ensure action buttons are crystal clear */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent sm:h-2/5 sm:top-auto sm:bottom-0" />
+        </div>
+
+        {/* Mobile Slide 4 Overlay - Action buttons pinned to bottom without blocking top graphic */}
+        <div className="sm:hidden relative z-10 w-full h-full flex flex-col justify-end px-5 pb-10">
+          <div className="flex items-center justify-between gap-3 mb-2.5 font-open-sans">
+            <div className="flex items-center gap-2">
+              <span className="text-white/70 line-through text-xs font-semibold drop-shadow">
+                ₹49,999
+              </span>
+              <span className="text-white text-lg font-black drop-shadow">
+                ₹37,999
+              </span>
+            </div>
+            <span className="bg-[#18c49e] text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">
+              24% OFF
+            </span>
+          </div>
+          <button
+            onClick={openModal}
+            className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+          >
+            SHOP NOW <span className="text-base leading-none">&rarr;</span>
+          </button>
+        </div>
+
+        {/* Desktop Slide 4 Overlay - Bottom Action Bar (Preserves top-left graphic without overlap) */}
+        <div className="hidden sm:flex relative z-10 w-full px-6 sm:px-12 lg:px-16 xl:px-20 pb-8 lg:pb-12 h-full flex-col justify-end">
+          <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4 w-full">
+            {/* Bottom-Left caption below graphic */}
+            <div className="max-w-md">
+              <p className="text-white/95 font-open-sans text-[14px] sm:text-[15px] leading-relaxed font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                Experience unrestricted high-pressure vehicle detailing anytime, anywhere with zero reliance on power sockets.
+              </p>
+            </div>
+
+            {/* Bottom-Right Pricing & Action Buttons */}
+            <div className="flex flex-col items-start lg:items-end gap-3 shrink-0">
+              {/* Pricing Line */}
+              <div className="flex items-center gap-3 font-open-sans">
+                <span className="text-white/60 line-through text-sm sm:text-base font-semibold drop-shadow">
+                  ₹49,999
+                </span>
+                <span className="text-white text-2xl sm:text-3xl font-black tracking-tight drop-shadow">
+                  ₹37,999
+                </span>
+                <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
+                  24% OFF
+                </span>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={openModal}
+                  className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                >
+                  SHOP NOW <span className="text-base leading-none">&rarr;</span>
+                </button>
+                <a
+                  href="#features"
+                  className="inline-flex items-center border border-white/80 hover:border-white text-white hover:bg-white/10 font-open-sans text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow"
+                >
+                  EXPLORE FEATURES
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================= */}
       {/* Carousel Controls: Navigation Indicators */}
       {/* ========================================================= */}
       {/* Slide Indicator Pills */}
@@ -448,6 +540,15 @@ export default function Hero() {
               : "w-1.5 sm:w-2 bg-white/40 hover:bg-white/70"
           }`}
           aria-label="Go to Slide 3"
+        />
+        <button
+          onClick={() => setCurrentSlide(3)}
+          className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
+            currentSlide === 3
+              ? "w-7 sm:w-8 bg-white"
+              : "w-1.5 sm:w-2 bg-white/40 hover:bg-white/70"
+          }`}
+          aria-label="Go to Slide 4"
         />
       </div>
     </section>
