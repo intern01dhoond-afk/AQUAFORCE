@@ -16,47 +16,47 @@ export default function Header() {
   const { openModal } = useOrderModal();
 
   return (
-    <header className="fixed top-3 sm:top-6 left-0 right-0 z-50 px-3 sm:px-8 lg:px-[60px]">
-      <div className="max-w-[1320px] w-full h-[62px] sm:h-[76px] lg:h-[80px] mx-auto bg-black/45 backdrop-blur-xl border border-white/15 rounded-[12px] sm:rounded-[8px] px-3.5 sm:px-5 py-2.5 flex items-center justify-between shadow-2xl">
+    <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 px-3 sm:px-6 lg:px-10">
+      <div className="max-w-[1360px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto bg-[#10243e]/40 backdrop-blur-xl backdrop-saturate-150 border border-white/20 rounded-[14px] sm:rounded-[16px] px-4 sm:px-6 py-2 flex items-center justify-between shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all">
         {/* AMEC Technology Brand Logo */}
         <a
           href="https://www.amectechnology.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 sm:gap-[8px] group shrink-0"
+          className="flex items-center gap-2.5 group shrink-0"
         >
           {/* AMEC Shield Image */}
-          <div className="relative w-[34px] h-[34px] sm:w-[42px] sm:h-[42px] lg:w-[48px] lg:h-[48px] shrink-0">
+          <div className="relative w-[32px] h-[32px] sm:w-[38px] sm:h-[38px] lg:w-[42px] lg:h-[42px] shrink-0">
             <Image
               src="/logo_shield.png"
               alt="AMEC Shield"
               fill
               priority
-              sizes="(max-width: 640px) 34px, 48px"
+              sizes="(max-width: 640px) 32px, 42px"
               className="object-contain drop-shadow-sm"
             />
           </div>
 
           {/* AMEC Technology Wordmark */}
-          <div className="relative w-[105px] h-[22px] sm:w-[130px] sm:h-[26px] lg:w-[142px] lg:h-[28px] shrink-0">
+          <div className="relative w-[110px] h-[22px] sm:w-[130px] sm:h-[26px] lg:w-[145px] lg:h-[28px] shrink-0">
             <Image
               src="/logo_amec_new.png"
               alt="AMEC TECHNOLOGY"
               fill
               priority
-              sizes="(max-width: 640px) 105px, 142px"
+              sizes="(max-width: 640px) 110px, 145px"
               className="object-contain object-left"
             />
           </div>
         </a>
 
         {/* Center Navigation Links */}
-        <nav className="hidden md:flex items-center gap-7 lg:gap-10">
+        <nav className="hidden md:flex items-center gap-8 lg:gap-12">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-[17px] lg:text-[19px] font-semibold text-white/90 hover:text-white transition-colors tracking-normal"
+              className="text-[15px] lg:text-[17px] font-semibold text-white/95 hover:text-white transition-colors tracking-normal drop-shadow-xs"
             >
               {link.label}
             </a>
@@ -67,7 +67,7 @@ export default function Header() {
         <div className="hidden md:flex items-center">
           <button
             onClick={openModal}
-            className="bg-white hover:bg-slate-100 text-slate-900 text-xs font-black tracking-wider uppercase px-5 lg:px-6 py-2.5 rounded-[4px] shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+            className="bg-white hover:bg-slate-100 text-[#0f172a] text-xs font-black tracking-wider uppercase px-5 lg:px-6 py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat"
           >
             SHOP NOW
           </button>
