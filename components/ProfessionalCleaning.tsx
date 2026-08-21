@@ -5,23 +5,29 @@ export default function ProfessionalCleaning() {
     <section id="why-section" className="py-14 sm:py-16 lg:py-[80px] bg-white w-full">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[80px]">
         {/* Top Eyebrow Badge */}
-        <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-5">
-          WHY AQUAFORCE 1400?
+        <div className="flex justify-center lg:justify-start mb-4 sm:mb-5">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent">
+            WHY AQUAFORCE 1400?
+          </div>
         </div>
 
         {/* Section Heading & Copy Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          <div className="lg:col-span-6 max-w-[611px]">
-            <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-medium font-montserrat text-[#0F1729] leading-[1.1] tracking-tight">
-              Professional Cleaning.
-              <br />
-              No Power Socket
-              <br />
-              Needed.
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start text-center lg:text-left">
+          <div className="lg:col-span-6 max-w-[611px] mx-auto lg:mx-0">
+            <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-medium font-montserrat text-[#0F1729] leading-[1.15] lg:leading-[1.1] tracking-tight">
+              <span className="sm:hidden">Professional Cleaning.<br />No Power Socket Needed.</span>
+              <span className="hidden sm:inline lg:hidden">Professional Cleaning. No Power Socket Needed.</span>
+              <span className="hidden lg:inline">
+                Professional Cleaning.
+                <br />
+                No Power Socket
+                <br />
+                Needed.
+              </span>
             </h2>
           </div>
 
-          <div className="lg:col-span-6 max-w-[649px] font-open-sans text-[#333340] text-base sm:text-lg lg:text-[20px] font-normal leading-[1.6] space-y-5 pt-1">
+          <div className="lg:col-span-6 max-w-[649px] font-open-sans text-[#333340] text-base sm:text-lg lg:text-[20px] font-normal leading-[1.6] space-y-4 sm:space-y-5 pt-1 mx-auto lg:mx-0">
             <p>
               Traditional pressure washers require a continuous power
               connection, making it difficult to clean vehicles in open areas,
