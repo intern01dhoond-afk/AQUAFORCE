@@ -207,14 +207,14 @@ export default function EngineeredPerformance() {
         {/* Center 3D AMEC Aquaforce Machine Render */}
         <div className="relative flex items-center justify-center my-1 sm:my-2 w-full">
           {/* Radiant Brightness Spotlight */}
-          <div className="absolute w-52 h-52 sm:w-64 sm:h-64 bg-white/85 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 w-56 h-64 sm:w-64 sm:h-72">
+          <div className="absolute w-64 h-64 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 w-72 h-80 sm:w-80 sm:h-92">
             <Image
               src="/images/aquaforce-machine.png"
               alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
-              sizes="(max-width: 640px) 240px, 280px"
+              sizes="(max-width: 640px) 288px, 320px"
               className="object-contain drop-shadow-[0_20px_35px_rgba(15,40,75,0.25)]"
             />
           </div>
