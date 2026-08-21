@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 
@@ -13,11 +13,27 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { openModal } = useOrderModal();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 30);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="fixed top-2 sm:top-4 left-0 right-0 z-50 px-4 sm:px-8 lg:px-12">
-      <div className="max-w-[1440px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto bg-transparent border-0 px-2 sm:px-4 flex items-center justify-between shadow-none transition-all">
+    <header className="fixed top-2 sm:top-4 left-0 right-0 z-50 px-3 sm:px-6 lg:px-10 transition-all duration-300">
+      <div
+        className={`max-w-[1360px] w-full h-[62px] sm:h-[70px] lg:h-[74px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
+          scrolled
+            ? "bg-[#0b1a2e]/90 backdrop-blur-xl border border-white/20 rounded-[14px] sm:rounded-[16px] shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]"
+            : "bg-transparent border-transparent shadow-none"
+        }`}
+      >
         {/* AMEC Technology Brand Logo */}
         <a
           href="https://www.amectechnology.com/"
