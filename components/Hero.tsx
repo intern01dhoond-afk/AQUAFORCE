@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 
 const TOTAL_SLIDES = 3;
@@ -18,9 +17,6 @@ export default function Hero() {
     }, 4500);
     return () => clearInterval(timer);
   }, [currentSlide]);
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % TOTAL_SLIDES);
-  const prevSlide = () => setCurrentSlide((prev) => (prev === 0 ? TOTAL_SLIDES - 1 : prev - 1));
 
   return (
     <section
@@ -422,26 +418,8 @@ export default function Hero() {
       </div>
 
       {/* ========================================================= */}
-      {/* Carousel Controls: Arrows & Navigation Indicators */}
+      {/* Carousel Controls: Navigation Indicators */}
       {/* ========================================================= */}
-      {/* Left Navigation Arrow */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/45 hover:bg-black/70 border border-white/20 text-white/90 hover:text-white flex items-center justify-center backdrop-blur-md transition-all shadow-xl opacity-80 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 cursor-pointer"
-        aria-label="Previous Slide"
-      >
-        <ChevronLeft size={20} />
-      </button>
-
-      {/* Right Navigation Arrow */}
-      <button
-        onClick={nextSlide}
-        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/45 hover:bg-black/70 border border-white/20 text-white/90 hover:text-white flex items-center justify-center backdrop-blur-md transition-all shadow-xl opacity-80 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 cursor-pointer"
-        aria-label="Next Slide"
-      >
-        <ChevronRight size={20} />
-      </button>
-
       {/* Slide Indicator Pills */}
       <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
         <button
