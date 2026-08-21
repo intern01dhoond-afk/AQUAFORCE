@@ -49,6 +49,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [quantity, setQuantity] = useState(1);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [paymentId, setPaymentId] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -62,12 +64,29 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const currentColor = PRODUCT_DATA.colors[selectedColorIndex];
   const images = currentColor.images;
 
+  // Load Razorpay Script dynamically
+  const loadRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if ((window as any).Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   // Reset when modal opens
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
       setIsCheckingOut(false);
       setIsSubmitted(false);
+      setIsProcessingPayment(false);
+      setPaymentId("");
     } else {
       document.body.style.overflow = "unset";
     }
@@ -108,15 +127,88 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     setQuantity((prev) => Math.max(1, prev + delta));
   };
 
-  const handleCheckoutSubmit = (e: React.FormEvent) => {
+  const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentColor.inStock) return;
-    setIsSubmitted(true);
+
+    setIsProcessingPayment(true);
+
+    try {
+      const isScriptLoaded = await loadRazorpayScript();
+      if (!isScriptLoaded) {
+        alert("Unable to load Razorpay payment SDK. Please check your internet connection.");
+        setIsProcessingPayment(false);
+        return;
+      }
+
+      const totalAmount = PRODUCT_DATA.offerPrice * quantity;
+
+      // 1. Create order on server
+      const res = await fetch("/api/razorpay/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: totalAmount,
+          notes: {
+            fullName: formData.fullName,
+            phone: formData.phone,
+            deliveryAddress: formData.deliveryAddress,
+            city: formData.city,
+            state: formData.state,
+            pincode: formData.pincode,
+            product: `${PRODUCT_DATA.name} (${currentColor.name})`,
+            quantity: String(quantity),
+          },
+        }),
+      });
+
+      const orderData = await res.json();
+
+      if (!res.ok || orderData.error) {
+        throw new Error(orderData.error || "Failed to create order");
+      }
+
+      // 2. Configure Razorpay options
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa",
+        amount: orderData.amount,
+        currency: orderData.currency || "INR",
+        name: "AMEC Technology",
+        description: `${PRODUCT_DATA.name} (${currentColor.name}) x ${quantity}`,
+        order_id: orderData.id,
+        prefill: {
+          name: formData.fullName,
+          contact: formData.phone,
+        },
+        theme: {
+          color: "#0066cc",
+        },
+        handler: function (response: any) {
+          setPaymentId(response.razorpay_payment_id || "");
+          setIsProcessingPayment(false);
+          setIsSubmitted(true);
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessingPayment(false);
+          },
+        },
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+    } catch (err: any) {
+      console.error("Payment error:", err);
+      alert(err.message || "Payment initiation failed. Please try again.");
+      setIsProcessingPayment(false);
+    }
   };
 
   const resetAll = () => {
     setIsCheckingOut(false);
     setIsSubmitted(false);
+    setIsProcessingPayment(false);
+    setPaymentId("");
     onClose();
   };
 
@@ -149,17 +241,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-in zoom-in-50 duration-300">
               <CheckCircle2 size={36} />
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h3 className="text-2xl sm:text-3xl font-black font-montserrat text-slate-900 tracking-tight">
               Order Placed Successfully!
             </h3>
-            <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-md mx-auto">
-              Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your order for{" "}
+            <p className="text-slate-600 font-open-sans text-sm sm:text-base mt-2 max-w-md mx-auto">
+              Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your payment was verified and your order for{" "}
               <strong>
                 {quantity}x {PRODUCT_DATA.name} ({currentColor.name})
               </strong>{" "}
-              has been reserved for <strong>₹{(PRODUCT_DATA.offerPrice * quantity).toLocaleString("en-IN")}</strong>.
+              has been confirmed for <strong>₹{(PRODUCT_DATA.offerPrice * quantity).toLocaleString("en-IN")}</strong>.
             </p>
-            <div className="mt-6 p-4 bg-slate-50 border border-slate-200/80 rounded-xl text-xs text-slate-600 max-w-md mx-auto text-left space-y-1">
+            {paymentId && (
+              <div className="mt-3 inline-block bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-mono px-3 py-1 rounded-md">
+                Payment ID: {paymentId}
+              </div>
+            )}
+            <div className="mt-6 p-4 bg-slate-50 border border-slate-200/80 rounded-xl text-xs text-slate-600 max-w-md mx-auto text-left space-y-1 font-open-sans">
               <p>
                 <strong>Delivery Address:</strong> {formData.deliveryAddress}
                 {formData.city ? `, ${formData.city}` : ""}
@@ -175,7 +272,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </div>
             <button
               onClick={resetAll}
-              className="mt-8 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold px-8 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="mt-8 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold px-8 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer font-open-sans"
             >
               Continue Browsing
             </button>
@@ -185,7 +282,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           <div className="pt-2 sm:pt-4">
             <button
               onClick={() => setIsCheckingOut(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-700 mb-6 cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-700 mb-6 cursor-pointer transition-colors font-open-sans"
             >
               &larr; Back to Product Details
             </button>
@@ -194,7 +291,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               {/* Row 1: Full Name & Mobile Number */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
                     Full Name
                   </label>
                   <input
@@ -203,12 +300,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="Rahul Sharma"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
                     Mobile Number
                   </label>
                   <input
@@ -217,14 +314,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="+91 98765 43210"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
               </div>
 
               {/* Row 2: Complete Delivery Address */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
                   Complete Delivery Address
                 </label>
                 <textarea
@@ -233,14 +330,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   placeholder="Street name, house/apartment number"
                   value={formData.deliveryAddress}
                   onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                  className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[100px]"
+                  className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[100px] font-open-sans"
                 />
               </div>
 
               {/* Row 3: City, State, Pincode */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
                     City
                   </label>
                   <input
@@ -249,12 +346,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="Nagpur"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
                     State
                   </label>
                   <input
@@ -263,12 +360,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="Maharashtra"
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
                     Pincode
                   </label>
                   <input
@@ -277,13 +374,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="440001"
                     value={formData.pincode}
                     onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
               </div>
 
               {/* Terms Agreement Checkbox */}
-              <label className="flex items-start gap-2.5 pt-2 cursor-pointer select-none">
+              <label className="flex items-start gap-2.5 pt-2 cursor-pointer select-none font-open-sans">
                 <input
                   type="checkbox"
                   checked={formData.agreedToTerms}
@@ -296,12 +393,20 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </span>
               </label>
 
-              {/* Submit Button (SHOP NOW) */}
+              {/* Submit Button (SHOP NOW / Pay with Razorpay) */}
               <button
                 type="submit"
-                className="w-full h-12 sm:h-13 !mt-6 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center justify-center"
+                disabled={isProcessingPayment}
+                className="w-full h-12 sm:h-13 !mt-6 bg-[#0066cc] hover:bg-[#0055b3] text-white font-black font-montserrat text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                SHOP NOW
+                {isProcessingPayment ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Processing Payment...
+                  </span>
+                ) : (
+                  <span>SHOP NOW &rarr;</span>
+                )}
               </button>
             </form>
           </div>
