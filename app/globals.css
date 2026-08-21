@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-open-sans), "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-montserrat), "Montserrat", sans-serif;
+  --font-montserrat: var(--font-montserrat), "Montserrat", sans-serif;
+  --font-montserrat-alternates: var(--font-montserrat-alternates), "Montserrat Alternates", sans-serif;
+  --font-open-sans: var(--font-open-sans), "Open Sans", sans-serif;
 
   --color-navy: #0b1a2e;
   --color-navy-dark: #071120;
@@ -17,14 +20,34 @@
   --color-slate: #5b6b80;
 }
 
+.font-montserrat {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+}
+
+.font-montserrat-alternates {
+  font-family: var(--font-montserrat-alternates), "Montserrat Alternates", sans-serif;
+}
+
+.font-open-sans {
+  font-family: var(--font-open-sans), "Open Sans", sans-serif;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-open-sans), "Open Sans", sans-serif;
   background: #ffffff;
   color: var(--color-ink);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+}
+
+p, span, a, button, input, label, select, textarea, li, td, th {
+  font-family: var(--font-open-sans), "Open Sans", sans-serif;
 }
 
 .eyebrow {

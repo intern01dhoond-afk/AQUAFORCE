@@ -5,14 +5,14 @@ export default function ProfessionalCleaning() {
     <section id="why-section" className="py-14 sm:py-16 lg:py-[80px] bg-white w-full">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[80px]">
         {/* Top Eyebrow Badge */}
-        <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 text-[10px] sm:text-[11px] font-black tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-5">
+        <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-5">
           WHY AQUAFORCE 1400?
         </div>
 
         {/* Section Heading & Copy Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          <div className="lg:col-span-6">
-            <h2 className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[42px] font-black text-slate-900 leading-[1.12] tracking-tight">
+          <div className="lg:col-span-6 max-w-[611px]">
+            <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-medium font-montserrat text-[#0F1729] leading-[1.1] tracking-tight">
               Professional Cleaning.
               <br />
               No Power Socket
@@ -21,7 +21,7 @@ export default function ProfessionalCleaning() {
             </h2>
           </div>
 
-          <div className="lg:col-span-6 text-slate-600 text-sm sm:text-[15px] leading-relaxed space-y-4 pt-1">
+          <div className="lg:col-span-6 max-w-[649px] font-open-sans text-[#333340] text-base sm:text-lg lg:text-[20px] font-normal leading-[1.6] space-y-5 pt-1">
             <p>
               Traditional pressure washers require a continuous power
               connection, making it difficult to clean vehicles in open areas,

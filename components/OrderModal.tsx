@@ -53,7 +53,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     fullName: "",
     phone: "",
     deliveryAddress: "",
+    city: "",
+    state: "",
     pincode: "",
+    agreedToTerms: true,
   });
 
   const currentColor = PRODUCT_DATA.colors[selectedColorIndex];
@@ -126,7 +129,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative w-full max-w-[440px] lg:max-w-[1045px] bg-white rounded-[24px] sm:rounded-[20px] shadow-2xl border border-slate-100 p-5 sm:p-8 lg:p-10 z-10 my-auto max-h-[94vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200">
+      <div
+        className={`relative w-full ${
+          isCheckingOut ? "max-w-[600px] p-6 sm:p-8 md:p-10" : "max-w-[440px] lg:max-w-[1045px] p-5 sm:p-8 lg:p-10"
+        } bg-white rounded-[24px] sm:rounded-[20px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[94vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200`}
+      >
         {/* Close Button (Circle icon top-right) */}
         <button
           onClick={onClose}
@@ -154,7 +161,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </p>
             <div className="mt-6 p-4 bg-slate-50 border border-slate-200/80 rounded-xl text-xs text-slate-600 max-w-md mx-auto text-left space-y-1">
               <p>
-                <strong>Delivery Address:</strong> {formData.deliveryAddress}, {formData.pincode}
+                <strong>Delivery Address:</strong> {formData.deliveryAddress}
+                {formData.city ? `, ${formData.city}` : ""}
+                {formData.state ? `, ${formData.state}` : ""}
+                {formData.pincode ? ` - ${formData.pincode}` : ""}
               </p>
               <p>
                 <strong>Phone:</strong> {formData.phone}
@@ -171,90 +181,127 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </button>
           </div>
         ) : isCheckingOut ? (
-          /* Express Checkout Form */
-          <div className="py-2">
+          /* Exact Delivery Checkout Form from Screenshot */
+          <div className="pt-2 sm:pt-4">
             <button
               onClick={() => setIsCheckingOut(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 mb-4 cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-700 mb-6 cursor-pointer transition-colors"
             >
               &larr; Back to Product Details
             </button>
-            <h3 className="text-2xl font-bold text-[#0F1729] mb-1">
-              Delivery Details
-            </h3>
-            <p className="text-xs text-slate-500 mb-6">
-              Complete your shipping address to receive the <strong>{PRODUCT_DATA.name} ({currentColor.name})</strong>.
-            </p>
 
-            <form onSubmit={handleCheckoutSubmit} className="space-y-4 max-w-xl">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
-                  Full Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. John Doe"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full bg-[#f8fafc] border border-slate-200 focus:border-[#0066cc] focus:bg-white rounded-[8px] px-3.5 py-2.5 text-sm text-slate-900 outline-none transition-all"
-                />
+            <form onSubmit={handleCheckoutSubmit} className="space-y-4 sm:space-y-5">
+              {/* Row 1: Full Name & Mobile Number */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Rahul Sharma"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                  />
+                </div>
               </div>
 
+              {/* Row 2: Complete Delivery Address */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
-                  Phone Number <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  required
-                  placeholder="+91 98765 43210"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-[#f8fafc] border border-slate-200 focus:border-[#0066cc] focus:bg-white rounded-[8px] px-3.5 py-2.5 text-sm text-slate-900 outline-none transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
-                  Delivery Address <span className="text-red-500">*</span>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Complete Delivery Address
                 </label>
                 <textarea
-                  rows={2}
+                  rows={3}
                   required
-                  placeholder="Street address, apartment, flat no..."
+                  placeholder="Street name, house/apartment number"
                   value={formData.deliveryAddress}
                   onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                  className="w-full bg-[#f8fafc] border border-slate-200 focus:border-[#0066cc] focus:bg-white rounded-[8px] px-3.5 py-2.5 text-sm text-slate-900 outline-none transition-all resize-none"
+                  className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[100px]"
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
-                  Pincode <span className="text-red-500">*</span>
-                </label>
+              {/* Row 3: City, State, Pincode */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Nagpur"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    State
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Maharashtra"
+                    value={formData.state}
+                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Pincode
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="440001"
+                    value={formData.pincode}
+                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* Terms Agreement Checkbox */}
+              <label className="flex items-start gap-2.5 pt-2 cursor-pointer select-none">
                 <input
-                  type="text"
+                  type="checkbox"
+                  checked={formData.agreedToTerms}
+                  onChange={(e) => setFormData({ ...formData, agreedToTerms: e.target.checked })}
+                  className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#0066cc] focus:ring-[#0066cc] accent-[#0066cc] cursor-pointer shrink-0"
                   required
-                  placeholder="400001"
-                  value={formData.pincode}
-                  onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                  className="w-full bg-[#f8fafc] border border-slate-200 focus:border-[#0066cc] focus:bg-white rounded-[8px] px-3.5 py-2.5 text-sm text-slate-900 outline-none transition-all"
                 />
-              </div>
-
-              <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-[8px] flex items-center justify-between text-sm">
-                <span className="font-semibold text-slate-700">Total Payable:</span>
-                <span className="font-bold text-slate-950 text-base">
-                  ₹{(PRODUCT_DATA.offerPrice * quantity).toLocaleString("en-IN")}
+                <span className="text-xs sm:text-[13px] text-slate-500 leading-snug">
+                  I agree to the terms and agree to receive transactional delivery updates via mobile.
                 </span>
-              </div>
+              </label>
 
+              {/* Submit Button (SHOP NOW) */}
               <button
                 type="submit"
-                className="w-full h-12 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold text-sm uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-13 !mt-6 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center justify-center"
               >
-                Confirm Order <ArrowRight size={16} />
+                SHOP NOW
               </button>
             </form>
           </div>
@@ -333,17 +380,17 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* ========================================================= */}
             <div className="lg:col-span-6 flex flex-col justify-center">
               {/* Product Title */}
-              <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-bold text-[#0F1729] leading-[1.15] tracking-tight mt-3 sm:mt-0">
+              <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-bold font-montserrat text-[#0F1729] leading-[1.15] tracking-tight mt-3 sm:mt-0">
                 {PRODUCT_DATA.name}
               </h2>
 
               {/* Description */}
-              <p className="text-slate-500 sm:text-slate-600 text-[13px] sm:text-sm leading-relaxed mt-2 sm:mt-2.5">
+              <p className="text-slate-500 font-open-sans sm:text-slate-600 text-[13px] sm:text-sm leading-relaxed mt-2 sm:mt-2.5">
                 {PRODUCT_DATA.description}
               </p>
 
               {/* Ratings & Reviews */}
-              <div className="flex items-center gap-1.5 mt-2.5 sm:mt-3">
+              <div className="flex items-center gap-1.5 mt-2.5 sm:mt-3 font-open-sans">
                 <div className="flex items-center text-[#f59e0b]">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={15} fill="#f59e0b" strokeWidth={0} />
@@ -355,7 +402,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Price Line */}
-              <div className="flex items-baseline gap-3 mt-3.5 sm:mt-4">
+              <div className="flex items-baseline gap-3 mt-3.5 sm:mt-4 font-open-sans">
                 <span className="text-2xl sm:text-[34px] lg:text-[38px] font-bold text-[#0F1729] tracking-tight">
                   ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
                 </span>

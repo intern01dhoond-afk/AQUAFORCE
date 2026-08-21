@@ -75,17 +75,17 @@ export default function UseCase() {
         {/* Section Header */}
         <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
           {/* Eyebrow Badge */}
-          <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 text-[10px] sm:text-[11px] font-black tracking-[0.16em] uppercase text-slate-900 bg-white shadow-xs mb-4">
+          <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-white shadow-xs mb-4">
             UNRESTRICTED UTILITY
           </div>
 
           {/* Section Title */}
-          <h2 className="text-[#0F1729] text-3xl sm:text-4xl lg:text-[48px] font-medium tracking-tight leading-[1.1] max-w-[567px] mx-auto">
+          <h2 className="text-[#0F1729] font-montserrat text-3xl sm:text-4xl lg:text-[48px] font-medium tracking-tight leading-[1.1] max-w-[567px] mx-auto">
             Discover Your Use Case
           </h2>
 
           {/* Subtitle */}
-          <p className="text-[#333340] text-base sm:text-lg lg:text-[20px] font-normal leading-[1.6] mt-3 max-w-[886px] mx-auto">
+          <p className="text-[#333340] font-open-sans text-base sm:text-lg lg:text-[20px] font-normal leading-[1.6] mt-3 max-w-[886px] mx-auto">
             Whether detailing high-end vehicles or prepping off-road gear, Aquaforce fits every scenario.
           </p>
         </div>

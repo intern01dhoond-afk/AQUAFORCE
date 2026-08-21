@@ -28,20 +28,20 @@ export default function CTABanner() {
 
           {/* Card Content positioned on right half */}
           <div className="relative z-10 w-full h-full flex flex-col justify-center items-start p-6 sm:p-10 md:p-12 lg:py-0 lg:pl-[47%] lg:pr-12 xl:pl-[48%]">
-            <h2 className="text-2xl sm:text-3xl lg:text-[38px] xl:text-[40px] font-bold text-white leading-tight tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-[38px] xl:text-[40px] font-bold font-montserrat text-white leading-tight tracking-tight">
               Ready to Make Vehicle
               <br className="hidden sm:inline" />
               {" "}Washing Easier?
             </h2>
 
-            <p className="text-white/95 text-sm sm:text-base lg:text-[16px] font-normal mt-2.5 sm:mt-3">
+            <p className="text-white/95 text-sm sm:text-base lg:text-[16px] font-normal font-open-sans mt-2.5 sm:mt-3">
               Go Cordless. Go Portable. Go Aquaforce.
             </p>
 
             <button
               type="button"
               onClick={openModal}
-              className="mt-5 sm:mt-6 lg:mt-7 inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-[#0062ff] text-xs sm:text-sm font-bold tracking-wider uppercase px-6 sm:px-7 py-3 sm:py-3.5 rounded-[6px] shadow-md transition-all duration-200 hover:scale-[1.03] active:scale-[0.98] cursor-pointer group"
+              className="mt-5 sm:mt-6 lg:mt-7 inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-[#0062ff] font-montserrat text-xs sm:text-sm font-bold tracking-wider uppercase px-6 sm:px-7 py-3 sm:py-3.5 rounded-[6px] shadow-md transition-all duration-200 hover:scale-[1.03] active:scale-[0.98] cursor-pointer group"
             >
               <span>SHOP NOW</span>
               <ArrowRight className="w-4 h-4 text-[#0062ff] transition-transform duration-200 group-hover:translate-x-1" />

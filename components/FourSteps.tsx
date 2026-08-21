@@ -46,10 +46,10 @@ export default function FourSteps() {
       {/* Top Heading */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
         <h2 className="text-white">
-          <span className="block text-base sm:text-lg lg:text-xl font-bold tracking-[0.25em] uppercase text-white/90 mb-1 drop-shadow">
+          <span className="block font-open-sans text-base sm:text-lg lg:text-xl font-bold tracking-[0.25em] uppercase text-white/90 mb-1 drop-shadow">
             4 STEPS TO
           </span>
-          <span className="block text-3xl sm:text-4xl lg:text-[50px] font-medium text-white tracking-tight drop-shadow-md">
+          <span className="block font-montserrat-alternates text-4xl sm:text-5xl lg:text-[67.23px] font-medium text-white tracking-normal drop-shadow-md leading-tight">
             Pristine Clean
           </span>
         </h2>
@@ -67,15 +67,15 @@ export default function FourSteps() {
                 }`}
               >
                 {/* Step Number (Exact Light Sans Font Style) */}
-                <span className="text-[40px] sm:text-[46px] lg:text-[50px] font-light text-white leading-none shrink-0 tracking-tighter select-none">
+                <span className="font-open-sans text-[40px] sm:text-[46px] lg:text-[50px] font-light text-white leading-none shrink-0 tracking-tighter select-none">
                   {step.n}
                 </span>
                 {/* Step Content */}
                 <div className="flex flex-col justify-center">
-                  <h3 className="text-xs sm:text-[13px] lg:text-sm font-bold text-white tracking-wide">
+                  <h3 className="font-montserrat text-xs sm:text-[13px] lg:text-sm font-bold text-white tracking-wide">
                     {step.title}
                   </h3>
-                  <p className="text-[10px] sm:text-[11px] text-white/80 font-normal leading-tight mt-0.5">
+                  <p className="font-open-sans text-[10px] sm:text-[11px] text-white/80 font-normal leading-tight mt-0.5">
                     {step.desc}
                   </p>
                 </div>

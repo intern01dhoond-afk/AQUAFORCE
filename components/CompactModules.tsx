@@ -47,15 +47,15 @@ export default function CompactModules() {
     <section className="pt-6 sm:pt-12 lg:pt-16 pb-16 sm:pb-20 lg:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
-        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 text-[10px] sm:text-[11px] font-black tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-4">
+        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-4">
           INTEGRATED ENGINEERING
         </div>
 
         {/* Section Heading & Subtitle */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-montserrat text-slate-900 tracking-tight">
           Compact Dual-Module Design
         </h2>
-        <p className="text-slate-600 max-w-xl mx-auto mt-3 text-sm sm:text-base">
+        <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-3 text-sm sm:text-base">
           It is engineered to work as one unified, ergonomic system
         </p>
       </div>
@@ -73,10 +73,10 @@ export default function CompactModules() {
                 <div className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center mb-4 sm:mb-5">
                   {m.icon}
                 </div>
-                <h3 className="text-[15px] sm:text-[17px] font-bold text-slate-900 leading-snug">
+                <h3 className="text-[15px] sm:text-[17px] font-bold font-montserrat text-slate-900 leading-snug">
                   {m.title}
                 </h3>
-                <p className="text-xs sm:text-[13px] text-slate-500 mt-2 sm:mt-2.5 leading-relaxed">
+                <p className="text-xs sm:text-[13px] text-slate-500 font-open-sans mt-2 sm:mt-2.5 leading-relaxed">
                   {m.desc}
                 </p>
               </div>

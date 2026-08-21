@@ -8,15 +8,15 @@ export default function EngineeredPerformance() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
-        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 text-[10px] sm:text-[11px] font-black tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-3.5">
+        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-3.5">
           PRECISION ENGINEERING
         </div>
 
         {/* Section Heading */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium font-montserrat text-[#0F1729] tracking-tight">
           Engineered For Ultimate Performance
         </h2>
-        <p className="text-slate-600 max-w-xl mx-auto mt-2.5 text-sm sm:text-base">
+        <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-2.5 text-sm sm:text-base">
           Explore the mechanical innovations that make cordless high-pressure
           cleaning a reality.
         </p>
@@ -64,10 +64,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 Powerful Battery Operation
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
                 High-voltage lithium cells deliver constant output throughout every wash cycle
               </p>
             </div>
@@ -91,10 +91,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 3 Hours Continuous Use
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
                 Extended runtime for multiple vehicle cleaning sessions
               </p>
             </div>
@@ -119,10 +119,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 No Power Socket Required
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
                 Complete operational freedom anywhere without relying on external power sources
               </p>
             </div>
@@ -146,10 +146,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 Cordless &amp; Portable
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px] lg:ml-auto">
                 Zero cables, lightweight chassis for easy maneuvering
               </p>
             </div>
@@ -178,10 +178,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 Built-In Pressure Pump
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px]">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px]">
                 Industrial DC pump for maximum water velocity and consistent high-pressure output
               </p>
             </div>
@@ -206,10 +206,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 Vehicle Detailing Optimized
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px]">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px]">
                 Precision nozzle for targeted cleaning on wheels, panels, and tight crevices
               </p>
             </div>
@@ -234,10 +234,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 Zero Power Reliance
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px]">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px]">
                 Clean freely during load shedding or in remote areas
               </p>
             </div>
@@ -263,10 +263,10 @@ export default function EngineeredPerformance() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-[15px] font-extrabold font-montserrat text-slate-900">
                 Compact &amp; Easy to Carry
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-[260px]">
+              <p className="text-xs text-slate-600 font-open-sans mt-1 leading-relaxed max-w-[260px]">
                 Dual-module design fits in any vehicle trunk for easy transport and storage
               </p>
             </div>

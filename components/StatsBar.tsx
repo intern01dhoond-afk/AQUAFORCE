@@ -20,13 +20,13 @@ export default function StatsBar() {
                 <path d="M23 5.5V10.5" strokeLinecap="round" />
               </svg>
             </div>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               BATTERY
             </span>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               3 HRS
             </span>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               CONTINUOUS USE
             </span>
           </div>
@@ -49,13 +49,13 @@ export default function StatsBar() {
                 <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
               </svg>
             </div>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               PRESSURE
             </span>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               HIGH
             </span>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               PRESSURE PUMP
             </span>
           </div>
@@ -79,13 +79,13 @@ export default function StatsBar() {
                 <path d="M2 15H13C14.1 15 15 15.9 15 17C15 18.1 14.1 19 13 19" />
               </svg>
             </div>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               POWER
             </span>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               0
             </span>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               SOCKETS NEEDED
             </span>
           </div>
@@ -110,13 +110,13 @@ export default function StatsBar() {
                 <line x1="17.5" y1="15" x2="9" y2="15" />
               </svg>
             </div>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               CORDLESS
             </span>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 my-0.5 tracking-tight">
+            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               100%
             </span>
-            <span className="text-[9.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-400">
+            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
               WIRELESS
             </span>
           </div>

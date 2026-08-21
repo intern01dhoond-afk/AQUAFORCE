@@ -36,15 +36,15 @@ export default function ComparisonTable() {
     <section className="pt-12 sm:pt-16 lg:pt-20 pb-4 sm:pb-8 lg:pb-12 bg-white w-full">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
-        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 text-[10px] sm:text-[11px] font-black tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-4">
+        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-4">
           UNRESTRICTED UTILITY
         </div>
 
         {/* Heading & Subtitle */}
-        <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 tracking-tight leading-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-medium font-montserrat text-[#0F1729] tracking-tight leading-tight">
           What Makes Aquaforce Different?
         </h2>
-        <p className="text-slate-600 max-w-2xl mx-auto mt-3 text-sm sm:text-base leading-relaxed">
+        <p className="text-slate-600 font-open-sans max-w-2xl mx-auto mt-3 text-sm sm:text-base leading-relaxed">
           See how the AMEC Aquaforce 1400 stacks up against a conventional
           pressure washer across every critical dimension.
         </p>

@@ -68,18 +68,18 @@ export default function Hero() {
         {/* Mobile Slide 1 Content Overlay */}
         <div className="sm:hidden relative z-10 w-full h-full flex flex-col justify-end px-5 pb-10 pt-20">
           {/* Eyebrow / Kicker */}
-          <p className="text-white/85 text-[11px] font-bold tracking-[0.18em] uppercase mb-1.5 drop-shadow">
+          <p className="text-white/85 font-open-sans text-[11px] font-bold tracking-[0.18em] uppercase mb-1.5 drop-shadow">
             CORDLESS. POWERFUL. PORTABLE.
           </p>
 
-          {/* Headline */}
-          <h1 className="text-[2.65rem] font-black leading-[0.92] tracking-tight uppercase text-white drop-shadow-lg">
-            <span className="block">NO POWER.</span>
-            <span className="block">NO SOCKET.</span>
+          {/* Headline (Exact Figma: Montserrat, 95% line-height, 900 vs 700 weight) */}
+          <h1 className="font-montserrat text-[2.75rem] sm:text-[3.5rem] leading-[0.95] tracking-tight uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)]">
+            <span className="block font-black text-white">NO POWER.</span>
+            <span className="block font-bold text-white/80">NO SOCKET.</span>
           </h1>
 
           {/* Description */}
-          <p className="text-white/90 text-[13px] leading-relaxed font-normal mt-3 max-w-[340px] drop-shadow">
+          <p className="font-open-sans text-white/90 text-[13px] leading-relaxed font-normal mt-3 max-w-[340px] drop-shadow">
             Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful,
             battery-powered portable pressure washer. No cables, no power
             sockets, no fixed setup needed.
@@ -87,10 +87,10 @@ export default function Hero() {
 
           {/* Pricing & Discount */}
           <div className="mt-3.5">
-            <span className="inline-block bg-[#18c49e] text-slate-950 text-[11px] font-black px-2.5 py-0.5 rounded-sm uppercase tracking-wider shadow-xs mb-1">
+            <span className="inline-block bg-[#18c49e] font-open-sans text-slate-950 text-[11px] font-black px-2.5 py-0.5 rounded-sm uppercase tracking-wider shadow-xs mb-1">
               24% OFF
             </span>
-            <div className="flex items-baseline gap-2.5">
+            <div className="flex items-baseline gap-2.5 font-open-sans">
               <span className="text-white text-3xl font-black tracking-tight drop-shadow">
                 ₹37,999
               </span>
@@ -100,46 +100,46 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Mobile Action Buttons (Stacked full-width) */}
+          {/* Mobile Action Buttons */}
           <div className="flex flex-col gap-2.5 mt-4 w-full">
             <button
               onClick={openModal}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
               SHOP NOW <span className="text-base leading-none">&rarr;</span>
             </button>
             <a
               href="#features"
-              className="w-full inline-flex items-center justify-center border border-white/80 hover:border-white text-white hover:bg-white/10 text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow text-center"
+              className="w-full inline-flex items-center justify-center border border-white/80 hover:border-white text-white hover:bg-white/10 font-open-sans text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow text-center"
             >
               EXPLORE FEATURES
             </a>
           </div>
         </div>
 
-        {/* Desktop Slide 1 Content (Left-Anchored with fluid margins for exact 1440px visual match) */}
+        {/* Desktop Slide 1 Content */}
         <div className="hidden sm:flex relative z-10 w-full px-6 sm:px-12 lg:px-16 xl:px-20 pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 h-full flex-col justify-center">
-          <div className="max-w-[560px] lg:max-w-[620px]">
+          <div className="max-w-[580px] lg:max-w-[720px] xl:max-w-[760px]">
             {/* Eyebrow / Kicker */}
-            <p className="text-white/85 text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3 drop-shadow">
+            <p className="text-white/85 font-open-sans text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3 drop-shadow">
               CORDLESS. POWERFUL. PORTABLE.
             </p>
 
-            {/* Headline */}
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.25rem] xl:text-[5.85rem] font-black leading-[0.9] tracking-tight uppercase drop-shadow-[0_2px_14px_rgba(0,0,0,0.8)]">
-              <span className="block text-white">NO POWER.</span>
-              <span className="block text-white/80">NO SOCKET.</span>
+            {/* Headline (Exact Figma: Montserrat 112px, Line-height 95%, 900 vs 700 weight, 0 4px 24px shadow) */}
+            <h1 className="font-montserrat text-5xl sm:text-6xl md:text-7xl lg:text-[88px] xl:text-[112px] leading-[0.95] tracking-tight uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)]">
+              <span className="block font-black text-white">NO POWER.</span>
+              <span className="block font-bold text-white/80">NO SOCKET.</span>
             </h1>
 
             {/* Description Paragraph */}
-            <p className="text-white/90 mt-4 sm:mt-5 max-w-[500px] text-[14px] sm:text-[15.5px] leading-relaxed font-normal drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+            <p className="font-open-sans text-white/90 mt-4 sm:mt-5 max-w-[500px] text-[14px] sm:text-[15.5px] leading-relaxed font-normal drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
               Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful,
               battery-powered portable pressure washer. No cables, no power
               sockets, no fixed setup needed.
             </p>
 
             {/* Pricing & Discount Badge */}
-            <div className="flex items-center gap-3 sm:gap-4 mt-5 sm:mt-7">
+            <div className="flex items-center gap-3 sm:gap-4 mt-5 sm:mt-7 font-open-sans">
               <span className="text-white/60 line-through text-sm sm:text-base font-semibold drop-shadow">
                 ₹49,999
               </span>
@@ -155,13 +155,13 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
               <button
                 onClick={openModal}
-                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 SHOP NOW <span className="text-base leading-none">&rarr;</span>
               </button>
               <a
                 href="#features"
-                className="inline-flex items-center border border-white/40 hover:border-white text-white hover:bg-white/10 text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow"
+                className="inline-flex items-center border border-white/40 hover:border-white text-white hover:bg-white/10 font-open-sans text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow"
               >
                 EXPLORE FEATURES
               </a>
@@ -210,26 +210,26 @@ export default function Hero() {
         {/* Mobile Slide 2 Content Overlay */}
         <div className="sm:hidden relative z-10 w-full h-full flex flex-col justify-end px-5 pb-10 pt-20">
           {/* Red Promotional Launch Offer Badge */}
-          <div className="inline-block bg-[#e53e3e] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-[3px] shadow-sm mb-2 w-fit">
+          <div className="inline-block bg-[#e53e3e] text-white font-montserrat text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-[3px] shadow-sm mb-2 w-fit">
             PROMOTIONAL LAUNCH OFFER
           </div>
 
-          {/* Subtitle */}
-          <p className="text-white font-bold text-base drop-shadow">
+          {/* Subtitle (Exact Figma: font-semibold 32px text-white/80) */}
+          <p className="text-white/80 font-open-sans font-semibold text-lg sm:text-2xl drop-shadow">
             Get AQUAFORCE 1400 at
           </p>
 
-          {/* Huge 24% OFF Headline */}
-          <h2 className="text-white text-5xl font-black tracking-tight leading-none my-1 drop-shadow-md">
+          {/* Huge 24% OFF Headline (Exact Figma: font-black 120px text-white) */}
+          <h2 className="text-white font-montserrat text-5xl sm:text-6xl font-black tracking-tight leading-none my-1 drop-shadow-md">
             24% OFF
           </h2>
 
           {/* Pricing Row */}
-          <div className="text-white text-xs font-bold flex items-center gap-2 mt-1.5 drop-shadow">
+          <div className="text-white font-open-sans text-xs sm:text-sm font-bold flex items-center gap-2 mt-1.5 drop-shadow">
             <span className="text-white/70 font-normal">
               MRP: <span className="line-through">₹49,999</span>
             </span>
-            <span className="text-white font-black ml-1 text-sm">
+            <span className="text-white font-extrabold ml-1">
               Offer Price: ₹37,999
             </span>
           </div>
@@ -238,42 +238,42 @@ export default function Hero() {
           <div className="mt-3.5 w-full">
             <button
               onClick={openModal}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
               SHOP NOW <span className="text-base leading-none">&rarr;</span>
             </button>
           </div>
 
           {/* Micro Footer Note */}
-          <p className="text-white/70 text-[11px] mt-2 text-center drop-shadow">
+          <p className="text-white/70 font-open-sans text-[11px] mt-2 text-center drop-shadow">
             Limited-period promotional offer.
           </p>
         </div>
 
-        {/* Desktop Slide 2 Content (Left-Anchored with fluid margins for exact 1440px visual match) */}
+        {/* Desktop Slide 2 Content */}
         <div className="hidden sm:flex relative z-10 w-full px-6 sm:px-12 lg:px-16 xl:px-20 pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 h-full flex-col justify-center">
-          <div className="max-w-[560px]">
+          <div className="max-w-[620px] lg:max-w-[760px] xl:max-w-[820px]">
             {/* Red Promotional Launch Offer Badge */}
-            <div className="inline-block bg-[#e53e3e] text-white text-xs sm:text-[13px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-[4px] shadow-sm mb-3.5 w-fit drop-shadow">
+            <div className="inline-block bg-[#e53e3e] text-white font-montserrat text-xs sm:text-[13px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-[4px] shadow-sm mb-3.5 w-fit drop-shadow">
               PROMOTIONAL LAUNCH OFFER
             </div>
 
-            {/* Subtitle */}
-            <p className="text-white font-bold text-lg sm:text-xl lg:text-2xl drop-shadow">
+            {/* Subtitle (Exact Figma: font-semibold 32.12px text-white/80) */}
+            <p className="text-white/80 font-open-sans font-semibold text-xl sm:text-2xl lg:text-[32px] leading-[1.2] drop-shadow">
               Get AQUAFORCE 1400 at
             </p>
 
-            {/* Huge 24% OFF Headline */}
-            <h2 className="text-white text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-none my-2 drop-shadow-md">
+            {/* Huge 24% OFF Headline (Exact Figma: font-black 120px text-white) */}
+            <h2 className="text-white font-montserrat text-6xl sm:text-8xl lg:text-[104px] xl:text-[120px] font-black tracking-tight leading-none my-2 drop-shadow-md">
               24% OFF
             </h2>
 
             {/* Pricing Row */}
-            <div className="text-white text-base sm:text-lg font-bold flex items-center gap-2 mt-3 drop-shadow">
+            <div className="text-white font-open-sans text-base sm:text-lg font-bold flex items-center gap-2 mt-3 drop-shadow">
               <span className="text-white/70 font-normal">
                 MRP: <span className="line-through">₹49,999</span>
               </span>
-              <span className="text-white font-black ml-1 text-lg sm:text-xl">
+              <span className="text-white font-extrabold ml-1 text-lg sm:text-xl">
                 Offer Price: ₹37,999
               </span>
             </div>
@@ -282,14 +282,14 @@ export default function Hero() {
             <div className="mt-6 sm:mt-7">
               <button
                 onClick={openModal}
-                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 SHOP NOW <span className="text-base leading-none">&rarr;</span>
               </button>
             </div>
 
             {/* Micro Footer Note */}
-            <p className="text-white/70 text-xs mt-3 drop-shadow">
+            <p className="text-white/70 font-open-sans text-xs mt-3 drop-shadow">
               Limited-period promotional offer.
             </p>
           </div>
@@ -336,14 +336,14 @@ export default function Hero() {
         {/* Mobile Slide 3 Content Overlay */}
         <div className="sm:hidden relative z-10 w-full h-full flex flex-col justify-end px-5 pb-10 pt-20">
           {/* Description */}
-          <p className="text-white/95 text-[13px] leading-relaxed font-normal max-w-[340px] drop-shadow-md">
+          <p className="text-white/95 font-open-sans text-[13px] leading-relaxed font-normal max-w-[340px] drop-shadow-md">
             Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful,
             battery-powered portable pressure washer. No cables, no power
             sockets, no fixed setup needed.
           </p>
 
           {/* Pricing & Discount */}
-          <div className="mt-3.5">
+          <div className="mt-3.5 font-open-sans">
             <span className="inline-block bg-[#18c49e] text-slate-950 text-[11px] font-black px-2.5 py-0.5 rounded-sm uppercase tracking-wider shadow-xs mb-1">
               24% OFF
             </span>
@@ -361,13 +361,13 @@ export default function Hero() {
           <div className="flex flex-col gap-2.5 mt-4 w-full">
             <button
               onClick={openModal}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
             >
               SHOP NOW <span className="text-base leading-none">&rarr;</span>
             </button>
             <a
               href="#features"
-              className="w-full inline-flex items-center justify-center border border-white/80 hover:border-white text-white hover:bg-white/10 text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow text-center"
+              className="w-full inline-flex items-center justify-center border border-white/80 hover:border-white text-white hover:bg-white/10 font-open-sans text-xs font-black tracking-wider uppercase py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow text-center"
             >
               EXPLORE FEATURES
             </a>
@@ -379,7 +379,7 @@ export default function Hero() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 sm:gap-8">
             {/* Bottom-Left Description */}
             <div className="max-w-xl">
-              <p className="text-white/95 text-[14px] sm:text-[15px] leading-relaxed font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              <p className="text-white/95 font-open-sans text-[14px] sm:text-[15px] leading-relaxed font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                 Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful,
                 battery-powered portable pressure washer. No cables, no power
                 sockets, no fixed setup needed.
@@ -389,7 +389,7 @@ export default function Hero() {
             {/* Bottom-Right Pricing & Action Buttons */}
             <div className="flex flex-col items-start lg:items-end gap-3 shrink-0">
               {/* Pricing Line */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 font-open-sans">
                 <span className="text-white/60 line-through text-sm sm:text-base font-semibold drop-shadow">
                   ₹49,999
                 </span>
@@ -405,13 +405,13 @@ export default function Hero() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={openModal}
-                  className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   SHOP NOW <span className="text-base leading-none">&rarr;</span>
                 </button>
                 <a
                   href="#features"
-                  className="inline-flex items-center border border-white/80 hover:border-white text-white hover:bg-white/10 text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow"
+                  className="inline-flex items-center border border-white/80 hover:border-white text-white hover:bg-white/10 font-open-sans text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow"
                 >
                   EXPLORE FEATURES
                 </a>
