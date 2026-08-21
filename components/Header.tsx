@@ -16,8 +16,8 @@ export default function Header() {
   const { openModal } = useOrderModal();
 
   return (
-    <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 px-3 sm:px-6 lg:px-10">
-      <div className="max-w-[1360px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto bg-white/10 backdrop-blur-md border border-white/25 rounded-[14px] sm:rounded-[16px] px-4 sm:px-6 py-2 flex items-center justify-between shadow-[0_8px_32px_0_rgba(0,0,0,0.25)] transition-all">
+    <header className="fixed top-2 sm:top-4 left-0 right-0 z-50 px-4 sm:px-8 lg:px-12">
+      <div className="max-w-[1440px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto bg-transparent border-0 px-2 sm:px-4 flex items-center justify-between shadow-none transition-all">
         {/* AMEC Technology Brand Logo */}
         <a
           href="https://www.amectechnology.com/"

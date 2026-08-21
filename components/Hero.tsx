@@ -54,7 +54,7 @@ export default function Hero() {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="relative min-h-[580px] sm:min-h-[560px] md:min-h-[600px] lg:min-h-[640px] xl:min-h-[680px] h-[calc(100vh-46px)] sm:h-[calc(100vh-52px)] max-h-[740px] lg:max-h-[780px] flex items-center overflow-hidden bg-slate-950 select-none group touch-pan-y"
+      className="relative min-h-[580px] sm:min-h-[620px] md:min-h-[660px] lg:min-h-[720px] xl:min-h-[780px] 2xl:min-h-[820px] h-[calc(100vh-48px)] max-h-[860px] flex items-center overflow-hidden bg-slate-950 select-none group touch-pan-y"
     >
       {/* ========================================================= */}
       {/* SLIDE 1: Outdoor Patio SUV Foam Washing Scene */}
