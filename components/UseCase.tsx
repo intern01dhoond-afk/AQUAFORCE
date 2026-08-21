@@ -117,7 +117,7 @@ export default function UseCase() {
         {/* 3-Column Interactive Layout */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-10 w-full">
           {/* Desktop Left Column: Nav List (Hidden on mobile) */}
-          <div className="hidden lg:flex w-[297px] flex-col space-y-3 sm:space-y-4 shrink-0">
+          <div className="hidden lg:flex w-[297px] flex-col space-y-2.5 sm:space-y-3 shrink-0">
             {USE_CASES.map((item, idx) => {
               const isActive = idx === activeIndex;
               return (
@@ -128,16 +128,13 @@ export default function UseCase() {
                     setActiveIndex(idx);
                     setIsPaused(true);
                   }}
-                  className={`text-left transition-all duration-300 cursor-pointer py-2 px-3 rounded-lg w-full flex items-center justify-between group ${
+                  className={`text-left transition-colors duration-200 cursor-pointer py-2 w-full flex items-center ${
                     isActive
-                      ? "border-l-4 border-[#0066cc] bg-blue-50/60 pl-3.5 text-[#0F1729] font-semibold text-lg sm:text-xl lg:text-[22px] shadow-xs"
-                      : "pl-3 text-[#94A3B8] hover:text-[#0F1729] hover:bg-slate-50 font-normal text-lg sm:text-xl lg:text-[22px]"
+                      ? "border-l-[3px] border-[#0066cc] pl-4 text-[#0F1729] font-bold text-lg sm:text-xl lg:text-[22px]"
+                      : "border-l-[3px] border-transparent pl-4 text-[#94A3B8] hover:text-[#0F1729] font-normal text-lg sm:text-xl lg:text-[22px]"
                   }`}
                 >
                   <span>{item.label}</span>
-                  {isActive && (
-                    <span className="w-2 h-2 rounded-full bg-[#0066cc] animate-pulse" />
-                  )}
                 </button>
               );
             })}
