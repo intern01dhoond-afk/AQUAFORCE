@@ -38,7 +38,7 @@ export default function EngineeredPerformance() {
               fill
               priority
               sizes="(max-width: 768px) 300px, (max-width: 1024px) 440px, 520px"
-              className="object-contain drop-shadow-[0_25px_45px_rgba(15,40,75,0.28)] hover:scale-105 transition-transform duration-500"
+              className="object-contain drop-shadow-[0_25px_45px_rgba(15,40,75,0.28)]"
             />
           </div>
         </div>

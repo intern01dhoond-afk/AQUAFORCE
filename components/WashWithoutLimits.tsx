@@ -88,7 +88,7 @@ export default function WashWithoutLimits() {
             fill
             priority
             sizes="(max-width: 768px) 100vw, 35vw"
-            className="object-cover object-center hover:scale-103 transition-transform duration-500"
+            className="object-cover object-center"
           />
         </div>
 
@@ -144,7 +144,7 @@ export default function WashWithoutLimits() {
             fill
             priority
             sizes="(max-width: 768px) 100vw, 35vw"
-            className="object-cover object-center hover:scale-103 transition-transform duration-500"
+            className="object-cover object-center"
           />
         </div>
       </div>
