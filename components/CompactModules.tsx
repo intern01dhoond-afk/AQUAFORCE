@@ -62,7 +62,7 @@ export default function CompactModules() {
 
       {/* 4 Connected Cards: Horizontal Carousel on Mobile, 4-Col Grid on Desktop */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-0 mt-8 sm:mt-16">
-        <div className="flex lg:grid lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto lg:overflow-visible pb-4 pt-1 px-1 -mx-1 scrollbar-thin snap-x snap-mandatory">
+        <div className="flex lg:grid lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto lg:overflow-visible pb-4 pt-1 px-1 -mx-1 no-scrollbar snap-x snap-mandatory">
           {MODULES.map((m, idx) => (
             <div
               key={m.title}
