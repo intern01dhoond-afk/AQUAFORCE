@@ -466,6 +466,8 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-top"
           />
+          {/* Bottom Dark Gradient for high text contrast over white foam */}
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/90 via-black/55 to-transparent pointer-events-none" />
         </div>
 
         {/* Desktop Background Image (Banner 04.png) */}
@@ -478,6 +480,8 @@ export default function Hero() {
             sizes="100vw"
             className="object-cover object-center sm:object-[center_40%]"
           />
+          {/* Bottom Dark Gradient for high text contrast over white foam */}
+          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
         </div>
 
         {/* Mobile Slide 4 Overlay - Action buttons pinned to bottom without blocking top graphic */}
