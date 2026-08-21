@@ -17,7 +17,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 px-3 sm:px-6 lg:px-10">
-      <div className="max-w-[1360px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto bg-[#10243e]/40 backdrop-blur-xl backdrop-saturate-150 border border-white/20 rounded-[14px] sm:rounded-[16px] px-4 sm:px-6 py-2 flex items-center justify-between shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all">
+      <div className="max-w-[1360px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto bg-white/10 backdrop-blur-md border border-white/25 rounded-[14px] sm:rounded-[16px] px-4 sm:px-6 py-2 flex items-center justify-between shadow-[0_8px_32px_0_rgba(0,0,0,0.25)] transition-all">
         {/* AMEC Technology Brand Logo */}
         <a
           href="https://www.amectechnology.com/"
