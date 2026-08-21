@@ -53,8 +53,11 @@ const FEATURES_LEFT = [
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M12 3L14.2 9.8L21 12L14.2 14.2L12 21L9.8 14.2L3 12L9.8 9.8L12 3Z" />
-        <path d="M18.5 5.5L17 7M5.5 18.5L7 17M18.5 18.5L17 17M5.5 5.5L7 7" />
+        <line x1="4" y1="4" x2="20" y2="20" />
+        <path d="M10 3.5L12 8L14 3.5" />
+        <path d="M16.5 10L21 12L16.5 14" />
+        <path d="M7.5 10L3 12L7.5 14" />
+        <path d="M10 20.5L12 16L14 20.5" />
       </svg>
     ),
     title: "No Power Socket Required",
@@ -178,12 +181,12 @@ export default function EngineeredPerformance() {
   return (
     <section
       id="features"
-      className="pt-14 sm:pt-16 pb-10 sm:pb-12 bg-gradient-to-b from-[#bcdbf5] via-[#dcebf9] to-[#c2def6] relative overflow-hidden"
+      className="pt-10 sm:pt-14 pb-8 sm:pb-10 bg-gradient-to-b from-[#bcdbf5] via-[#dcebf9] to-[#c2def6] relative overflow-hidden"
     >
       {/* Top Header */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
-        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-3.5">
+        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-3">
           PRECISION ENGINEERING
         </div>
 
@@ -191,7 +194,7 @@ export default function EngineeredPerformance() {
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium font-montserrat text-[#0F1729] tracking-tight">
           Engineered For Ultimate Performance
         </h2>
-        <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-2.5 text-sm sm:text-base leading-relaxed">
+        <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-2 text-sm sm:text-base leading-relaxed">
           Explore the mechanical innovations that make cordless high-pressure
           cleaning a reality.
         </p>
@@ -200,25 +203,25 @@ export default function EngineeredPerformance() {
       {/* ========================================================= */}
       {/* MOBILE LAYOUT (< lg): Machine in Center + 2-Column Grid */}
       {/* ========================================================= */}
-      <div className="lg:hidden max-w-[540px] mx-auto px-4 sm:px-6 mt-6 sm:mt-8 flex flex-col items-center">
+      <div className="lg:hidden max-w-[540px] mx-auto px-4 sm:px-6 mt-4 sm:mt-6 flex flex-col items-center">
         {/* Center 3D AMEC Aquaforce Machine Render */}
-        <div className="relative flex items-center justify-center my-3 w-full">
+        <div className="relative flex items-center justify-center my-1 sm:my-2 w-full">
           {/* Radiant Brightness Spotlight */}
-          <div className="absolute w-56 h-56 sm:w-72 sm:h-72 bg-white/85 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 w-64 h-72 sm:w-72 sm:h-80">
+          <div className="absolute w-52 h-52 sm:w-64 sm:h-64 bg-white/85 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 w-56 h-64 sm:w-64 sm:h-72">
             <Image
               src="/images/aquaforce-machine.png"
               alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
-              sizes="(max-width: 640px) 260px, 300px"
+              sizes="(max-width: 640px) 240px, 280px"
               className="object-contain drop-shadow-[0_20px_35px_rgba(15,40,75,0.25)]"
             />
           </div>
         </div>
 
         {/* 2-Column Features Grid (Exact Match to Screenshot) */}
-        <div className="w-full grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-7 sm:gap-y-9 mt-4 text-left">
+        <div className="w-full grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-5 sm:gap-y-7 mt-3 text-left">
           {MOBILE_FEATURE_PAIRS.flat().map((item) => (
             <div key={item.title} className="flex flex-col items-start">
               {/* Icon */}
