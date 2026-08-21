@@ -143,7 +143,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
       const totalAmount = PRODUCT_DATA.offerPrice * quantity;
 
-      // 1. Create order on server
       const res = await fetch("/api/razorpay/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -162,10 +161,16 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         }),
       });
 
-      const orderData = await res.json();
+      let orderData: any = null;
+      const textResponse = await res.text();
+      try {
+        orderData = JSON.parse(textResponse);
+      } catch (err) {
+        throw new Error(textResponse || "Failed to parse order response from server.");
+      }
 
-      if (!res.ok || orderData.error) {
-        throw new Error(orderData.error || "Failed to create order");
+      if (!res.ok || !orderData || orderData.error) {
+        throw new Error(orderData?.error || `Order creation failed (${res.status})`);
       }
 
       // 2. Configure Razorpay options
