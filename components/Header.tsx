@@ -39,28 +39,15 @@ export default function Header() {
           href="https://www.amectechnology.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 sm:gap-3.5 group shrink-0"
+          className="flex items-center group shrink-0"
         >
-          {/* AMEC Shield Image (Exact larger proportion matching Image 2) */}
-          <div className="relative w-[38px] h-[44px] sm:w-[46px] sm:h-[54px] lg:w-[52px] lg:h-[60px] shrink-0">
+          <div className="relative w-[145px] h-[35px] sm:w-[175px] sm:h-[42px] lg:w-[199px] lg:h-[48px] shrink-0">
             <Image
-              src="/logo_shield.png"
-              alt="AMEC Shield"
+              src="/images/Amec Logo.svg"
+              alt="AMEC Technology"
               fill
               priority
-              sizes="(max-width: 640px) 38px, 52px"
-              className="object-contain drop-shadow-md"
-            />
-          </div>
-
-          {/* AMEC Technology Wordmark */}
-          <div className="relative w-[130px] h-[28px] sm:w-[160px] sm:h-[34px] lg:w-[180px] lg:h-[38px] shrink-0">
-            <Image
-              src="/logo_amec_new.png"
-              alt="AMEC TECHNOLOGY"
-              fill
-              priority
-              sizes="(max-width: 640px) 130px, 180px"
+              sizes="(max-width: 640px) 145px, (max-width: 1024px) 175px, 199px"
               className="object-contain object-left drop-shadow-md"
             />
           </div>
