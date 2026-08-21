@@ -29,8 +29,22 @@ export default function FourSteps() {
       id="how-it-works"
       className="relative w-full min-h-[660px] sm:min-h-[720px] lg:min-h-[820px] flex flex-col justify-between py-14 sm:py-18 lg:py-20 bg-black overflow-hidden"
     >
-      {/* Cinematic Dark Background Image (Full-Bleed 100vw) */}
-      <div className="absolute inset-0 z-0">
+      {/* Mobile Cinematic Background Image (Full-Bleed 100vw) */}
+      <div className="sm:hidden absolute inset-0 z-0">
+        <Image
+          src="/images/4 steps mobile.png"
+          alt="AMEC Aquaforce 4 Steps to Pristine Clean mobile background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Soft Contrast Gradient Mask */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
+      </div>
+
+      {/* Desktop Cinematic Background Image (Full-Bleed 100vw) */}
+      <div className="hidden sm:block absolute inset-0 z-0">
         <Image
           src="/images/four-steps-bg.png"
           alt="AMEC Aquaforce on workshop workbench 4 Steps to Pristine Clean"
