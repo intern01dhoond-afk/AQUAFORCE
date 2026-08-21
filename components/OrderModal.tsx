@@ -21,6 +21,7 @@ const PRODUCT_DATA = {
     {
       name: "Blue",
       hex: "#0066cc",
+      inStock: false,
       images: [
         "/cart page images/Blue product/1.png",
         "/cart page images/Blue product/2.png",
@@ -31,6 +32,7 @@ const PRODUCT_DATA = {
     {
       name: "Yellow",
       hex: "#f5c518",
+      inStock: true,
       images: [
         "/cart page images/Yellow Product/1.png",
         "/cart page images/Yellow Product/2.png",
@@ -105,6 +107,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
   const handleCheckoutSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentColor.inStock) return;
     setIsSubmitted(true);
   };
 
@@ -122,15 +125,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         onClick={onClose}
       />
 
-      {/* Modal Dialog Card (Exact Figma: 1045px width, 20px radius, white background) */}
-      <div className="relative w-full max-w-[1045px] bg-white rounded-[20px] shadow-2xl border border-slate-100 p-6 sm:p-8 lg:p-10 z-10 my-auto max-h-[94vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200">
+      {/* Modal Dialog Card */}
+      <div className="relative w-full max-w-[440px] lg:max-w-[1045px] bg-white rounded-[24px] sm:rounded-[20px] shadow-2xl border border-slate-100 p-5 sm:p-8 lg:p-10 z-10 my-auto max-h-[94vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200">
         {/* Close Button (Circle icon top-right) */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 sm:top-6 sm:right-6 text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition-colors focus:outline-none z-20 cursor-pointer shadow-xs"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-20 cursor-pointer shadow-xs"
           aria-label="Close modal"
         >
-          <X size={18} />
+          <X size={16} />
         </button>
 
         {isSubmitted ? (
@@ -256,36 +259,45 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </form>
           </div>
         ) : (
-          /* Main Product Detail Layout (Exact 2-Column Figma Design) */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          /* Main Product Detail Layout (Matching mobile view design & Figma layout) */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-center">
             {/* ========================================================= */}
             {/* LEFT COLUMN: Gallery & Thumbnails */}
             {/* ========================================================= */}
             <div className="lg:col-span-6 flex flex-col items-center">
               {/* Main Image Container */}
-              <div className="relative w-full aspect-square max-h-[360px] sm:max-h-[400px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group">
+              <div className="relative w-full aspect-square max-h-[300px] sm:max-h-[380px] lg:max-h-[400px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group">
+                {/* Out of Stock Ribbon/Badge */}
+                {!currentColor.inStock && (
+                  <div className="absolute top-3 left-3 z-20 bg-red-600 text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-[6px] shadow-md">
+                    Out of Stock
+                  </div>
+                )}
+
                 <Image
                   src={images[activeImageIndex]}
                   alt={`${PRODUCT_DATA.name} ${currentColor.name} view ${activeImageIndex + 1}`}
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 45vw"
-                  className="object-contain p-2 transition-all duration-300"
+                  className={`object-contain p-2 transition-all duration-300 ${
+                    !currentColor.inStock ? "opacity-75 grayscale-[20%]" : ""
+                  }`}
                 />
 
-                {/* Left Navigation Chevron */}
+                {/* Left Navigation Chevron (Desktop only) */}
                 <button
                   onClick={prevImage}
-                  className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md flex items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
+                  className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
                   aria-label="Previous image"
                 >
                   <ChevronLeft size={18} />
                 </button>
 
-                {/* Right Navigation Chevron */}
+                {/* Right Navigation Chevron (Desktop only) */}
                 <button
                   onClick={nextImage}
-                  className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md flex items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
+                  className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
                   aria-label="Next image"
                 >
                   <ChevronRight size={18} />
@@ -293,15 +305,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* 4 Clickable Thumbnails */}
-              <div className="grid grid-cols-4 gap-2.5 sm:gap-3.5 w-full mt-4">
+              <div className="grid grid-cols-4 gap-2.5 sm:gap-3.5 w-full mt-3 sm:mt-4">
                 {images.map((img, idx) => (
                   <button
                     key={img}
                     onClick={() => setActiveImageIndex(idx)}
                     className={`relative aspect-square rounded-[8px] bg-white p-1 transition-all overflow-hidden cursor-pointer ${
                       activeImageIndex === idx
-                        ? "border-2 border-[#0066cc] shadow-sm ring-1 ring-[#0066cc]"
-                        : "border border-slate-200 hover:border-slate-400 opacity-80 hover:opacity-100"
+                        ? "border-2 border-[#0066cc] shadow-xs"
+                        : "border border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <Image
@@ -320,31 +332,31 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* RIGHT COLUMN: Product Information & Controls */}
             {/* ========================================================= */}
             <div className="lg:col-span-6 flex flex-col justify-center">
-              {/* Product Title (Exact Figma: Montserrat 40px weight 600 color #0F1729) */}
-              <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-semibold text-[#0F1729] leading-[1.1] tracking-tight">
+              {/* Product Title */}
+              <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-bold text-[#0F1729] leading-[1.15] tracking-tight mt-3 sm:mt-0">
                 {PRODUCT_DATA.name}
               </h2>
 
               {/* Description */}
-              <p className="text-slate-600 text-xs sm:text-[13px] lg:text-[14px] leading-relaxed mt-2.5">
+              <p className="text-slate-500 sm:text-slate-600 text-[13px] sm:text-sm leading-relaxed mt-2 sm:mt-2.5">
                 {PRODUCT_DATA.description}
               </p>
 
               {/* Ratings & Reviews */}
-              <div className="flex items-center gap-1.5 mt-3">
+              <div className="flex items-center gap-1.5 mt-2.5 sm:mt-3">
                 <div className="flex items-center text-[#f59e0b]">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={15} fill="#f59e0b" strokeWidth={0} />
                   ))}
                 </div>
-                <span className="text-xs sm:text-[13px] font-semibold text-slate-700 ml-1">
+                <span className="text-xs sm:text-[13px] font-medium text-slate-600 ml-1">
                   {PRODUCT_DATA.rating.toFixed(1)} ({PRODUCT_DATA.reviewsCount} Reviews)
                 </span>
               </div>
 
               {/* Price Line */}
-              <div className="flex items-baseline gap-3 mt-4">
-                <span className="text-3xl sm:text-[34px] lg:text-[38px] font-bold text-[#0F1729] tracking-tight">
+              <div className="flex items-baseline gap-3 mt-3.5 sm:mt-4">
+                <span className="text-2xl sm:text-[34px] lg:text-[38px] font-bold text-[#0F1729] tracking-tight">
                   ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
                 </span>
                 <span className="text-slate-400 line-through text-base sm:text-lg font-normal">
@@ -352,12 +364,19 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </span>
               </div>
 
-              <div className="w-full h-px bg-slate-100 my-4 sm:my-5" />
+              <div className="w-full h-px bg-slate-100 my-3.5 sm:my-5" />
 
               {/* Color Selector */}
               <div>
-                <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2.5">
-                  Color: <span className="font-bold">{currentColor.name}</span>
+                <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 sm:mb-2.5 flex items-center gap-2">
+                  <span>
+                    Color: <strong className="font-medium text-slate-800">{currentColor.name}</strong>
+                  </span>
+                  {!currentColor.inStock && (
+                    <span className="text-red-600 bg-red-50 border border-red-200 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
+                      Out of Stock
+                    </span>
+                  )}
                 </p>
                 <div className="flex items-center gap-3">
                   {PRODUCT_DATA.colors.map((c, idx) => (
@@ -365,60 +384,81 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       key={c.name}
                       onClick={() => handleColorChange(idx)}
                       style={{ backgroundColor: c.hex }}
-                      className={`w-9 h-9 rounded-[4px] border-2 transition-all cursor-pointer ${
+                      className={`relative w-9 h-9 rounded-[4px] transition-all cursor-pointer ${
                         selectedColorIndex === idx
-                          ? "border-slate-900 ring-2 ring-offset-2 ring-slate-400 scale-105"
-                          : "border-transparent opacity-85 hover:opacity-100"
+                          ? "ring-2 ring-[#0066cc] ring-offset-2 scale-105"
+                          : "opacity-85 hover:opacity-100 border border-slate-200"
                       }`}
-                      aria-label={`Select ${c.name} color`}
-                    />
+                      aria-label={`Select ${c.name} color${!c.inStock ? " (Out of Stock)" : ""}`}
+                    >
+                      {!c.inStock && (
+                        <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[3px]">
+                          <span className="w-full h-[2px] bg-red-500 rotate-45 block shadow-xs" />
+                        </span>
+                      )}
+                    </button>
                   ))}
                 </div>
               </div>
 
-              {/* Quantity Stepper & Free Delivery Badges Row */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6">
-                {/* Stepper Pill */}
-                <div className="inline-flex items-center bg-slate-100/90 rounded-full px-3 py-1.5 border border-slate-200/70">
+              <div className="w-full h-px bg-slate-100 my-3.5 sm:my-5" />
+
+              {/* Quantity Stepper */}
+              <div className="flex items-center">
+                <div
+                  className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 transition-opacity ${
+                    !currentColor.inStock ? "opacity-40 pointer-events-none" : ""
+                  }`}
+                >
                   <button
                     onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1}
-                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base disabled:opacity-35 cursor-pointer"
+                    disabled={quantity <= 1 || !currentColor.inStock}
+                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
                     aria-label="Decrease quantity"
                   >
                     &minus;
                   </button>
-                  <span className="px-2.5 text-sm font-bold text-slate-900 min-w-[20px] text-center select-none">
+                  <span className="px-3.5 text-sm sm:text-base font-bold text-slate-900 min-w-[20px] text-center select-none">
                     {quantity}
                   </span>
                   <button
                     onClick={() => handleQuantityChange(1)}
-                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base cursor-pointer"
+                    disabled={!currentColor.inStock}
+                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg cursor-pointer"
                     aria-label="Increase quantity"
                   >
                     &#43;
                   </button>
                 </div>
-
-                {/* Shipping Badges */}
-                <div className="flex items-center gap-3.5 text-slate-800 text-[11px] sm:text-xs">
-                  <span className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-amber-600">
-                    <Truck size={15} /> FREE DELIVERY
-                  </span>
-                  <span className="flex items-center gap-1.5 font-medium text-slate-700">
-                    <RotateCcw size={14} className="text-blue-600" /> Deliver within 4-6 Days
-                  </span>
-                </div>
               </div>
 
-              {/* BUY NOW Button (Exact Figma: 426px width x 48px height, rounded-8px, bg #0066cc) */}
-              <div className="mt-6 w-full">
-                <button
-                  onClick={() => setIsCheckingOut(true)}
-                  className="w-full h-12 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold text-sm sm:text-base tracking-wider uppercase rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
-                >
-                  BUY NOW
-                </button>
+              {/* Shipping Badges */}
+              <div className="flex items-center gap-4 text-slate-900 text-xs sm:text-sm mt-3.5 sm:mt-4">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <Truck size={16} className="text-[#0066cc]" /> Free Delivery
+                </span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  <RotateCcw size={15} className="text-[#0066cc]" /> Deliver within 4-6 Days
+                </span>
+              </div>
+
+              {/* Action Button */}
+              <div className="mt-5 sm:mt-6 w-full">
+                {currentColor.inStock ? (
+                  <button
+                    onClick={() => setIsCheckingOut(true)}
+                    className="w-full h-12 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold text-sm sm:text-base tracking-wider uppercase rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                  >
+                    BUY NOW
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    className="w-full h-12 bg-slate-100 border border-slate-200 text-slate-400 font-bold text-sm sm:text-base tracking-wider uppercase rounded-[8px] cursor-not-allowed flex items-center justify-center select-none"
+                  >
+                    OUT OF STOCK
+                  </button>
+                )}
               </div>
             </div>
           </div>

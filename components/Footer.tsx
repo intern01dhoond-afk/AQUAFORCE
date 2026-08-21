@@ -1,7 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import { useOrderModal } from "@/context/OrderModalContext";
 
 export default function Footer() {
+  const { openModal } = useOrderModal();
+
   return (
     <footer className="bg-[#0b0c0e] text-white py-16 sm:py-20 border-t border-white/5 w-full">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
@@ -41,10 +46,14 @@ export default function Footer() {
           <a href="#how-it-works" className="hover:text-white transition-colors">
             How It Works
           </a>
-          <a href="#order" className="hover:text-white transition-colors">
+          <button
+            type="button"
+            onClick={openModal}
+            className="hover:text-white transition-colors cursor-pointer font-medium focus:outline-none"
+          >
             Shop Now
-          </a>
-          <a href="#order" className="hover:text-white transition-colors">
+          </button>
+          <a href="mailto:info@amecmobility.com" className="hover:text-white transition-colors">
             Contact Us
           </a>
         </nav>

@@ -53,7 +53,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/hero-bg.jpg"
+            src="/hero-banner-1.png"
             alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
             fill
             priority
@@ -319,10 +319,10 @@ export default function Hero() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
         </div>
 
-        {/* Desktop Background Image (hero-image-block.png) */}
+        {/* Desktop Background Image (hero-banner-3.png) */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/hero-image-block.png"
+            src="/hero-banner-3.png"
             alt="AMEC Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority

@@ -17,8 +17,8 @@ export default function Home() {
       <Header />
       <Hero />
       <StatsBar />
-      <ProfessionalCleaning />
       <EngineeredPerformance />
+      <ProfessionalCleaning />
       <WashWithoutLimits />
       <FourSteps />
       <UseCase />
