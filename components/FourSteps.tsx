@@ -73,15 +73,13 @@ export default function FourSteps() {
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[77px] mt-10 sm:mt-14">
         <div className="w-full max-w-[1286px] mx-auto bg-black/60 backdrop-blur-xl border border-white/20 rounded-[8px] py-[16px] px-[14px] shadow-2xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/20">
-            {STEPS.map((step, idx) => (
+            {STEPS.map((step) => (
               <div
                 key={step.n}
-                className={`flex items-center gap-3.5 px-3 sm:px-4 ${
-                  idx > 0 ? "pt-3 sm:pt-0" : ""
-                }`}
+                className="flex items-center gap-4 px-3 sm:px-4 py-3.5 sm:py-1 lg:py-2"
               >
                 {/* Step Number (Exact Light Sans Font Style) */}
-                <span className="font-open-sans text-[40px] sm:text-[46px] lg:text-[50px] font-light text-white leading-none shrink-0 tracking-tighter select-none">
+                <span className="font-open-sans text-[42px] sm:text-[46px] lg:text-[50px] font-light text-white leading-none shrink-0 tracking-tighter select-none">
                   {step.n}
                 </span>
                 {/* Step Content */}
@@ -89,7 +87,7 @@ export default function FourSteps() {
                   <h3 className="font-montserrat text-xs sm:text-[13px] lg:text-sm font-bold text-white tracking-wide">
                     {step.title}
                   </h3>
-                  <p className="font-open-sans text-[10px] sm:text-[11px] text-white/80 font-normal leading-tight mt-0.5">
+                  <p className="font-open-sans text-[11px] sm:text-[11.5px] text-white/80 font-normal leading-snug mt-1">
                     {step.desc}
                   </p>
                 </div>
