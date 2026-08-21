@@ -21,7 +21,7 @@ export default function WashWithoutLimits() {
         </h2>
 
         {/* Blue Accent Underline */}
-        <div className="w-14 h-[2.5px] bg-[#005DA6] mt-2.5 mb-2.5 rounded-full" />
+        <div className="w-14 h-[2.5px] bg-[#0066cc] mt-2.5 mb-2.5 rounded-full" />
 
         {/* Subtitle */}
         <p className="text-[#8892a0] font-open-sans text-xs font-bold tracking-[0.24em] uppercase mb-6">
@@ -84,7 +84,7 @@ export default function WashWithoutLimits() {
         {/* CTA Action Button */}
         <button
           onClick={openModal}
-          className="mt-6 inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
+          className="mt-6 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
         >
           <span>SHOP NOW</span>
           <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
@@ -117,7 +117,7 @@ export default function WashWithoutLimits() {
           </h2>
 
           {/* Blue Accent Underline */}
-          <div className="w-14 h-[2px] bg-[#005DA6] my-3.5 rounded-full" />
+          <div className="w-14 h-[2px] bg-[#0066cc] my-3.5 rounded-full" />
 
           {/* Subtitle */}
           <p className="text-slate-500 font-open-sans text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-6">
@@ -153,7 +153,7 @@ export default function WashWithoutLimits() {
           {/* CTA Action Button */}
           <button
             onClick={openModal}
-            className="mt-7 inline-flex items-center justify-center gap-2 bg-[#005DA6] hover:bg-[#004b87] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all hover:scale-[1.03] active:scale-95 cursor-pointer font-montserrat group"
+            className="mt-7 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all hover:scale-[1.03] active:scale-95 cursor-pointer font-montserrat group"
           >
             <span>SHOP NOW</span>
             <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
