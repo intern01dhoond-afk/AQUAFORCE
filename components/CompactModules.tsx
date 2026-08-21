@@ -52,7 +52,7 @@ export default function CompactModules() {
         </div>
 
         {/* Section Heading & Subtitle */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-montserrat text-slate-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium font-montserrat text-[#0F1729] tracking-tight">
           Compact Dual-Module Design
         </h2>
         <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-3 text-sm sm:text-base">
