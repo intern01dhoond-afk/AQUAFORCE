@@ -83,10 +83,9 @@ export default function Header() {
         <div className="hidden md:flex items-center">
           <button
             onClick={openModal}
-            className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-[#0062ff] text-xs font-bold tracking-wider uppercase px-5 lg:px-6 py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat group"
+            className="bg-white hover:bg-slate-100 text-[#0f172a] text-xs font-black tracking-wider uppercase px-6 py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat"
           >
-            <span>SHOP NOW</span>
-            <ArrowRight className="w-4 h-4 text-[#0062ff] transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
+            SHOP NOW
           </button>
         </div>
 
