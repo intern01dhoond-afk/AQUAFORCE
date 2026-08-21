@@ -46,22 +46,19 @@ export default function Footer() {
           >
             Shop Now
           </button>
-          <a href="mailto:info@amecmobility.com" className="hover:text-white transition-colors">
-            Contact Us
-          </a>
         </nav>
 
         {/* Divider Line */}
         <div className="w-full h-px bg-white/10 my-10 sm:my-12" />
 
-        {/* Bottom 3-Column Bar */}
-        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-5 text-xs text-white/40">
+        {/* Bottom Bar: Copyright on Left, Social Icons on Right */}
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-5 text-xs text-white/50">
           {/* Left: Copyright */}
           <div>
             &copy; 2026 AMEC Technology. All Rights Reserved.
           </div>
 
-          {/* Center: Social Icons */}
+          {/* Right: Social Media Icons */}
           <div className="flex items-center gap-5 text-white/60">
             <a
               href="https://www.facebook.com/amectechnology/"
@@ -109,21 +106,6 @@ export default function Footer() {
               className="hover:text-white transition-colors duration-200"
             >
               <Youtube size={19} />
-            </a>
-          </div>
-
-          {/* Right: Policies */}
-          <div className="flex items-center gap-1.5 text-white/40">
-            <a href="#" className="hover:text-white transition-colors">
-              Privacy Policy
-            </a>
-            <span>|</span>
-            <a href="#" className="hover:text-white transition-colors">
-              Terms of Use
-            </a>
-            <span>|</span>
-            <a href="#" className="hover:text-white transition-colors">
-              Cookies Policy
             </a>
           </div>
         </div>
