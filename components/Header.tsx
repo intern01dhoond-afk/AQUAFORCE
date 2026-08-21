@@ -28,7 +28,7 @@ export default function Header() {
   return (
     <header className="fixed top-2 sm:top-4 left-0 right-0 z-50 px-3 sm:px-6 lg:px-10 transition-all duration-300">
       <div
-        className={`max-w-[1360px] w-full h-[62px] sm:h-[70px] lg:h-[74px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
+        className={`max-w-[1360px] w-full h-[66px] sm:h-[76px] lg:h-[82px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
           scrolled
             ? "bg-[#0b1a2e]/90 backdrop-blur-xl border border-white/20 rounded-[14px] sm:rounded-[16px] shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]"
             : "bg-transparent border-transparent shadow-none"
@@ -39,29 +39,29 @@ export default function Header() {
           href="https://www.amectechnology.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2.5 group shrink-0"
+          className="flex items-center gap-3 sm:gap-3.5 group shrink-0"
         >
-          {/* AMEC Shield Image */}
-          <div className="relative w-[32px] h-[32px] sm:w-[38px] sm:h-[38px] lg:w-[42px] lg:h-[42px] shrink-0">
+          {/* AMEC Shield Image (Exact larger proportion matching Image 2) */}
+          <div className="relative w-[38px] h-[44px] sm:w-[46px] sm:h-[54px] lg:w-[52px] lg:h-[60px] shrink-0">
             <Image
               src="/logo_shield.png"
               alt="AMEC Shield"
               fill
               priority
-              sizes="(max-width: 640px) 32px, 42px"
-              className="object-contain drop-shadow-sm"
+              sizes="(max-width: 640px) 38px, 52px"
+              className="object-contain drop-shadow-md"
             />
           </div>
 
           {/* AMEC Technology Wordmark */}
-          <div className="relative w-[110px] h-[22px] sm:w-[130px] sm:h-[26px] lg:w-[145px] lg:h-[28px] shrink-0">
+          <div className="relative w-[130px] h-[28px] sm:w-[160px] sm:h-[34px] lg:w-[180px] lg:h-[38px] shrink-0">
             <Image
               src="/logo_amec_new.png"
               alt="AMEC TECHNOLOGY"
               fill
               priority
-              sizes="(max-width: 640px) 110px, 145px"
-              className="object-contain object-left"
+              sizes="(max-width: 640px) 130px, 180px"
+              className="object-contain object-left drop-shadow-md"
             />
           </div>
         </a>
