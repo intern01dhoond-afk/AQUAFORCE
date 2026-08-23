@@ -203,37 +203,43 @@ export default function EngineeredPerformance() {
       {/* ========================================================= */}
       {/* MOBILE LAYOUT (< lg): Machine in Center + 2-Column Grid */}
       {/* ========================================================= */}
-      <div className="lg:hidden max-w-[540px] mx-auto px-4 sm:px-6 mt-4 sm:mt-6 flex flex-col items-center">
+      <div className="lg:hidden max-w-[560px] mx-auto px-3.5 sm:px-6 mt-3 sm:mt-6 flex flex-col items-center">
         {/* Center 3D AMEC Aquaforce Machine Render */}
         <div className="relative flex items-center justify-center my-1 sm:my-2 w-full">
           {/* Radiant Brightness Spotlight */}
-          <div className="absolute w-64 h-64 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 w-72 h-80 sm:w-80 sm:h-92">
+          <div className="absolute w-56 h-56 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 w-64 h-72 sm:w-80 sm:h-92">
             <Image
               src="/images/aquaforce-machine.png"
               alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
-              sizes="(max-width: 640px) 288px, 320px"
+              quality={100}
+              sizes="(max-width: 640px) 100vw, 500px"
               className="object-contain drop-shadow-[0_20px_35px_rgba(15,40,75,0.25)]"
             />
           </div>
         </div>
 
-        {/* 2-Column Features Grid (Exact Match to Screenshot) */}
-        <div className="w-full grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-5 sm:gap-y-7 mt-3 text-left">
+        {/* 2-Column Features Grid Styled as Crisp Modern Cards */}
+        <div className="w-full grid grid-cols-2 gap-2.5 xs:gap-3 sm:gap-4 mt-2 text-left">
           {MOBILE_FEATURE_PAIRS.flat().map((item) => (
-            <div key={item.title} className="flex flex-col items-start">
-              {/* Icon */}
-              <div className="text-sky-700 mb-2 shrink-0">
-                {item.icon}
+            <div
+              key={item.title}
+              className="flex flex-col items-start bg-white/50 backdrop-blur-xs border border-white/80 rounded-[12px] p-3 xs:p-3.5 shadow-[0_2px_8px_rgba(15,40,75,0.05)] hover:bg-white/70 transition-colors"
+            >
+              {/* Icon in Accent Badge */}
+              <div className="w-7 h-7 xs:w-8 xs:h-8 rounded-[8px] bg-sky-600/10 text-sky-700 flex items-center justify-center mb-2 shrink-0">
+                <div className="scale-75 xs:scale-85 origin-center">
+                  {item.icon}
+                </div>
               </div>
               {/* Title */}
-              <h3 className="text-[13.5px] sm:text-[15px] font-bold font-montserrat text-[#0F1729] leading-snug">
+              <h3 className="text-[12px] xs:text-[13px] sm:text-[14.5px] font-bold font-montserrat text-[#0F1729] leading-tight">
                 {item.title}
               </h3>
               {/* Description */}
-              <p className="text-[11px] sm:text-[12px] text-slate-600 font-open-sans mt-1 leading-relaxed font-normal">
+              <p className="text-[10.5px] xs:text-[11px] sm:text-[12px] text-slate-600 font-open-sans mt-1 leading-snug font-normal">
                 {item.desc}
               </p>
             </div>
@@ -277,7 +283,8 @@ export default function EngineeredPerformance() {
               alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
-              sizes="(max-width: 1024px) 440px, 520px"
+              quality={100}
+              sizes="(max-width: 1024px) 100vw, 800px"
               className="object-contain drop-shadow-[0_25px_45px_rgba(15,40,75,0.28)]"
             />
           </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Montserrat, Montserrat_Alternates, Open_Sans, Unbounded } from "next/font/google";
 import "./globals.css";
 import { OrderModalProvider } from "@/context/OrderModalContext";
+import { BulkEnquiryProvider } from "@/context/BulkEnquiryContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,7 +42,7 @@ const unbounded = Unbounded({
 export const metadata: Metadata = {
   title: "AMEC Aquaforce 1400 | Cordless. Powerful. Portable.",
   description:
-    "Wash your car anywhere with the AMEC Aquaforce 1400 — a powerful, battery-powered portable pressure washer. No cables, no power socket, no fixed setup needed.",
+    "Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful, battery-powered portable pressure washer. No cables, no power socket, no fixed setup needed.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -53,7 +54,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${montserrat.variable} ${montserratAlternates.variable} ${openSans.variable} ${unbounded.variable} antialiased font-sans`}>
-        <OrderModalProvider>{children}</OrderModalProvider>
+        <OrderModalProvider>
+          <BulkEnquiryProvider>{children}</BulkEnquiryProvider>
+        </OrderModalProvider>
       </body>
     </html>
   );

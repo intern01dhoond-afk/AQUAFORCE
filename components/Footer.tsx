@@ -8,51 +8,51 @@ export default function Footer() {
   const { openModal } = useOrderModal();
 
   return (
-    <footer className="bg-[#0b0c0e] text-white py-16 sm:py-20 border-t border-white/5 w-full">
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
+    <footer className="bg-[#0b0c0e] text-white py-10 xs:py-14 sm:py-20 border-t border-white/5 w-full">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
         {/* Brand Shield Emblem & Wordmark */}
         <a
           href="https://www.amectechnology.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-col items-center group mb-8"
+          className="flex flex-col items-center group mb-6 sm:mb-8"
         >
-          <div className="relative w-[120px] h-[77px] sm:w-[143px] sm:h-[92px] shrink-0">
+          <div className="relative w-[110px] h-[70px] sm:w-[143px] sm:h-[92px] shrink-0">
             <Image
               src="/images/Amec Logo Footer.svg"
               alt="AMEC Technology"
               fill
-              sizes="(max-width: 640px) 120px, 143px"
+              sizes="(max-width: 640px) 110px, 143px"
               className="object-contain object-center"
             />
           </div>
         </a>
 
         {/* Center Navigation Links */}
-        <nav className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-sm font-medium text-white/80">
-          <a href="#home" className="hover:text-white transition-colors">
+        <nav className="flex flex-wrap items-center justify-center gap-4 xs:gap-6 sm:gap-10 text-xs xs:text-sm font-medium text-white/80">
+          <a href="#home" className="hover:text-white transition-colors py-1 px-1.5">
             Home
           </a>
-          <a href="#features" className="hover:text-white transition-colors">
+          <a href="#features" className="hover:text-white transition-colors py-1 px-1.5">
             Features
           </a>
-          <a href="#how-it-works" className="hover:text-white transition-colors">
+          <a href="#how-it-works" className="hover:text-white transition-colors py-1 px-1.5">
             How It Works
           </a>
           <button
             type="button"
             onClick={openModal}
-            className="hover:text-white transition-colors cursor-pointer font-medium focus:outline-none"
+            className="hover:text-white transition-colors cursor-pointer font-medium focus:outline-none py-1 px-1.5"
           >
             Shop Now
           </button>
         </nav>
 
         {/* Divider Line */}
-        <div className="w-full h-px bg-white/10 my-10 sm:my-12" />
+        <div className="w-full h-px bg-white/10 my-6 sm:my-12" />
 
         {/* Bottom Bar: Copyright on Left, Social Icons on Right */}
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-5 text-xs text-white/50">
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5 text-xs text-white/50">
           {/* Left: Copyright */}
           <div>
             &copy; 2026 AMEC Technology. All Rights Reserved.

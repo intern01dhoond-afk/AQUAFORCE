@@ -44,47 +44,47 @@ const MODULES = [
 
 export default function CompactModules() {
   return (
-    <section className="pt-6 sm:pt-12 lg:pt-16 pb-16 sm:pb-20 lg:py-24 bg-white">
+    <section className="pt-6 sm:pt-12 lg:pt-16 pb-12 sm:pb-20 lg:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
-        <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-4">
+        <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-3 sm:mb-4">
           INTEGRATED ENGINEERING
         </div>
 
         {/* Section Heading & Subtitle */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium font-montserrat text-[#0F1729] tracking-tight">
+        <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-medium font-montserrat text-[#0F1729] tracking-tight">
           Compact Dual-Module Design
         </h2>
-        <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-3 text-sm sm:text-base">
+        <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-2 sm:mt-3 text-xs xs:text-sm sm:text-base">
           It is engineered to work as one unified, ergonomic system
         </p>
       </div>
 
-      {/* 4 Connected Cards: Horizontal Carousel on Mobile, 4-Col Grid on Desktop */}
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-0 mt-8 sm:mt-16">
-        <div className="flex lg:grid lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto lg:overflow-visible pb-4 pt-1 px-1 -mx-1 no-scrollbar snap-x snap-mandatory">
+      {/* 4 Connected Cards: 2x2 on Mobile, 4-Col Grid on Desktop */}
+      <div className="max-w-[1280px] mx-auto px-3.5 sm:px-6 lg:px-0 mt-6 sm:mt-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 xs:gap-3.5 sm:gap-6">
           {MODULES.map((m, idx) => (
             <div
               key={m.title}
-              className="relative flex flex-col h-full shrink-0 w-[245px] sm:w-[270px] lg:w-auto snap-center"
+              className="relative flex flex-col h-full"
             >
               {/* Card Content */}
-              <div className="h-full min-h-[230px] sm:min-h-[250px] bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-7 shadow-xs hover:shadow-md hover:border-blue-400 transition-all flex flex-col justify-start">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center mb-4 sm:mb-5">
+              <div className="h-full min-h-[175px] xs:min-h-[195px] sm:min-h-[250px] bg-white rounded-xl sm:rounded-2xl border border-slate-200/90 p-3.5 xs:p-4.5 sm:p-7 shadow-xs hover:shadow-md hover:border-blue-400 transition-all flex flex-col justify-start">
+                <div className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 flex items-center justify-center mb-2.5 xs:mb-3 sm:mb-5 text-[#3B82F6]">
                   {m.icon}
                 </div>
-                <h3 className="text-[15px] sm:text-[17px] font-bold font-montserrat text-slate-900 leading-snug">
+                <h3 className="text-[12.5px] xs:text-[13.5px] sm:text-[17px] font-bold font-montserrat text-slate-900 leading-snug">
                   {m.title}
                 </h3>
-                <p className="text-xs sm:text-[13px] text-slate-500 font-open-sans mt-2 sm:mt-2.5 leading-relaxed">
+                <p className="text-[10.5px] xs:text-[11.5px] sm:text-[13px] text-slate-500 font-open-sans mt-1.5 sm:mt-2.5 leading-relaxed">
                   {m.desc}
                 </p>
               </div>
 
-              {/* Connecting '+' Pill Badge centered precisely in the gap between cards */}
+              {/* Connecting '+' Pill Badge visible on desktop */}
               {idx < MODULES.length - 1 && (
-                <div className="absolute left-[calc(100%+8px)] lg:left-[calc(100%+12px)] top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 rounded-full bg-white border border-slate-200/90 flex items-center justify-center text-slate-400 shadow-[0_2px_6px_rgba(0,0,0,0.06)] pointer-events-none">
-                  <Plus size={12} className="text-slate-400 sm:w-3.5 sm:h-3.5" strokeWidth={2.5} />
+                <div className="hidden lg:flex absolute left-[calc(100%+12px)] top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white border border-slate-200/90 items-center justify-center text-slate-400 shadow-[0_2px_6px_rgba(0,0,0,0.06)] pointer-events-none">
+                  <Plus size={14} className="text-slate-400" strokeWidth={2.5} />
                 </div>
               )}
             </div>

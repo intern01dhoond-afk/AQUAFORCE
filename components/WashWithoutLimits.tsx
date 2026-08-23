@@ -12,79 +12,74 @@ export default function WashWithoutLimits() {
       {/* ========================================================= */}
       {/* MOBILE LAYOUT (< md) - Matches Exact Attached Design */}
       {/* ========================================================= */}
-      <div className="md:hidden flex flex-col items-center text-center py-10 px-4 w-full">
+      <div className="md:hidden flex flex-col items-center text-center py-8 xs:py-10 px-3.5 xs:px-4 w-full">
         {/* Title & Subtitle */}
-        <h2 className="text-[#0e1726] font-montserrat text-[32px] font-medium uppercase tracking-tight leading-[1.08]">
+        <h2 className="text-[#0e1726] font-montserrat text-2xl xs:text-[28px] sm:text-[32px] font-medium uppercase tracking-tight leading-[1.1]">
           WASH WITHOUT
           <br />
           LIMITS
         </h2>
 
         {/* Blue Accent Underline */}
-        <div className="w-14 h-[2.5px] bg-[#0066cc] mt-2.5 mb-2.5 rounded-full" />
+        <div className="w-12 h-[2.5px] bg-[#0066cc] mt-2 mb-2 rounded-full" />
 
         {/* Subtitle */}
-        <p className="text-[#8892a0] font-open-sans text-xs font-bold tracking-[0.24em] uppercase mb-6">
+        <p className="text-[#8892a0] font-open-sans text-[11px] xs:text-xs font-bold tracking-[0.2em] uppercase mb-4 xs:mb-6">
           AQUAFORCE 1400
         </p>
 
         {/* Two Images Side-by-Side (2 Columns) */}
-        <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto mb-6">
+        <div className="grid grid-cols-2 gap-2.5 xs:gap-3 w-full max-w-md mx-auto mb-5 xs:mb-6">
           {/* Left Portrait Image: Car Exterior Wash */}
-          <div className="relative w-full h-[240px] sm:h-[290px] rounded-[20px] overflow-hidden shadow-sm">
+          <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
-              src="/images/product-image-left.png"
+              src="/images/1-1 mobile baner 3.png"
               alt="AMEC Aquaforce 1400 outdoor car detailing"
               fill
               priority
-              sizes="50vw"
+              quality={100}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover object-center"
             />
           </div>
 
           {/* Right Portrait Image: Car Interior Cleaning */}
-          <div className="relative w-full h-[240px] sm:h-[290px] rounded-[20px] overflow-hidden shadow-sm">
+          <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
-              src="/images/product-image-right.png"
+              src="/images/1-1 mobile baner 2.png"
               alt="AMEC Aquaforce 1400 cordless vehicle detailing"
               fill
               priority
-              sizes="50vw"
+              quality={100}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover object-center"
             />
           </div>
         </div>
 
-        {/* 5 Feature Badges (3 in Top Row, 2 in Bottom Row) */}
-        <div className="flex flex-col items-center gap-2.5 w-full max-w-sm font-open-sans">
-          {/* Row 1: NO SOCKET, NO CABLES, JUST FILL */}
-          <div className="flex items-center justify-center gap-2 w-full">
-            <span className="border-[1.5px] border-[#0e1726] rounded-[8px] px-3.5 py-1.5 text-[#0e1726] text-[11px] font-bold uppercase tracking-wider bg-transparent">
-              NO SOCKET
-            </span>
-            <span className="border-[1.5px] border-[#0e1726] rounded-[8px] px-3.5 py-1.5 text-[#0e1726] text-[11px] font-bold uppercase tracking-wider bg-transparent">
-              NO CABLES
-            </span>
-            <span className="border-[1.5px] border-[#0e1726] rounded-[8px] px-3.5 py-1.5 text-[#0e1726] text-[11px] font-bold uppercase tracking-wider bg-transparent">
-              JUST FILL
-            </span>
-          </div>
-
-          {/* Row 2: SWITCH ON, WASH */}
-          <div className="flex items-center justify-center gap-2">
-            <span className="border-[1.5px] border-[#0e1726] rounded-[8px] px-5 py-1.5 text-[#0e1726] text-[11px] font-bold uppercase tracking-wider bg-transparent">
-              SWITCH ON
-            </span>
-            <span className="border-[1.5px] border-[#0e1726] rounded-[8px] px-5 py-1.5 text-[#0e1726] text-[11px] font-bold uppercase tracking-wider bg-transparent">
-              WASH
-            </span>
-          </div>
+        {/* 5 Feature Badges with Flex Wrap */}
+        <div className="flex flex-wrap items-center justify-center gap-1.5 xs:gap-2 w-full max-w-xs font-open-sans">
+          <span className="border-[1.5px] border-[#0e1726] rounded-[6px] px-2.5 xs:px-3 py-1 text-[#0e1726] text-[10px] xs:text-[11px] font-bold uppercase tracking-wider bg-transparent">
+            NO SOCKET
+          </span>
+          <span className="border-[1.5px] border-[#0e1726] rounded-[6px] px-2.5 xs:px-3 py-1 text-[#0e1726] text-[10px] xs:text-[11px] font-bold uppercase tracking-wider bg-transparent">
+            NO CABLES
+          </span>
+          <span className="border-[1.5px] border-[#0e1726] rounded-[6px] px-2.5 xs:px-3 py-1 text-[#0e1726] text-[10px] xs:text-[11px] font-bold uppercase tracking-wider bg-transparent">
+            JUST FILL
+          </span>
+          <span className="border-[1.5px] border-[#0e1726] rounded-[6px] px-3 xs:px-4 py-1 text-[#0e1726] text-[10px] xs:text-[11px] font-bold uppercase tracking-wider bg-transparent">
+            SWITCH ON
+          </span>
+          <span className="border-[1.5px] border-[#0e1726] rounded-[6px] px-3 xs:px-4 py-1 text-[#0e1726] text-[10px] xs:text-[11px] font-bold uppercase tracking-wider bg-transparent">
+            WASH
+          </span>
         </div>
 
         {/* CTA Action Button */}
         <button
           onClick={openModal}
-          className="mt-6 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
+          className="mt-5 xs:mt-6 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
         >
           <span>SHOP NOW</span>
           <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
@@ -98,11 +93,12 @@ export default function WashWithoutLimits() {
         {/* Left Column Image (Edge-to-Edge) */}
         <div className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
-            src="/images/product-image-left.png"
+            src="/images/1-1 mobile baner 3.png"
             alt="AMEC Aquaforce 1400 outdoor car detailing"
             fill
             priority
-            sizes="(max-width: 768px) 100vw, 35vw"
+            quality={100}
+            sizes="(max-width: 1024px) 50vw, 35vw"
             className="object-cover object-center"
           />
         </div>
@@ -163,11 +159,12 @@ export default function WashWithoutLimits() {
         {/* Right Column Image (Edge-to-Edge) */}
         <div className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
-            src="/images/product-image-right.png"
+            src="/images/1-1 mobile baner 2.png"
             alt="AMEC Aquaforce 1400 cordless vehicle detailing"
             fill
             priority
-            sizes="(max-width: 768px) 100vw, 35vw"
+            quality={100}
+            sizes="(max-width: 1024px) 50vw, 35vw"
             className="object-cover object-center"
           />
         </div>

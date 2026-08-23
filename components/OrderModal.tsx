@@ -51,6 +51,32 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentId, setPaymentId] = useState("");
+
+  // Touch Swipe State for Modal Image Gallery
+  const [modalTouchStartX, setModalTouchStartX] = useState<number | null>(null);
+  const [modalTouchEndX, setModalTouchEndX] = useState<number | null>(null);
+
+  const minSwipeDistance = 35;
+
+  const handleModalTouchStart = (e: React.TouchEvent) => {
+    setModalTouchEndX(null);
+    setModalTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleModalTouchMove = (e: React.TouchEvent) => {
+    setModalTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleModalTouchEnd = () => {
+    if (!modalTouchStartX || !modalTouchEndX) return;
+    const distance = modalTouchStartX - modalTouchEndX;
+    if (distance > minSwipeDistance) {
+      nextImage();
+    } else if (distance < -minSwipeDistance) {
+      prevImage();
+    }
+  };
+
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -220,7 +246,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5 md:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2.5 xs:p-3 sm:p-5 md:p-6 overflow-y-auto">
       {/* Dark Blur Backdrop */}
       <div
         className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
@@ -230,14 +256,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       {/* Modal Dialog Card */}
       <div
         className={`relative w-full ${
-          isCheckingOut ? "max-w-[600px] p-6 sm:p-8 md:p-10" : "max-w-[440px] lg:max-w-[1045px] p-5 sm:p-8 lg:p-10"
-        } bg-white rounded-[24px] sm:rounded-[20px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[94vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200`}
+          isCheckingOut ? "max-w-[600px] p-5 xs:p-6 sm:p-8 md:p-10" : "max-w-[460px] lg:max-w-[1045px] p-4 xs:p-5 sm:p-8 lg:p-10"
+        } bg-white rounded-[20px] sm:rounded-[24px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[92vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200`}
       >
         {/* Top Close Button for Product Detail and Success Views */}
         {!isCheckingOut && (
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-20 cursor-pointer shadow-xs"
+            className="absolute top-3 right-3 sm:top-6 sm:right-6 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-20 cursor-pointer shadow-xs"
             aria-label="Close modal"
           >
             <X size={16} />
@@ -246,14 +272,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
         {isSubmitted ? (
           /* Order Confirmed View */
-          <div className="text-center py-10 sm:py-14">
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-in zoom-in-50 duration-300">
-              <CheckCircle2 size={36} />
+          <div className="text-center py-8 sm:py-14">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 animate-in zoom-in-50 duration-300">
+              <CheckCircle2 size={32} className="sm:w-9 sm:h-9" />
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black font-montserrat text-slate-900 tracking-tight">
+            <h3 className="text-xl xs:text-2xl sm:text-3xl font-black font-montserrat text-slate-900 tracking-tight">
               Order Placed Successfully!
             </h3>
-            <p className="text-slate-600 font-open-sans text-sm sm:text-base mt-2 max-w-md mx-auto">
+            <p className="text-slate-600 font-open-sans text-xs xs:text-sm sm:text-base mt-2 max-w-md mx-auto">
               Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your payment was verified and your order for{" "}
               <strong>
                 {quantity}x {PRODUCT_DATA.name} ({currentColor.name})
@@ -261,11 +287,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               has been confirmed for <strong>₹{(PRODUCT_DATA.offerPrice * quantity).toLocaleString("en-IN")}</strong>.
             </p>
             {paymentId && (
-              <div className="mt-3 inline-block bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-mono px-3 py-1 rounded-md">
+              <div className="mt-2.5 inline-block bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] sm:text-xs font-mono px-3 py-1 rounded-md">
                 Payment ID: {paymentId}
               </div>
             )}
-            <div className="mt-6 p-4 bg-slate-50 border border-slate-200/80 rounded-xl text-xs text-slate-600 max-w-md mx-auto text-left space-y-1 font-open-sans">
+            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-slate-50 border border-slate-200/80 rounded-xl text-xs text-slate-600 max-w-md mx-auto text-left space-y-1 font-open-sans">
               <p>
                 <strong>Delivery Address:</strong> {formData.deliveryAddress}
                 {formData.city ? `, ${formData.city}` : ""}
@@ -281,7 +307,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </div>
             <button
               onClick={resetAll}
-              className="mt-8 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold px-8 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer font-open-sans"
+              className="mt-6 sm:mt-8 w-full sm:w-auto bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold px-8 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 transition-all active:scale-95 cursor-pointer font-open-sans text-xs xs:text-sm uppercase tracking-wider"
             >
               Continue Browsing
             </button>
@@ -290,7 +316,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           /* Exact Delivery Checkout Form from Screenshot */
           <div>
             {/* Header row: Back button on left, Close button on right, perfectly aligned */}
-            <div className="flex items-center justify-between mb-5 sm:mb-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
               <button
                 onClick={() => setIsCheckingOut(false)}
                 className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-bold text-slate-400 hover:text-slate-700 cursor-pointer transition-colors font-open-sans"
@@ -306,11 +332,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </button>
             </div>
 
-            <form onSubmit={handleCheckoutSubmit} className="space-y-4 sm:space-y-5">
+            <form onSubmit={handleCheckoutSubmit} className="space-y-3.5 sm:space-y-5">
               {/* Row 1: Full Name & Mobile Number */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                     Full Name
                   </label>
                   <input
@@ -319,12 +345,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="Rahul Sharma"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                     Mobile Number
                   </label>
                   <input
@@ -333,14 +359,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="+91 98765 43210"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
               </div>
 
               {/* Row 2: Complete Delivery Address */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
+                <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                   Complete Delivery Address
                 </label>
                 <textarea
@@ -349,14 +375,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   placeholder="Street name, house/apartment number"
                   value={formData.deliveryAddress}
                   onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                  className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[100px] font-open-sans"
+                  className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[85px] sm:h-[100px] font-open-sans"
                 />
               </div>
 
               {/* Row 3: City, State, Pincode */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                     City
                   </label>
                   <input
@@ -365,12 +391,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="Nagpur"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                     State
                   </label>
                   <input
@@ -379,12 +405,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="Maharashtra"
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2 font-open-sans">
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                     Pincode
                   </label>
                   <input
@@ -393,13 +419,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="440001"
                     value={formData.pincode}
                     onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
               </div>
 
               {/* Terms Agreement Checkbox */}
-              <label className="flex items-start gap-2.5 pt-2 cursor-pointer select-none font-open-sans">
+              <label className="flex items-start gap-2.5 pt-1.5 cursor-pointer select-none font-open-sans">
                 <input
                   type="checkbox"
                   checked={formData.agreedToTerms}
@@ -407,7 +433,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#0066cc] focus:ring-[#0066cc] accent-[#0066cc] cursor-pointer shrink-0"
                   required
                 />
-                <span className="text-xs sm:text-[13px] text-slate-500 leading-snug">
+                <span className="text-[11.5px] sm:text-[13px] text-slate-500 leading-snug">
                   I agree to the terms and agree to receive transactional delivery updates via mobile.
                 </span>
               </label>
@@ -416,7 +442,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               <button
                 type="submit"
                 disabled={isProcessingPayment}
-                className="w-full h-12 sm:h-13 !mt-6 bg-[#0066cc] hover:bg-[#0055b3] text-white font-black font-montserrat text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full h-12 sm:h-13 !mt-5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-black font-montserrat text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isProcessingPayment ? (
                   <span className="flex items-center gap-2">
@@ -436,8 +462,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* LEFT COLUMN: Gallery & Thumbnails */}
             {/* ========================================================= */}
             <div className="lg:col-span-6 flex flex-col items-center">
-              {/* Main Image Container */}
-              <div className="relative w-full aspect-square max-h-[300px] sm:max-h-[380px] lg:max-h-[400px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group">
+              {/* Main Image Container with Touch Swipe Support */}
+              <div
+                onTouchStart={handleModalTouchStart}
+                onTouchMove={handleModalTouchMove}
+                onTouchEnd={handleModalTouchEnd}
+                className="relative w-full aspect-square max-h-[260px] xs:max-h-[300px] sm:max-h-[380px] lg:max-h-[400px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
+              >
                 {/* Out of Stock Ribbon/Badge */}
                 {!currentColor.inStock && (
                   <div className="absolute top-3 left-3 z-20 bg-red-600 text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-[6px] shadow-md">
@@ -450,7 +481,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   alt={`${PRODUCT_DATA.name} ${currentColor.name} view ${activeImageIndex + 1}`}
                   fill
                   priority
-                  sizes="(max-width: 768px) 100vw, 45vw"
+                  quality={100}
+                  sizes="(max-width: 768px) 100vw, 500px"
                   className={`object-contain p-2 transition-all duration-300 ${
                     !currentColor.inStock ? "opacity-75 grayscale-[20%]" : ""
                   }`}
@@ -476,7 +508,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* 4 Clickable Thumbnails */}
-              <div className="grid grid-cols-4 gap-2.5 sm:gap-3.5 w-full mt-3 sm:mt-4">
+              <div className="grid grid-cols-4 gap-2 xs:gap-2.5 sm:gap-3.5 w-full mt-2.5 xs:mt-3 sm:mt-4">
                 {images.map((img, idx) => (
                   <button
                     key={img}
@@ -491,7 +523,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       src={img}
                       alt={`Thumbnail ${idx + 1}`}
                       fill
-                      sizes="90px"
+                      quality={100}
+                      sizes="120px"
                       className="object-contain p-1"
                     />
                   </button>

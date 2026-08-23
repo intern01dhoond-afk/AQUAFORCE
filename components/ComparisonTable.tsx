@@ -52,7 +52,6 @@ export default function ComparisonTable() {
 
       {/* Comparison Table Card */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-6 sm:mt-10 pb-2 sm:pb-4">
-
         <div className="overflow-x-auto p-1 -m-1 sm:p-4 sm:-m-4 no-scrollbar">
           <div className="min-w-[470px] sm:min-w-[640px] bg-white rounded-2xl sm:rounded-[24px] border border-slate-200/90 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.07),0_2px_6px_rgba(15,23,42,0.04)] overflow-hidden">
             {/* Table Header Row */}

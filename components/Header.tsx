@@ -25,13 +25,31 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
   return (
-    <header className="fixed top-2.5 sm:top-4 left-0 right-0 z-50 px-3 sm:px-6 lg:px-10 transition-all duration-300">
+    <header
+      className={`fixed left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+        scrolled
+          ? "top-3 sm:top-4 px-3 sm:px-6 md:px-8 pointer-events-none"
+          : "top-0 px-4 sm:px-8 lg:px-12 pointer-events-auto bg-gradient-to-b from-black/50 via-black/20 to-transparent"
+      }`}
+    >
       <div
-        className={`max-w-[1360px] w-full h-[62px] sm:h-[72px] lg:h-[76px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
+        className={`mx-auto transition-all duration-300 ease-in-out flex items-center justify-between pointer-events-auto ${
           scrolled
-            ? "bg-[#10243e]/70 backdrop-blur-xl border border-white/20 rounded-[14px] sm:rounded-[18px] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
-            : "bg-transparent border-transparent shadow-none"
+            ? "max-w-[1240px] w-full h-[54px] sm:h-[62px] px-4 sm:px-6 lg:px-8 rounded-xl sm:rounded-2xl bg-[#16273f]/92 backdrop-blur-md border border-white/15 shadow-[0_12px_36px_rgba(0,0,0,0.55)]"
+            : "max-w-[1440px] w-full h-[64px] sm:h-[76px] lg:h-[82px] bg-transparent border-b border-transparent shadow-none"
         }`}
       >
         {/* AMEC Technology Brand Logo */}
@@ -41,25 +59,31 @@ export default function Header() {
           rel="noopener noreferrer"
           className="flex items-center group shrink-0"
         >
-          <div className="relative w-[145px] h-[35px] sm:w-[175px] sm:h-[42px] lg:w-[199px] lg:h-[48px] shrink-0">
+          <div
+            className={`relative transition-all duration-300 shrink-0 ${
+              scrolled
+                ? "w-[120px] h-[28px] sm:w-[150px] sm:h-[35px] lg:w-[180px] lg:h-[42px]"
+                : "w-[128px] h-[30px] sm:w-[165px] sm:h-[39px] lg:w-[199px] lg:h-[48px]"
+            }`}
+          >
             <Image
               src="/images/Amec Logo.svg"
               alt="AMEC Technology"
               fill
               priority
-              sizes="(max-width: 640px) 145px, (max-width: 1024px) 175px, 199px"
-              className="object-contain object-left drop-shadow-md"
+              sizes="(max-width: 640px) 128px, (max-width: 1024px) 165px, 199px"
+              className="object-contain object-left"
             />
           </div>
         </a>
 
         {/* Center Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 lg:gap-12">
+        <nav className="hidden md:flex items-center gap-7 lg:gap-11">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-[15px] lg:text-[17px] font-semibold text-white/95 hover:text-white transition-colors tracking-normal drop-shadow-xs"
+              className="text-[14.5px] lg:text-[16px] font-semibold text-white/90 hover:text-white transition-colors tracking-normal drop-shadow-sm hover:drop-shadow"
             >
               {link.label}
             </a>
@@ -70,7 +94,7 @@ export default function Header() {
         <div className="hidden md:flex items-center">
           <button
             onClick={openModal}
-            className="bg-white hover:bg-slate-100 text-[#0f172a] text-xs font-black tracking-wider uppercase px-6 py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat"
+            className="bg-white hover:bg-slate-100 text-[#0f172a] text-xs font-black tracking-wider uppercase px-5 lg:px-6 py-2 sm:py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat"
           >
             SHOP NOW
           </button>
@@ -78,7 +102,7 @@ export default function Header() {
 
         {/* Mobile Menu Toggle Button */}
         <button
-          className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg focus:outline-none transition-colors"
+          className="md:hidden text-white p-2 -mr-1 hover:bg-white/10 rounded-lg focus:outline-none transition-colors cursor-pointer"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
         >
@@ -86,32 +110,42 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown Menu with Backdrop */}
       {open && (
-        <div className="md:hidden mt-2.5 max-w-7xl mx-auto bg-black/45 backdrop-blur-2xl border border-white/20 rounded-[14px] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] animate-in fade-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col gap-3">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-[17px] font-semibold text-white/95 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition-colors"
-                onClick={() => setOpen(false)}
+        <>
+          <div
+            className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-40 transition-opacity pointer-events-auto"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            className={`md:hidden fixed left-4 right-4 z-50 bg-[#0f1b2d] border border-white/15 p-5 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto ${
+              scrolled ? "top-[72px]" : "top-[70px]"
+            }`}
+          >
+            <nav className="flex flex-col gap-2 max-w-[1440px] mx-auto">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-[16px] font-semibold text-white/90 hover:text-white py-2.5 px-3 rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  openModal();
+                }}
+                className="mt-2 w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-5 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98 transition-all font-montserrat"
               >
-                {link.label}
-              </a>
-            ))}
-            <button
-              onClick={() => {
-                setOpen(false);
-                openModal();
-              }}
-              className="mt-2 w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-black tracking-wider uppercase px-5 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98 transition-all font-montserrat"
-            >
-              <span>SHOP NOW</span>
-              <ArrowRight className="w-4 h-4 text-white shrink-0" />
-            </button>
-          </nav>
-        </div>
+                <span>SHOP NOW</span>
+                <ArrowRight className="w-4 h-4 text-white shrink-0" />
+              </button>
+            </nav>
+          </div>
+        </>
       )}
     </header>
   );

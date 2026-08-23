@@ -1,15 +1,15 @@
 export default function StatsBar() {
   return (
-    <section className="bg-[#f8f9fb] border-y border-slate-200/60 py-6 sm:py-8 w-full">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[80px]">
+    <section className="bg-[#f8f9fb] border-y border-slate-200/70 py-4 sm:py-7 lg:py-8 w-full">
+      <div className="max-w-[1440px] mx-auto px-3 sm:px-8 lg:px-[80px]">
         <div className="grid grid-cols-2 lg:grid-cols-4 items-center">
           {/* Stat 1: Battery */}
-          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2 border-r border-b lg:border-b-0 border-slate-200/80">
+          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-r border-b lg:border-b-0 border-slate-200/80">
             {/* Battery Icon */}
-            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+            <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
-                width="26"
-                height="16"
+                width="24"
+                height="15"
                 viewBox="0 0 26 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -20,24 +20,24 @@ export default function StatsBar() {
                 <path d="M23 5.5V10.5" strokeLinecap="round" />
               </svg>
             </div>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               BATTERY
             </span>
-            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
+            <span className="font-montserrat text-xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               3 HRS
             </span>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               CONTINUOUS USE
             </span>
           </div>
 
           {/* Stat 2: Pressure */}
-          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2 border-b lg:border-b-0 lg:border-r border-slate-200/80">
+          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-b lg:border-b-0 lg:border-r border-slate-200/80">
             {/* Spark / Burst Icon */}
-            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+            <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
-                width="22"
-                height="22"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -49,24 +49,24 @@ export default function StatsBar() {
                 <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
               </svg>
             </div>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               PRESSURE
             </span>
-            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
+            <span className="font-montserrat text-xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               HIGH
             </span>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               PRESSURE PUMP
             </span>
           </div>
 
           {/* Stat 3: Power */}
-          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2 border-r border-slate-200/80">
+          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-r border-slate-200/80">
             {/* Wind / Air Flow Icon */}
-            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+            <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
-                width="24"
-                height="20"
+                width="22"
+                height="18"
                 viewBox="0 0 24 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -79,24 +79,24 @@ export default function StatsBar() {
                 <path d="M2 15H13C14.1 15 15 15.9 15 17C15 18.1 14.1 19 13 19" />
               </svg>
             </div>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               POWER
             </span>
-            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
+            <span className="font-montserrat text-xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               0
             </span>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               SOCKETS NEEDED
             </span>
           </div>
 
           {/* Stat 4: Cordless */}
-          <div className="flex flex-col items-center justify-center text-center px-3 sm:px-4 py-4 sm:py-2">
+          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2">
             {/* Feather / Lightweight Icon */}
-            <div className="h-8 flex items-center justify-center text-slate-800 mb-1.5">
+            <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
-                width="22"
-                height="22"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,13 +110,13 @@ export default function StatsBar() {
                 <line x1="17.5" y1="15" x2="9" y2="15" />
               </svg>
             </div>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               CORDLESS
             </span>
-            <span className="font-montserrat text-2xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
+            <span className="font-montserrat text-xl sm:text-3xl lg:text-[32px] font-black text-[#111827] my-0.5 tracking-tight leading-tight">
               100%
             </span>
-            <span className="font-open-sans text-[10px] font-bold tracking-[0.16em] uppercase text-[#9CA3AF] leading-[14px]">
+            <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               WIRELESS
             </span>
           </div>
