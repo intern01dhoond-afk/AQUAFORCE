@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ShieldCheck, FileText, ChevronDown, ChevronUp } from "lucide-react";
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -13,22 +13,11 @@ const PRODUCT_DATA = {
   name: "Aquaforce 1400",
   description:
     "The AMEC Aquaforce 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
-  rating: 1.0,
-  reviewsCount: 215,
+  rating: 4.8,
+  reviewsCount: 2097,
   offerPrice: 37999,
   mrp: 49999,
   colors: [
-    {
-      name: "Blue",
-      hex: "#0066cc",
-      inStock: false,
-      images: [
-        "/cart page images/Blue product/1.png",
-        "/cart page images/Blue product/2.png",
-        "/cart page images/Blue product/3.png",
-        "/cart page images/Blue product/4.png",
-      ],
-    },
     {
       name: "Yellow",
       hex: "#f5c518",
@@ -38,6 +27,17 @@ const PRODUCT_DATA = {
         "/cart page images/Yellow Product/2.png",
         "/cart page images/Yellow Product/3.png",
         "/cart page images/Yellow Product/4.png",
+      ],
+    },
+    {
+      name: "Blue",
+      hex: "#0066cc",
+      inStock: false,
+      images: [
+        "/cart page images/Blue product/1.png",
+        "/cart page images/Blue product/2.png",
+        "/cart page images/Blue product/3.png",
+        "/cart page images/Blue product/4.png",
       ],
     },
   ],
@@ -51,6 +51,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentId, setPaymentId] = useState("");
+  const [isHighlightsOpen, setIsHighlightsOpen] = useState(true);
+  const [isSpecsOpen, setIsSpecsOpen] = useState(true);
+  const [isBoxOpen, setIsBoxOpen] = useState(true);
 
   // Touch Swipe State for Modal Image Gallery
   const [modalTouchStartX, setModalTouchStartX] = useState<number | null>(null);
@@ -84,6 +87,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     city: "",
     state: "",
     pincode: "",
+    gstNumber: "",
     agreedToTerms: true,
   });
 
@@ -183,6 +187,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             city: formData.city,
             state: formData.state,
             pincode: formData.pincode,
+            gstNumber: formData.gstNumber || "N/A",
             product: `${PRODUCT_DATA.name} (${currentColor.name})`,
             quantity: String(quantity),
           },
@@ -236,6 +241,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 city: formData.city,
                 state: formData.state,
                 pincode: formData.pincode,
+                gstNumber: formData.gstNumber || "N/A",
                 product: `${PRODUCT_DATA.name} (${currentColor.name})`,
                 quantity: quantity,
                 amount: totalAmount,
@@ -449,6 +455,25 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
               </div>
 
+              {/* Row 4: GST Number (Optional) */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                  <label className="text-xs sm:text-sm font-semibold text-slate-700 font-open-sans">
+                    GST Number
+                  </label>
+                  <span className="text-[11px] font-medium text-slate-400 font-open-sans">
+                    Optional
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="e.g. 27AAAAA0000A1Z5"
+                  value={formData.gstNumber}
+                  onChange={(e) => setFormData({ ...formData, gstNumber: e.target.value.toUpperCase() })}
+                  className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans uppercase"
+                />
+              </div>
+
               {/* Terms Agreement Checkbox */}
               <label className="flex items-start gap-2.5 pt-1.5 cursor-pointer select-none font-open-sans">
                 <input
@@ -463,7 +488,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </span>
               </label>
 
-              {/* Submit Button (SHOP NOW / Pay with Razorpay) */}
+              {/* Submit Button (BUY NOW / Pay with Razorpay) */}
               <button
                 type="submit"
                 disabled={isProcessingPayment}
@@ -475,24 +500,24 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     Processing Payment...
                   </span>
                 ) : (
-                  <span>SHOP NOW &rarr;</span>
+                  <span>BUY NOW &rarr;</span>
                 )}
               </button>
             </form>
           </div>
         ) : (
-          /* Main Product Detail Layout (Matching mobile view design & Figma layout) */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-center">
+          /* Main Product Detail Layout (Matching Image 1 & Image 2 with Sticky Gallery & Sticky Buy Now) */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
             {/* ========================================================= */}
-            {/* LEFT COLUMN: Gallery & Thumbnails */}
+            {/* LEFT COLUMN: Sticky Gallery & Thumbnails */}
             {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col items-center">
+            <div className="lg:col-span-6 lg:sticky lg:top-0 flex flex-col items-center select-none">
               {/* Main Image Container with Touch Swipe Support */}
               <div
                 onTouchStart={handleModalTouchStart}
                 onTouchMove={handleModalTouchMove}
                 onTouchEnd={handleModalTouchEnd}
-                className="relative w-full aspect-square max-h-[260px] xs:max-h-[300px] sm:max-h-[380px] lg:max-h-[400px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
+                className="relative w-full aspect-square max-h-[260px] xs:max-h-[300px] sm:max-h-[360px] lg:max-h-[380px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
               >
                 {/* Out of Stock Ribbon/Badge */}
                 {!currentColor.inStock && (
@@ -513,7 +538,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   }`}
                 />
 
-                {/* Left Navigation Chevron (Desktop only) */}
+                {/* Left Navigation Chevron */}
                 <button
                   onClick={prevImage}
                   className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
@@ -522,7 +547,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   <ChevronLeft size={18} />
                 </button>
 
-                {/* Right Navigation Chevron (Desktop only) */}
+                {/* Right Navigation Chevron */}
                 <button
                   onClick={nextImage}
                   className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
@@ -533,12 +558,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* 4 Clickable Thumbnails */}
-              <div className="grid grid-cols-4 gap-2 xs:gap-2.5 sm:gap-3.5 w-full mt-2.5 xs:mt-3 sm:mt-4">
+              <div className="grid grid-cols-4 gap-2.5 sm:gap-3.5 w-full mt-3 sm:mt-4">
                 {images.map((img, idx) => (
                   <button
                     key={img}
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`relative aspect-square rounded-[8px] bg-white p-1 transition-all overflow-hidden cursor-pointer ${
+                    className={`relative aspect-square rounded-[12px] bg-white p-1 transition-all overflow-hidden cursor-pointer ${
                       activeImageIndex === idx
                         ? "border-2 border-[#0066cc] shadow-xs"
                         : "border border-slate-200 hover:border-slate-300"
@@ -558,137 +583,305 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </div>
 
             {/* ========================================================= */}
-            {/* RIGHT COLUMN: Product Information & Controls */}
+            {/* RIGHT COLUMN: Scrollable Info with Sticky Buy Now Button */}
             {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col justify-center">
-              {/* Product Title */}
-              <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-bold font-montserrat text-[#0F1729] leading-[1.15] tracking-tight mt-3 sm:mt-0">
-                {PRODUCT_DATA.name}
-              </h2>
+            <div className="lg:col-span-6 flex flex-col justify-between max-h-[78vh] lg:max-h-[580px] overflow-y-auto pl-1 pr-1.5 sm:pr-2 no-scrollbar relative">
+              <div className="space-y-4">
+                {/* Product Title */}
+                <h2 className="text-2xl sm:text-3xl lg:text-[38px] font-bold font-montserrat text-[#0F1729] leading-[1.15] tracking-tight mt-1 sm:mt-0">
+                  {PRODUCT_DATA.name}
+                </h2>
 
-              {/* Description */}
-              <p className="text-slate-500 font-open-sans sm:text-slate-600 text-[13px] sm:text-sm leading-relaxed mt-2 sm:mt-2.5">
-                {PRODUCT_DATA.description}
-              </p>
-
-              {/* Ratings & Reviews */}
-              <div className="flex items-center gap-1.5 mt-2.5 sm:mt-3 font-open-sans">
-                <div className="flex items-center text-[#f59e0b]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={15} fill="#f59e0b" strokeWidth={0} />
-                  ))}
-                </div>
-                <span className="text-xs sm:text-[13px] font-medium text-slate-600 ml-1">
-                  {PRODUCT_DATA.rating.toFixed(1)} ({PRODUCT_DATA.reviewsCount} Reviews)
-                </span>
-              </div>
-
-              {/* Price Line */}
-              <div className="flex items-baseline gap-3 mt-3.5 sm:mt-4 font-open-sans">
-                <span className="text-2xl sm:text-[34px] lg:text-[38px] font-bold text-[#0F1729] tracking-tight">
-                  ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
-                </span>
-                <span className="text-slate-400 line-through text-base sm:text-lg font-normal">
-                  ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
-                </span>
-              </div>
-
-              <div className="w-full h-px bg-slate-100 my-3.5 sm:my-5" />
-
-              {/* Color Selector */}
-              <div>
-                <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 sm:mb-2.5 flex items-center gap-2">
-                  <span>
-                    Color: <strong className="font-medium text-slate-800">{currentColor.name}</strong>
-                  </span>
-                  {!currentColor.inStock && (
-                    <span className="text-red-600 bg-red-50 border border-red-200 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
-                      Out of Stock
-                    </span>
-                  )}
+                {/* Description */}
+                <p className="text-slate-500 font-open-sans sm:text-slate-600 text-[13px] sm:text-sm leading-relaxed">
+                  {PRODUCT_DATA.description}
                 </p>
-                <div className="flex items-center gap-3">
-                  {PRODUCT_DATA.colors.map((c, idx) => (
-                    <button
-                      key={c.name}
-                      onClick={() => handleColorChange(idx)}
-                      style={{ backgroundColor: c.hex }}
-                      className={`relative w-9 h-9 rounded-[4px] transition-all cursor-pointer ${
-                        selectedColorIndex === idx
-                          ? "ring-2 ring-[#0066cc] ring-offset-2 scale-105"
-                          : "opacity-85 hover:opacity-100 border border-slate-200"
-                      }`}
-                      aria-label={`Select ${c.name} color${!c.inStock ? " (Out of Stock)" : ""}`}
-                    >
-                      {!c.inStock && (
-                        <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[3px]">
-                          <span className="w-full h-[2px] bg-red-500 rotate-45 block shadow-xs" />
+
+                {/* Ratings & Reviews */}
+                <div className="flex items-center gap-1.5 font-open-sans">
+                  <div className="flex items-center gap-0.5">
+                    {/* 4 Full Stars */}
+                    {[...Array(4)].map((_, i) => (
+                      <Star key={i} size={15} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b]" />
+                    ))}
+                    {/* 5th Star: 3/4 (80%) Gold Fill, 20% Gray */}
+                    <div className="relative w-[15px] h-[15px]">
+                      <Star size={15} fill="#e2e8f0" strokeWidth={0} className="text-[#e2e8f0] absolute inset-0" />
+                      <div className="absolute inset-0 overflow-hidden w-[80%]">
+                        <Star size={15} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b]" />
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-xs sm:text-[13px] font-medium text-slate-600 ml-1">
+                    {PRODUCT_DATA.rating.toFixed(1)} ({PRODUCT_DATA.reviewsCount} Reviews)
+                  </span>
+                </div>
+
+                {/* Price Line */}
+                <div className="flex items-baseline gap-3 font-open-sans">
+                  <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
+                    ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
+                  </span>
+                  <span className="text-slate-400 line-through text-lg font-normal">
+                    ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
+                  </span>
+                </div>
+
+                <div className="w-full h-px bg-slate-100 my-4" />
+
+                {/* Color Selector */}
+                <div>
+                  <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2.5 font-open-sans flex items-center gap-2">
+                    <span>
+                      Color: <strong className="font-medium text-slate-800">{currentColor.name}</strong>
+                    </span>
+                    {!currentColor.inStock && (
+                      <span className="text-red-600 bg-red-50 border border-red-200 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
+                        Out of Stock
+                      </span>
+                    )}
+                  </p>
+                  <div className="flex items-center gap-3 py-1 px-0.5">
+                    {PRODUCT_DATA.colors.map((c, idx) => (
+                      <button
+                        key={c.name}
+                        onClick={() => handleColorChange(idx)}
+                        className={`relative w-10 h-10 rounded-[10px] p-[2.5px] transition-all cursor-pointer flex items-center justify-center ${
+                          selectedColorIndex === idx
+                            ? "border-2 border-[#0066cc] shadow-xs"
+                            : "border border-slate-200 hover:border-slate-300"
+                        }`}
+                        aria-label={`Select ${c.name} color${!c.inStock ? " (Out of Stock)" : ""}`}
+                      >
+                        <span
+                          style={{ backgroundColor: c.hex }}
+                          className="w-full h-full rounded-[6px] relative block"
+                        >
+                          {!c.inStock && (
+                            <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[5px]">
+                              <span className="w-full h-[2px] bg-red-500 rotate-45 block shadow-xs" />
+                            </span>
+                          )}
                         </span>
-                      )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-slate-100 my-4" />
+
+                {/* Stepper + Shipping Badges (All in One Row like Image 2) */}
+                <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
+                  {/* Quantity Stepper */}
+                  <div
+                    className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 transition-opacity ${
+                      !currentColor.inStock ? "opacity-40 pointer-events-none" : ""
+                    }`}
+                  >
+                    <button
+                      onClick={() => handleQuantityChange(-1)}
+                      disabled={quantity <= 1 || !currentColor.inStock}
+                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
+                      aria-label="Decrease quantity"
+                    >
+                      &minus;
                     </button>
-                  ))}
+                    <span className="px-3 text-sm sm:text-base font-bold text-slate-900 min-w-[20px] text-center select-none">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => handleQuantityChange(1)}
+                      disabled={quantity >= MAX_QUANTITY_LIMIT || !currentColor.inStock}
+                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
+                      aria-label="Increase quantity"
+                    >
+                      &#43;
+                    </button>
+                  </div>
+
+                  {/* Free Delivery & Shipping Badges */}
+                  <div className="flex items-center gap-4 text-xs sm:text-[13px] text-slate-900 font-open-sans">
+                    <span className="flex items-center gap-1.5 font-medium">
+                      <Truck size={16} className="text-[#0066cc]" /> Free Delivery
+                    </span>
+                    <span className="flex items-center gap-1.5 font-medium">
+                      <RotateCcw size={15} className="text-[#0066cc]" /> Deliver within 4-6 Days
+                    </span>
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-slate-100 my-4" />
+
+                {/* 1. Warranty & Returns */}
+                <div className="space-y-2 pt-1">
+                  <h3 className="font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans">
+                    Warranty &amp; Returns
+                  </h3>
+                  <ul className="space-y-1.5 text-xs sm:text-[13px] text-slate-600 font-open-sans">
+                    <li className="flex items-start gap-2">
+                      <span className="text-slate-400 font-normal">-</span>
+                      <span>1-year limited warranty on the product</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-slate-400 font-normal">-</span>
+                      <span>Returns accepted within 7 days of delivery</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="w-full h-px bg-slate-100 my-4" />
+
+                {/* 2. Product Highlights (Accordion) */}
+                <div className="space-y-3 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setIsHighlightsOpen(!isHighlightsOpen)}
+                    className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
+                  >
+                    <span>Product Highlights</span>
+                    <ChevronUp
+                      size={16}
+                      className={`text-slate-500 transition-transform duration-200 ${
+                        isHighlightsOpen ? "" : "rotate-180"
+                      }`}
+                    />
+                  </button>
+
+                  {isHighlightsOpen && (
+                    <div className="space-y-3 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150">
+                      <div className="grid grid-cols-12 gap-3 items-start">
+                        <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Battery Powered</div>
+                        <div className="col-span-8 sm:col-span-8 text-slate-500">no cables, no power sockets, no fixed setup needed</div>
+                      </div>
+                      <div className="grid grid-cols-12 gap-3 items-start">
+                        <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Lightweight Design</div>
+                        <div className="col-span-8 sm:col-span-8 text-slate-500">portable and easy to carry and maneuver around the job</div>
+                      </div>
+                      <div className="grid grid-cols-12 gap-3 items-start">
+                        <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Go Cordless</div>
+                        <div className="col-span-8 sm:col-span-8 text-slate-500">clean anywhere without being tethered to a wall outlet</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="w-full h-px bg-slate-100 my-4" />
+
+                {/* 3. Technical Specifications (Accordion) */}
+                <div className="space-y-3 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setIsSpecsOpen(!isSpecsOpen)}
+                    className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
+                  >
+                    <span>Technical Specifications</span>
+                    <ChevronUp
+                      size={16}
+                      className={`text-slate-500 transition-transform duration-200 ${
+                        isSpecsOpen ? "" : "rotate-180"
+                      }`}
+                    />
+                  </button>
+
+                  {isSpecsOpen && (
+                    <div className="space-y-2.5 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Pressure rating</span>
+                        <span className="font-bold text-slate-900">1400 PSI</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Battery life</span>
+                        <span className="font-bold text-slate-900">Up to 30 min</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Water flow rate</span>
+                        <span className="font-bold text-slate-900">1.2 GPM</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Weight</span>
+                        <span className="font-bold text-slate-900">Approx. 12.5 kg</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Tank capacity</span>
+                        <span className="font-bold text-slate-900">5 L</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Nozzle types</span>
+                        <span className="font-bold text-slate-900">0° / 15° / 25° / 45°</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Charging time</span>
+                        <span className="font-bold text-slate-900">Approx. 1.4 hrs</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="w-full h-px bg-slate-100 my-4" />
+
+                {/* 4. What's In The Box (Accordion) */}
+                <div className="space-y-3 pt-1 pb-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsBoxOpen(!isBoxOpen)}
+                    className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
+                  >
+                    <span>What&apos;s In The Box</span>
+                    <ChevronUp
+                      size={16}
+                      className={`text-slate-500 transition-transform duration-200 ${
+                        isBoxOpen ? "" : "rotate-180"
+                      }`}
+                    />
+                  </button>
+
+                  {isBoxOpen && (
+                    <ul className="space-y-2 text-xs sm:text-[13px] text-slate-600 font-open-sans animate-in fade-in duration-150">
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Cordless Pressure Washer
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Lance with Nozzle 0/15/25/45
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Bucket 15ltr
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Foam Gun
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Pressure Hose Pipe
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Pressure Gun
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Charger
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> Corded Vacuum with Accessories
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-slate-400 font-normal">-</span> User Manual
+                      </li>
+                    </ul>
+                  )}
                 </div>
               </div>
 
-              <div className="w-full h-px bg-slate-100 my-3.5 sm:my-5" />
-
-              {/* Quantity Stepper */}
-              <div className="flex items-center gap-3">
-                <div
-                  className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 transition-opacity ${
-                    !currentColor.inStock ? "opacity-40 pointer-events-none" : ""
-                  }`}
-                >
-                  <button
-                    onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1 || !currentColor.inStock}
-                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
-                    aria-label="Decrease quantity"
-                  >
-                    &minus;
-                  </button>
-                  <span className="px-3.5 text-sm sm:text-base font-bold text-slate-900 min-w-[20px] text-center select-none">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => handleQuantityChange(1)}
-                    disabled={quantity >= MAX_QUANTITY_LIMIT || !currentColor.inStock}
-                    className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
-                    aria-label="Increase quantity"
-                  >
-                    &#43;
-                  </button>
-                </div>
-                {quantity >= MAX_QUANTITY_LIMIT && (
-                  <span className="text-xs text-amber-600 font-semibold font-open-sans">
-                    Max limit: 10 units
-                  </span>
-                )}
-              </div>
-
-              {/* Shipping Badges */}
-              <div className="flex items-center gap-4 text-slate-900 text-xs sm:text-sm mt-3.5 sm:mt-4">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <Truck size={16} className="text-[#0066cc]" /> Free Delivery
-                </span>
-                <span className="flex items-center gap-1.5 font-medium">
-                  <RotateCcw size={15} className="text-[#0066cc]" /> Deliver within 4-6 Days
-                </span>
-              </div>
-
-              {/* Action Button */}
-              <div className="mt-5 sm:mt-6 w-full">
+              {/* Sticky Buy Now Action Button (Always Anchored at Bottom) */}
+              <div className="pt-3 pb-1 bg-white/95 backdrop-blur-xs border-t border-slate-100 shrink-0 sticky bottom-0 z-10">
                 {currentColor.inStock ? (
                   <button
                     onClick={() => setIsCheckingOut(true)}
-                    className="w-full h-12 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold text-sm sm:text-base tracking-wider uppercase rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                    className="w-full h-12 sm:h-12.5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                   >
                     BUY NOW
                   </button>
                 ) : (
                   <button
                     disabled
-                    className="w-full h-12 bg-slate-100 border border-slate-200 text-slate-400 font-bold text-sm sm:text-base tracking-wider uppercase rounded-[8px] cursor-not-allowed flex items-center justify-center select-none"
+                    className="w-full h-12 bg-slate-100 border border-slate-200 text-slate-400 font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] cursor-not-allowed flex items-center justify-center select-none"
                   >
                     OUT OF STOCK
                   </button>

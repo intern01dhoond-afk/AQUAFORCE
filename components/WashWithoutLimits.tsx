@@ -81,7 +81,7 @@ export default function WashWithoutLimits() {
           onClick={openModal}
           className="mt-5 xs:mt-6 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
         >
-          <span>SHOP NOW</span>
+          <span>BUY NOW</span>
           <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
         </button>
       </div>
@@ -151,7 +151,7 @@ export default function WashWithoutLimits() {
             onClick={openModal}
             className="mt-7 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all hover:scale-[1.03] active:scale-95 cursor-pointer font-montserrat group"
           >
-            <span>SHOP NOW</span>
+            <span>BUY NOW</span>
             <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
           </button>
         </div>

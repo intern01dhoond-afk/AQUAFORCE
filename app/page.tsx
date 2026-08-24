@@ -9,6 +9,7 @@ import FourSteps from "@/components/FourSteps";
 import UseCase from "@/components/UseCase";
 import ComparisonTable from "@/components/ComparisonTable";
 import CompactModules from "@/components/CompactModules";
+import Testimonials from "@/components/Testimonials";
 import CTABanner from "@/components/CTABanner";
 import Footer from "@/components/Footer";
 
@@ -26,6 +27,7 @@ export default function Home() {
       <UseCase />
       <ComparisonTable />
       <CompactModules />
+      <Testimonials />
       <CTABanner />
       <Footer />
     </main>

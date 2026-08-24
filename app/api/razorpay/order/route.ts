@@ -3,7 +3,12 @@ import Razorpay from "razorpay";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    let body: any = {};
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
     const { amount, receipt, notes } = body;
 
     const key_id = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa";

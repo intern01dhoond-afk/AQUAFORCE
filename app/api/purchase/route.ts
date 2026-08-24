@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -12,6 +12,7 @@ export async function POST(req: Request) {
       city,
       state,
       pincode,
+      gstNumber,
       product,
       quantity,
       amount,
@@ -42,6 +43,7 @@ export async function POST(req: Request) {
       city,
       state,
       pincode,
+      gstNumber: gstNumber || "N/A",
       product: product || "AMEC Aquaforce 1400",
       quantity: Number(quantity) || 1,
       amount: Number(amount) || 37999,

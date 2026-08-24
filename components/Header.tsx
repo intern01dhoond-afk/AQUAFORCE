@@ -52,9 +52,9 @@ export default function Header() {
             : "max-w-[1440px] w-full h-[64px] sm:h-[76px] lg:h-[82px] bg-transparent border-b border-transparent shadow-none"
         }`}
       >
-        {/* AMEC Technology Brand Logo */}
+        {/* PROMEC Brand Logo */}
         <a
-          href="https://www.amectechnology.com/"
+          href="https://www.promectools.in/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center group shrink-0"
@@ -62,16 +62,16 @@ export default function Header() {
           <div
             className={`relative transition-all duration-300 shrink-0 ${
               scrolled
-                ? "w-[120px] h-[28px] sm:w-[150px] sm:h-[35px] lg:w-[180px] lg:h-[42px]"
-                : "w-[128px] h-[30px] sm:w-[165px] sm:h-[39px] lg:w-[199px] lg:h-[48px]"
+                ? "w-[125px] h-[26px] sm:w-[155px] sm:h-[32px] lg:w-[185px] lg:h-[36px]"
+                : "w-[135px] h-[28px] sm:w-[170px] sm:h-[34px] lg:w-[200px] lg:h-[40px]"
             }`}
           >
             <Image
-              src="/images/Amec Logo.svg"
+              src="/images/all logos promec Kit-02.svg"
               alt="AMEC Technology"
               fill
               priority
-              sizes="(max-width: 640px) 128px, (max-width: 1024px) 165px, 199px"
+              sizes="(max-width: 640px) 135px, (max-width: 1024px) 170px, 200px"
               className="object-contain object-left"
             />
           </div>
@@ -90,13 +90,13 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Shop Now Action Button */}
+        {/* Buy Now Action Button */}
         <div className="hidden md:flex items-center">
           <button
             onClick={openModal}
-            className="bg-white hover:bg-slate-100 text-[#0f172a] text-xs font-black tracking-wider uppercase px-5 lg:px-6 py-2 sm:py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat"
+            className="bg-white hover:bg-slate-100 text-[#0f172a] text-xs font-bold tracking-wider uppercase px-5 lg:px-6 py-2 sm:py-2.5 rounded-[6px] shadow-sm transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer font-montserrat"
           >
-            SHOP NOW
+            BUY NOW
           </button>
         </div>
 
@@ -138,9 +138,9 @@ export default function Header() {
                   setOpen(false);
                   openModal();
                 }}
-                className="mt-2 w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-5 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98 transition-all font-montserrat"
+                className="mt-2 w-full inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-bold tracking-wider uppercase px-5 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 cursor-pointer active:scale-98 transition-all font-montserrat"
               >
-                <span>SHOP NOW</span>
+                <span>BUY NOW</span>
                 <ArrowRight className="w-4 h-4 text-white shrink-0" />
               </button>
             </nav>

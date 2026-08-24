@@ -100,7 +100,7 @@ export default function Hero() {
             {/* Left Content Box */}
             <div className="max-w-[68%]">
               {/* Eyebrow / Kicker */}
-              <p className="text-sky-300 font-open-sans text-[10px] font-bold tracking-[0.2em] uppercase mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+              <p className="text-white font-open-sans text-[10px] font-bold tracking-[0.2em] uppercase mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
                 CORDLESS. POWERFUL. PORTABLE.
               </p>
 
@@ -137,7 +137,7 @@ export default function Hero() {
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-2.5 rounded-[6px] shadow-lg shadow-blue-600/40 transition-all active:scale-[0.98] cursor-pointer"
               >
-                <span>SHOP NOW</span>
+                <span>BUY NOW</span>
                 <ArrowRight className="w-3.5 h-3.5 shrink-0" />
               </button>
               <button
@@ -190,7 +190,7 @@ export default function Hero() {
                 onClick={openModal}
                 className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                <span>SHOP NOW</span>
+                <span>BUY NOW</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
               <button
@@ -278,7 +278,7 @@ export default function Hero() {
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-3 rounded-[6px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
               >
-                <span>SHOP NOW</span>
+                <span>BUY NOW</span>
                 <ArrowRight className="w-3.5 h-3.5 shrink-0" />
               </button>
               <button
@@ -330,7 +330,7 @@ export default function Hero() {
                 onClick={openModal}
                 className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                <span>SHOP NOW</span>
+                <span>BUY NOW</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
               <button
@@ -416,7 +416,7 @@ export default function Hero() {
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-3 rounded-[6px] shadow-xl shadow-blue-600/40 transition-all active:scale-[0.98] cursor-pointer"
               >
-                <span>SHOP NOW</span>
+                <span>BUY NOW</span>
                 <ArrowRight className="w-3.5 h-3.5 shrink-0" />
               </button>
               <button
@@ -462,7 +462,7 @@ export default function Hero() {
                   onClick={openModal}
                   className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
-                  <span>SHOP NOW</span>
+                  <span>BUY NOW</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
                 <button
@@ -544,7 +544,7 @@ export default function Hero() {
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-3 rounded-[6px] shadow-xl shadow-blue-600/40 transition-all active:scale-[0.98] cursor-pointer"
               >
-                <span>SHOP NOW</span>
+                <span>BUY NOW</span>
                 <ArrowRight className="w-3.5 h-3.5 shrink-0" />
               </button>
               <button
@@ -590,7 +590,7 @@ export default function Hero() {
                   onClick={openModal}
                   className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
-                  <span>SHOP NOW</span>
+                  <span>BUY NOW</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
                 <button

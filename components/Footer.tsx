@@ -10,19 +10,19 @@ export default function Footer() {
   return (
     <footer className="bg-[#0b0c0e] text-white py-10 xs:py-14 sm:py-20 border-t border-white/5 w-full">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
-        {/* Brand Shield Emblem & Wordmark */}
+        {/* PROMEC Brand Logo */}
         <a
-          href="https://www.amectechnology.com/"
+          href="https://www.promectools.in/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center group mb-6 sm:mb-8"
         >
-          <div className="relative w-[110px] h-[70px] sm:w-[143px] sm:h-[92px] shrink-0">
+          <div className="relative w-[150px] h-[36px] sm:w-[200px] sm:h-[48px] shrink-0">
             <Image
-              src="/images/Amec Logo Footer.svg"
+              src="/images/all logos promec Kit-02.svg"
               alt="AMEC Technology"
               fill
-              sizes="(max-width: 640px) 110px, 143px"
+              sizes="(max-width: 640px) 150px, 200px"
               className="object-contain object-center"
             />
           </div>
@@ -44,7 +44,7 @@ export default function Footer() {
             onClick={openModal}
             className="hover:text-white transition-colors cursor-pointer font-medium focus:outline-none py-1 px-1.5"
           >
-            Shop Now
+            Buy Now
           </button>
         </nav>
 

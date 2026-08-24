@@ -20,6 +20,10 @@
   --color-green: #3ac06e;
   --color-red: #e5473f;
   --color-slate: #5b6b80;
+  --color-background: #ffffff;
+  --color-foreground: #10233d;
+  --color-primary: #1f6fe5;
+  --color-border: #e2e8f0;
 }
 
 .font-inter {

@@ -37,7 +37,7 @@ const FEATURES_LEFT = [
         <path d="M2 12H7L10 4L14 20L17 12H22" />
       </svg>
     ),
-    title: "5 Hours Continuous Use",
+    title: "3 Hours Continuous Use",
     desc: "Extended runtime for multiple vehicle cleaning sessions",
   },
   {
