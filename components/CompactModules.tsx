@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react";
+import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
 
 const MODULES = [
   {
@@ -45,7 +46,7 @@ const MODULES = [
 export default function CompactModules() {
   return (
     <section className="pt-6 sm:pt-12 lg:pt-16 pb-6 sm:pb-10 lg:pb-12 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+      <ScrollReveal direction="up" className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
         <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-3 sm:mb-4">
           INTEGRATED ENGINEERING
@@ -58,14 +59,15 @@ export default function CompactModules() {
         <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-2 sm:mt-3 text-xs xs:text-sm sm:text-base">
           It is engineered to work as one unified, ergonomic system
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* 4 Connected Cards: 2x2 on Mobile, 4-Col Grid on Desktop */}
       <div className="max-w-[1280px] mx-auto px-3.5 sm:px-6 lg:px-0 mt-6 sm:mt-16">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 xs:gap-3.5 sm:gap-6">
+        <ScrollRevealStagger className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 xs:gap-3.5 sm:gap-6" staggerDelay={0.08}>
           {MODULES.map((m, idx) => (
-            <div
+            <ScrollRevealItem
               key={m.title}
+              direction="zoom"
               className="relative flex flex-col h-full"
             >
               {/* Card Content */}
@@ -87,9 +89,9 @@ export default function CompactModules() {
                   <Plus size={14} className="text-slate-400" strokeWidth={2.5} />
                 </div>
               )}
-            </div>
+            </ScrollRevealItem>
           ))}
-        </div>
+        </ScrollRevealStagger>
       </div>
     </section>
   );

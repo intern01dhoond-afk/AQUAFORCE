@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
 
 const FEATURES_LEFT = [
   {
@@ -98,13 +99,15 @@ const FEATURES_RIGHT = [
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <rect x="4" y="4" width="16" height="16" rx="2.5" />
-        <rect x="8.5" y="8.5" width="7" height="7" rx="1" />
-        <path d="M9 1V4M15 1V4M9 20V23M15 20V23M20 9H23M20 15H23M1 9H4M1 15H4" />
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M9 3V21" />
+        <path d="M15 3V21" />
+        <path d="M3 9H21" />
+        <path d="M3 15H21" />
       </svg>
     ),
     title: "Built-In Pressure Pump",
-    desc: "Industrial DC pump for maximum water velocity and consistent high-pressure output",
+    desc: "Precision engineering delivers 1400 PSI directly from an integrated internal pump",
   },
   {
     icon: (
@@ -119,8 +122,8 @@ const FEATURES_RIGHT = [
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <circle cx="12" cy="9" r="6" />
-        <path d="M8.21 13.89L7 22L12 19L17 22L15.79 13.88" />
+        <circle cx="12" cy="8" r="7" />
+        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
       </svg>
     ),
     title: "Vehicle Optimised",
@@ -139,12 +142,12 @@ const FEATURES_RIGHT = [
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <circle cx="12" cy="12" r="4.5" />
-        <path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.93 4.93L6.7 6.7M17.3 17.3L19.07 19.07M4.93 19.07L6.7 17.3M17.3 6.7L19.07 4.93" />
+        <circle cx="12" cy="12" r="10" />
+        <path d="M4.93 4.93L19.07 19.07" />
       </svg>
     ),
     title: "Zero Power Reliance",
-    desc: "Clean freely during load shedding or in remote areas",
+    desc: "Operates fully independent of electrical outlets, extension cords, or generators",
   },
   {
     icon: (
@@ -171,7 +174,7 @@ const FEATURES_RIGHT = [
 
 // 2-Column Mobile Features ordered strictly as shown in screenshot
 const MOBILE_FEATURE_PAIRS = [
-  [FEATURES_LEFT[0], FEATURES_LEFT[1]], // Powerful Battery | 5 Hours Continuous Use
+  [FEATURES_LEFT[0], FEATURES_LEFT[1]], // Powerful Battery | 3 Hours Continuous Use
   [FEATURES_LEFT[2], FEATURES_LEFT[3]], // No Power Socket | Cordless & Portable
   [FEATURES_RIGHT[0], FEATURES_RIGHT[1]], // Built-In Pressure Pump | Vehicle Optimised
   [FEATURES_RIGHT[2], FEATURES_RIGHT[3]], // Zero Power Reliance | Compact & Easy to Carry
@@ -184,7 +187,7 @@ export default function EngineeredPerformance() {
       className="pt-10 sm:pt-14 pb-8 sm:pb-10 bg-gradient-to-b from-[#bcdbf5] via-[#dcebf9] to-[#c2def6] relative overflow-hidden"
     >
       {/* Top Header */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+      <ScrollReveal direction="up" className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
         <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-3">
           PRECISION ENGINEERING
@@ -198,14 +201,14 @@ export default function EngineeredPerformance() {
           Explore the mechanical innovations that make cordless high-pressure
           cleaning a reality.
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* ========================================================= */}
       {/* MOBILE LAYOUT (< lg): Machine in Center + 2-Column Grid */}
       {/* ========================================================= */}
       <div className="lg:hidden max-w-[560px] mx-auto px-3.5 sm:px-6 mt-3 sm:mt-6 flex flex-col items-center">
         {/* Center 3D AMEC Aquaforce Machine Render */}
-        <div className="relative flex items-center justify-center my-1 sm:my-2 w-full">
+        <ScrollReveal direction="zoom" className="relative flex items-center justify-center my-1 sm:my-2 w-full">
           {/* Radiant Brightness Spotlight */}
           <div className="absolute w-56 h-56 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 w-64 h-72 sm:w-80 sm:h-92">
@@ -219,12 +222,12 @@ export default function EngineeredPerformance() {
               className="object-contain drop-shadow-[0_20px_35px_rgba(15,40,75,0.25)]"
             />
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* 2-Column Features Grid Styled as Crisp Modern Cards */}
-        <div className="w-full grid grid-cols-2 gap-2.5 xs:gap-3 sm:gap-4 mt-2 text-left">
+        <ScrollRevealStagger className="w-full grid grid-cols-2 gap-2.5 xs:gap-3 sm:gap-4 mt-2 text-left" staggerDelay={0.08}>
           {MOBILE_FEATURE_PAIRS.flat().map((item) => (
-            <div
+            <ScrollRevealItem
               key={item.title}
               className="flex flex-col items-start bg-white/50 backdrop-blur-xs border border-white/80 rounded-[12px] p-3 xs:p-3.5 shadow-[0_2px_8px_rgba(15,40,75,0.05)] hover:bg-white/70 transition-colors"
             >
@@ -242,9 +245,9 @@ export default function EngineeredPerformance() {
               <p className="text-[10.5px] xs:text-[11px] sm:text-[12px] text-slate-600 font-open-sans mt-1 leading-snug font-normal">
                 {item.desc}
               </p>
-            </div>
+            </ScrollRevealItem>
           ))}
-        </div>
+        </ScrollRevealStagger>
       </div>
 
       {/* ========================================================= */}
@@ -252,7 +255,7 @@ export default function EngineeredPerformance() {
       {/* ========================================================= */}
       <div className="hidden lg:grid max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[80px] grid-cols-12 gap-4 items-center mt-8">
         {/* Left Column (4 Features) */}
-        <div className="col-span-3 flex flex-col gap-10 text-right">
+        <ScrollReveal direction="right" delay={0.1} className="col-span-3 flex flex-col gap-10 text-right">
           {FEATURES_LEFT.map((item) => (
             <div key={item.title} className="flex flex-row-reverse items-start gap-4">
               <div className="shrink-0 text-sky-700 mt-0.5">
@@ -268,10 +271,10 @@ export default function EngineeredPerformance() {
               </div>
             </div>
           ))}
-        </div>
+        </ScrollReveal>
 
         {/* Center Column: Enlarged 3D AMEC Aquaforce Machine Render with Radiant Glow */}
-        <div className="col-span-6 flex items-center justify-center relative">
+        <ScrollReveal direction="zoom" className="col-span-6 flex items-center justify-center relative">
           {/* Radiant Spotlight */}
           <div className="absolute w-80 h-80 lg:w-[460px] lg:h-[460px] bg-white/85 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute w-60 h-60 sm:w-72 sm:h-72 bg-white rounded-full blur-2xl pointer-events-none" />
@@ -288,10 +291,10 @@ export default function EngineeredPerformance() {
               className="object-contain drop-shadow-[0_25px_45px_rgba(15,40,75,0.28)]"
             />
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Right Column (4 Features) */}
-        <div className="col-span-3 flex flex-col gap-10 text-left">
+        <ScrollReveal direction="left" delay={0.1} className="col-span-3 flex flex-col gap-10 text-left">
           {FEATURES_RIGHT.map((item) => (
             <div key={item.title} className="flex items-start gap-4">
               <div className="shrink-0 text-sky-700 mt-0.5">
@@ -307,7 +310,7 @@ export default function EngineeredPerformance() {
               </div>
             </div>
           ))}
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

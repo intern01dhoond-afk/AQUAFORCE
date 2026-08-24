@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import ScrollReveal from "./ScrollReveal";
 
 interface UseCaseItem {
   id: string;
@@ -103,7 +104,7 @@ export default function UseCase() {
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[80px]">
         {/* Section Header */}
-        <div className="text-center max-w-4xl mx-auto mb-6 xs:mb-8 sm:mb-16">
+        <ScrollReveal direction="up" className="text-center max-w-4xl mx-auto mb-6 xs:mb-8 sm:mb-16">
           {/* Eyebrow Badge */}
           <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-white shadow-xs mb-3 sm:mb-4">
             UNRESTRICTED UTILITY
@@ -118,10 +119,10 @@ export default function UseCase() {
           <p className="text-[#333340] font-open-sans text-sm xs:text-base sm:text-lg lg:text-[20px] font-normal leading-relaxed mt-2 sm:mt-3 max-w-[886px] mx-auto">
             Whether detailing high-end vehicles or prepping off-road gear, Aquaforce fits every scenario.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Mobile View: Horizontal Pill Tag Selector above Image */}
-        <div className="lg:hidden w-full overflow-x-auto no-scrollbar py-1 mb-4 flex items-center gap-1.5 xs:gap-2 snap-x">
+        <ScrollReveal direction="up" delay={0.05} className="lg:hidden w-full overflow-x-auto no-scrollbar py-1 mb-4 flex items-center gap-1.5 xs:gap-2 snap-x">
           {USE_CASES.map((item, idx) => {
             const isActive = idx === activeIndex;
             return (
@@ -142,10 +143,10 @@ export default function UseCase() {
               </button>
             );
           })}
-        </div>
+        </ScrollReveal>
 
         {/* 3-Column Interactive Layout */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 xs:gap-6 lg:gap-10 w-full">
+        <ScrollReveal direction="zoom" delay={0.1} className="flex flex-col lg:flex-row items-center justify-between gap-4 xs:gap-6 lg:gap-10 w-full">
           {/* Desktop Left Column: Nav List (Hidden on mobile) */}
           <div className="hidden lg:flex w-[297px] flex-col space-y-2.5 sm:space-y-3 shrink-0">
             {USE_CASES.map((item, idx) => {
@@ -237,7 +238,7 @@ export default function UseCase() {
               ))}
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

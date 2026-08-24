@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
+import ScrollReveal from "./ScrollReveal";
 
 export default function Footer() {
   const { openModal } = useOrderModal();
 
   return (
     <footer className="bg-[#0b0c0e] text-white py-10 xs:py-14 sm:py-20 border-t border-white/5 w-full">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
+      <ScrollReveal direction="up" className="max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
         {/* PROMEC Brand Logo */}
         <a
           href="https://www.promectools.in/"
@@ -109,7 +110,7 @@ export default function Footer() {
             </a>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </footer>
   );
 }

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
+import ScrollReveal from "./ScrollReveal";
 
 export default function CTABanner() {
   const { openModal } = useOrderModal();
@@ -11,7 +12,7 @@ export default function CTABanner() {
     <section className="w-full bg-white flex flex-col items-center self-stretch py-8 sm:py-12 lg:py-16 px-4 sm:px-8 md:px-12 lg:px-20">
       <div className="w-full max-w-[1440px] mx-auto flex justify-center">
         {/* Rounded CTA Card */}
-        <div className="relative w-full max-w-[1280px] min-h-[440px] xs:min-h-[480px] sm:min-h-[320px] lg:min-h-[360px] rounded-[18px] sm:rounded-[24px] overflow-hidden flex items-center shadow-[0_20px_45px_-12px_rgba(15,23,42,0.22)]">
+        <ScrollReveal direction="zoom" duration={0.7} className="relative w-full max-w-[1280px] min-h-[440px] xs:min-h-[480px] sm:min-h-[320px] lg:min-h-[360px] rounded-[18px] sm:rounded-[24px] overflow-hidden flex items-center shadow-[0_20px_45px_-12px_rgba(15,23,42,0.22)]">
           {/* Mobile Background Image using mobile banner 2.png */}
           <div className="sm:hidden absolute inset-0 z-0">
             <Image
@@ -61,7 +62,7 @@ export default function CTABanner() {
               <ArrowRight className="w-4 h-4 text-[#0062ff] transition-transform duration-200 group-hover:translate-x-1" />
             </button>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

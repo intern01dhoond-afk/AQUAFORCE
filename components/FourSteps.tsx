@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
 
 const STEPS = [
   {
@@ -60,7 +61,7 @@ export default function FourSteps() {
       </div>
 
       {/* Top Heading */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+      <ScrollReveal direction="down" className="relative z-10 max-w-4xl mx-auto px-4 text-center">
         <h2 className="text-white">
           <span className="block font-open-sans text-xs xs:text-sm sm:text-lg lg:text-xl font-bold tracking-[0.22em] uppercase text-white/90 mb-1 drop-shadow">
             4 STEPS TO
@@ -69,14 +70,14 @@ export default function FourSteps() {
             Pristine Clean
           </span>
         </h2>
-      </div>
+      </ScrollReveal>
 
       {/* Bottom 4-Step Bordered Glass Container (2x2 on Mobile, 4-Col on Desktop) */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-3 sm:px-8 lg:px-[77px] mt-8 sm:mt-14">
+      <ScrollReveal direction="up" delay={0.1} className="relative z-10 w-full max-w-[1440px] mx-auto px-3 sm:px-8 lg:px-[77px] mt-8 sm:mt-14">
         <div className="w-full max-w-[1286px] mx-auto bg-black/65 backdrop-blur-xl border border-white/20 rounded-[12px] sm:rounded-[8px] py-3 xs:py-4 px-2.5 xs:px-3 sm:px-4 shadow-2xl">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 xs:gap-3 sm:gap-0 sm:divide-x divide-white/20">
+          <ScrollRevealStagger className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 xs:gap-3 sm:gap-0 sm:divide-x divide-white/20" staggerDelay={0.08}>
             {STEPS.map((step) => (
-              <div
+              <ScrollRevealItem
                 key={step.n}
                 className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 xs:gap-2.5 sm:gap-4 p-2 xs:p-2.5 sm:px-4 sm:py-2 bg-white/5 sm:bg-transparent rounded-lg sm:rounded-none border border-white/10 sm:border-none"
               >
@@ -93,11 +94,11 @@ export default function FourSteps() {
                     {step.desc}
                   </p>
                 </div>
-              </div>
+              </ScrollRevealItem>
             ))}
-          </div>
+          </ScrollRevealStagger>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

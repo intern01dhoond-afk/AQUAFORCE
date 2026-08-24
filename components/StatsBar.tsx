@@ -1,10 +1,12 @@
+import { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
+
 export default function StatsBar() {
   return (
     <section className="bg-[#f8f9fb] border-y border-slate-200/70 py-4 sm:py-7 lg:py-8 w-full">
       <div className="max-w-[1440px] mx-auto px-3 sm:px-8 lg:px-[80px]">
-        <div className="grid grid-cols-2 lg:grid-cols-4 items-center">
+        <ScrollRevealStagger className="grid grid-cols-2 lg:grid-cols-4 items-center" staggerDelay={0.1}>
           {/* Stat 1: Battery */}
-          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-r border-b lg:border-b-0 border-slate-200/80">
+          <ScrollRevealItem className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-r border-b lg:border-b-0 border-slate-200/80">
             {/* Battery Icon */}
             <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
@@ -29,10 +31,10 @@ export default function StatsBar() {
             <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               CONTINUOUS USE
             </span>
-          </div>
+          </ScrollRevealItem>
 
           {/* Stat 2: Pressure */}
-          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-b lg:border-b-0 lg:border-r border-slate-200/80">
+          <ScrollRevealItem className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-b lg:border-b-0 lg:border-r border-slate-200/80">
             {/* Spark / Burst Icon */}
             <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
@@ -58,10 +60,10 @@ export default function StatsBar() {
             <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               PRESSURE PUMP
             </span>
-          </div>
+          </ScrollRevealItem>
 
           {/* Stat 3: Power */}
-          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-r border-slate-200/80">
+          <ScrollRevealItem className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2 border-r border-slate-200/80">
             {/* Wind / Air Flow Icon */}
             <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
@@ -88,10 +90,10 @@ export default function StatsBar() {
             <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               SOCKETS NEEDED
             </span>
-          </div>
+          </ScrollRevealItem>
 
           {/* Stat 4: Cordless */}
-          <div className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2">
+          <ScrollRevealItem className="flex flex-col items-center justify-center text-center px-2.5 sm:px-4 py-3 sm:py-2">
             {/* Feather / Lightweight Icon */}
             <div className="h-7 sm:h-8 flex items-center justify-center text-slate-800 mb-1">
               <svg
@@ -119,8 +121,8 @@ export default function StatsBar() {
             <span className="font-open-sans text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase text-[#9CA3AF] leading-tight">
               WIRELESS
             </span>
-          </div>
-        </div>
+          </ScrollRevealItem>
+        </ScrollRevealStagger>
       </div>
     </section>
   );

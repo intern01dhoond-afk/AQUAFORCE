@@ -1,19 +1,20 @@
 import Image from "next/image";
+import ScrollReveal from "./ScrollReveal";
 
 export default function ProfessionalCleaning() {
   return (
     <section id="why-section" className="py-10 sm:py-16 lg:py-[80px] bg-white w-full">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[80px]">
         {/* Top Eyebrow Badge */}
-        <div className="flex justify-center lg:justify-start mb-3 sm:mb-5">
+        <ScrollReveal direction="up" className="flex justify-center lg:justify-start mb-3 sm:mb-5">
           <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent">
             WHY AQUAFORCE 1400?
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Section Heading & Copy Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-start text-center lg:text-left">
-          <div className="lg:col-span-6 max-w-[611px] mx-auto lg:mx-0">
+          <ScrollReveal direction="right" delay={0.05} className="lg:col-span-6 max-w-[611px] mx-auto lg:mx-0">
             <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-[48px] font-medium font-montserrat text-[#0F1729] leading-[1.18] lg:leading-[1.1] tracking-tight">
               <span className="sm:hidden">Professional Cleaning.<br />No Power Socket Needed.</span>
               <span className="hidden sm:inline lg:hidden">Professional Cleaning. No Power Socket Needed.</span>
@@ -25,9 +26,9 @@ export default function ProfessionalCleaning() {
                 Needed.
               </span>
             </h2>
-          </div>
+          </ScrollReveal>
 
-          <div className="lg:col-span-6 max-w-[649px] font-open-sans text-[#333340] text-sm xs:text-[15px] sm:text-lg lg:text-[20px] font-normal leading-relaxed space-y-3 sm:space-y-5 pt-1 mx-auto lg:mx-0">
+          <ScrollReveal direction="left" delay={0.1} className="lg:col-span-6 max-w-[649px] font-open-sans text-[#333340] text-sm xs:text-[15px] sm:text-lg lg:text-[20px] font-normal leading-relaxed space-y-3 sm:space-y-5 pt-1 mx-auto lg:mx-0">
             <p>
               Traditional pressure washers require a continuous power
               connection, making it difficult to clean vehicles in open areas,
@@ -39,13 +40,13 @@ export default function ProfessionalCleaning() {
               machine wherever you need it and start cleaning without
               connecting it to a power socket.
             </p>
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* Bottom Image Cards */}
         <div className="flex flex-col lg:flex-row gap-3.5 sm:gap-4 mt-8 sm:mt-12 w-full">
           {/* Left Wide Card */}
-          <div className="w-full lg:w-[940px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
+          <ScrollReveal direction="zoom" delay={0.05} className="w-full lg:w-[940px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
             <Image
               src="/images/pro-clean-car.png"
               alt="Car detailing with high pressure water spray outdoors"
@@ -55,10 +56,10 @@ export default function ProfessionalCleaning() {
               sizes="(max-width: 1024px) 100vw, 940px"
               className="object-cover"
             />
-          </div>
+          </ScrollReveal>
 
           {/* Right Card */}
-          <div className="w-full lg:w-[324px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
+          <ScrollReveal direction="zoom" delay={0.15} className="w-full lg:w-[324px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
             <Image
               src="/images/Banner 1-1 1.jpg"
               alt="AMEC Aquaforce high pressure cordless vehicle washing"
@@ -68,7 +69,7 @@ export default function ProfessionalCleaning() {
               sizes="(max-width: 1024px) 100vw, 324px"
               className="object-cover object-center"
             />
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

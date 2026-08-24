@@ -1,3 +1,5 @@
+import ScrollReveal from "./ScrollReveal";
+
 const ROWS = [
   {
     feature: "Power Independence",
@@ -34,7 +36,8 @@ const ROWS = [
 export default function ComparisonTable() {
   return (
     <section className="pt-12 sm:pt-16 lg:pt-20 pb-4 sm:pb-8 lg:pb-12 bg-white w-full">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+      {/* Top Header */}
+      <ScrollReveal direction="up" className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
         <div className="inline-flex items-center px-4 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent mb-4">
           UNRESTRICTED UTILITY
@@ -48,10 +51,10 @@ export default function ComparisonTable() {
           See how the AMEC Aquaforce 1400 stacks up against a conventional
           pressure washer across every critical dimension.
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* Comparison Table Card */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-6 sm:mt-10 pb-2 sm:pb-4">
+      <ScrollReveal direction="up" delay={0.1} className="max-w-5xl mx-auto px-4 sm:px-6 mt-6 sm:mt-10 pb-2 sm:pb-4">
         <div className="overflow-x-auto p-1 -m-1 sm:p-4 sm:-m-4 no-scrollbar">
           <div className="min-w-[470px] sm:min-w-[640px] bg-white rounded-2xl sm:rounded-[24px] border border-slate-200/90 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.07),0_2px_6px_rgba(15,23,42,0.04)] overflow-hidden">
             {/* Table Header Row */}
@@ -99,7 +102,7 @@ export default function ComparisonTable() {
             ))}
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

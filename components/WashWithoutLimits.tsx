@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
+import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
 
 export default function WashWithoutLimits() {
   const { openModal } = useOrderModal();
@@ -14,22 +15,24 @@ export default function WashWithoutLimits() {
       {/* ========================================================= */}
       <div className="md:hidden flex flex-col items-center text-center py-8 xs:py-10 px-3.5 xs:px-4 w-full">
         {/* Title & Subtitle */}
-        <h2 className="text-[#0e1726] font-montserrat text-2xl xs:text-[28px] sm:text-[32px] font-medium uppercase tracking-tight leading-[1.1]">
-          WASH WITHOUT
-          <br />
-          LIMITS
-        </h2>
+        <ScrollReveal direction="up">
+          <h2 className="text-[#0e1726] font-montserrat text-2xl xs:text-[28px] sm:text-[32px] font-medium uppercase tracking-tight leading-[1.1]">
+            WASH WITHOUT
+            <br />
+            LIMITS
+          </h2>
 
-        {/* Blue Accent Underline */}
-        <div className="w-12 h-[2.5px] bg-[#0066cc] mt-2 mb-2 rounded-full" />
+          {/* Blue Accent Underline */}
+          <div className="w-12 h-[2.5px] bg-[#0066cc] mx-auto mt-2 mb-2 rounded-full" />
 
-        {/* Subtitle */}
-        <p className="text-[#8892a0] font-open-sans text-[11px] xs:text-xs font-bold tracking-[0.2em] uppercase mb-4 xs:mb-6">
-          AQUAFORCE 1400
-        </p>
+          {/* Subtitle */}
+          <p className="text-[#8892a0] font-open-sans text-[11px] xs:text-xs font-bold tracking-[0.2em] uppercase mb-4 xs:mb-6">
+            AQUAFORCE 1400
+          </p>
+        </ScrollReveal>
 
         {/* Two Images Side-by-Side (2 Columns) */}
-        <div className="grid grid-cols-2 gap-2.5 xs:gap-3 w-full max-w-md mx-auto mb-5 xs:mb-6">
+        <ScrollReveal direction="zoom" delay={0.1} className="grid grid-cols-2 gap-2.5 xs:gap-3 w-full max-w-md mx-auto mb-5 xs:mb-6">
           {/* Left Portrait Image: Car Exterior Wash */}
           <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
@@ -55,10 +58,10 @@ export default function WashWithoutLimits() {
               className="object-cover object-center"
             />
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* 5 Feature Badges with Flex Wrap */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 xs:gap-2 w-full max-w-xs font-open-sans">
+        <ScrollReveal direction="up" delay={0.15} className="flex flex-wrap items-center justify-center gap-1.5 xs:gap-2 w-full max-w-xs font-open-sans">
           <span className="border-[1.5px] border-[#0e1726] rounded-[6px] px-2.5 xs:px-3 py-1 text-[#0e1726] text-[10px] xs:text-[11px] font-bold uppercase tracking-wider bg-transparent">
             NO SOCKET
           </span>
@@ -74,16 +77,18 @@ export default function WashWithoutLimits() {
           <span className="border-[1.5px] border-[#0e1726] rounded-[6px] px-3 xs:px-4 py-1 text-[#0e1726] text-[10px] xs:text-[11px] font-bold uppercase tracking-wider bg-transparent">
             WASH
           </span>
-        </div>
+        </ScrollReveal>
 
         {/* CTA Action Button */}
-        <button
-          onClick={openModal}
-          className="mt-5 xs:mt-6 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
-        >
-          <span>BUY NOW</span>
-          <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
-        </button>
+        <ScrollReveal direction="up" delay={0.2}>
+          <button
+            onClick={openModal}
+            className="mt-5 xs:mt-6 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
+          >
+            <span>BUY NOW</span>
+            <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
+          </button>
+        </ScrollReveal>
       </div>
 
       {/* ========================================================= */}
@@ -91,7 +96,7 @@ export default function WashWithoutLimits() {
       {/* ========================================================= */}
       <div className="hidden md:grid grid-cols-12 w-full min-h-[460px] lg:min-h-[520px]">
         {/* Left Column Image (Edge-to-Edge) */}
-        <div className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
+        <ScrollReveal direction="right" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
             src="/images/1-1 mobile baner 3.png"
             alt="AMEC Aquaforce 1400 outdoor car detailing"
@@ -101,10 +106,10 @@ export default function WashWithoutLimits() {
             sizes="(max-width: 1024px) 50vw, 35vw"
             className="object-cover object-center"
           />
-        </div>
+        </ScrollReveal>
 
         {/* Center Column: Clean White Card with Title, Subtitle, Badges & CTA */}
-        <div className="md:col-span-4 bg-white flex flex-col items-center justify-center text-center px-6 sm:px-8 py-12 md:py-8 z-10 shadow-xs">
+        <ScrollReveal direction="zoom" delay={0.1} className="md:col-span-4 bg-white flex flex-col items-center justify-center text-center px-6 sm:px-8 py-12 md:py-8 z-10 shadow-xs">
           {/* Main Title */}
           <h2 className="text-[#0e1726] font-montserrat text-3xl sm:text-4xl lg:text-[40px] font-medium uppercase tracking-tight leading-[1.08]">
             WASH WITHOUT
@@ -154,10 +159,10 @@ export default function WashWithoutLimits() {
             <span>BUY NOW</span>
             <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
           </button>
-        </div>
+        </ScrollReveal>
 
         {/* Right Column Image (Edge-to-Edge) */}
-        <div className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
+        <ScrollReveal direction="left" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
             src="/images/1-1 mobile baner 2.png"
             alt="AMEC Aquaforce 1400 cordless vehicle detailing"
@@ -167,7 +172,7 @@ export default function WashWithoutLimits() {
             sizes="(max-width: 1024px) 50vw, 35vw"
             className="object-cover object-center"
           />
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
