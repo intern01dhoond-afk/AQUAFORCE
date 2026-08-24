@@ -216,10 +216,35 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         theme: {
           color: "#0066cc",
         },
-        handler: function (response: any) {
-          setPaymentId(response.razorpay_payment_id || "");
+        handler: async function (response: any) {
+          const payId = response.razorpay_payment_id || "";
+          setPaymentId(payId);
           setIsProcessingPayment(false);
           setIsSubmitted(true);
+
+          // Record purchase into Google Sheets
+          try {
+            await fetch("/api/purchase", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: orderData.id,
+                paymentId: payId,
+                fullName: formData.fullName,
+                phone: formData.phone,
+                deliveryAddress: formData.deliveryAddress,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                product: `${PRODUCT_DATA.name} (${currentColor.name})`,
+                quantity: quantity,
+                amount: totalAmount,
+                status: "Paid & Confirmed",
+              }),
+            });
+          } catch (sheetErr) {
+            console.error("Failed to forward purchase to Google Sheets:", sheetErr);
+          }
         },
         modal: {
           ondismiss: function () {

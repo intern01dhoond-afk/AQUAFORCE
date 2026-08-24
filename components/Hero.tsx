@@ -96,7 +96,7 @@ export default function Hero() {
 
         {/* Mobile Slide 1 Content Overlay - Left-aligned to keep device on right 100% visible */}
         <div className="sm:hidden relative z-10 w-full h-full flex flex-col justify-end pointer-events-none">
-          <div className="w-full bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent pt-8 pb-5 px-4 xs:px-5 pointer-events-auto">
+          <div className="w-full bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent pt-6 pb-6 xs:pb-7 px-4 xs:px-5 pointer-events-auto">
             {/* Left Content Box */}
             <div className="max-w-[68%]">
               {/* Eyebrow / Kicker */}
@@ -132,7 +132,7 @@ export default function Hero() {
             </div>
 
             {/* Mobile Action Buttons - Side-by-Side 2-Column Grid */}
-            <div className="grid grid-cols-2 gap-2 mt-3 w-full">
+            <div className="grid grid-cols-2 gap-2 mt-3 mb-4 w-full">
               <button
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-2.5 rounded-[6px] shadow-lg shadow-blue-600/40 transition-all active:scale-[0.98] cursor-pointer"
@@ -273,7 +273,7 @@ export default function Hero() {
             </div>
 
             {/* Mobile Action Buttons */}
-            <div className="grid grid-cols-2 gap-2 mt-3 w-full">
+            <div className="grid grid-cols-2 gap-2 mt-3 mb-4 w-full">
               <button
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-3 rounded-[6px] shadow-xl shadow-blue-600/30 transition-all active:scale-[0.98] cursor-pointer"
@@ -411,7 +411,7 @@ export default function Hero() {
             </div>
 
             {/* Mobile Action Buttons - Side-by-Side 2-Column Grid */}
-            <div className="grid grid-cols-2 gap-2 mt-3 w-full">
+            <div className="grid grid-cols-2 gap-2 mt-3 mb-4 w-full">
               <button
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-3 rounded-[6px] shadow-xl shadow-blue-600/40 transition-all active:scale-[0.98] cursor-pointer"
@@ -539,7 +539,7 @@ export default function Hero() {
             </div>
 
             {/* Mobile Action Buttons - Side-by-Side 2-Column Grid */}
-            <div className="grid grid-cols-2 gap-2 mt-3 w-full">
+            <div className="grid grid-cols-2 gap-2 mt-3 mb-4 w-full">
               <button
                 onClick={openModal}
                 className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0066cc] active:bg-[#0052b3] text-white font-montserrat text-[11.5px] font-black tracking-wider uppercase py-3 rounded-[6px] shadow-xl shadow-blue-600/40 transition-all active:scale-[0.98] cursor-pointer"
@@ -608,7 +608,7 @@ export default function Hero() {
       {/* ========================================================= */}
       {/* Carousel Controls: Navigation Indicators (4 Slides) */}
       {/* ========================================================= */}
-      <div className="absolute bottom-2 sm:bottom-3.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 sm:gap-2">
+      <div className="absolute bottom-1 sm:bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 sm:gap-2">
         <button
           onClick={() => setCurrentSlide(0)}
           className="p-1.5 cursor-pointer focus:outline-none"
