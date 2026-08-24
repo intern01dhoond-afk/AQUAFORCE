@@ -10,7 +10,7 @@ interface OrderModalProps {
 }
 
 const PRODUCT_DATA = {
-  name: "Aquaforce 1400",
+  name: "Cordless AquaForce 1400 High-pressure Washer System",
   description:
     "The AMEC Aquaforce 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
   rating: 4.8,
@@ -23,8 +23,8 @@ const PRODUCT_DATA = {
       hex: "#f5c518",
       inStock: true,
       images: [
-        "/cart page images/Yellow Product/1.png",
         "/cart page images/Yellow Product/2.png",
+        "/cart page images/Yellow Product/1.png",
         "/cart page images/Yellow Product/3.png",
         "/cart page images/Yellow Product/4.png",
       ],
@@ -34,8 +34,8 @@ const PRODUCT_DATA = {
       hex: "#0066cc",
       inStock: false,
       images: [
-        "/cart page images/Blue product/1.png",
         "/cart page images/Blue product/2.png",
+        "/cart page images/Blue product/1.png",
         "/cart page images/Blue product/3.png",
         "/cart page images/Blue product/4.png",
       ],
@@ -588,7 +588,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             <div className="lg:col-span-6 flex flex-col justify-between max-h-[78vh] lg:max-h-[580px] overflow-y-auto pl-1 pr-1.5 sm:pr-2 no-scrollbar relative">
               <div className="space-y-4">
                 {/* Product Title */}
-                <h2 className="text-2xl sm:text-3xl lg:text-[38px] font-bold font-montserrat text-[#0F1729] leading-[1.15] tracking-tight mt-1 sm:mt-0">
+                <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold font-montserrat text-[#0F1729] leading-[1.2] tracking-tight mt-1 sm:mt-0">
                   {PRODUCT_DATA.name}
                 </h2>
 
@@ -617,14 +617,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </span>
                 </div>
 
-                {/* Price Line */}
-                <div className="flex items-baseline gap-3 font-open-sans">
-                  <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
-                    ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
-                  </span>
-                  <span className="text-slate-400 line-through text-lg font-normal">
-                    ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
-                  </span>
+                {/* Price Line & Free Delivery Badge */}
+                <div className="space-y-1">
+                  <div className="flex items-center gap-3 font-open-sans flex-wrap">
+                    <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
+                      ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
+                    </span>
+                    <span className="text-slate-400 line-through text-lg font-normal">
+                      ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
+                    </span>
+                    <span className="bg-[#16a34a] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                      FREE Delivery
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 font-open-sans">
+                    You save ₹{(1500).toLocaleString("en-IN")} on shipping
+                  </p>
                 </div>
 
                 <div className="w-full h-px bg-slate-100 my-4" />
@@ -641,26 +649,24 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       </span>
                     )}
                   </p>
-                  <div className="flex items-center gap-3 py-1 px-0.5">
+                  <div className="flex items-center gap-3.5 py-1">
                     {PRODUCT_DATA.colors.map((c, idx) => (
                       <button
                         key={c.name}
                         onClick={() => handleColorChange(idx)}
-                        className={`relative w-10 h-10 rounded-[10px] p-[2.5px] transition-all cursor-pointer flex items-center justify-center ${
+                        className={`relative w-10 h-10 rounded-[12px] p-[3px] bg-white transition-colors cursor-pointer flex items-center justify-center ${
                           selectedColorIndex === idx
-                            ? "border-2 border-[#0066cc] shadow-xs"
-                            : "border border-slate-200 hover:border-slate-300"
+                            ? "border-[2.5px] border-[#0066cc]"
+                            : "border-[1.5px] border-slate-200 hover:border-slate-300"
                         }`}
                         aria-label={`Select ${c.name} color${!c.inStock ? " (Out of Stock)" : ""}`}
                       >
                         <span
                           style={{ backgroundColor: c.hex }}
-                          className="w-full h-full rounded-[6px] relative block"
+                          className="w-full h-full rounded-[7px] relative flex items-center justify-center overflow-hidden"
                         >
                           {!c.inStock && (
-                            <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[5px]">
-                              <span className="w-full h-[2px] bg-red-500 rotate-45 block shadow-xs" />
-                            </span>
+                            <span className="w-[140%] h-[2.5px] bg-red-500 rotate-45 absolute" />
                           )}
                         </span>
                       </button>
@@ -670,8 +676,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                 <div className="w-full h-px bg-slate-100 my-4" />
 
-                {/* Stepper + Shipping Badges (All in One Row like Image 2) */}
-                <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
+                {/* Quantity Stepper & Delivery on Separate Rows */}
+                <div className="space-y-3">
                   {/* Quantity Stepper */}
                   <div
                     className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 transition-opacity ${
@@ -686,7 +692,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     >
                       &minus;
                     </button>
-                    <span className="px-3 text-sm sm:text-base font-bold text-slate-900 min-w-[20px] text-center select-none">
+                    <span className="px-3.5 text-sm sm:text-base font-bold text-slate-900 min-w-[20px] text-center select-none">
                       {quantity}
                     </span>
                     <button
@@ -699,14 +705,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     </button>
                   </div>
 
-                  {/* Free Delivery & Shipping Badges */}
-                  <div className="flex items-center gap-4 text-xs sm:text-[13px] text-slate-900 font-open-sans">
-                    <span className="flex items-center gap-1.5 font-medium">
-                      <Truck size={16} className="text-[#0066cc]" /> Free Delivery
-                    </span>
-                    <span className="flex items-center gap-1.5 font-medium">
-                      <RotateCcw size={15} className="text-[#0066cc]" /> Deliver within 4-6 Days
-                    </span>
+                  {/* Delivery Info */}
+                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-900 font-semibold font-open-sans">
+                    <Truck size={17} className="text-[#0066cc]" />
+                    <span>Deliver within 4-6 Days</span>
                   </div>
                 </div>
 
@@ -869,8 +871,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
               </div>
 
-              {/* Sticky Buy Now Action Button (Always Anchored at Bottom) */}
-              <div className="pt-3 pb-1 bg-white/95 backdrop-blur-xs border-t border-slate-100 shrink-0 sticky bottom-0 z-10">
+              {/* Sticky Buy Now Action Button (Always Anchored at Bottom) with Top Fade Gradient */}
+              <div className="relative pt-2 pb-1 bg-white shrink-0 sticky bottom-0 z-20">
+                {/* Smooth White Gradient Overlay prompting user to scroll */}
+                <div className="absolute -top-7 left-0 right-0 h-7 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none" />
+
                 {currentColor.inStock ? (
                   <button
                     onClick={() => setIsCheckingOut(true)}
