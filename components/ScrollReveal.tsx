@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "motion/react";
+import { motion, type HTMLMotionProps, type Variants } from "motion/react";
 import React from "react";
 
 interface ScrollRevealProps extends HTMLMotionProps<"div"> {
@@ -60,7 +60,7 @@ export default function ScrollReveal({
       transition={{
         duration,
         delay,
-        ease: [0.22, 1, 0.36, 1],
+        ease: "easeOut",
       }}
       className={className}
       {...rest}
@@ -81,19 +81,21 @@ export function ScrollRevealStagger({
   className?: string;
   margin?: string;
 }) {
+  const staggerVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: staggerDelay,
+      },
+    },
+  };
+
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin }}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: staggerDelay,
-          },
-        },
-      }}
+      variants={staggerVariants}
       className={className}
     >
       {children}
@@ -114,33 +116,33 @@ export function ScrollRevealItem({
   duration?: number;
   className?: string;
 }) {
-  const getVariants = () => {
+  const getVariants = (): Variants => {
     switch (direction) {
       case "up":
         return {
           hidden: { opacity: 0, y: distance },
-          visible: { opacity: 1, y: 0, transition: { duration, ease: [0.22, 1, 0.36, 1] } },
+          visible: { opacity: 1, y: 0, transition: { duration, ease: "easeOut" } },
         };
       case "left":
         return {
           hidden: { opacity: 0, x: distance },
-          visible: { opacity: 1, x: 0, transition: { duration, ease: [0.22, 1, 0.36, 1] } },
+          visible: { opacity: 1, x: 0, transition: { duration, ease: "easeOut" } },
         };
       case "right":
         return {
           hidden: { opacity: 0, x: -distance },
-          visible: { opacity: 1, x: 0, transition: { duration, ease: [0.22, 1, 0.36, 1] } },
+          visible: { opacity: 1, x: 0, transition: { duration, ease: "easeOut" } },
         };
       case "zoom":
         return {
           hidden: { opacity: 0, scale: 0.94, y: 15 },
-          visible: { opacity: 1, scale: 1, y: 0, transition: { duration, ease: [0.22, 1, 0.36, 1] } },
+          visible: { opacity: 1, scale: 1, y: 0, transition: { duration, ease: "easeOut" } },
         };
       case "fade":
       default:
         return {
           hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { duration, ease: [0.22, 1, 0.36, 1] } },
+          visible: { opacity: 1, transition: { duration, ease: "easeOut" } },
         };
     }
   };
