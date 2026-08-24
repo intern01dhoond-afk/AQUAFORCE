@@ -57,6 +57,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isPanelScrolled, setIsPanelScrolled] = useState(false);
 
   // Section Refs for Auto-Scrolling on Accordion Open
+  const modalCardRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const highlightsRef = useRef<HTMLDivElement>(null);
   const specsRef = useRef<HTMLDivElement>(null);
@@ -70,19 +71,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       const willOpen = !prev;
       if (willOpen) {
         setTimeout(() => {
-          if (ref.current && scrollContainerRef.current) {
+          if (!ref.current) return;
+          if (window.innerWidth >= 1024 && scrollContainerRef.current) {
             const container = scrollContainerRef.current;
             const element = ref.current;
-            const containerTop = container.getBoundingClientRect().top;
-            const elementTop = element.getBoundingClientRect().top;
-            const offset = elementTop - containerTop;
-
+            const offset = element.getBoundingClientRect().top - container.getBoundingClientRect().top;
             container.scrollTo({
               top: container.scrollTop + offset - 8,
               behavior: "smooth",
             });
+          } else {
+            ref.current.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            });
           }
-        }, 50);
+        }, 60);
       }
       return willOpen;
     });
@@ -210,7 +214,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
       const totalAmount = PRODUCT_DATA.offerPrice * quantity;
 
-      const res = await fetch("/api/razorpay/order", {
+      const res = await fetch("/aquaforceforautocare/api/razorpay/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -264,7 +268,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
           // Record purchase into Google Sheets
           try {
-            await fetch("/api/purchase", {
+            await fetch("/aquaforceforautocare/api/purchase", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -321,11 +325,20 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
       {/* Modal Dialog Card */}
       <div
+        ref={modalCardRef}
+        onScroll={(e) => {
+          if (window.innerWidth < 1024) {
+            const isScrolled = e.currentTarget.scrollTop > 15;
+            if (isScrolled !== isPanelScrolled) {
+              setIsPanelScrolled(isScrolled);
+            }
+          }
+        }}
         className={`relative w-full ${
           isCheckingOut
             ? "max-w-[600px] p-5 xs:p-6 sm:p-8 md:p-10 overflow-y-auto"
             : "max-w-[460px] lg:max-w-[1045px] p-4 xs:p-5 sm:p-8 lg:p-10 overflow-y-auto lg:overflow-hidden"
-        } bg-white rounded-[20px] sm:rounded-[24px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[92vh] overscroll-contain animate-in zoom-in-95 fade-in duration-200`}
+        } bg-white rounded-[20px] sm:rounded-[24px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[92vh] sm:max-h-[90vh] overscroll-contain animate-in zoom-in-95 fade-in duration-200`}
       >
         {/* Top Close Button for Product Detail and Success Views */}
         {!isCheckingOut && (
@@ -620,17 +633,19 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </div>
 
             {/* ========================================================= */}
-            {/* RIGHT COLUMN: Scrollable Info with Sticky Buy Now Button */}
+            {/* RIGHT COLUMN: Info with Sticky Buy Now Button */}
             {/* ========================================================= */}
             <div
               ref={scrollContainerRef}
               onScroll={(e) => {
-                const isScrolled = e.currentTarget.scrollTop > 15;
-                if (isScrolled !== isPanelScrolled) {
-                  setIsPanelScrolled(isScrolled);
+                if (window.innerWidth >= 1024) {
+                  const isScrolled = e.currentTarget.scrollTop > 15;
+                  if (isScrolled !== isPanelScrolled) {
+                    setIsPanelScrolled(isScrolled);
+                  }
                 }
               }}
-              className="lg:col-span-6 flex flex-col justify-between max-h-[78vh] lg:max-h-[580px] overflow-y-auto overscroll-contain pl-1 pr-1.5 sm:pr-2 no-scrollbar relative"
+              className="lg:col-span-6 flex flex-col justify-between overflow-visible lg:overflow-y-auto lg:max-h-[580px] overscroll-contain pl-0 lg:pl-1 pr-0 lg:pr-1.5 sm:pr-2 no-scrollbar relative mt-4 lg:mt-0"
             >
               <div className="space-y-4">
                 {/* Product Title */}

@@ -45,10 +45,10 @@ export default function FourSteps() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
       </div>
 
-      {/* Desktop Cinematic Background Image (Full 4K / 2880x1800 Master) */}
+      {/* Desktop Cinematic Background Image */}
       <div className="hidden sm:block absolute inset-0 z-0">
         <Image
-          src="/images/pressure washer Banner_2 Y1.png"
+          src="/images/WhatsApp Image 2026-08-24 at 5.52.17 PM.jpeg"
           alt="AMEC Aquaforce on workshop workbench 4 Steps to Pristine Clean"
           fill
           priority

@@ -81,10 +81,10 @@ export default function Hero() {
           />
         </div>
 
-        {/* Desktop Background Image (2880x1800 4K Retina) */}
+        {/* Desktop Background Image (WhatsApp Image 2026-08-24 at 5.52.17 PM (1).jpeg) */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/images/pressure washer Banner_ 3 Y.png"
+            src="/images/WhatsApp Image 2026-08-24 at 5.52.17 PM (1).jpeg"
             alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
             fill
             priority
@@ -227,10 +227,10 @@ export default function Hero() {
           />
         </div>
 
-        {/* Desktop Background Image (pressure washer Banner_ 1 B.png) */}
+        {/* Desktop Background Image (WhatsApp Image 2026-08-24 at 6.13.30 PM.jpeg) */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/images/pressure washer Banner_ 1 B.png"
+            src="/images/WhatsApp Image 2026-08-24 at 6.13.30 PM.jpeg"
             alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority

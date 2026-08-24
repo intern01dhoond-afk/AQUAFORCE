@@ -35,7 +35,7 @@ const ROWS = [
 
 export default function ComparisonTable() {
   return (
-    <section className="pt-12 sm:pt-16 lg:pt-20 pb-4 sm:pb-8 lg:pb-12 bg-white w-full">
+    <section className="pt-4 sm:pt-6 lg:pt-8 pb-4 sm:pb-8 lg:pb-12 bg-white w-full">
       {/* Top Header */}
       <ScrollReveal direction="up" className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Eyebrow Pill Badge */}
