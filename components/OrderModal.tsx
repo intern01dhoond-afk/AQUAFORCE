@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ShieldCheck, FileText, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -54,6 +54,39 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isHighlightsOpen, setIsHighlightsOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   const [isBoxOpen, setIsBoxOpen] = useState(false);
+  const [isPanelScrolled, setIsPanelScrolled] = useState(false);
+
+  // Section Refs for Auto-Scrolling on Accordion Open
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const highlightsRef = useRef<HTMLDivElement>(null);
+  const specsRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  const toggleSection = (
+    setter: React.Dispatch<React.SetStateAction<boolean>>,
+    ref: React.RefObject<HTMLDivElement | null>
+  ) => {
+    setter((prev) => {
+      const willOpen = !prev;
+      if (willOpen) {
+        setTimeout(() => {
+          if (ref.current && scrollContainerRef.current) {
+            const container = scrollContainerRef.current;
+            const element = ref.current;
+            const containerTop = container.getBoundingClientRect().top;
+            const elementTop = element.getBoundingClientRect().top;
+            const offset = elementTop - containerTop;
+
+            container.scrollTo({
+              top: container.scrollTop + offset - 8,
+              behavior: "smooth",
+            });
+          }
+        }, 50);
+      }
+      return willOpen;
+    });
+  };
 
   // Touch Swipe State for Modal Image Gallery
   const [modalTouchStartX, setModalTouchStartX] = useState<number | null>(null);
@@ -109,20 +142,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     });
   };
 
-  // Reset when modal opens
+  // Reset when modal opens and lock background scroll completely
   useEffect(() => {
     if (isOpen) {
+      const originalBodyOverflow = document.body.style.overflow;
+      const originalHtmlOverflow = document.documentElement.style.overflow;
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
       setIsCheckingOut(false);
       setIsSubmitted(false);
       setIsProcessingPayment(false);
       setPaymentId("");
-    } else {
-      document.body.style.overflow = "unset";
+      return () => {
+        document.body.style.overflow = originalBodyOverflow || "";
+        document.documentElement.style.overflow = originalHtmlOverflow || "";
+      };
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
   }, [isOpen]);
 
   // Handle ESC key
@@ -277,7 +312,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2.5 xs:p-3 sm:p-5 md:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2.5 xs:p-3 sm:p-5 md:p-6 overflow-hidden overscroll-contain">
       {/* Dark Blur Backdrop */}
       <div
         className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
@@ -287,8 +322,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       {/* Modal Dialog Card */}
       <div
         className={`relative w-full ${
-          isCheckingOut ? "max-w-[600px] p-5 xs:p-6 sm:p-8 md:p-10" : "max-w-[460px] lg:max-w-[1045px] p-4 xs:p-5 sm:p-8 lg:p-10"
-        } bg-white rounded-[20px] sm:rounded-[24px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[92vh] overflow-y-auto animate-in zoom-in-95 fade-in duration-200`}
+          isCheckingOut
+            ? "max-w-[600px] p-5 xs:p-6 sm:p-8 md:p-10 overflow-y-auto"
+            : "max-w-[460px] lg:max-w-[1045px] p-4 xs:p-5 sm:p-8 lg:p-10 overflow-y-auto lg:overflow-hidden"
+        } bg-white rounded-[20px] sm:rounded-[24px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[92vh] overscroll-contain animate-in zoom-in-95 fade-in duration-200`}
       >
         {/* Top Close Button for Product Detail and Success Views */}
         {!isCheckingOut && (
@@ -585,7 +622,16 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* ========================================================= */}
             {/* RIGHT COLUMN: Scrollable Info with Sticky Buy Now Button */}
             {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col justify-between max-h-[78vh] lg:max-h-[580px] overflow-y-auto pl-1 pr-1.5 sm:pr-2 no-scrollbar relative">
+            <div
+              ref={scrollContainerRef}
+              onScroll={(e) => {
+                const isScrolled = e.currentTarget.scrollTop > 15;
+                if (isScrolled !== isPanelScrolled) {
+                  setIsPanelScrolled(isScrolled);
+                }
+              }}
+              className="lg:col-span-6 flex flex-col justify-between max-h-[78vh] lg:max-h-[580px] overflow-y-auto overscroll-contain pl-1 pr-1.5 sm:pr-2 no-scrollbar relative"
+            >
               <div className="space-y-4">
                 {/* Product Title */}
                 <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold font-montserrat text-[#0F1729] leading-[1.25] tracking-tight mt-1 sm:mt-0">
@@ -735,10 +781,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 <div className="w-full h-px bg-slate-100 my-4" />
 
                 {/* 2. Product Highlights (Accordion) */}
-                <div className="space-y-3 pt-1">
+                <div ref={highlightsRef} className="space-y-3 pt-1 scroll-mt-4">
                   <button
                     type="button"
-                    onClick={() => setIsHighlightsOpen(!isHighlightsOpen)}
+                    onClick={() => toggleSection(setIsHighlightsOpen, highlightsRef)}
                     className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
                   >
                     <span>Product Highlights</span>
@@ -771,10 +817,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 <div className="w-full h-px bg-slate-100 my-4" />
 
                 {/* 3. Technical Specifications (Accordion) */}
-                <div className="space-y-3 pt-1">
+                <div ref={specsRef} className="space-y-3 pt-1 scroll-mt-4">
                   <button
                     type="button"
-                    onClick={() => setIsSpecsOpen(!isSpecsOpen)}
+                    onClick={() => toggleSection(setIsSpecsOpen, specsRef)}
                     className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
                   >
                     <span>Technical Specifications</span>
@@ -791,6 +837,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       <div className="flex items-center justify-between">
                         <span className="text-slate-500">Pressure rating</span>
                         <span className="font-bold text-slate-900">1400 PSI</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Suction power</span>
+                        <span className="font-bold text-slate-900">12 kPa</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-500">Battery life</span>
@@ -823,10 +873,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 <div className="w-full h-px bg-slate-100 my-4" />
 
                 {/* 4. What's In The Box (Accordion) */}
-                <div className="space-y-3 pt-1 pb-2">
+                <div ref={boxRef} className="space-y-3 pt-1 pb-2 scroll-mt-4">
                   <button
                     type="button"
-                    onClick={() => setIsBoxOpen(!isBoxOpen)}
+                    onClick={() => toggleSection(setIsBoxOpen, boxRef)}
                     className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
                   >
                     <span>What&apos;s In The Box</span>
@@ -873,9 +923,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Sticky Buy Now Action Button (Always Anchored at Bottom) with Top Fade Gradient */}
-              <div className="relative pt-2 pb-1 bg-white shrink-0 sticky bottom-0 z-20">
-                {/* Smooth White Gradient Overlay prompting user to scroll */}
-                <div className="absolute -top-7 left-0 right-0 h-7 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none" />
+              <div className="relative pt-2.5 pb-3.5 sm:pb-4 bg-white shrink-0 sticky bottom-0 z-20 px-1">
+                {/* Smooth White Gradient Overlay prompting user to scroll (Fades out when user scrolls) */}
+                <div
+                  className={`absolute -top-7 left-0 right-0 h-7 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none transition-opacity duration-300 ${
+                    isPanelScrolled ? "opacity-0" : "opacity-100"
+                  }`}
+                />
 
                 {currentColor.inStock ? (
                   <button

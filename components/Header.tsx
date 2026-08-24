@@ -48,7 +48,7 @@ export default function Header() {
       <div
         className={`mx-auto transition-all duration-300 ease-in-out flex items-center justify-between pointer-events-auto ${
           scrolled
-            ? "max-w-[1240px] w-full h-[54px] sm:h-[62px] px-4 sm:px-6 lg:px-8 rounded-xl sm:rounded-2xl bg-[#16273f]/92 backdrop-blur-md border border-white/15 shadow-[0_12px_36px_rgba(0,0,0,0.55)]"
+            ? "max-w-[1240px] w-full h-[54px] sm:h-[62px] px-4 sm:px-6 lg:px-8 rounded-xl sm:rounded-2xl bg-black/95 backdrop-blur-md border border-white/20 shadow-[0_12px_36px_rgba(0,0,0,0.7)]"
             : "max-w-[1440px] w-full h-[64px] sm:h-[76px] lg:h-[82px] bg-transparent border-b border-transparent shadow-none"
         }`}
       >
@@ -118,7 +118,7 @@ export default function Header() {
             onClick={() => setOpen(false)}
           />
           <div
-            className={`md:hidden fixed left-4 right-4 z-50 bg-[#0f1b2d] border border-white/15 p-5 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto ${
+            className={`md:hidden fixed left-4 right-4 z-50 bg-black/95 border border-white/20 p-5 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto ${
               scrolled ? "top-[72px]" : "top-[70px]"
             }`}
           >
