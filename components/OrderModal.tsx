@@ -10,7 +10,7 @@ interface OrderModalProps {
 }
 
 const PRODUCT_DATA = {
-  name: "Aquaforce 1400",
+  name: "Cordless AquaForce 1400 High-pressure Washer System",
   description:
     "The AMEC Aquaforce 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
   rating: 4.8,
@@ -51,9 +51,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentId, setPaymentId] = useState("");
-  const [isHighlightsOpen, setIsHighlightsOpen] = useState(true);
-  const [isSpecsOpen, setIsSpecsOpen] = useState(true);
-  const [isBoxOpen, setIsBoxOpen] = useState(true);
+  const [isHighlightsOpen, setIsHighlightsOpen] = useState(false);
+  const [isSpecsOpen, setIsSpecsOpen] = useState(false);
+  const [isBoxOpen, setIsBoxOpen] = useState(false);
 
   // Touch Swipe State for Modal Image Gallery
   const [modalTouchStartX, setModalTouchStartX] = useState<number | null>(null);
@@ -588,7 +588,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             <div className="lg:col-span-6 flex flex-col justify-between max-h-[78vh] lg:max-h-[580px] overflow-y-auto pl-1 pr-1.5 sm:pr-2 no-scrollbar relative">
               <div className="space-y-4">
                 {/* Product Title */}
-                <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold font-montserrat text-[#0F1729] leading-[1.15] tracking-tight mt-1 sm:mt-0">
+                <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold font-montserrat text-[#0F1729] leading-[1.25] tracking-tight mt-1 sm:mt-0">
                   {PRODUCT_DATA.name}
                 </h2>
 
@@ -742,10 +742,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
                   >
                     <span>Product Highlights</span>
-                    <ChevronUp
+                    <ChevronDown
                       size={16}
                       className={`text-slate-500 transition-transform duration-200 ${
-                        isHighlightsOpen ? "" : "rotate-180"
+                        isHighlightsOpen ? "rotate-180" : ""
                       }`}
                     />
                   </button>
@@ -778,10 +778,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
                   >
                     <span>Technical Specifications</span>
-                    <ChevronUp
+                    <ChevronDown
                       size={16}
                       className={`text-slate-500 transition-transform duration-200 ${
-                        isSpecsOpen ? "" : "rotate-180"
+                        isSpecsOpen ? "rotate-180" : ""
                       }`}
                     />
                   </button>
@@ -830,10 +830,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
                   >
                     <span>What&apos;s In The Box</span>
-                    <ChevronUp
+                    <ChevronDown
                       size={16}
                       className={`text-slate-500 transition-transform duration-200 ${
-                        isBoxOpen ? "" : "rotate-180"
+                        isBoxOpen ? "rotate-180" : ""
                       }`}
                     />
                   </button>
