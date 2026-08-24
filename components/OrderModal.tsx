@@ -10,7 +10,7 @@ interface OrderModalProps {
 }
 
 const PRODUCT_DATA = {
-  name: "Cordless AquaForce 1400 High-pressure Washer System",
+  name: "Aquaforce 1400",
   description:
     "The AMEC Aquaforce 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
   rating: 4.8,
@@ -588,7 +588,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             <div className="lg:col-span-6 flex flex-col justify-between max-h-[78vh] lg:max-h-[580px] overflow-y-auto pl-1 pr-1.5 sm:pr-2 no-scrollbar relative">
               <div className="space-y-4">
                 {/* Product Title */}
-                <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold font-montserrat text-[#0F1729] leading-[1.2] tracking-tight mt-1 sm:mt-0">
+                <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold font-montserrat text-[#0F1729] leading-[1.15] tracking-tight mt-1 sm:mt-0">
                   {PRODUCT_DATA.name}
                 </h2>
 
@@ -617,22 +617,23 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </span>
                 </div>
 
-                {/* Price Line & Free Delivery Badge */}
-                <div className="space-y-1">
-                  <div className="flex items-center gap-3 font-open-sans flex-wrap">
+                {/* Price Line & Delivery Fee */}
+                <div className="space-y-2">
+                  <div className="flex items-baseline gap-3 font-open-sans">
                     <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
                       ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
                     </span>
                     <span className="text-slate-400 line-through text-lg font-normal">
                       ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
                     </span>
-                    <span className="bg-[#16a34a] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                  </div>
+                  <div className="flex items-center gap-2 font-open-sans text-xs sm:text-[13px] flex-wrap">
+                    <span className="text-slate-500 font-medium">Delivery Fee:</span>
+                    <span className="text-red-500 line-through font-semibold">₹1,500</span>
+                    <span className="bg-[#16a34a] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
                       FREE Delivery
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 font-open-sans">
-                    You save ₹{(1500).toLocaleString("en-IN")} on shipping
-                  </p>
                 </div>
 
                 <div className="w-full h-px bg-slate-100 my-4" />
@@ -676,8 +677,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                 <div className="w-full h-px bg-slate-100 my-4" />
 
-                {/* Quantity Stepper & Delivery on Separate Rows */}
-                <div className="space-y-3">
+                {/* Quantity Stepper & Deliver within 4-6 Days (Same Row) */}
+                <div className="flex items-center justify-between gap-4 flex-wrap">
                   {/* Quantity Stepper */}
                   <div
                     className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 transition-opacity ${
@@ -705,8 +706,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     </button>
                   </div>
 
-                  {/* Delivery Info */}
-                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-900 font-semibold font-open-sans">
+                  {/* Delivery Info on right side */}
+                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
                     <Truck size={17} className="text-[#0066cc]" />
                     <span>Deliver within 4-6 Days</span>
                   </div>
