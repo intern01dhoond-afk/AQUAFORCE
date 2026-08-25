@@ -572,15 +572,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           /* Main Product Detail Layout (Matching Image 1 & Image 2 with Sticky Gallery & Sticky Buy Now) */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
             {/* ========================================================= */}
-            {/* LEFT COLUMN: Sticky Gallery, Thumbnails & Trust Badges */}
+            {/* LEFT COLUMN: Gallery & Thumbnails */}
             {/* ========================================================= */}
-            <div className="lg:col-span-6 lg:sticky lg:top-0 flex flex-col items-center select-none">
+            <div className="lg:col-span-6 flex flex-col justify-between select-none">
               {/* Main Image Container with Touch Swipe Support */}
               <div
                 onTouchStart={handleModalTouchStart}
                 onTouchMove={handleModalTouchMove}
                 onTouchEnd={handleModalTouchEnd}
-                className="relative w-full aspect-square max-h-[280px] xs:max-h-[320px] sm:max-h-[380px] lg:max-h-[420px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
+                className="relative w-full aspect-square max-h-[260px] xs:max-h-[300px] sm:max-h-[350px] lg:max-h-[375px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
               >
                 {/* Out of Stock Ribbon/Badge */}
                 {!currentColor.inStock && (
@@ -621,7 +621,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Clickable Thumbnails (4 visible at a time, scrollable for 5, 6, etc.) */}
-              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-4 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
+              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-3.5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-0.5">
                 {images.map((img, idx) => (
                   <button
                     key={img}
@@ -653,25 +653,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </button>
                 ))}
               </div>
-
-              {/* Trust & Assurance Badges */}
-              <div className="grid grid-cols-3 gap-2 w-full mt-3.5 pt-3 border-t border-slate-100 font-open-sans">
-                <div className="flex flex-col items-center text-center p-2 rounded-xl bg-slate-50 border border-slate-100/80 shadow-2xs">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600 mb-1" />
-                  <span className="text-[11px] font-bold text-slate-900 leading-tight">1 Year Warranty</span>
-                  <span className="text-[9.5px] text-slate-500 mt-0.5">AMEC Official</span>
-                </div>
-                <div className="flex flex-col items-center text-center p-2 rounded-xl bg-slate-50 border border-slate-100/80 shadow-2xs">
-                  <Truck className="w-4 h-4 text-[#0066cc] mb-1" />
-                  <span className="text-[11px] font-bold text-slate-900 leading-tight">Free Delivery</span>
-                  <span className="text-[9.5px] text-slate-500 mt-0.5">4-6 Days Pan-India</span>
-                </div>
-                <div className="flex flex-col items-center text-center p-2 rounded-xl bg-slate-50 border border-slate-100/80 shadow-2xs">
-                  <RotateCcw className="w-4 h-4 text-amber-600 mb-1" />
-                  <span className="text-[11px] font-bold text-slate-900 leading-tight">7-Day Return</span>
-                  <span className="text-[9.5px] text-slate-500 mt-0.5">Transit Safe</span>
-                </div>
-              </div>
             </div>
 
             {/* ========================================================= */}
@@ -687,7 +668,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   }
                 }
               }}
-              className="lg:col-span-6 flex flex-col justify-between overflow-visible lg:overflow-y-auto lg:max-h-[530px] overscroll-contain pl-0 lg:pl-1 pr-0 lg:pr-1.5 sm:pr-2 no-scrollbar relative mt-4 lg:mt-0"
+              className="lg:col-span-6 flex flex-col justify-between overflow-visible lg:overflow-y-auto lg:max-h-[460px] overscroll-contain pl-0 lg:pl-1 pr-0 lg:pr-1.5 sm:pr-2 no-scrollbar relative mt-4 lg:mt-0"
             >
               <div className="space-y-4">
                 {/* Product Title */}
@@ -980,7 +961,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Sticky Buy Now Action Button (Always Anchored at Bottom) with Top Fade Gradient */}
-              <div className="relative pt-2.5 pb-3.5 sm:pb-4 bg-white shrink-0 sticky bottom-0 z-20 px-1">
+              <div className="relative pt-2.5 pb-1 sm:pb-1.5 bg-white shrink-0 sticky bottom-0 z-20 px-1">
                 {/* Smooth White Gradient Overlay prompting user to scroll (Fades out when user scrolls) */}
                 <div
                   className={`absolute -top-7 left-0 right-0 h-7 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none transition-opacity duration-300 ${
