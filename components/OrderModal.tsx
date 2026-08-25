@@ -961,7 +961,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Sticky Buy Now Action Button (Always Anchored at Bottom) with Top Fade Gradient */}
-              <div className="relative pt-3 pb-2 sm:pb-2.5 bg-white shrink-0 sticky bottom-0 z-20 px-1 mt-2">
+              <div className="relative pt-2.5 pb-4 sm:pb-5 bg-white shrink-0 sticky bottom-0 z-20 px-1 mt-2">
                 {/* Smooth White Gradient Overlay prompting user to scroll (Fades out when user scrolls) */}
                 <div
                   className={`absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none transition-opacity duration-300 ${
@@ -972,7 +972,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 {currentColor.inStock ? (
                   <button
                     onClick={() => setIsCheckingOut(true)}
-                    className="w-full h-12 sm:h-12.5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                    className="w-full h-12 sm:h-12.5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-[0_6px_18px_rgba(0,102,204,0.28)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                   >
                     BUY NOW
                   </button>
