@@ -23,10 +23,12 @@ const PRODUCT_DATA = {
       hex: "#f5c518",
       inStock: true,
       images: [
-        "/cart page images/Yellow Product/2.png",
-        "/cart page images/Yellow Product/1.png",
-        "/cart page images/Yellow Product/3.png",
-        "/cart page images/Yellow Product/4.png",
+        "/aquaforceforautocare/images/products/yellow/1.jpg",
+        "/aquaforceforautocare/images/products/yellow/2.jpg",
+        "/aquaforceforautocare/images/products/yellow/3.jpg",
+        "/aquaforceforautocare/images/products/yellow/4.jpg",
+        "/aquaforceforautocare/images/products/yellow/5.png",
+        "/aquaforceforautocare/images/products/yellow/6.png",
       ],
     },
     {
@@ -34,10 +36,10 @@ const PRODUCT_DATA = {
       hex: "#0066cc",
       inStock: false,
       images: [
-        "/cart page images/Blue product/2.png",
-        "/cart page images/Blue product/1.png",
-        "/cart page images/Blue product/3.png",
-        "/cart page images/Blue product/4.png",
+        "/aquaforceforautocare/images/products/blue/1.png",
+        "/aquaforceforautocare/images/products/blue/2.png",
+        "/aquaforceforautocare/images/products/blue/3.png",
+        "/aquaforceforautocare/images/products/blue/4.png",
       ],
     },
   ],
@@ -607,8 +609,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </button>
               </div>
 
-              {/* 4 Clickable Thumbnails */}
-              <div className="grid grid-cols-4 gap-2.5 sm:gap-3.5 w-full mt-3 sm:mt-4">
+              {/* Clickable Thumbnails */}
+              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 sm:gap-2.5 w-full mt-3 sm:mt-4">
                 {images.map((img, idx) => (
                   <button
                     key={img}
