@@ -961,8 +961,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
               </div>
 
-              {/* Fixed Bottom Buy Now Action Button (Anchored at very bottom, matching thumbnail baseline) */}
-              <div className="relative pt-2 pb-0.5 bg-white shrink-0 z-20 px-0.5 mt-1.5 border-t border-slate-100/80">
+              {/* Sticky Bottom Buy Now Action Button (Always Anchored at Bottom on Mobile and Desktop) */}
+              <div className="sticky bottom-0 -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 lg:mx-0 lg:mb-0 pt-3 pb-3 sm:pb-3.5 lg:pt-2 lg:pb-0.5 px-4 sm:px-6 lg:px-0.5 bg-white/95 backdrop-blur-md shrink-0 z-30 mt-3 lg:mt-1.5 border-t border-slate-100 shadow-[0_-8px_20px_rgba(0,0,0,0.06)] lg:shadow-none">
                 {/* Scroll Prompt & Soft Gradient Overlay */}
                 <div
                   className={`absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-center justify-center transition-opacity duration-300 ${
