@@ -56,11 +56,16 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
 
   if (!isOpen) return null;
 
+  const isValidEmail = (emailStr: string) => {
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailStr.trim());
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const finalVal = name === "phone" ? value.replace(/\D/g, "").slice(0, 10) : value;
+    setFormData((prev) => ({ ...prev, [name]: finalVal }));
     if (errorMsg) setErrorMsg("");
   };
 
@@ -81,7 +86,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
       return;
     }
     const cleanPhone = formData.phone.replace(/\D/g, "");
-    if (!cleanPhone || cleanPhone.length < 10) {
+    if (!cleanPhone || cleanPhone.length !== 10) {
       setErrorMsg("Please enter a valid 10-digit mobile number");
       return;
     }
@@ -89,13 +94,17 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
       setErrorMsg("Please enter your company or business name");
       return;
     }
-    if (!formData.email.trim() || !formData.email.includes("@")) {
+    if (!formData.email.trim() || !isValidEmail(formData.email)) {
       setErrorMsg("Please enter a valid work email address");
       return;
     }
     const finalQuantity = formData.customQuantity.trim() || formData.quantity;
     if (!finalQuantity) {
       setErrorMsg("Please select or enter the required quantity");
+      return;
+    }
+    if (!formData.notes.trim()) {
+      setErrorMsg("Please specify your notes or delivery requirements");
       return;
     }
     if (!formData.agreedToTerms) {
@@ -268,10 +277,11 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
                   type="tel"
                   name="phone"
                   required
-                  placeholder="+91 98765 43210"
+                  inputMode="numeric"
+                  placeholder="9876543210"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  maxLength={15}
+                  maxLength={10}
                   className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[15px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans shadow-2xs"
                 />
               </div>
@@ -354,14 +364,15 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
               />
             </div>
 
-            {/* Row 4: Optional Notes / Requirements */}
+            {/* Row 4: Notes / Requirements (Mandatory) */}
             <div>
               <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 font-open-sans">
-                Optional Notes / Delivery Requirements
+                Notes / Delivery Requirements <span className="text-red-500">*</span>
               </label>
               <textarea
                 rows={2}
                 name="notes"
+                required
                 placeholder="Specify delivery location, timeframe, or special requirements..."
                 value={formData.notes}
                 onChange={handleInputChange}

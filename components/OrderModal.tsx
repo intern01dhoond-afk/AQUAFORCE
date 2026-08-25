@@ -132,6 +132,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
   const [formData, setFormData] = useState({
     fullName: "",
+    email: "",
     phone: "",
     deliveryAddress: "",
     city: "",
@@ -140,6 +141,67 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     gstNumber: "",
     agreedToTerms: true,
   });
+
+  const [formErrors, setFormErrors] = useState<{
+    phone?: string;
+    email?: string;
+    pincode?: string;
+  }>({});
+
+  const [isLoadingPincode, setIsLoadingPincode] = useState(false);
+
+  const isValidEmail = (emailStr: string) => {
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailStr.trim());
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digitsOnly = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setFormData((prev) => ({ ...prev, phone: digitsOnly }));
+    if (formErrors.phone && digitsOnly.length === 10) {
+      setFormErrors((prev) => ({ ...prev, phone: undefined }));
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setFormData((prev) => ({ ...prev, email: val }));
+    if (formErrors.email && isValidEmail(val)) {
+      setFormErrors((prev) => ({ ...prev, email: undefined }));
+    }
+  };
+
+  const handlePincodeChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawVal = e.target.value;
+    const cleanVal = rawVal.replace(/\D/g, "").slice(0, 6);
+
+    setFormData((prev) => ({ ...prev, pincode: cleanVal }));
+    if (formErrors.pincode && cleanVal.length === 6) {
+      setFormErrors((prev) => ({ ...prev, pincode: undefined }));
+    }
+
+    if (cleanVal.length === 6) {
+      setIsLoadingPincode(true);
+      try {
+        const res = await fetch(`https://api.postalpincode.in/pincode/${cleanVal}`);
+        const data = await res.json();
+        if (Array.isArray(data) && data[0]?.Status === "Success" && data[0]?.PostOffice?.length > 0) {
+          const po = data[0].PostOffice[0];
+          const fetchedCity = po.District || po.Block || po.Circle || po.Name || "";
+          const fetchedState = po.State || "";
+          setFormData((prev) => ({
+            ...prev,
+            pincode: cleanVal,
+            city: fetchedCity || prev.city,
+            state: fetchedState || prev.state,
+          }));
+        }
+      } catch (err) {
+        console.warn("Error fetching pincode details:", err);
+      } finally {
+        setIsLoadingPincode(false);
+      }
+    }
+  };
 
   const currentColor = PRODUCT_DATA.colors[selectedColorIndex];
   const images = currentColor.images;
@@ -170,6 +232,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       setIsSubmitted(false);
       setIsProcessingPayment(false);
       setPaymentId("");
+      setFormErrors({});
       return () => {
         document.body.style.overflow = originalBodyOverflow || "";
         document.documentElement.style.overflow = originalHtmlOverflow || "";
@@ -215,6 +278,27 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     e.preventDefault();
     if (!currentColor.inStock) return;
 
+    const errors: { phone?: string; email?: string; pincode?: string } = {};
+
+    const cleanPhone = formData.phone.replace(/\D/g, "");
+    if (!cleanPhone || cleanPhone.length !== 10) {
+      errors.phone = "Please enter a valid 10-digit mobile number";
+    }
+
+    if (!formData.email.trim() || !isValidEmail(formData.email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.pincode || formData.pincode.length !== 6) {
+      errors.pincode = "Please enter a valid 6-digit pincode";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setFormErrors({});
     setIsProcessingPayment(true);
 
     try {
@@ -234,6 +318,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           amount: totalAmount,
           notes: {
             fullName: formData.fullName,
+            email: formData.email,
             phone: formData.phone,
             deliveryAddress: formData.deliveryAddress,
             city: formData.city,
@@ -268,6 +353,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         order_id: orderData.id,
         prefill: {
           name: formData.fullName,
+          email: formData.email,
           contact: formData.phone,
         },
         theme: {
@@ -288,6 +374,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 orderId: orderData.id,
                 paymentId: payId,
                 fullName: formData.fullName,
+                email: formData.email,
                 phone: formData.phone,
                 deliveryAddress: formData.deliveryAddress,
                 city: formData.city,
@@ -325,6 +412,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     setIsSubmitted(false);
     setIsProcessingPayment(false);
     setPaymentId("");
+    setFormErrors({});
     onClose();
   };
 
@@ -392,6 +480,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 {formData.state ? `, ${formData.state}` : ""}
                 {formData.pincode ? ` - ${formData.pincode}` : ""}
               </p>
+              {formData.email && (
+                <p>
+                  <strong>Email:</strong> {formData.email}
+                </p>
+              )}
               <p>
                 <strong>Phone:</strong> {formData.phone}
               </p>
@@ -449,16 +542,51 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </label>
                   <input
                     type="tel"
+                    inputMode="numeric"
+                    maxLength={10}
                     required
-                    placeholder="+91 98765 43210"
+                    placeholder="9876543210"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                    onChange={handlePhoneChange}
+                    className={`w-full bg-white border ${
+                      formErrors.phone
+                        ? "border-red-500 ring-1 ring-red-500"
+                        : "border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]"
+                    } rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
                   />
+                  {formErrors.phone && (
+                    <p className="text-red-500 text-[11px] sm:text-xs mt-1 font-open-sans font-medium">
+                      {formErrors.phone}
+                    </p>
+                  )}
                 </div>
               </div>
 
-              {/* Row 2: Complete Delivery Address */}
+              {/* Row 2: Email Address */}
+              <div>
+                <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="rahul.sharma@example.com"
+                  value={formData.email}
+                  onChange={handleEmailChange}
+                  className={`w-full bg-white border ${
+                    formErrors.email
+                      ? "border-red-500 ring-1 ring-red-500"
+                      : "border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]"
+                  } rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
+                />
+                {formErrors.email && (
+                  <p className="text-red-500 text-[11px] sm:text-xs mt-1 font-open-sans font-medium">
+                    {formErrors.email}
+                  </p>
+                )}
+              </div>
+
+              {/* Row 3: Complete Delivery Address */}
               <div>
                 <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                   Complete Delivery Address
@@ -473,8 +601,40 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 />
               </div>
 
-              {/* Row 3: City, State, Pincode */}
+              {/* Row 3: Pincode (1st), City (2nd), State (3rd) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
+                    Pincode
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      required
+                      inputMode="numeric"
+                      maxLength={6}
+                      placeholder="440001"
+                      value={formData.pincode}
+                      onChange={handlePincodeChange}
+                      className={`w-full bg-white border ${
+                        formErrors.pincode
+                          ? "border-red-500 ring-1 ring-red-500"
+                          : "border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]"
+                      } rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
+                    />
+                    {isLoadingPincode && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+                        <span className="w-4 h-4 border-2 border-[#0066cc] border-t-transparent rounded-full animate-spin block" />
+                      </div>
+                    )}
+                  </div>
+                  {formErrors.pincode && (
+                    <p className="text-red-500 text-[11px] sm:text-xs mt-1 font-open-sans font-medium">
+                      {formErrors.pincode}
+                    </p>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
                     City
@@ -499,20 +659,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     placeholder="Maharashtra"
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
-                    Pincode
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="440001"
-                    value={formData.pincode}
-                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
                     className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
                   />
                 </div>
@@ -808,7 +954,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   <ul className="space-y-1 text-xs text-slate-600 font-open-sans">
                     <li className="flex items-center gap-2">
                       <span className="text-slate-400 font-normal">-</span>
-                      <span>1-year limited warranty on the product</span>
+                      <span>1-year limited warranty on the product + 2-Years of Service Support</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="text-slate-400 font-normal">-</span>

@@ -12,6 +12,7 @@ import CompactModules from "@/components/CompactModules";
 import Testimonials from "@/components/Testimonials";
 import CTABanner from "@/components/CTABanner";
 import Footer from "@/components/Footer";
+import MobileStickyBuyBar from "@/components/MobileStickyBuyBar";
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
       <Testimonials />
       <CTABanner />
       <Footer />
+      <MobileStickyBuyBar />
     </main>
   );
 }

@@ -53,10 +53,47 @@ export default function UseCase() {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const isClickingRef = useRef(false);
+  const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Track window scroll and map progress to active use case
+  // Touch swipe support on mobile
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const diff = touchStartX - touchEndX;
+    if (diff > 40) {
+      // swipe left -> next
+      setActiveIndex((prev) => (prev + 1) % USE_CASES.length);
+    } else if (diff < -40) {
+      // swipe right -> prev
+      setActiveIndex((prev) => (prev === 0 ? USE_CASES.length - 1 : prev - 1));
+    }
+  };
+
+  useEffect(() => {
+    if (pillRefs.current[activeIndex]) {
+      pillRefs.current[activeIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeIndex]);
+
+  // Track window scroll and map progress to active use case on Desktop
   useEffect(() => {
     const handleScroll = () => {
+      if (window.innerWidth < 1024) return;
       if (isClickingRef.current || !containerRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
@@ -65,10 +102,8 @@ export default function UseCase() {
       if (totalScrollable <= 0) return;
 
       const currentScroll = -rect.top;
-      // Calculate normalized progress clamped between 0 and 1
       const progress = Math.min(Math.max(currentScroll / totalScrollable, 0), 1);
 
-      // Map progress to item index [0 .. USE_CASES.length - 1]
       const targetIndex = Math.min(
         Math.floor(progress * USE_CASES.length),
         USE_CASES.length - 1
@@ -83,16 +118,15 @@ export default function UseCase() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Smoothly scroll container to specific use case when clicked
   const handleSelectIndex = (idx: number) => {
     setActiveIndex(idx);
+    if (window.innerWidth < 1024) return;
     if (!containerRef.current) return;
 
     isClickingRef.current = true;
     const rect = containerRef.current.getBoundingClientRect();
     const totalScrollable = rect.height - window.innerHeight;
     const step = totalScrollable / USE_CASES.length;
-    // Position within the center of the step's scroll window
     const targetScrollTop = window.scrollY + rect.top + (idx + 0.5) * step;
 
     window.scrollTo({
@@ -111,15 +145,15 @@ export default function UseCase() {
     <section
       id="use-cases"
       ref={containerRef}
-      className="relative w-full h-[200vh] lg:h-[220vh] bg-white bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:3rem_3rem]"
+      className="relative w-full h-auto lg:h-[220vh] py-12 xs:py-14 sm:py-16 lg:py-0 bg-white"
     >
-      {/* Sticky Full-Viewport Inner Wrapper */}
-      <div className="sticky top-0 h-screen max-h-screen w-full flex flex-col justify-center overflow-hidden py-4 sm:py-6 lg:py-8 z-10">
-        <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-8 lg:px-[80px] flex flex-col justify-between h-full max-h-[860px] my-auto">
+      {/* Wrapper (Sticky on Desktop, Regular Flow on Mobile) with Static Mesh Grid */}
+      <div className="relative lg:sticky lg:top-0 h-auto lg:h-screen lg:max-h-screen w-full flex flex-col justify-center overflow-hidden py-0 lg:py-8 z-10 bg-white bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:3rem_3rem]">
+        <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-8 lg:px-[80px] flex flex-col justify-between h-auto lg:h-full lg:max-h-[860px] my-auto">
           {/* Section Header */}
-          <div className="text-center max-w-4xl mx-auto shrink-0 mb-3 sm:mb-6">
+          <div className="text-center max-w-4xl mx-auto shrink-0 mb-5 sm:mb-8 lg:mb-6">
             {/* Eyebrow Badge */}
-            <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-white shadow-xs mb-2 sm:mb-3">
+            <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-white shadow-xs mb-2.5 sm:mb-3">
               UNRESTRICTED UTILITY
             </div>
 
@@ -129,36 +163,89 @@ export default function UseCase() {
             </h2>
 
             {/* Subtitle */}
-            <p className="text-[#333340] font-open-sans text-xs xs:text-sm sm:text-base lg:text-[17px] font-normal leading-relaxed mt-1 sm:mt-2 max-w-[800px] mx-auto">
+            <p className="text-[#333340] font-open-sans text-xs xs:text-sm sm:text-base lg:text-[17px] font-normal leading-relaxed mt-1.5 sm:mt-2 max-w-[800px] mx-auto">
               Whether detailing high-end vehicles or prepping off-road gear, Aquaforce fits every scenario.
             </p>
           </div>
 
-          {/* Mobile View: Horizontal Pill Tag Selector above Image */}
-          <div className="lg:hidden w-full overflow-x-auto no-scrollbar py-1 mb-2 flex items-center gap-1.5 xs:gap-2 snap-x shrink-0">
-            {USE_CASES.map((item, idx) => {
-              const isActive = idx === activeIndex;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => handleSelectIndex(idx)}
-                  className={`whitespace-nowrap px-3.5 xs:px-4 py-1.5 rounded-full text-[11.5px] xs:text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer snap-center ${
-                    isActive
-                      ? "bg-[#0066cc] text-white shadow-md shadow-blue-600/30 border border-[#0066cc]"
-                      : "bg-slate-100 text-slate-600 border border-slate-200/80 hover:bg-slate-200"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
+          {/* ========================================================= */}
+          {/* MOBILE VIEW (lg:hidden): Integrated Showcase Card */}
+          {/* ========================================================= */}
+          <div className="lg:hidden w-full max-w-[540px] mx-auto flex flex-col items-center">
+            {/* Horizontal Pill Tag Selector */}
+            <div className="w-full overflow-x-auto no-scrollbar py-1 mb-3.5 flex items-center gap-2 snap-x px-1">
+              {USE_CASES.map((item, idx) => {
+                const isActive = idx === activeIndex;
+                return (
+                  <button
+                    key={item.id}
+                    ref={(el) => {
+                      pillRefs.current[idx] = el;
+                    }}
+                    type="button"
+                    onClick={() => setActiveIndex(idx)}
+                    className={`whitespace-nowrap px-4 py-2 rounded-full text-xs xs:text-sm font-semibold transition-all shrink-0 cursor-pointer snap-center ${
+                      isActive
+                        ? "bg-[#0066cc] text-white shadow-md shadow-blue-600/25 border border-[#0066cc] font-bold"
+                        : "bg-white text-slate-700 border border-slate-200/90 shadow-2xs hover:bg-slate-50"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Unified Showcase Card with Swipe Support */}
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="w-full bg-white rounded-[20px] border border-slate-200 shadow-[0_12px_35px_-8px_rgba(15,23,42,0.12)] overflow-hidden transition-all touch-pan-y"
+            >
+              {/* Image Area */}
+              <div className="relative w-full aspect-[16/10] bg-slate-900 overflow-hidden">
+                {USE_CASES.map((item, idx) => (
+                  <div
+                    key={item.id}
+                    className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+                      idx === activeIndex
+                        ? "opacity-100 scale-100 z-10"
+                        : "opacity-0 scale-[1.03] z-0 pointer-events-none"
+                    }`}
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.label}
+                      fill
+                      priority={idx === 0}
+                      quality={100}
+                      sizes="(max-width: 768px) 100vw, 540px"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Content Area */}
+              <div className="p-4 xs:p-5 bg-white">
+                <span className="text-xs xs:text-[13px] font-black uppercase tracking-[0.14em] text-[#0066cc] font-montserrat block mb-1">
+                  {activeCase.label}
+                </span>
+
+                <p className="text-slate-600 font-open-sans text-[13px] xs:text-[14px] leading-relaxed">
+                  {activeCase.desc}
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* 3-Column Interactive Layout */}
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-3 xs:gap-4 lg:gap-8 w-full flex-1 min-h-0 my-auto">
+          {/* ========================================================= */}
+          {/* DESKTOP VIEW (hidden lg:flex): 3-Column Interactive Layout */}
+          {/* ========================================================= */}
+          <div className="hidden lg:flex flex-row items-center justify-between gap-8 w-full flex-1 min-h-0 my-auto">
             {/* Desktop Left Column: Nav List */}
-            <div className="hidden lg:flex w-[280px] flex-col space-y-2.5 sm:space-y-3 shrink-0">
+            <div className="w-[280px] flex flex-col space-y-2.5 sm:space-y-3 shrink-0">
               {USE_CASES.map((item, idx) => {
                 const isActive = idx === activeIndex;
                 return (
@@ -178,9 +265,9 @@ export default function UseCase() {
               })}
             </div>
 
-            {/* Center Column: Stacked Cross-Fade Active Image */}
+            {/* Desktop Center Column: Stacked Cross-Fade Active Image */}
             <div className="flex-1 flex flex-col items-center justify-center w-full min-h-0">
-              <div className="relative w-full max-w-[560px] h-[195px] xs:h-[225px] sm:h-[320px] lg:h-[440px] xl:h-[480px] rounded-[16px] sm:rounded-[20px] overflow-hidden shadow-[0_20px_50px_rgba(15,23,42,0.14),0_6px_20px_rgba(15,23,42,0.08)] border border-slate-200/80 bg-slate-950">
+              <div className="relative w-full max-w-[560px] h-[440px] xl:h-[480px] rounded-[20px] overflow-hidden shadow-[0_20px_50px_rgba(15,23,42,0.14),0_6px_20px_rgba(15,23,42,0.08)] border border-slate-200/80 bg-slate-950">
                 {USE_CASES.map((item, idx) => (
                   <div
                     key={item.id}
@@ -196,29 +283,17 @@ export default function UseCase() {
                       fill
                       priority={idx === 0}
                       quality={100}
-                      sizes="(max-width: 1024px) 100vw, 560px"
+                      sizes="560px"
                       className="object-cover object-center"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                   </div>
                 ))}
               </div>
-
-              {/* Mobile View: Dynamic Flow Description */}
-              <div className="lg:hidden w-full max-w-[560px] mt-2.5 xs:mt-3 px-1 text-left shrink-0">
-                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 xs:p-3.5 shadow-xs">
-                  <span className="text-[11px] xs:text-xs font-bold uppercase tracking-[0.14em] text-[#0066cc] block mb-0.5">
-                    {activeCase.label}
-                  </span>
-                  <p className="text-[#4D4D59] text-[12px] xs:text-[13px] sm:text-[14px] font-normal leading-relaxed">
-                    {activeCase.desc}
-                  </p>
-                </div>
-              </div>
             </div>
 
             {/* Desktop Right Column: Cross-Fade Description */}
-            <div className="hidden lg:flex w-[260px] items-center shrink-0">
+            <div className="w-[260px] items-center shrink-0">
               <div className="relative w-full min-h-[180px] flex items-center">
                 {USE_CASES.map((item, idx) => (
                   <div
