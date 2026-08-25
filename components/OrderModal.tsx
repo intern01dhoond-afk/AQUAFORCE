@@ -793,7 +793,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   {/* Delivery Info on right side */}
                   <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
                     <Truck size={17} className="text-[#0066cc]" />
-                    <span>Deliver within 4-6 Days</span>
+                    <span>Express delivery within 4-6 Days</span>
                   </div>
                 </div>
 
