@@ -570,11 +570,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           </div>
         ) : (
           /* Main Product Detail Layout (Matching Image 1 & Image 2 with Sticky Gallery & Sticky Buy Now) */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-stretch">
             {/* ========================================================= */}
             {/* LEFT COLUMN: Gallery & Thumbnails */}
             {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col justify-between select-none">
+            <div className="lg:col-span-6 flex flex-col justify-between select-none h-full lg:min-h-[490px]">
               {/* Main Image Container with Touch Swipe Support */}
               <div
                 onTouchStart={handleModalTouchStart}
@@ -656,21 +656,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </div>
 
             {/* ========================================================= */}
-            {/* RIGHT COLUMN: Info with Sticky Buy Now Button */}
+            {/* RIGHT COLUMN: Info with Bottom-Anchored Buy Now Button */}
             {/* ========================================================= */}
-            <div
-              ref={scrollContainerRef}
-              onScroll={(e) => {
-                if (window.innerWidth >= 1024) {
-                  const isScrolled = e.currentTarget.scrollTop > 15;
-                  if (isScrolled !== isPanelScrolled) {
-                    setIsPanelScrolled(isScrolled);
+            <div className="lg:col-span-6 flex flex-col justify-between h-full lg:min-h-[490px] lg:max-h-[490px] mt-4 lg:mt-0 pl-0 lg:pl-1 pr-0 lg:pr-1">
+              {/* Scrollable Content Area */}
+              <div
+                ref={scrollContainerRef}
+                onScroll={(e) => {
+                  if (window.innerWidth >= 1024) {
+                    const isScrolled = e.currentTarget.scrollTop > 15;
+                    if (isScrolled !== isPanelScrolled) {
+                      setIsPanelScrolled(isScrolled);
+                    }
                   }
-                }
-              }}
-              className="lg:col-span-6 flex flex-col justify-between overflow-visible lg:overflow-y-auto lg:max-h-[500px] overscroll-contain pl-0 lg:pl-1 pr-0 lg:pr-1.5 sm:pr-2 no-scrollbar relative mt-4 lg:mt-0"
-            >
-              <div className="space-y-4">
+                }}
+                className="flex-1 overflow-y-auto pr-1 sm:pr-2 no-scrollbar space-y-4"
+              >
                 {/* Product Title */}
                 <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold font-montserrat text-[#0F1729] leading-[1.25] tracking-tight mt-1 sm:mt-0">
                   {PRODUCT_DATA.name}
@@ -960,11 +961,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
               </div>
 
-              {/* Sticky Buy Now Action Button (Always Anchored at Bottom) with Top Fade Gradient */}
-              <div className="relative pt-2.5 pb-4 sm:pb-5 bg-white shrink-0 sticky bottom-0 z-20 px-1 mt-2">
+              {/* Fixed Bottom Buy Now Action Button (Anchored at very bottom, matching thumbnail baseline) */}
+              <div className="relative pt-2.5 pb-0.5 bg-white shrink-0 z-20 px-0.5 mt-2">
                 {/* Smooth White Gradient Overlay prompting user to scroll (Fades out when user scrolls) */}
                 <div
-                  className={`absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none transition-opacity duration-300 ${
+                  className={`absolute -top-7 left-0 right-0 h-7 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none transition-opacity duration-300 ${
                     isPanelScrolled ? "opacity-0" : "opacity-100"
                   }`}
                 />
