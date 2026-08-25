@@ -64,6 +64,17 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const highlightsRef = useRef<HTMLDivElement>(null);
   const specsRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
+  const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  useEffect(() => {
+    if (thumbnailRefs.current[activeImageIndex]) {
+      thumbnailRefs.current[activeImageIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeImageIndex]);
 
   const toggleSection = (
     setter: React.Dispatch<React.SetStateAction<boolean>>,
@@ -609,13 +620,23 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </button>
               </div>
 
-              {/* Clickable Thumbnails */}
-              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 sm:gap-2.5 w-full mt-3 sm:mt-4">
+              {/* Clickable Thumbnails (4 visible at a time, scrollable for 5, 6, etc.) */}
+              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-4 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
                 {images.map((img, idx) => (
                   <button
                     key={img}
-                    onClick={() => setActiveImageIndex(idx)}
-                    className={`relative aspect-square rounded-[12px] bg-white p-1 transition-all overflow-hidden cursor-pointer ${
+                    ref={(el) => {
+                      thumbnailRefs.current[idx] = el;
+                    }}
+                    onClick={() => {
+                      setActiveImageIndex(idx);
+                      thumbnailRefs.current[idx]?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                        inline: "center",
+                      });
+                    }}
+                    className={`relative shrink-0 w-[calc(25%-7.5px)] sm:w-[calc(25%-9px)] aspect-square rounded-[12px] bg-white p-1 transition-all overflow-hidden cursor-pointer snap-start ${
                       activeImageIndex === idx
                         ? "border-2 border-[#0066cc] shadow-xs"
                         : "border border-slate-200 hover:border-slate-300"
