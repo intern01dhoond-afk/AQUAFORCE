@@ -36,7 +36,7 @@ export default function WashWithoutLimits() {
           {/* Left Portrait Image: Car Exterior Wash */}
           <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
-              src="/images/1-1 mobile baner 3.png"
+              src="/images/mobile-banner-3.png"
               alt="AMEC Aquaforce 1400 outdoor car detailing"
               fill
               priority
@@ -49,7 +49,7 @@ export default function WashWithoutLimits() {
           {/* Right Portrait Image: Car Interior Cleaning */}
           <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
-              src="/images/1-1 mobile baner 2.png"
+              src="/images/mobile-banner-2.png"
               alt="AMEC Aquaforce 1400 cordless vehicle detailing"
               fill
               priority
@@ -98,7 +98,7 @@ export default function WashWithoutLimits() {
         {/* Left Column Image (Edge-to-Edge) */}
         <ScrollReveal direction="right" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
-            src="/images/1-1 mobile baner 3.png"
+            src="/images/mobile-banner-3.png"
             alt="AMEC Aquaforce 1400 outdoor car detailing"
             fill
             priority
@@ -164,7 +164,7 @@ export default function WashWithoutLimits() {
         {/* Right Column Image (Edge-to-Edge) */}
         <ScrollReveal direction="left" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
-            src="/images/1-1 mobile baner 2.png"
+            src="/images/mobile-banner-2.png"
             alt="AMEC Aquaforce 1400 cordless vehicle detailing"
             fill
             priority

@@ -67,7 +67,7 @@ export default function Header() {
             }`}
           >
             <Image
-              src="/images/all logos promec Kit-02.svg"
+              src="/images/promec-logo.svg"
               alt="AMEC Technology"
               fill
               priority

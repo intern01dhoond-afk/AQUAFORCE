@@ -30,10 +30,10 @@ export default function FourSteps() {
       id="how-it-works"
       className="relative w-full min-h-[560px] xs:min-h-[600px] sm:min-h-[720px] lg:min-h-[820px] flex flex-col justify-between py-10 xs:py-12 sm:py-18 lg:py-20 bg-black overflow-hidden"
     >
-      {/* Mobile Cinematic Background Image (Vertical Master) */}
+      {/* Mobile Cinematic Background Image */}
       <div className="sm:hidden absolute inset-0 z-0">
         <Image
-          src="/images/ChatGPT Image Aug 23, 2026, 07_00_26 PM.png"
+          src="/images/chatgpt-image-1.png"
           alt="AMEC Aquaforce 4 Steps to Pristine Clean mobile background"
           fill
           priority
@@ -48,7 +48,7 @@ export default function FourSteps() {
       {/* Desktop Cinematic Background Image */}
       <div className="hidden sm:block absolute inset-0 z-0">
         <Image
-          src="/images/WhatsApp Image 2026-08-24 at 5.52.17 PM.jpeg"
+          src="/images/four-steps-desktop.jpg"
           alt="AMEC Aquaforce on workshop workbench 4 Steps to Pristine Clean"
           fill
           priority

@@ -13,10 +13,10 @@ export default function CTABanner() {
       <div className="w-full max-w-[1440px] mx-auto flex justify-center">
         {/* Rounded CTA Card */}
         <ScrollReveal direction="zoom" duration={0.7} className="relative w-full max-w-[1280px] min-h-[440px] xs:min-h-[480px] sm:min-h-[320px] lg:min-h-[360px] rounded-[18px] sm:rounded-[24px] overflow-hidden flex items-center shadow-[0_20px_45px_-12px_rgba(15,23,42,0.22)]">
-          {/* Mobile Background Image using mobile banner 2.png */}
+          {/* Mobile Background Image */}
           <div className="sm:hidden absolute inset-0 z-0">
             <Image
-              src="/images/mobile banner 2.png"
+              src="/images/mobile-banner-2-alt.png"
               alt="AMEC Aquaforce 1400 Portable Pressure Washer"
               fill
               priority
@@ -28,10 +28,10 @@ export default function CTABanner() {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
           </div>
 
-          {/* Desktop Background Image using pressure washer Banner_ 5B.png (5.3K Master Banner) */}
+          {/* Desktop Background Image */}
           <div className="hidden sm:block absolute inset-0 z-0">
             <Image
-              src="/images/pressure washer Banner_ 5B.png"
+              src="/images/pressure-washer-banner-5b.png"
               alt="AMEC Aquaforce 1400 Portable Pressure Washer"
               fill
               priority

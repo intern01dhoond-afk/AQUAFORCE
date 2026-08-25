@@ -68,10 +68,10 @@ export default function Hero() {
             : "opacity-0 z-0 pointer-events-none"
         }`}
       >
-        {/* Mobile Background Image (ChatGPT Image Aug 23, 2026, 07_37_35 PM.png) */}
+        {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/images/ChatGPT Image Aug 23, 2026, 07_37_35 PM.png"
+            src="/images/chatgpt-image-2.png"
             alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer"
             fill
             priority
@@ -81,10 +81,10 @@ export default function Hero() {
           />
         </div>
 
-        {/* Desktop Background Image (WhatsApp Image 2026-08-24 at 5.52.17 PM (1).jpeg) */}
+        {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/images/WhatsApp Image 2026-08-24 at 5.52.17 PM (1).jpeg"
+            src="/images/banner-desktop-1.jpg"
             alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
             fill
             priority
@@ -214,10 +214,10 @@ export default function Hero() {
             : "opacity-0 z-0 pointer-events-none"
         }`}
       >
-        {/* Mobile Background Image (ChatGPT Image Aug 23, 2026, 12_31_33 PM.png) */}
+        {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/images/ChatGPT Image Aug 23, 2026, 12_31_33 PM.png"
+            src="/images/chatgpt-image-3.png"
             alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority
@@ -227,10 +227,10 @@ export default function Hero() {
           />
         </div>
 
-        {/* Desktop Background Image (WhatsApp Image 2026-08-24 at 6.13.30 PM.jpeg) */}
+        {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/images/WhatsApp Image 2026-08-24 at 6.13.30 PM.jpeg"
+            src="/images/banner-desktop-2.jpg"
             alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority
@@ -359,10 +359,10 @@ export default function Hero() {
             : "opacity-0 z-0 pointer-events-none"
         }`}
       >
-        {/* Mobile Background Image (mobile banner 3.png) */}
+        {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/images/mobile banner 3.png"
+            src="/images/mobile-banner-3-alt.png"
             alt="AMEC Aquaforce 1400 No Power No Socket"
             fill
             priority
@@ -372,10 +372,10 @@ export default function Hero() {
           />
         </div>
 
-        {/* Desktop Background Image (2880x1800 4K Master Banner) */}
+        {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/images/pressure washer Banner_ 4Y.png"
+            src="/images/pressure-washer-banner-4y.png"
             alt="AMEC Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority
@@ -487,10 +487,10 @@ export default function Hero() {
             : "opacity-0 z-0 pointer-events-none"
         }`}
       >
-        {/* Mobile Background Image (mobile banner 4.png) */}
+        {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/images/mobile banner 4.png"
+            src="/images/mobile-banner-4-alt.png"
             alt="AMEC Aquaforce 1400 Cordless Powerful Portable Bike Washing"
             fill
             priority
@@ -500,10 +500,10 @@ export default function Hero() {
           />
         </div>
 
-        {/* Desktop Background Image (2880x1800 4K Master Banner) */}
+        {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/images/Banner 04.png"
+            src="/images/banner-04.png"
             alt="AMEC Aquaforce 1400 Cordless Powerful Portable Adventure Bike Washing"
             fill
             priority

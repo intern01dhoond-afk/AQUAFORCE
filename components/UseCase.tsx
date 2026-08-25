@@ -15,37 +15,37 @@ const USE_CASES: UseCaseItem[] = [
     id: "car-washing",
     label: "Car Washing",
     desc: "Clean cars conveniently at home, parking lots, or detailing bays without needing long extension cords or fixed plumbing.",
-    image: "/images/1-1 mobile baner 3.png",
+    image: "/images/mobile-banner-3.png",
   },
   {
     id: "bike-washing",
     label: "Bike Washing",
     desc: "Remove mud, road grit, and chain grease from motorcycles and bicycles with targeted pressure that protects delicate seals.",
-    image: "/images/Banner 1-1 1.jpg",
+    image: "/images/banner-1-1-1.jpg",
   },
   {
     id: "home-users",
     label: "Home Users",
     desc: "Power-wash patio tiles, stone steps, driveways, garden paths, and outdoor patio furniture with zero setup hassle.",
-    image: "/images/1-1 mobile baner 4.png",
+    image: "/images/mobile-banner-4.png",
   },
   {
     id: "workshops-garages",
     label: "Workshops & Garages",
     desc: "A heavy-duty, portable washing companion for auto workshops, service bays, and professional vehicle detailing centers.",
-    image: "/images/1-1 mobile baner 1.png",
+    image: "/images/mobile-banner-1.png",
   },
   {
     id: "mobile-car-wash",
     label: "Mobile Car Wash",
     desc: "The perfect all-in-one washing setup for mobile detailers - compact, battery-powered, and siphons water from any onboard tank or container.",
-    image: "/images/1-1 mobile baner 5.png",
+    image: "/images/mobile-banner-5.png",
   },
   {
     id: "remote-open-areas",
     label: "Remote & Open Areas",
     desc: "Wash off-road vehicles, trucks, and equipment anywhere off the grid - beside lakes, trailheads, campsites, or open farm fields.",
-    image: "/images/1-1 mobile baner 6.png",
+    image: "/images/mobile-banner-6.png",
   },
 ];
 
