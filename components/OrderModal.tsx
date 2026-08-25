@@ -574,13 +574,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* ========================================================= */}
             {/* LEFT COLUMN: Gallery & Thumbnails */}
             {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col justify-between select-none h-full lg:min-h-[490px]">
+            <div className="lg:col-span-6 flex flex-col justify-between select-none h-full lg:min-h-[540px]">
               {/* Main Image Container with Touch Swipe Support */}
               <div
                 onTouchStart={handleModalTouchStart}
                 onTouchMove={handleModalTouchMove}
                 onTouchEnd={handleModalTouchEnd}
-                className="relative w-full aspect-square max-h-[280px] xs:max-h-[320px] sm:max-h-[380px] lg:max-h-[400px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
+                className="relative w-full aspect-square max-h-[280px] xs:max-h-[320px] sm:max-h-[380px] lg:max-h-[430px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
               >
                 {/* Out of Stock Ribbon/Badge */}
                 {!currentColor.inStock && (
@@ -621,7 +621,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Clickable Thumbnails (4 visible at a time, scrollable for 5, 6, etc.) */}
-              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-4 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
+              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-3.5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
                 {images.map((img, idx) => (
                   <button
                     key={img}
@@ -658,7 +658,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* ========================================================= */}
             {/* RIGHT COLUMN: Info with Bottom-Anchored Buy Now Button */}
             {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col justify-between h-full lg:min-h-[490px] lg:max-h-[490px] mt-4 lg:mt-0 pl-0 lg:pl-1 pr-0 lg:pr-1">
+            <div className="lg:col-span-6 flex flex-col justify-between h-full lg:min-h-[540px] lg:max-h-[540px] mt-4 lg:mt-0 pl-0 lg:pl-1 pr-0 lg:pr-1">
               {/* Scrollable Content Area */}
               <div
                 ref={scrollContainerRef}
@@ -670,15 +670,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     }
                   }
                 }}
-                className="flex-1 overflow-y-auto pr-1 sm:pr-2 no-scrollbar space-y-4"
+                className="flex-1 overflow-y-auto pr-1 sm:pr-2 no-scrollbar space-y-3"
               >
                 {/* Product Title */}
-                <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold font-montserrat text-[#0F1729] leading-[1.25] tracking-tight mt-1 sm:mt-0">
+                <h2 className="text-xl sm:text-2xl lg:text-[25px] font-bold font-montserrat text-[#0F1729] leading-[1.2] tracking-tight mt-1 sm:mt-0">
                   {PRODUCT_DATA.name}
                 </h2>
 
                 {/* Description */}
-                <p className="text-slate-500 font-open-sans sm:text-slate-600 text-[13px] sm:text-sm leading-relaxed">
+                <p className="text-slate-500 font-open-sans sm:text-slate-600 text-[12.5px] sm:text-sm leading-relaxed">
                   {PRODUCT_DATA.description}
                 </p>
 
@@ -703,7 +703,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
 
                 {/* Price Line & Delivery Fee */}
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <div className="flex items-baseline gap-3 font-open-sans">
                     <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
                       ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
@@ -721,11 +721,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-slate-100 my-4" />
+                <div className="w-full h-px bg-slate-100 my-2" />
 
                 {/* Color Selector */}
                 <div>
-                  <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2.5 font-open-sans flex items-center gap-2">
+                  <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 font-open-sans flex items-center gap-2">
                     <span>
                       Color: <strong className="font-medium text-slate-800">{currentColor.name}</strong>
                     </span>
@@ -735,12 +735,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       </span>
                     )}
                   </p>
-                  <div className="flex items-center gap-3.5 py-1">
+                  <div className="flex items-center gap-3 py-0.5">
                     {PRODUCT_DATA.colors.map((c, idx) => (
                       <button
                         key={c.name}
                         onClick={() => handleColorChange(idx)}
-                        className={`relative w-10 h-10 rounded-[12px] p-[3px] bg-white transition-colors cursor-pointer flex items-center justify-center ${
+                        className={`relative w-9.5 h-9.5 sm:w-10 sm:h-10 rounded-[12px] p-[3px] bg-white transition-colors cursor-pointer flex items-center justify-center ${
                           selectedColorIndex === idx
                             ? "border-[2.5px] border-[#0066cc]"
                             : "border-[1.5px] border-slate-200 hover:border-slate-300"
@@ -760,31 +760,31 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-slate-100 my-4" />
+                <div className="w-full h-px bg-slate-100 my-2" />
 
                 {/* Quantity Stepper & Deliver within 4-6 Days (Same Row) */}
                 <div className="flex items-center justify-between gap-4 flex-wrap">
                   {/* Quantity Stepper */}
                   <div
-                    className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 transition-opacity ${
+                    className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 transition-opacity ${
                       !currentColor.inStock ? "opacity-40 pointer-events-none" : ""
                     }`}
                   >
                     <button
                       onClick={() => handleQuantityChange(-1)}
                       disabled={quantity <= 1 || !currentColor.inStock}
-                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
+                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base disabled:opacity-30 cursor-pointer"
                       aria-label="Decrease quantity"
                     >
                       &minus;
                     </button>
-                    <span className="px-3.5 text-sm sm:text-base font-bold text-slate-900 min-w-[20px] text-center select-none">
+                    <span className="px-3 text-sm font-bold text-slate-900 min-w-[20px] text-center select-none">
                       {quantity}
                     </span>
                     <button
                       onClick={() => handleQuantityChange(1)}
                       disabled={quantity >= MAX_QUANTITY_LIMIT || !currentColor.inStock}
-                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base sm:text-lg disabled:opacity-30 cursor-pointer"
+                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base disabled:opacity-30 cursor-pointer"
                       aria-label="Increase quantity"
                     >
                       &#43;
@@ -798,29 +798,29 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-slate-100 my-4" />
+                <div className="w-full h-px bg-slate-100 my-2" />
 
                 {/* 1. Warranty & Returns */}
-                <div className="space-y-2 pt-1">
-                  <h3 className="font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans">
+                <div className="space-y-1.5 pt-0.5">
+                  <h3 className="font-semibold text-xs sm:text-sm text-[#0F1729] font-open-sans">
                     Warranty &amp; Returns
                   </h3>
-                  <ul className="space-y-1.5 text-xs sm:text-[13px] text-slate-600 font-open-sans">
-                    <li className="flex items-start gap-2">
+                  <ul className="space-y-1 text-xs text-slate-600 font-open-sans">
+                    <li className="flex items-center gap-2">
                       <span className="text-slate-400 font-normal">-</span>
                       <span>1-year limited warranty on the product</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-center gap-2">
                       <span className="text-slate-400 font-normal">-</span>
                       <span>Returns accepted within 7 days of delivery</span>
                     </li>
                   </ul>
                 </div>
 
-                <div className="w-full h-px bg-slate-100 my-4" />
+                <div className="w-full h-px bg-slate-100 my-2" />
 
                 {/* 2. Product Highlights (Accordion) */}
-                <div ref={highlightsRef} className="space-y-3 pt-1 scroll-mt-4">
+                <div ref={highlightsRef} className="space-y-2.5 pt-0.5 scroll-mt-4">
                   <button
                     type="button"
                     onClick={() => toggleSection(setIsHighlightsOpen, highlightsRef)}
@@ -962,13 +962,18 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Fixed Bottom Buy Now Action Button (Anchored at very bottom, matching thumbnail baseline) */}
-              <div className="relative pt-2.5 pb-0.5 bg-white shrink-0 z-20 px-0.5 mt-2">
-                {/* Smooth White Gradient Overlay prompting user to scroll (Fades out when user scrolls) */}
+              <div className="relative pt-2 pb-0.5 bg-white shrink-0 z-20 px-0.5 mt-1.5 border-t border-slate-100/80">
+                {/* Scroll Prompt & Soft Gradient Overlay */}
                 <div
-                  className={`absolute -top-7 left-0 right-0 h-7 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none transition-opacity duration-300 ${
+                  className={`absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-center justify-center transition-opacity duration-300 ${
                     isPanelScrolled ? "opacity-0" : "opacity-100"
                   }`}
-                />
+                >
+                  <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 bg-white/90 px-2.5 py-0.5 rounded-full border border-slate-200/60 shadow-2xs font-open-sans">
+                    <ChevronDown size={12} className="text-[#0066cc] animate-bounce" />
+                    <span>Scroll for Specifications &amp; Details</span>
+                  </div>
+                </div>
 
                 {currentColor.inStock ? (
                   <button
