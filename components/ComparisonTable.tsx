@@ -29,7 +29,7 @@ const ROWS = [
   {
     feature: "Continuous Runtime",
     conventional: "Continuous, but heavily tied down physically",
-    aquaforce: "Up to 3 hours with proprietary Lithium cells",
+    aquaforce: "Up to 3 hours with proprietary battery tech",
   },
 ];
 
