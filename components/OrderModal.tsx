@@ -580,7 +580,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 onTouchStart={handleModalTouchStart}
                 onTouchMove={handleModalTouchMove}
                 onTouchEnd={handleModalTouchEnd}
-                className="relative w-full aspect-square max-h-[260px] xs:max-h-[300px] sm:max-h-[350px] lg:max-h-[375px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
+                className="relative w-full aspect-square max-h-[280px] xs:max-h-[320px] sm:max-h-[380px] lg:max-h-[400px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
               >
                 {/* Out of Stock Ribbon/Badge */}
                 {!currentColor.inStock && (
@@ -621,7 +621,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Clickable Thumbnails (4 visible at a time, scrollable for 5, 6, etc.) */}
-              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-3.5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-0.5">
+              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-4 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
                 {images.map((img, idx) => (
                   <button
                     key={img}
@@ -668,7 +668,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   }
                 }
               }}
-              className="lg:col-span-6 flex flex-col justify-between overflow-visible lg:overflow-y-auto lg:max-h-[460px] overscroll-contain pl-0 lg:pl-1 pr-0 lg:pr-1.5 sm:pr-2 no-scrollbar relative mt-4 lg:mt-0"
+              className="lg:col-span-6 flex flex-col justify-between overflow-visible lg:overflow-y-auto lg:max-h-[500px] overscroll-contain pl-0 lg:pl-1 pr-0 lg:pr-1.5 sm:pr-2 no-scrollbar relative mt-4 lg:mt-0"
             >
               <div className="space-y-4">
                 {/* Product Title */}
@@ -961,10 +961,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Sticky Buy Now Action Button (Always Anchored at Bottom) with Top Fade Gradient */}
-              <div className="relative pt-2.5 pb-1 sm:pb-1.5 bg-white shrink-0 sticky bottom-0 z-20 px-1">
+              <div className="relative pt-3 pb-2 sm:pb-2.5 bg-white shrink-0 sticky bottom-0 z-20 px-1 mt-2">
                 {/* Smooth White Gradient Overlay prompting user to scroll (Fades out when user scrolls) */}
                 <div
-                  className={`absolute -top-7 left-0 right-0 h-7 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none transition-opacity duration-300 ${
+                  className={`absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none transition-opacity duration-300 ${
                     isPanelScrolled ? "opacity-0" : "opacity-100"
                   }`}
                 />
