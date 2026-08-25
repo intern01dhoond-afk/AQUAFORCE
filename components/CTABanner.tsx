@@ -16,7 +16,7 @@ export default function CTABanner() {
           {/* Mobile Background Image */}
           <div className="sm:hidden absolute inset-0 z-0">
             <Image
-              src="/images/mobile-banner-2-alt.png"
+              src="/aquaforceforautocare/images/mobile-banner-2-alt.png"
               alt="AMEC Aquaforce 1400 Portable Pressure Washer"
               fill
               priority
@@ -31,7 +31,7 @@ export default function CTABanner() {
           {/* Desktop Background Image */}
           <div className="hidden sm:block absolute inset-0 z-0">
             <Image
-              src="/images/pressure-washer-banner-5b.png"
+              src="/aquaforceforautocare/images/pressure-washer-banner-5b.png"
               alt="AMEC Aquaforce 1400 Portable Pressure Washer"
               fill
               priority

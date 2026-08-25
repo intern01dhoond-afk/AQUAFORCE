@@ -67,7 +67,7 @@ export default function Header() {
             }`}
           >
             <Image
-              src="/images/promec-logo.svg"
+              src="/aquaforceforautocare/images/promec-logo.svg"
               alt="AMEC Technology"
               fill
               priority

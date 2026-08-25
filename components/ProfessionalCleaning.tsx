@@ -48,7 +48,7 @@ export default function ProfessionalCleaning() {
           {/* Left Wide Card */}
           <ScrollReveal direction="zoom" delay={0.05} className="w-full lg:w-[940px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
             <Image
-              src="/images/pro-clean-car.png"
+              src="/aquaforceforautocare/images/pro-clean-car.png"
               alt="Car detailing with high pressure water spray outdoors"
               fill
               priority
@@ -61,7 +61,7 @@ export default function ProfessionalCleaning() {
           {/* Right Card */}
           <ScrollReveal direction="zoom" delay={0.15} className="w-full lg:w-[324px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
             <Image
-              src="/images/banner-1-1-1.jpg"
+              src="/aquaforceforautocare/images/banner-1-1-1.jpg"
               alt="AMEC Aquaforce high pressure cordless vehicle washing"
               fill
               priority

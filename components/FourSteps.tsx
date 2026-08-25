@@ -33,7 +33,7 @@ export default function FourSteps() {
       {/* Mobile Cinematic Background Image */}
       <div className="sm:hidden absolute inset-0 z-0">
         <Image
-          src="/images/chatgpt-image-1.png"
+          src="/aquaforceforautocare/images/chatgpt-image-1.png"
           alt="AMEC Aquaforce 4 Steps to Pristine Clean mobile background"
           fill
           priority
@@ -48,7 +48,7 @@ export default function FourSteps() {
       {/* Desktop Cinematic Background Image */}
       <div className="hidden sm:block absolute inset-0 z-0">
         <Image
-          src="/images/four-steps-desktop.jpg"
+          src="/aquaforceforautocare/images/four-steps-desktop.jpg"
           alt="AMEC Aquaforce on workshop workbench 4 Steps to Pristine Clean"
           fill
           priority
