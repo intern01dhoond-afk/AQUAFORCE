@@ -13,6 +13,16 @@ const nextConfig = {
       { protocol: "https", hostname: "images.unsplash.com" },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/aquaforceforautocare",
+        basePath: false,
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
