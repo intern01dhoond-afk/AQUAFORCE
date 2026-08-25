@@ -362,7 +362,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/mobile-banner-3-alt.png"
+            src="/aquaforceforautocare/images/mobile-banner-3-new.png"
             alt="AMEC Aquaforce 1400 No Power No Socket"
             fill
             priority
@@ -375,13 +375,13 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/pressure-washer-banner-4y.png"
+            src="/aquaforceforautocare/images/banner-1-1-1.png"
             alt="AMEC Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority
             quality={100}
             sizes="100vw"
-            className="object-cover object-[center_48%] lg:object-[center_44%] xl:object-[center_42%]"
+            className="object-cover object-center"
           />
           {/* Subtle bottom gradient so device is 100% visible and buttons remain crisp */}
           <div className="absolute inset-x-0 bottom-0 h-36 sm:h-44 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent pointer-events-none" />

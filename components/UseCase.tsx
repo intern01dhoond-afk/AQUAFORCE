@@ -21,7 +21,7 @@ const USE_CASES: UseCaseItem[] = [
     id: "bike-washing",
     label: "Bike Washing",
     desc: "Remove mud, road grit, and chain grease from motorcycles and bicycles with targeted pressure that protects delicate seals.",
-    image: "/aquaforceforautocare/images/banner-1-1-1.jpg",
+    image: "/aquaforceforautocare/images/banner-1-1-1.png",
   },
   {
     id: "home-users",
