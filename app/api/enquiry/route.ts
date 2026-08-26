@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -33,17 +33,20 @@ export async function POST(req: Request) {
     const webhookUrl = process.env.GOOGLE_SHEET_ENQUIRY_URL;
 
     if (webhookUrl) {
-      try {
-        const response = await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+      // Fire-and-forget async execution so Google Apps Script execution time never slows down the user's UI
+      fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        redirect: "follow",
+      })
+        .then(async (res) => {
+          const text = await res.text();
+          console.log("Google Sheets Enquiry logged successfully:", text);
+        })
+        .catch((sheetError) => {
+          console.error("Failed to forward enquiry to Google Sheets:", sheetError);
         });
-        const result = await response.text();
-        console.log("Google Sheets Enquiry response:", result);
-      } catch (sheetError) {
-        console.error("Failed to forward enquiry to Google Sheets:", sheetError);
-      }
     } else {
       console.warn("GOOGLE_SHEET_ENQUIRY_URL is not configured in .env.local. Enquiry data logged:", payload);
     }

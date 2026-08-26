@@ -208,45 +208,45 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
             </div>
 
             {/* Title */}
-            <h3 className="text-xl xs:text-2xl sm:text-[28px] font-extrabold font-montserrat text-[#0F1729] tracking-tight leading-snug">
+            <h3 className="text-xl xs:text-2xl sm:text-[28px] font-bold font-montserrat text-[#0F1729] tracking-tight leading-snug">
               Enquiry Submitted Successfully!
             </h3>
 
             {/* Personalized Message */}
-            <p className="text-[#475569] font-open-sans text-xs xs:text-[13.5px] sm:text-[14px] max-w-[430px] mx-auto mt-2 sm:mt-2.5 leading-relaxed">
-              Thank you, <strong className="text-[#0f172a] font-bold">{formData.fullName}</strong>. Our enterprise sales team for{" "}
-              <strong className="text-[#005DA6] font-bold">AMEC Aquaforce 1400</strong> has received your bulk order request and will
+            <p className="text-[#475569] font-open-sans text-xs xs:text-[13.5px] sm:text-[14px] max-w-[430px] mx-auto mt-2 sm:mt-2.5 leading-relaxed font-normal">
+              Thank you, <strong className="text-[#0f172a] font-bold font-open-sans">{formData.fullName}</strong>. Our enterprise sales team for{" "}
+              <strong className="text-[#005DA6] font-bold font-open-sans">AMEC Aquaforce 1400</strong> has received your bulk order request and will
               contact you within 24 hours with wholesale tiered pricing.
             </p>
 
             {/* Summary Details Card */}
             <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[16px] p-4 sm:p-5 mt-5 sm:mt-6 text-left font-open-sans space-y-3 divide-y divide-[#e2e8f0]/80 shadow-2xs">
               {/* Row 1: Company */}
-              <div className="flex items-center justify-between text-[13px] pt-0">
-                <span className="text-[#64748b] font-medium">Company / Business</span>
-                <span className="text-[#0f172a] font-bold truncate max-w-[180px] sm:max-w-[240px]">
+              <div className="flex items-center justify-between text-[13px] pt-0 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Company / Business</span>
+                <span className="text-[#0f172a] font-bold font-open-sans truncate max-w-[180px] sm:max-w-[240px]">
                   {formData.companyName}
                 </span>
               </div>
 
               {/* Row 2: Required Quantity */}
-              <div className="flex items-center justify-between text-[13px] pt-3">
-                <span className="text-[#64748b] font-medium">Required Quantity</span>
-                <span className="bg-[#f0f9ff] border border-[#005DA6]/35 text-[#005DA6] text-xs font-bold px-3 py-0.5 rounded-full leading-none">
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Required Quantity</span>
+                <span className="bg-[#f0f9ff] border border-[#005DA6]/35 text-[#005DA6] text-xs font-bold font-open-sans px-3 py-0.5 rounded-full leading-none">
                   {(formData.customQuantity.trim() || formData.quantity || "").replace(/\s*units?/i, "")} Units
                 </span>
               </div>
 
               {/* Row 3: Contact Number */}
-              <div className="flex items-center justify-between text-[13px] pt-3">
-                <span className="text-[#64748b] font-medium">Contact Number</span>
-                <span className="text-[#0f172a] font-bold tracking-wide">{formData.phone}</span>
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Contact Number</span>
+                <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">{formData.phone}</span>
               </div>
 
               {/* Row 4: Work Email */}
-              <div className="flex items-center justify-between text-[13px] pt-3">
-                <span className="text-[#64748b] font-medium">Work Email</span>
-                <span className="text-[#0f172a] font-bold truncate max-w-[180px] sm:max-w-[240px]">
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Work Email</span>
+                <span className="text-[#0f172a] font-bold font-open-sans truncate max-w-[180px] sm:max-w-[240px]">
                   {formData.email}
                 </span>
               </div>
@@ -256,7 +256,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
             <button
               type="button"
               onClick={handleClose}
-              className="mt-5 sm:mt-6 w-full bg-[#005DA6] hover:bg-[#004e8c] active:bg-[#004277] text-white font-montserrat font-bold text-xs xs:text-sm uppercase tracking-wider py-3.5 sm:py-4 rounded-[12px] shadow-[0_4px_14px_rgba(0,93,166,0.25)] transition-all active:scale-[0.99] cursor-pointer"
+              className="mt-5 sm:mt-6 w-full bg-[#005DA6] hover:bg-[#004e8c] active:bg-[#004277] text-white font-open-sans font-bold text-xs xs:text-sm uppercase tracking-wider py-3.5 sm:py-4 rounded-[12px] shadow-[0_4px_14px_rgba(0,93,166,0.25)] transition-all active:scale-[0.99] cursor-pointer"
             >
               CONTINUE BROWSING
             </button>
