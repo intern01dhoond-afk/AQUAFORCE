@@ -84,7 +84,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/banner-desktop-1.jpg"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/1.jpg"
             alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
             fill
             priority
@@ -230,7 +230,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/banner-desktop-2.jpg"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/2.jpg"
             alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority
@@ -362,7 +362,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/mobile-banner-3-new.png"
+            src="/aquaforceforautocare/images/mobile%20banner%203.png"
             alt="AMEC Aquaforce 1400 No Power No Socket"
             fill
             priority
@@ -375,7 +375,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/banner-1-1-1.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/3.jpg"
             alt="AMEC Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority
