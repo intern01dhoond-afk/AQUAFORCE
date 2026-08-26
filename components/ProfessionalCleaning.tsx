@@ -61,8 +61,8 @@ export default function ProfessionalCleaning() {
           {/* Right Card */}
           <ScrollReveal direction="zoom" delay={0.15} className="w-full lg:w-[324px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
             <Image
-              src="/aquaforceforautocare/images/banner-1-1-1.png"
-              alt="AMEC Aquaforce high pressure cordless vehicle washing"
+              src="/aquaforceforautocare/images/use-cases/2.jpg"
+              alt="AMEC Aquaforce motorcycle washing cordless power"
               fill
               priority
               quality={100}

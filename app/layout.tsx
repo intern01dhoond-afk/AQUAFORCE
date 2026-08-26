@@ -45,7 +45,12 @@ export const metadata: Metadata = {
   description:
     "Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful, battery-powered portable pressure washer. No cables, no power socket, no fixed setup needed.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/aquaforceforautocare/images/favicon.ico" },
+      { url: "/aquaforceforautocare/favicon.ico" },
+    ],
+    shortcut: "/aquaforceforautocare/images/favicon.ico",
+    apple: "/aquaforceforautocare/images/favicon.ico",
   },
 };
 
