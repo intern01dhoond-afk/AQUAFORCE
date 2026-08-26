@@ -169,76 +169,121 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
         if (e.target === e.currentTarget) handleClose();
       }}
     >
-      <div className="relative w-full max-w-[620px] bg-white rounded-[22px] sm:rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] text-slate-900 overflow-hidden my-auto p-5 sm:p-7 md:p-8">
-        {/* Header row: Back button on left, Close button on right */}
-        <div className="flex items-center justify-between mb-4 sm:mb-5">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-bold text-slate-400 hover:text-slate-700 cursor-pointer transition-colors font-open-sans"
-          >
-            &larr; Back to Product Details
-          </button>
-          <button
-            type="button"
-            onClick={handleClose}
-            className="w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-xs shrink-0"
-            aria-label="Close modal"
-          >
-            <X size={16} />
-          </button>
-        </div>
-
+      <div
+        className={`relative w-full ${
+          isSubmitted
+            ? "max-w-[420px] sm:max-w-[540px] p-6 xs:p-7 sm:p-9 pt-7 sm:pt-10"
+            : "max-w-[620px] p-5 sm:p-7 md:p-8"
+        } bg-white rounded-[24px] sm:rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] text-slate-900 overflow-hidden my-auto animate-in zoom-in-95 fade-in duration-200`}
+      >
         {isSubmitted ? (
-          /* Success Confirmation View */
-          <div className="py-4 sm:py-6 flex flex-col items-center text-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mb-4 shadow-sm animate-scaleIn">
-              <CheckCircle2 className="w-9 h-9 sm:w-11 sm:h-11" />
+          /* ========================================================= */
+          /* Exact Confirmation View from Reference Screenshots        */
+          /* ========================================================= */
+          <div className="relative flex flex-col items-center text-center">
+            {/* Top Close Button */}
+            <button
+              type="button"
+              onClick={handleClose}
+              className="absolute -top-3 -right-2 sm:-top-4 sm:-right-3 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-xs z-20"
+              aria-label="Close modal"
+            >
+              <X size={16} />
+            </button>
+
+            {/* Checkmark Icon (Double concentric layer circle) */}
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#e6fbf2] flex items-center justify-center mx-auto mb-4 sm:mb-5">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#00c06d] flex items-center justify-center shadow-xs">
+                <svg
+                  className="w-6 h-6 sm:w-7 sm:h-7 text-white stroke-[3.5]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
             </div>
 
-            <h3 className="text-xl sm:text-2xl font-bold font-montserrat text-slate-900 tracking-tight">
+            {/* Title */}
+            <h3 className="text-xl xs:text-2xl sm:text-[28px] font-extrabold font-montserrat text-[#0F1729] tracking-tight leading-snug">
               Enquiry Submitted Successfully!
             </h3>
 
-            <p className="text-slate-600 font-open-sans text-xs sm:text-sm max-w-md mt-2.5 leading-relaxed">
-              Thank you <strong className="text-slate-900">{formData.fullName}</strong>. Our enterprise sales team for{" "}
-              <strong className="text-[#0066cc]">AMEC Aquaforce 1400</strong> has received your bulk order request and will
+            {/* Personalized Message */}
+            <p className="text-[#475569] font-open-sans text-xs xs:text-[13.5px] sm:text-[14px] max-w-[430px] mx-auto mt-2 sm:mt-2.5 leading-relaxed">
+              Thank you, <strong className="text-[#0f172a] font-bold">{formData.fullName}</strong>. Our enterprise sales team for{" "}
+              <strong className="text-[#005DA6] font-bold">AMEC Aquaforce 1400</strong> has received your bulk order request and will
               contact you within 24 hours with wholesale tiered pricing.
             </p>
 
             {/* Summary Details Card */}
-            <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 mt-5 text-left text-xs sm:text-[13px] space-y-2 text-slate-700 font-open-sans">
-              <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
-                <span className="text-slate-500">Company / Business:</span>
-                <span className="font-semibold text-slate-900">{formData.companyName}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
-                <span className="text-slate-500">Required Quantity:</span>
-                <span className="font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md">
-                  {activeQuantity} Units
+            <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[16px] p-4 sm:p-5 mt-5 sm:mt-6 text-left font-open-sans space-y-3 divide-y divide-[#e2e8f0]/80 shadow-2xs">
+              {/* Row 1: Company */}
+              <div className="flex items-center justify-between text-[13px] pt-0">
+                <span className="text-[#64748b] font-medium">Company / Business</span>
+                <span className="text-[#0f172a] font-bold truncate max-w-[180px] sm:max-w-[240px]">
+                  {formData.companyName}
                 </span>
               </div>
-              <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
-                <span className="text-slate-500">Contact Number:</span>
-                <span className="font-semibold text-slate-900">{formData.phone}</span>
+
+              {/* Row 2: Required Quantity */}
+              <div className="flex items-center justify-between text-[13px] pt-3">
+                <span className="text-[#64748b] font-medium">Required Quantity</span>
+                <span className="bg-[#f0f9ff] border border-[#005DA6]/35 text-[#005DA6] text-xs font-bold px-3 py-0.5 rounded-full leading-none">
+                  {(formData.customQuantity.trim() || formData.quantity || "").replace(/\s*units?/i, "")} Units
+                </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-500">Work Email:</span>
-                <span className="font-semibold text-slate-900">{formData.email}</span>
+
+              {/* Row 3: Contact Number */}
+              <div className="flex items-center justify-between text-[13px] pt-3">
+                <span className="text-[#64748b] font-medium">Contact Number</span>
+                <span className="text-[#0f172a] font-bold tracking-wide">{formData.phone}</span>
+              </div>
+
+              {/* Row 4: Work Email */}
+              <div className="flex items-center justify-between text-[13px] pt-3">
+                <span className="text-[#64748b] font-medium">Work Email</span>
+                <span className="text-[#0f172a] font-bold truncate max-w-[180px] sm:max-w-[240px]">
+                  {formData.email}
+                </span>
               </div>
             </div>
 
+            {/* Bottom Action Button */}
             <button
               type="button"
               onClick={handleClose}
-              className="mt-6 w-full sm:w-auto bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold px-8 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 transition-all active:scale-95 cursor-pointer font-open-sans text-xs xs:text-sm uppercase tracking-wider"
+              className="mt-5 sm:mt-6 w-full bg-[#005DA6] hover:bg-[#004e8c] active:bg-[#004277] text-white font-montserrat font-bold text-xs xs:text-sm uppercase tracking-wider py-3.5 sm:py-4 rounded-[12px] shadow-[0_4px_14px_rgba(0,93,166,0.25)] transition-all active:scale-[0.99] cursor-pointer"
             >
-              Continue Browsing
+              CONTINUE BROWSING
             </button>
           </div>
         ) : (
-          /* Clean White Card Form (Matches Screenshot) */
-          <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
+          <div>
+            {/* Header row: Back button on left, Close button on right */}
+            <div className="flex items-center justify-between mb-4 sm:mb-5">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-bold text-slate-400 hover:text-slate-700 cursor-pointer transition-colors font-open-sans"
+              >
+                &larr; Back to Product Details
+              </button>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-xs shrink-0"
+                aria-label="Close modal"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Clean White Card Form (Matches Screenshot) */}
+            <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
             {/* Title Bar */}
             <div className="pb-1 border-b border-slate-100">
               <h2 className="text-base sm:text-lg font-bold font-montserrat text-slate-900 tracking-tight">
@@ -337,7 +382,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
                       onClick={() => handlePresetSelect(preset)}
                       className={`py-2 px-1 text-center rounded-[8px] text-xs font-bold font-montserrat transition-all cursor-pointer border ${
                         isSelected
-                          ? "bg-[#0066cc] text-white border-[#0066cc] shadow-sm scale-[1.02]"
+                          ? "bg-[#005DA6] text-white border-[#005DA6] shadow-sm scale-[1.02]"
                           : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
                       }`}
                     >
@@ -360,7 +405,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
                   }));
                   if (errorMsg) setErrorMsg("");
                 }}
-                className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2 sm:px-4 sm:py-2.5 text-[14px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans shadow-2xs"
+                className="w-full bg-white border border-slate-200 focus:border-[#005DA6] focus:ring-1 focus:ring-[#005DA6] rounded-[8px] px-3.5 py-2 sm:px-4 sm:py-2.5 text-[14px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans shadow-2xs"
               />
             </div>
 
@@ -376,7 +421,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
                 placeholder="Specify delivery location, timeframe, or special requirements..."
                 value={formData.notes}
                 onChange={handleInputChange}
-                className="w-full bg-white border border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc] rounded-[8px] px-3.5 py-2 sm:px-4 sm:py-2.5 text-[14px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[65px] sm:h-[75px] font-open-sans shadow-2xs"
+                className="w-full bg-white border border-slate-200 focus:border-[#005DA6] focus:ring-1 focus:ring-[#005DA6] rounded-[8px] px-3.5 py-2 sm:px-4 sm:py-2.5 text-[14px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[65px] sm:h-[75px] font-open-sans shadow-2xs"
               />
             </div>
 
@@ -386,7 +431,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
                 type="checkbox"
                 checked={formData.agreedToTerms}
                 onChange={(e) => setFormData({ ...formData, agreedToTerms: e.target.checked })}
-                className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#0066cc] focus:ring-[#0066cc] accent-[#0066cc] cursor-pointer shrink-0"
+                className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#005DA6] focus:ring-[#005DA6] accent-[#005DA6] cursor-pointer shrink-0"
                 required
               />
               <span className="text-[11.5px] sm:text-[13px] text-slate-500 leading-snug">
@@ -398,7 +443,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 sm:h-13 !mt-3 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-black font-montserrat text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full h-12 sm:h-13 !mt-3 bg-[#005DA6] hover:bg-[#004e8c] active:bg-[#004277] text-white font-black font-montserrat text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-700/25 transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
@@ -412,7 +457,8 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
                 </span>
               )}
             </button>
-          </form>
+            </form>
+          </div>
         )}
       </div>
     </div>
