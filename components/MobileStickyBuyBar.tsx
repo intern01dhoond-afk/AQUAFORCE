@@ -30,7 +30,10 @@ export default function MobileStickyBuyBar() {
   return (
     <aside
       aria-label="Sticky mobile purchase bar"
-      className={`fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-all duration-300 ease-in-out sm:hidden ${
+      style={{
+        paddingBottom: "calc(0.875rem + env(safe-area-inset-bottom, 0px))",
+      }}
+      className={`fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-4 pt-3 transition-[transform,opacity] duration-300 ease-in-out sm:hidden ${
         isVisible
           ? "translate-y-0 opacity-100 pointer-events-auto"
           : "translate-y-full opacity-0 pointer-events-none"

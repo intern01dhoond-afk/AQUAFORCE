@@ -362,7 +362,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/mobile%20banner%203.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/3.1.png"
             alt="AMEC Aquaforce 1400 No Power No Socket"
             fill
             priority
@@ -375,7 +375,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/3.jpg"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/3.png"
             alt="AMEC Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority
@@ -490,7 +490,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/mobile-banner-4-alt.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/4.1.png"
             alt="AMEC Aquaforce 1400 Cordless Powerful Portable Bike Washing"
             fill
             priority
@@ -503,13 +503,13 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/banner-04.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/4.jpeg"
             alt="AMEC Aquaforce 1400 Cordless Powerful Portable Adventure Bike Washing"
             fill
             priority
             quality={100}
             sizes="100vw"
-            className="object-cover object-[70%_center] lg:object-center"
+            className="object-cover object-center"
           />
           {/* Subtle bottom gradient */}
           <div className="absolute inset-x-0 bottom-0 h-36 sm:h-44 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent pointer-events-none" />

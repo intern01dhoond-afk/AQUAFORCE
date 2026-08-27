@@ -1,8 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat, Montserrat_Alternates, Open_Sans, Unbounded } from "next/font/google";
 import "./globals.css";
 import { OrderModalProvider } from "@/context/OrderModalContext";
 import { BulkEnquiryProvider } from "@/context/BulkEnquiryContext";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
+};
 
 const inter = Inter({
   subsets: ["latin"],
