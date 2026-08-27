@@ -18,9 +18,9 @@ export default function CTABanner() {
           className="relative w-full max-w-[1280px] rounded-[22px] sm:rounded-[24px] overflow-hidden shadow-[0_20px_45px_-12px_rgba(15,23,42,0.22)]"
         >
           {/* ========================================================= */}
-          {/* MOBILE VIEW (sm:hidden): Clean Compact Card with Content */}
+          {/* MOBILE VIEW (sm:hidden): Clean Portrait Card with Content */}
           {/* ========================================================= */}
-          <div className="sm:hidden relative w-full aspect-[1/1] max-w-[380px] mx-auto overflow-hidden flex flex-col justify-end p-4 xs:p-5 pb-4 xs:pb-5 rounded-[20px]">
+          <div className="sm:hidden relative w-full aspect-[3/4] max-w-[420px] mx-auto overflow-hidden flex flex-col justify-end p-5 xs:p-6 pb-5 xs:pb-6 rounded-[22px]">
             {/* Background Yellow Machine Graphic */}
             <Image
               src="/aquaforceforautocare/images/mobile-banner-2-y.png"
@@ -28,32 +28,32 @@ export default function CTABanner() {
               fill
               priority
               quality={100}
-              sizes="(max-width: 640px) 100vw, 380px"
+              sizes="(max-width: 640px) 100vw, 420px"
               className="object-cover object-top z-0"
             />
 
             {/* Soft Blue Vignette to seamlessly blend with content */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#02173f]/95 via-[#02173f]/30 to-transparent z-0 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#02173f]/95 via-[#02173f]/35 to-transparent z-0 pointer-events-none" />
 
             {/* Mobile Card Content */}
             <div className="relative z-10 w-full flex flex-col items-start text-left">
-              <h2 className="text-[18px] xs:text-[20px] font-bold font-montserrat text-white leading-[1.18] tracking-tight drop-shadow-sm">
+              <h2 className="text-[20px] xs:text-[22px] font-bold font-montserrat text-white leading-[1.2] tracking-tight drop-shadow-sm">
                 Ready to Make Vehicle
                 <br />
                 Washing Easier?
               </h2>
 
-              <p className="text-white/90 text-[11.5px] xs:text-xs font-normal font-open-sans mt-1 drop-shadow-xs">
+              <p className="text-white/90 text-xs xs:text-[13px] font-normal font-open-sans mt-1.5 drop-shadow-xs">
                 Go Cordless. Go Portable. Go Aquaforce.
               </p>
 
               <button
                 type="button"
                 onClick={openModal}
-                className="mt-3 w-full bg-white hover:bg-slate-50 active:bg-slate-100 text-[#0062ff] font-montserrat text-xs xs:text-[12.5px] font-extrabold uppercase tracking-wider py-3 rounded-[8px] shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] cursor-pointer"
+                className="mt-4 w-full bg-white hover:bg-slate-50 active:bg-slate-100 text-[#0062ff] font-montserrat text-xs xs:text-[13px] font-extrabold uppercase tracking-wider py-3.5 rounded-[10px] shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] cursor-pointer"
               >
                 <span>BUY NOW</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#0062ff] stroke-[2.5]" />
+                <ArrowRight className="w-4 h-4 text-[#0062ff] stroke-[2.5]" />
               </button>
             </div>
           </div>
