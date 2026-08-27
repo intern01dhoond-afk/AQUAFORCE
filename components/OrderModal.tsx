@@ -487,6 +487,20 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           } catch (sheetErr) {
             console.error("Failed to forward purchase to Google Sheets:", sheetErr);
           }
+
+          // Track Meta Pixel Purchase event
+          if (typeof window !== "undefined" && (window as any).fbq) {
+            (window as any).fbq("track", "Purchase", {
+              value: totalAmount,
+              currency: "INR",
+              content_name: `${PRODUCT_DATA.name} (${currentColor.name})`,
+              content_type: "product",
+              num_items: quantity,
+            });
+          }
+
+          // Redirect to dedicated Thank You confirmation page
+          window.location.href = `/aquaforceforautocare/thank-you?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(totalAmount)}&name=${encodeURIComponent(formData.fullName)}`;
         },
         modal: {
           ondismiss: function () {

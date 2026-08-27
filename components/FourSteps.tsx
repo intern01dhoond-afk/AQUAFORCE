@@ -48,7 +48,7 @@ export default function FourSteps() {
       {/* Desktop Cinematic Background Image */}
       <div className="hidden sm:block absolute inset-0 z-0">
         <Image
-          src="/aquaforceforautocare/images/four-steps-desktop.jpg"
+          src="/aquaforceforautocare/images/Remainig%20images/four-steps-desktop.png"
           alt="AMEC Aquaforce on workshop workbench 4 Steps to Pristine Clean"
           fill
           priority

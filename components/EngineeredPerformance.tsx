@@ -213,7 +213,7 @@ export default function EngineeredPerformance() {
           <div className="absolute w-56 h-56 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 w-64 h-72 sm:w-80 sm:h-92">
             <Image
-              src="/aquaforceforautocare/images/aquaforce-machine.png"
+              src="/aquaforceforautocare/images/Remainig%20images/features%20image.png"
               alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
@@ -282,7 +282,7 @@ export default function EngineeredPerformance() {
           {/* Machine Image Container */}
           <div className="relative z-10 w-[420px] h-[480px] lg:w-[460px] lg:h-[530px] xl:w-[500px] xl:h-[560px]">
             <Image
-              src="/aquaforceforautocare/images/aquaforce-machine.png"
+              src="/aquaforceforautocare/images/Remainig%20images/features%20image.png"
               alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority

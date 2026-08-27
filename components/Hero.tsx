@@ -217,7 +217,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/2.2.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/2.1.png"
             alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority
@@ -375,7 +375,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/3.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/3.jpg"
             alt="AMEC Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority

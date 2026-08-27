@@ -33,11 +33,11 @@ export default function WashWithoutLimits() {
 
         {/* Two Images Side-by-Side (2 Columns) */}
         <ScrollReveal direction="zoom" delay={0.1} className="grid grid-cols-2 gap-2.5 xs:gap-3 w-full max-w-md mx-auto mb-5 xs:mb-6">
-          {/* Left Portrait Image: Car Exterior Wash */}
+          {/* Left Portrait Image: Car Interior Vacuum / Detailing */}
           <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
-              src="/aquaforceforautocare/images/wash-left.png"
-              alt="AMEC Aquaforce 1400 outdoor car detailing"
+              src="/aquaforceforautocare/images/Remainig%20images/left.png"
+              alt="AMEC Aquaforce 1400 cordless vehicle detailing"
               fill
               priority
               quality={100}
@@ -46,11 +46,11 @@ export default function WashWithoutLimits() {
             />
           </div>
 
-          {/* Right Portrait Image: Car Interior Cleaning */}
+          {/* Right Portrait Image: Car Exterior Washing */}
           <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
-              src="/aquaforceforautocare/images/wash-right.png"
-              alt="AMEC Aquaforce 1400 cordless vehicle detailing"
+              src="/aquaforceforautocare/images/Remainig%20images/right.png"
+              alt="AMEC Aquaforce 1400 outdoor car detailing"
               fill
               priority
               quality={100}
@@ -98,8 +98,8 @@ export default function WashWithoutLimits() {
         {/* Left Column Image (Edge-to-Edge) */}
         <ScrollReveal direction="right" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
-            src="/aquaforceforautocare/images/wash-left.png"
-            alt="AMEC Aquaforce 1400 outdoor car detailing"
+            src="/aquaforceforautocare/images/Remainig%20images/left.png"
+            alt="AMEC Aquaforce 1400 cordless vehicle detailing"
             fill
             priority
             quality={100}
@@ -164,8 +164,8 @@ export default function WashWithoutLimits() {
         {/* Right Column Image (Edge-to-Edge) */}
         <ScrollReveal direction="left" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
-            src="/aquaforceforautocare/images/wash-right.png"
-            alt="AMEC Aquaforce 1400 cordless vehicle detailing"
+            src="/aquaforceforautocare/images/Remainig%20images/right.png"
+            alt="AMEC Aquaforce 1400 outdoor car detailing"
             fill
             priority
             quality={100}

@@ -216,7 +216,7 @@ export default function UseCase() {
               className="w-full bg-white rounded-[20px] border border-slate-200 shadow-[0_12px_35px_-8px_rgba(15,23,42,0.12)] overflow-hidden transition-all touch-pan-y"
             >
               {/* Image Area */}
-              <div className="relative w-full aspect-[16/10] bg-slate-900 overflow-hidden">
+              <div className="relative w-full aspect-[4/3] bg-slate-900 overflow-hidden">
                 {USE_CASES.map((item, idx) => (
                   <div
                     key={item.id}
@@ -279,7 +279,7 @@ export default function UseCase() {
 
             {/* Desktop Center Column: Stacked Cross-Fade Active Image */}
             <div className="flex-1 flex flex-col items-center justify-center w-full min-h-0">
-              <div className="relative w-full max-w-[560px] h-[440px] xl:h-[480px] rounded-[20px] overflow-hidden shadow-[0_20px_50px_rgba(15,23,42,0.14),0_6px_20px_rgba(15,23,42,0.08)] border border-slate-200/80 bg-slate-950">
+              <div className="relative w-full max-w-[560px] aspect-[4/3] rounded-[20px] overflow-hidden shadow-[0_20px_50px_rgba(15,23,42,0.14),0_6px_20px_rgba(15,23,42,0.08)] border border-slate-200/80 bg-slate-900">
                 {USE_CASES.map((item, idx) => (
                   <div
                     key={item.id}
@@ -298,7 +298,6 @@ export default function UseCase() {
                       sizes="560px"
                       className="object-cover object-center"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                   </div>
                 ))}
               </div>
