@@ -45,21 +45,43 @@ export default function ProfessionalCleaning() {
 
         {/* Bottom Image Cards */}
         <div className="flex flex-col lg:flex-row gap-3.5 sm:gap-4 mt-8 sm:mt-12 w-full">
-          {/* Left Wide Card */}
-          <ScrollReveal direction="zoom" delay={0.05} className="w-full lg:w-[940px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
+          {/* Left Wide Card (1st image) */}
+          <ScrollReveal direction="zoom" delay={0.05} className="w-full lg:w-[940px] h-[210px] xs:h-[250px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
+            {/* Mobile View */}
             <Image
-              src="/aquaforceforautocare/images/pro-clean-car.png"
+              src="/aquaforceforautocare/images/Remainig%20images/12%20Mobile.png"
               alt="Car detailing with high pressure water spray outdoors"
               fill
               priority
               quality={100}
               sizes="(max-width: 1024px) 100vw, 940px"
-              className="object-cover"
+              className="object-cover lg:hidden"
+            />
+            {/* Desktop View */}
+            <Image
+              src="/aquaforceforautocare/images/Remainig%20images/12.png"
+              alt="Car detailing with high pressure water spray outdoors"
+              fill
+              priority
+              quality={100}
+              sizes="(max-width: 1024px) 100vw, 940px"
+              className="object-cover hidden lg:block"
             />
           </ScrollReveal>
 
-          {/* Right Card */}
-          <ScrollReveal direction="zoom" delay={0.15} className="w-full lg:w-[324px] h-[200px] xs:h-[230px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
+          {/* Right Card (2nd image) */}
+          <ScrollReveal direction="zoom" delay={0.15} className="w-full lg:w-[324px] h-[210px] xs:h-[250px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
+            {/* Mobile View */}
+            <Image
+              src="/aquaforceforautocare/images/Remainig%20images/Moto%20mobile.png"
+              alt="AMEC Aquaforce motorcycle washing cordless power"
+              fill
+              priority
+              quality={100}
+              sizes="(max-width: 1024px) 100vw, 324px"
+              className="object-cover object-center lg:hidden"
+            />
+            {/* Desktop View */}
             <Image
               src="/aquaforceforautocare/images/use-cases/2.jpg"
               alt="AMEC Aquaforce motorcycle washing cordless power"
@@ -67,7 +89,7 @@ export default function ProfessionalCleaning() {
               priority
               quality={100}
               sizes="(max-width: 1024px) 100vw, 324px"
-              className="object-cover object-center"
+              className="object-cover object-center hidden lg:block"
             />
           </ScrollReveal>
         </div>

@@ -56,7 +56,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isHighlightsOpen, setIsHighlightsOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   const [isBoxOpen, setIsBoxOpen] = useState(false);
-  const [isPanelScrolled, setIsPanelScrolled] = useState(false);
 
   // Section Refs for Auto-Scrolling on Accordion Open
   const modalCardRef = useRef<HTMLDivElement>(null);
@@ -85,20 +84,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       if (willOpen) {
         setTimeout(() => {
           if (!ref.current) return;
-          if (window.innerWidth >= 1024 && scrollContainerRef.current) {
-            const container = scrollContainerRef.current;
-            const element = ref.current;
-            const offset = element.getBoundingClientRect().top - container.getBoundingClientRect().top;
-            container.scrollTo({
-              top: container.scrollTop + offset - 8,
-              behavior: "smooth",
-            });
-          } else {
-            ref.current.scrollIntoView({
-              behavior: "smooth",
-              block: "nearest",
-            });
-          }
+          ref.current.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
         }, 60);
       }
       return willOpen;
@@ -417,35 +406,27 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2.5 xs:p-3 sm:p-5 md:p-6 overflow-hidden overscroll-contain">
-      {/* Dark Blur Backdrop */}
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 lg:p-6 overflow-hidden overscroll-contain bg-white lg:bg-transparent">
+      {/* Dark Blur Backdrop (Desktop Only) */}
       <div
-        className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
+        className="hidden lg:block fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
         onClick={onClose}
       />
 
-      {/* Modal Dialog Card */}
+      {/* Modal Dialog Card (Full screen separate page on mobile, popup modal on desktop) */}
       <div
         ref={modalCardRef}
-        onScroll={(e) => {
-          if (window.innerWidth < 1024) {
-            const isScrolled = e.currentTarget.scrollTop > 15;
-            if (isScrolled !== isPanelScrolled) {
-              setIsPanelScrolled(isScrolled);
-            }
-          }
-        }}
         className={`relative w-full ${
-          isCheckingOut
-            ? "max-w-[600px] p-5 xs:p-6 sm:p-7 md:p-8 overflow-y-auto"
-            : "max-w-[460px] lg:max-w-[1040px] p-4 sm:p-6 lg:p-7 overflow-y-auto lg:overflow-hidden"
-        } bg-white rounded-[20px] sm:rounded-[24px] shadow-2xl border border-slate-100 z-10 my-auto max-h-[92vh] sm:max-h-[90vh] overscroll-contain animate-in zoom-in-95 fade-in duration-200`}
+          isCheckingOut || isSubmitted
+            ? "h-full lg:h-auto max-w-full lg:max-w-[600px] p-4 xs:p-5 sm:p-7 md:p-8 overflow-y-auto"
+            : "h-full lg:h-auto max-w-full lg:max-w-[1040px] flex flex-col overflow-hidden"
+        } bg-white rounded-none lg:rounded-[24px] shadow-none lg:shadow-2xl border-0 lg:border lg:border-slate-100 z-10 my-0 lg:my-auto max-h-none lg:max-h-[90vh] overscroll-contain animate-in fade-in duration-200 lg:zoom-in-95`}
       >
         {/* Top Close Button for Product Detail and Success Views */}
         {!isCheckingOut && (
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 sm:top-6 sm:right-6 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-20 cursor-pointer shadow-xs"
+            className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-9 h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-30 cursor-pointer shadow-xs"
             aria-label="Close modal"
           >
             <X size={16} />
@@ -715,430 +696,436 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             </form>
           </div>
         ) : (
-          /* Main Product Detail Layout (Matching Image 1 & Image 2 with Sticky Gallery & Sticky Buy Now) */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-stretch">
-            {/* ========================================================= */}
-            {/* LEFT COLUMN: Gallery & Thumbnails */}
-            {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col justify-between select-none h-full lg:min-h-[540px]">
-              {/* Main Image Container with Touch Swipe Support */}
-              <div
-                onTouchStart={handleModalTouchStart}
-                onTouchMove={handleModalTouchMove}
-                onTouchEnd={handleModalTouchEnd}
-                className="relative w-full aspect-square max-h-[280px] xs:max-h-[320px] sm:max-h-[380px] lg:max-h-[430px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
-              >
-                {/* Out of Stock Ribbon/Badge */}
-                {!currentColor.inStock && (
-                  <div className="absolute top-3 left-3 z-20 bg-red-600 text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-[6px] shadow-md">
-                    Out of Stock
-                  </div>
-                )}
-
-                <Image
-                  src={images[activeImageIndex]}
-                  alt={`${PRODUCT_DATA.name} ${currentColor.name} view ${activeImageIndex + 1}`}
-                  fill
-                  priority
-                  quality={100}
-                  sizes="(max-width: 768px) 100vw, 500px"
-                  className={`object-contain p-2 transition-all duration-300 ${
-                    !currentColor.inStock ? "opacity-75 grayscale-[20%]" : ""
-                  }`}
-                />
-
-                {/* Left Navigation Chevron */}
-                <button
-                  onClick={prevImage}
-                  className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
-                  aria-label="Previous image"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-
-                {/* Right Navigation Chevron */}
-                <button
-                  onClick={nextImage}
-                  className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
-                  aria-label="Next image"
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-
-              {/* Clickable Thumbnails (4 visible at a time, scrollable for 5, 6, etc.) */}
-              <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-3.5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
-                {images.map((img, idx) => (
-                  <button
-                    key={img}
-                    ref={(el) => {
-                      thumbnailRefs.current[idx] = el;
-                    }}
-                    onClick={() => {
-                      setActiveImageIndex(idx);
-                      thumbnailRefs.current[idx]?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "nearest",
-                        inline: "center",
-                      });
-                    }}
-                    className={`relative shrink-0 w-[calc(25%-7.5px)] sm:w-[calc(25%-9px)] aspect-square rounded-[12px] bg-white p-1 transition-all overflow-hidden cursor-pointer snap-start ${
-                      activeImageIndex === idx
-                        ? "border-2 border-[#0066cc] shadow-xs"
-                        : "border border-slate-200 hover:border-slate-300"
-                    }`}
+          /* Main Product Detail Layout */
+          <>
+            <div className="flex-1 overflow-y-auto lg:overflow-hidden p-4 sm:p-6 lg:p-7 no-scrollbar">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-stretch h-full">
+                {/* ========================================================= */}
+                {/* LEFT COLUMN: Gallery & Thumbnails */}
+                {/* ========================================================= */}
+                <div className="lg:col-span-6 flex flex-col justify-between select-none h-full lg:min-h-[540px]">
+                  {/* Main Image Container with Touch Swipe Support */}
+                  <div
+                    onTouchStart={handleModalTouchStart}
+                    onTouchMove={handleModalTouchMove}
+                    onTouchEnd={handleModalTouchEnd}
+                    className="relative w-full aspect-square max-h-[280px] xs:max-h-[320px] sm:max-h-[380px] lg:max-h-[430px] flex items-center justify-center bg-white rounded-[16px] overflow-hidden group touch-pan-y"
                   >
-                    <Image
-                      src={img}
-                      alt={`Thumbnail ${idx + 1}`}
-                      fill
-                      quality={100}
-                      sizes="120px"
-                      className="object-contain p-1"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* ========================================================= */}
-            {/* RIGHT COLUMN: Info with Bottom-Anchored Buy Now Button */}
-            {/* ========================================================= */}
-            <div className="lg:col-span-6 flex flex-col justify-between h-full lg:min-h-[540px] lg:max-h-[540px] mt-4 lg:mt-0 pl-0 lg:pl-1 pr-0 lg:pr-1">
-              {/* Scrollable Content Area */}
-              <div
-                ref={scrollContainerRef}
-                onScroll={(e) => {
-                  if (window.innerWidth >= 1024) {
-                    const isScrolled = e.currentTarget.scrollTop > 15;
-                    if (isScrolled !== isPanelScrolled) {
-                      setIsPanelScrolled(isScrolled);
-                    }
-                  }
-                }}
-                className="flex-1 overflow-y-auto pr-1 sm:pr-2 no-scrollbar space-y-3"
-              >
-                {/* Product Title */}
-                <h2 className="text-xl sm:text-2xl lg:text-[25px] font-bold font-montserrat text-[#0F1729] leading-[1.2] tracking-tight mt-1 sm:mt-0">
-                  {PRODUCT_DATA.name}
-                </h2>
-
-                {/* Description */}
-                <p className="text-slate-500 font-open-sans sm:text-slate-600 text-[12.5px] sm:text-sm leading-relaxed">
-                  {PRODUCT_DATA.description}
-                </p>
-
-                {/* Ratings & Reviews */}
-                <div className="flex items-center gap-1.5 font-open-sans">
-                  <div className="flex items-center gap-0.5">
-                    {/* 4 Full Stars */}
-                    {[...Array(4)].map((_, i) => (
-                      <Star key={i} size={15} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b]" />
-                    ))}
-                    {/* 5th Star: 3/4 (80%) Gold Fill, 20% Gray */}
-                    <div className="relative w-[15px] h-[15px]">
-                      <Star size={15} fill="#e2e8f0" strokeWidth={0} className="text-[#e2e8f0] absolute inset-0" />
-                      <div className="absolute inset-0 overflow-hidden w-[80%]">
-                        <Star size={15} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b]" />
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-xs sm:text-[13px] font-medium text-slate-600 ml-1">
-                    {PRODUCT_DATA.rating.toFixed(1)} ({PRODUCT_DATA.reviewsCount} Reviews)
-                  </span>
-                </div>
-
-                {/* Price Line & Delivery Fee */}
-                <div className="space-y-1.5">
-                  <div className="flex items-baseline gap-3 font-open-sans">
-                    <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
-                      ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
-                    </span>
-                    <span className="text-slate-400 line-through text-lg font-normal">
-                      ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 font-open-sans text-xs sm:text-[13px] flex-wrap">
-                    <span className="text-slate-500 font-medium">Delivery Fee:</span>
-                    <span className="text-red-500 line-through font-semibold">₹1,500</span>
-                    <span className="bg-[#16a34a] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
-                      FREE Delivery
-                    </span>
-                  </div>
-                </div>
-
-                <div className="w-full h-px bg-slate-100 my-2" />
-
-                {/* Color Selector */}
-                <div>
-                  <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 font-open-sans flex items-center gap-2">
-                    <span>
-                      Color: <strong className="font-medium text-slate-800">{currentColor.name}</strong>
-                    </span>
+                    {/* Out of Stock Ribbon/Badge */}
                     {!currentColor.inStock && (
-                      <span className="text-red-600 bg-red-50 border border-red-200 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
+                      <div className="absolute top-3 left-3 z-20 bg-red-600 text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-[6px] shadow-md">
                         Out of Stock
-                      </span>
+                      </div>
                     )}
-                  </p>
-                  <div className="flex items-center gap-3 py-0.5">
-                    {PRODUCT_DATA.colors.map((c, idx) => (
+
+                    <Image
+                      src={images[activeImageIndex]}
+                      alt={`${PRODUCT_DATA.name} ${currentColor.name} view ${activeImageIndex + 1}`}
+                      fill
+                      priority
+                      quality={100}
+                      sizes="(max-width: 768px) 100vw, 500px"
+                      className={`object-contain p-2 transition-all duration-300 ${
+                        !currentColor.inStock ? "opacity-75 grayscale-[20%]" : ""
+                      }`}
+                    />
+
+                    {/* Left Navigation Chevron */}
+                    <button
+                      onClick={prevImage}
+                      className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft size={18} />
+                    </button>
+
+                    {/* Right Navigation Chevron */}
+                    <button
+                      onClick={nextImage}
+                      className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-md items-center justify-center text-slate-700 hover:bg-white hover:scale-105 transition-all cursor-pointer z-10"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+
+                  {/* Clickable Thumbnails (4 visible at a time, scrollable for 5, 6, etc.) */}
+                  <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-3.5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
+                    {images.map((img, idx) => (
                       <button
-                        key={c.name}
-                        onClick={() => handleColorChange(idx)}
-                        className={`relative w-9.5 h-9.5 sm:w-10 sm:h-10 rounded-[12px] p-[3px] bg-white transition-colors cursor-pointer flex items-center justify-center ${
-                          selectedColorIndex === idx
-                            ? "border-[2.5px] border-[#0066cc]"
-                            : "border-[1.5px] border-slate-200 hover:border-slate-300"
+                        key={img}
+                        ref={(el) => {
+                          thumbnailRefs.current[idx] = el;
+                        }}
+                        onClick={() => {
+                          setActiveImageIndex(idx);
+                          thumbnailRefs.current[idx]?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "nearest",
+                            inline: "center",
+                          });
+                        }}
+                        className={`relative shrink-0 w-[calc(25%-7.5px)] sm:w-[calc(25%-9px)] aspect-square rounded-[12px] bg-white p-1 transition-all overflow-hidden cursor-pointer snap-start ${
+                          activeImageIndex === idx
+                            ? "border-2 border-[#0066cc] shadow-xs"
+                            : "border border-slate-200 hover:border-slate-300"
                         }`}
-                        aria-label={`Select ${c.name} color${!c.inStock ? " (Out of Stock)" : ""}`}
                       >
-                        <span
-                          style={{ backgroundColor: c.hex }}
-                          className="w-full h-full rounded-[7px] relative flex items-center justify-center overflow-hidden"
-                        >
-                          {!c.inStock && (
-                            <span className="w-[140%] h-[2.5px] bg-red-500 rotate-45 absolute" />
-                          )}
-                        </span>
+                        <Image
+                          src={img}
+                          alt={`Thumbnail ${idx + 1}`}
+                          fill
+                          quality={100}
+                          sizes="120px"
+                          className="object-contain p-1"
+                        />
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-slate-100 my-2" />
-
-                {/* Quantity Stepper & Deliver within 4-6 Days (Same Row) */}
-                <div className="flex items-center justify-between gap-4 flex-wrap">
-                  {/* Quantity Stepper */}
+                {/* ========================================================= */}
+                {/* RIGHT COLUMN: Info with Bottom-Anchored Buy Now Button */}
+                {/* ========================================================= */}
+                <div className="lg:col-span-6 flex flex-col justify-between h-full lg:min-h-[540px] lg:max-h-[540px] mt-4 lg:mt-0 pl-0 lg:pl-1 pr-0 lg:pr-1">
+                  {/* Scrollable Content Area */}
                   <div
-                    className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 transition-opacity ${
-                      !currentColor.inStock ? "opacity-40 pointer-events-none" : ""
-                    }`}
+                    ref={scrollContainerRef}
+                    className="lg:flex-1 lg:overflow-y-auto pr-0 lg:pr-2 no-scrollbar space-y-3"
                   >
-                    <button
-                      onClick={() => handleQuantityChange(-1)}
-                      disabled={quantity <= 1 || !currentColor.inStock}
-                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base disabled:opacity-30 cursor-pointer"
-                      aria-label="Decrease quantity"
-                    >
-                      &minus;
-                    </button>
-                    <span className="px-3 text-sm font-bold text-slate-900 min-w-[20px] text-center select-none">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => handleQuantityChange(1)}
-                      disabled={quantity >= MAX_QUANTITY_LIMIT || !currentColor.inStock}
-                      className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base disabled:opacity-30 cursor-pointer"
-                      aria-label="Increase quantity"
-                    >
-                      &#43;
-                    </button>
-                  </div>
+                    {/* Product Title */}
+                    <h2 className="text-xl sm:text-2xl lg:text-[25px] font-bold font-montserrat text-[#0F1729] leading-[1.2] tracking-tight mt-1 sm:mt-0">
+                      {PRODUCT_DATA.name}
+                    </h2>
 
-                  {/* Delivery Info on right side */}
-                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
-                    <Truck size={17} className="text-[#0066cc]" />
-                    <span>Express delivery within 4-6 Days</span>
-                  </div>
-                </div>
+                    {/* Description */}
+                    <p className="text-slate-500 font-open-sans sm:text-slate-600 text-[12.5px] sm:text-sm leading-relaxed">
+                      {PRODUCT_DATA.description}
+                    </p>
 
-                <div className="w-full h-px bg-slate-100 my-2" />
-
-                {/* 1. Warranty & Returns */}
-                <div className="space-y-1.5 pt-0.5">
-                  <h3 className="font-semibold text-xs sm:text-sm text-[#0F1729] font-open-sans">
-                    Warranty &amp; Returns
-                  </h3>
-                  <ul className="space-y-1 text-xs text-slate-600 font-open-sans">
-                    <li className="flex items-center gap-2">
-                      <span className="text-slate-400 font-normal">-</span>
-                      <span>1-year limited warranty on the product + 2-Years of Service Support</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-slate-400 font-normal">-</span>
-                      <span>Returns accepted within 7 days of delivery</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="w-full h-px bg-slate-100 my-2" />
-
-                {/* 2. Product Highlights (Accordion) */}
-                <div ref={highlightsRef} className="space-y-2.5 pt-0.5 scroll-mt-4">
-                  <button
-                    type="button"
-                    onClick={() => toggleSection(setIsHighlightsOpen, highlightsRef)}
-                    className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
-                  >
-                    <span>Product Highlights</span>
-                    <ChevronDown
-                      size={16}
-                      className={`text-slate-500 transition-transform duration-200 ${
-                        isHighlightsOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-
-                  {isHighlightsOpen && (
-                    <div className="space-y-3 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150">
-                      <div className="grid grid-cols-12 gap-3 items-start">
-                        <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Battery Powered</div>
-                        <div className="col-span-8 sm:col-span-8 text-slate-500">no cables, no power sockets, no fixed setup needed</div>
+                    {/* Ratings & Reviews */}
+                    <div className="flex items-center gap-1.5 font-open-sans">
+                      <div className="flex items-center gap-0.5">
+                        {/* 4 Full Stars */}
+                        {[...Array(4)].map((_, i) => (
+                          <Star key={i} size={15} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b]" />
+                        ))}
+                        {/* 5th Star: 3/4 (80%) Gold Fill, 20% Gray */}
+                        <div className="relative w-[15px] h-[15px]">
+                          <Star size={15} fill="#e2e8f0" strokeWidth={0} className="text-[#e2e8f0] absolute inset-0" />
+                          <div className="absolute inset-0 overflow-hidden w-[80%]">
+                            <Star size={15} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b]" />
+                          </div>
+                        </div>
                       </div>
-                      <div className="grid grid-cols-12 gap-3 items-start">
-                        <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Lightweight Design</div>
-                        <div className="col-span-8 sm:col-span-8 text-slate-500">portable and easy to carry and maneuver around the job</div>
+                      <span className="text-xs sm:text-[13px] font-medium text-slate-600 ml-1">
+                        {PRODUCT_DATA.rating.toFixed(1)} ({PRODUCT_DATA.reviewsCount} Reviews)
+                      </span>
+                    </div>
+
+                    {/* Price Line & Delivery Fee */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-baseline gap-3 font-open-sans">
+                        <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
+                          ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
+                        </span>
+                        <span className="text-slate-400 line-through text-lg font-normal">
+                          ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
+                        </span>
                       </div>
-                      <div className="grid grid-cols-12 gap-3 items-start">
-                        <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Go Cordless</div>
-                        <div className="col-span-8 sm:col-span-8 text-slate-500">clean anywhere without being tethered to a wall outlet</div>
+                      <div className="flex items-center gap-2 font-open-sans text-xs sm:text-[13px] flex-wrap">
+                        <span className="text-slate-500 font-medium">Delivery Fee:</span>
+                        <span className="text-red-500 line-through font-semibold">₹1,500</span>
+                        <span className="bg-[#16a34a] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                          FREE Delivery
+                        </span>
                       </div>
                     </div>
-                  )}
-                </div>
 
-                <div className="w-full h-px bg-slate-100 my-4" />
+                    <div className="w-full h-px bg-slate-100 my-2" />
 
-                {/* 3. Technical Specifications (Accordion) */}
-                <div ref={specsRef} className="space-y-3 pt-1 scroll-mt-4">
-                  <button
-                    type="button"
-                    onClick={() => toggleSection(setIsSpecsOpen, specsRef)}
-                    className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
-                  >
-                    <span>Technical Specifications</span>
-                    <ChevronDown
-                      size={16}
-                      className={`text-slate-500 transition-transform duration-200 ${
-                        isSpecsOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-
-                  {isSpecsOpen && (
-                    <div className="space-y-2.5 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150">
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Pressure rating</span>
-                        <span className="font-bold text-slate-900">1400 PSI</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Suction power</span>
-                        <span className="font-bold text-slate-900">12 kPa</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Battery life</span>
-                        <span className="font-bold text-slate-900">Up to 30 min</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Water flow rate</span>
-                        <span className="font-bold text-slate-900">1.2 GPM</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Weight</span>
-                        <span className="font-bold text-slate-900">Approx. 12.5 kg</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Tank capacity</span>
-                        <span className="font-bold text-slate-900">5 L</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Nozzle types</span>
-                        <span className="font-bold text-slate-900">0° / 15° / 25° / 45°</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-slate-500">Charging time</span>
-                        <span className="font-bold text-slate-900">Approx. 1.4 hrs</span>
+                    {/* Color Selector */}
+                    <div>
+                      <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 font-open-sans flex items-center gap-2">
+                        <span>
+                          Color: <strong className="font-medium text-slate-800">{currentColor.name}</strong>
+                        </span>
+                        {!currentColor.inStock && (
+                          <span className="text-red-600 bg-red-50 border border-red-200 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
+                            Out of Stock
+                          </span>
+                        )}
+                      </p>
+                      <div className="flex items-center gap-3 py-0.5">
+                        {PRODUCT_DATA.colors.map((c, idx) => (
+                          <button
+                            key={c.name}
+                            onClick={() => handleColorChange(idx)}
+                            className={`relative w-9.5 h-9.5 sm:w-10 sm:h-10 rounded-[12px] p-[3px] bg-white transition-colors cursor-pointer flex items-center justify-center ${
+                              selectedColorIndex === idx
+                                ? "border-[2.5px] border-[#0066cc]"
+                                : "border-[1.5px] border-slate-200 hover:border-slate-300"
+                            }`}
+                            aria-label={`Select ${c.name} color${!c.inStock ? " (Out of Stock)" : ""}`}
+                          >
+                            <span
+                              style={{ backgroundColor: c.hex }}
+                              className="w-full h-full rounded-[7px] relative flex items-center justify-center overflow-hidden"
+                            >
+                              {!c.inStock && (
+                                <span className="w-[140%] h-[2.5px] bg-red-500 rotate-45 absolute" />
+                              )}
+                            </span>
+                          </button>
+                        ))}
                       </div>
                     </div>
-                  )}
-                </div>
 
-                <div className="w-full h-px bg-slate-100 my-4" />
+                    <div className="w-full h-px bg-slate-100 my-2" />
 
-                {/* 4. What's In The Box (Accordion) */}
-                <div ref={boxRef} className="space-y-3 pt-1 pb-2 scroll-mt-4">
-                  <button
-                    type="button"
-                    onClick={() => toggleSection(setIsBoxOpen, boxRef)}
-                    className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
-                  >
-                    <span>What&apos;s In The Box</span>
-                    <ChevronDown
-                      size={16}
-                      className={`text-slate-500 transition-transform duration-200 ${
-                        isBoxOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
+                    {/* Quantity Stepper & Deliver within 4-6 Days (Same Row) */}
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
+                      {/* Quantity Stepper */}
+                      <div
+                        className={`inline-flex items-center bg-[#f1f5f9] rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 transition-opacity ${
+                          !currentColor.inStock ? "opacity-40 pointer-events-none" : ""
+                        }`}
+                      >
+                        <button
+                          onClick={() => handleQuantityChange(-1)}
+                          disabled={quantity <= 1 || !currentColor.inStock}
+                          className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base disabled:opacity-30 cursor-pointer"
+                          aria-label="Decrease quantity"
+                        >
+                          &minus;
+                        </button>
+                        <span className="px-3 text-sm font-bold text-slate-900 min-w-[20px] text-center select-none">
+                          {quantity}
+                        </span>
+                        <button
+                          onClick={() => handleQuantityChange(1)}
+                          disabled={quantity >= MAX_QUANTITY_LIMIT || !currentColor.inStock}
+                          className="text-slate-700 hover:text-slate-950 font-bold px-2 py-0.5 text-base disabled:opacity-30 cursor-pointer"
+                          aria-label="Increase quantity"
+                        >
+                          &#43;
+                        </button>
+                      </div>
 
-                  {isBoxOpen && (
-                    <ul className="space-y-2 text-xs sm:text-[13px] text-slate-600 font-open-sans animate-in fade-in duration-150">
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Cordless Pressure Washer
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Lance with Nozzle 0/15/25/45
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Bucket 15ltr
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Foam Gun
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Pressure Hose Pipe
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Pressure Gun
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Charger
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> Corded Vacuum with Accessories
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-slate-400 font-normal">-</span> User Manual
-                      </li>
-                    </ul>
-                  )}
-                </div>
-              </div>
+                      {/* Delivery Info on right side */}
+                      <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
+                        <Truck size={17} className="text-[#0066cc]" />
+                        <span>Express delivery within 4-6 Days</span>
+                      </div>
+                    </div>
 
-              {/* Sticky Bottom Buy Now Action Button (Always Anchored at Bottom on Mobile and Desktop) */}
-              <div className="sticky bottom-0 -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 lg:mx-0 lg:mb-0 pt-3 pb-3 sm:pb-3.5 lg:pt-2 lg:pb-0.5 px-4 sm:px-6 lg:px-0.5 bg-white/95 backdrop-blur-md shrink-0 z-30 mt-3 lg:mt-1.5 border-t border-slate-100 shadow-[0_-8px_20px_rgba(0,0,0,0.06)] lg:shadow-none">
-                {/* Scroll Prompt & Soft Gradient Overlay */}
-                <div
-                  className={`absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-center justify-center transition-opacity duration-300 ${
-                    isPanelScrolled ? "opacity-0" : "opacity-100"
-                  }`}
-                >
-                  <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 bg-white/90 px-2.5 py-0.5 rounded-full border border-slate-200/60 shadow-2xs font-open-sans">
-                    <ChevronDown size={12} className="text-[#0066cc] animate-bounce" />
-                    <span>Scroll for Specifications &amp; Details</span>
+                    <div className="w-full h-px bg-slate-100 my-2" />
+
+                    {/* 1. Warranty & Returns */}
+                    <div className="space-y-1.5 pt-0.5">
+                      <h3 className="font-semibold text-xs sm:text-sm text-[#0F1729] font-open-sans">
+                        Warranty &amp; Returns
+                      </h3>
+                      <ul className="space-y-1 text-xs text-slate-600 font-open-sans">
+                        <li className="flex items-center gap-2">
+                          <span className="text-slate-400 font-normal">-</span>
+                          <span>1-year limited warranty on the product + 2-Years of Service Support</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="text-slate-400 font-normal">-</span>
+                          <span>Returns accepted within 7 days of delivery</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="w-full h-px bg-slate-100 my-4" />
+
+                    {/* 2. Product Highlights (Accordion) */}
+                    <div ref={highlightsRef} className="space-y-2.5 pt-0.5 scroll-mt-4">
+                      <button
+                        type="button"
+                        onClick={() => toggleSection(setIsHighlightsOpen, highlightsRef)}
+                        className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
+                      >
+                        <span>Product Highlights</span>
+                        <ChevronDown
+                          size={16}
+                          className={`text-slate-500 transition-transform duration-200 ${
+                            isHighlightsOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {isHighlightsOpen && (
+                        <div className="space-y-3 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150">
+                          <div className="grid grid-cols-12 gap-3 items-start">
+                            <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Battery Powered</div>
+                            <div className="col-span-8 sm:col-span-8 text-slate-500">no cables, no power sockets, no fixed setup needed</div>
+                          </div>
+                          <div className="grid grid-cols-12 gap-3 items-start">
+                            <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Lightweight Design</div>
+                            <div className="col-span-8 sm:col-span-8 text-slate-500">portable and easy to carry and maneuver around the job</div>
+                          </div>
+                          <div className="grid grid-cols-12 gap-3 items-start">
+                            <div className="col-span-4 sm:col-span-4 text-slate-800 font-medium">Go Cordless</div>
+                            <div className="col-span-8 sm:col-span-8 text-slate-500">clean anywhere without being tethered to a wall outlet</div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="w-full h-px bg-slate-100 my-4" />
+
+                    {/* 3. Technical Specifications (Accordion) */}
+                    <div ref={specsRef} className="space-y-3 pt-1 scroll-mt-4">
+                      <button
+                        type="button"
+                        onClick={() => toggleSection(setIsSpecsOpen, specsRef)}
+                        className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
+                      >
+                        <span>Technical Specifications</span>
+                        <ChevronDown
+                          size={16}
+                          className={`text-slate-500 transition-transform duration-200 ${
+                            isSpecsOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {isSpecsOpen && (
+                        <div className="space-y-2.5 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150">
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Pressure rating</span>
+                            <span className="font-bold text-slate-900">1400 PSI</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Suction power</span>
+                            <span className="font-bold text-slate-900">12 kPa</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Battery life</span>
+                            <span className="font-bold text-slate-900">Up to 30 min</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Water flow rate</span>
+                            <span className="font-bold text-slate-900">1.2 GPM</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Weight</span>
+                            <span className="font-bold text-slate-900">Approx. 12.5 kg</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Tank capacity</span>
+                            <span className="font-bold text-slate-900">5 L</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Nozzle types</span>
+                            <span className="font-bold text-slate-900">0° / 15° / 25° / 45°</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Charging time</span>
+                            <span className="font-bold text-slate-900">Approx. 1.4 hrs</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="w-full h-px bg-slate-100 my-4" />
+
+                    {/* 4. What's In The Box (Accordion) */}
+                    <div ref={boxRef} className="space-y-3 pt-1 pb-2 scroll-mt-4">
+                      <button
+                        type="button"
+                        onClick={() => toggleSection(setIsBoxOpen, boxRef)}
+                        className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
+                      >
+                        <span>What&apos;s In The Box</span>
+                        <ChevronDown
+                          size={16}
+                          className={`text-slate-500 transition-transform duration-200 ${
+                            isBoxOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {isBoxOpen && (
+                        <ul className="space-y-2 text-xs sm:text-[13px] text-slate-600 font-open-sans animate-in fade-in duration-150">
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Cordless Pressure Washer
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Lance with Nozzle 0/15/25/45
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Bucket 15ltr
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Foam Gun
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Pressure Hose Pipe
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Pressure Gun
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Charger
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> Corded Vacuum with Accessories
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <span className="text-slate-400 font-normal">-</span> User Manual
+                          </li>
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Desktop Bottom Buy Now Action Button */}
+                  <div className="hidden lg:block shrink-0 pt-3 border-t border-slate-100 mt-2">
+                    {currentColor.inStock ? (
+                      <button
+                        onClick={() => setIsCheckingOut(true)}
+                        className="w-full h-12 sm:h-12.5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-[0_6px_18px_rgba(0,102,204,0.28)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                      >
+                        BUY NOW
+                      </button>
+                    ) : (
+                      <button
+                        disabled
+                        className="w-full h-12 bg-slate-100 border border-slate-200 text-slate-400 font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] cursor-not-allowed flex items-center justify-center select-none"
+                      >
+                        OUT OF STOCK
+                      </button>
+                    )}
                   </div>
                 </div>
-
-                {currentColor.inStock ? (
-                  <button
-                    onClick={() => setIsCheckingOut(true)}
-                    className="w-full h-12 sm:h-12.5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-[0_6px_18px_rgba(0,102,204,0.28)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
-                  >
-                    BUY NOW
-                  </button>
-                ) : (
-                  <button
-                    disabled
-                    className="w-full h-12 bg-slate-100 border border-slate-200 text-slate-400 font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] cursor-not-allowed flex items-center justify-center select-none"
-                  >
-                    OUT OF STOCK
-                  </button>
-                )}
               </div>
             </div>
-          </div>
+
+            {/* Mobile Bottom Buy Now Bar (Pinned at bottom of full-screen page, NO text below) */}
+            <div
+              style={{ paddingBottom: "calc(0.875rem + env(safe-area-inset-bottom, 0px))" }}
+              className="block lg:hidden shrink-0 bg-white border-t border-slate-100 px-4 pt-3.5 sm:px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] z-20"
+            >
+              {currentColor.inStock ? (
+                <button
+                  onClick={() => setIsCheckingOut(true)}
+                  className="w-full h-12 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-[0_6px_18px_rgba(0,102,204,0.28)] transition-all active:scale-[0.99] cursor-pointer"
+                >
+                  BUY NOW
+                </button>
+              ) : (
+                <button
+                  disabled
+                  className="w-full h-12 bg-slate-100 border border-slate-200 text-slate-400 font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] cursor-not-allowed flex items-center justify-center select-none"
+                >
+                  OUT OF STOCK
+                </button>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
