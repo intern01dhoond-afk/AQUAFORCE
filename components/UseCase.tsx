@@ -54,6 +54,8 @@ export default function UseCase() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isClickingRef = useRef(false);
   const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const pillContainerRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   // Touch swipe support on mobile
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -80,12 +82,19 @@ export default function UseCase() {
     }
   };
 
+  // Only scroll pill bar horizontally inside its container, never scroll the whole window
   useEffect(() => {
-    if (pillRefs.current[activeIndex]) {
-      pillRefs.current[activeIndex]?.scrollIntoView({
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (pillContainerRef.current && pillRefs.current[activeIndex]) {
+      const container = pillContainerRef.current;
+      const pill = pillRefs.current[activeIndex];
+      const offset = pill.offsetLeft - container.offsetWidth / 2 + pill.offsetWidth / 2;
+      container.scrollTo({
+        left: offset,
         behavior: "smooth",
-        block: "nearest",
-        inline: "center",
       });
     }
   }, [activeIndex]);
@@ -173,7 +182,10 @@ export default function UseCase() {
           {/* ========================================================= */}
           <div className="lg:hidden w-full max-w-[540px] mx-auto flex flex-col items-center">
             {/* Horizontal Pill Tag Selector */}
-            <div className="w-full overflow-x-auto no-scrollbar py-1 mb-3.5 flex items-center gap-2 snap-x px-1">
+            <div
+              ref={pillContainerRef}
+              className="w-full overflow-x-auto no-scrollbar py-1 mb-3.5 flex items-center gap-2 snap-x px-1"
+            >
               {USE_CASES.map((item, idx) => {
                 const isActive = idx === activeIndex;
                 return (

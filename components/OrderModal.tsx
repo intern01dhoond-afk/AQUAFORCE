@@ -64,13 +64,21 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const specsRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const thumbnailContainerRef = useRef<HTMLDivElement>(null);
+  const isThumbnailMount = useRef(true);
 
   useEffect(() => {
-    if (thumbnailRefs.current[activeImageIndex]) {
-      thumbnailRefs.current[activeImageIndex]?.scrollIntoView({
+    if (isThumbnailMount.current) {
+      isThumbnailMount.current = false;
+      return;
+    }
+    if (thumbnailContainerRef.current && thumbnailRefs.current[activeImageIndex]) {
+      const container = thumbnailContainerRef.current;
+      const thumb = thumbnailRefs.current[activeImageIndex];
+      const offset = thumb.offsetLeft - container.offsetWidth / 2 + thumb.offsetWidth / 2;
+      container.scrollTo({
+        left: offset,
         behavior: "smooth",
-        block: "nearest",
-        inline: "center",
       });
     }
   }, [activeImageIndex]);
@@ -210,6 +218,106 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     });
   };
 
+  // Track pushed history states: null | 'product' | 'checkout'
+  const historyStateRef = useRef<"product" | "checkout" | null>(null);
+  const isNavigatingBackRef = useRef(false);
+
+  // Synchronize history state when modal opens/closes for seamless mobile back navigation
+  useEffect(() => {
+    if (!isOpen) {
+      historyStateRef.current = null;
+      return;
+    }
+
+    // Push initial history state for product view when modal opens
+    if (historyStateRef.current === null) {
+      window.history.pushState({ amecModal: "product" }, "");
+      historyStateRef.current = "product";
+    }
+
+    const handlePopState = () => {
+      // If we initiated window.history.back() / window.history.go() programmatically, ignore
+      if (isNavigatingBackRef.current) {
+        return;
+      }
+
+      // If user was in checkout view, pressing back returns to product details
+      if (historyStateRef.current === "checkout") {
+        historyStateRef.current = "product";
+        setIsCheckingOut(false);
+        setIsSubmitted(false);
+        setIsProcessingPayment(false);
+      } else {
+        // If user was in product view, pressing back closes modal (returning to Home screen)
+        historyStateRef.current = null;
+        setIsCheckingOut(false);
+        setIsSubmitted(false);
+        setIsProcessingPayment(false);
+        onClose();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isOpen, onClose]);
+
+  // When transitioning from product view -> checkout view, push checkout history state
+  useEffect(() => {
+    if (isOpen && isCheckingOut && historyStateRef.current === "product") {
+      window.history.pushState({ amecModal: "checkout" }, "");
+      historyStateRef.current = "checkout";
+    }
+  }, [isOpen, isCheckingOut]);
+
+  // Handle back button from Checkout Form -> Product Details view
+  const handleBackToProduct = () => {
+    if (historyStateRef.current === "checkout") {
+      historyStateRef.current = "product";
+      setIsCheckingOut(false);
+      setIsSubmitted(false);
+      setIsProcessingPayment(false);
+      isNavigatingBackRef.current = true;
+      window.history.back();
+      setTimeout(() => {
+        isNavigatingBackRef.current = false;
+      }, 100);
+    } else {
+      setIsCheckingOut(false);
+    }
+  };
+
+  // Handle closing modal completely from any view
+  const handleClose = () => {
+    if (historyStateRef.current === "checkout") {
+      isNavigatingBackRef.current = true;
+      historyStateRef.current = null;
+      window.history.go(-2);
+      setTimeout(() => {
+        isNavigatingBackRef.current = false;
+      }, 100);
+    } else if (historyStateRef.current === "product") {
+      isNavigatingBackRef.current = true;
+      historyStateRef.current = null;
+      window.history.back();
+      setTimeout(() => {
+        isNavigatingBackRef.current = false;
+      }, 100);
+    }
+    setIsCheckingOut(false);
+    setIsSubmitted(false);
+    setIsProcessingPayment(false);
+    setPaymentId("");
+    setFormErrors({});
+    onClose();
+  };
+
+  const resetAll = () => {
+    handleClose();
+  };
+
   // Reset when modal opens and lock background scroll completely
   useEffect(() => {
     if (isOpen) {
@@ -232,7 +340,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   // Handle ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
     };
     if (isOpen) {
       window.addEventListener("keydown", handleKeyDown);
@@ -240,7 +348,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -396,21 +504,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     }
   };
 
-  const resetAll = () => {
-    setIsCheckingOut(false);
-    setIsSubmitted(false);
-    setIsProcessingPayment(false);
-    setPaymentId("");
-    setFormErrors({});
-    onClose();
-  };
-
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 lg:p-6 overflow-hidden overscroll-contain bg-white lg:bg-transparent">
       {/* Dark Blur Backdrop (Desktop Only) */}
       <div
         className="hidden lg:block fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       {/* Modal Dialog Card (Full screen separate page on mobile, popup modal on desktop) */}
@@ -425,7 +524,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         {/* Top Close Button for Product Detail and Success Views */}
         {!isCheckingOut && (
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-9 h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none z-30 cursor-pointer shadow-xs"
             aria-label="Close modal"
           >
@@ -486,13 +585,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* Header row: Back button on left, Close button on right, perfectly aligned */}
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <button
-                onClick={() => setIsCheckingOut(false)}
+                onClick={handleBackToProduct}
                 className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-bold text-slate-400 hover:text-slate-700 cursor-pointer transition-colors font-open-sans"
               >
                 &larr; Back to Product Details
               </button>
               <button
-                onClick={onClose}
+                onClick={handleClose}
                 className="w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-xs shrink-0"
                 aria-label="Close modal"
               >
@@ -750,7 +849,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </div>
 
                   {/* Clickable Thumbnails (4 visible at a time, scrollable for 5, 6, etc.) */}
-                  <div className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-3.5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1">
+                  <div
+                    ref={thumbnailContainerRef}
+                    className="flex items-center gap-2.5 sm:gap-3 w-full mt-3 sm:mt-3.5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1"
+                  >
                     {images.map((img, idx) => (
                       <button
                         key={img}

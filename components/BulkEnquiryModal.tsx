@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   X,
   CheckCircle2,
@@ -30,6 +30,36 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // History state for mobile back button navigation
+  const historyPushedRef = useRef(false);
+  const isNavigatingBackRef = useRef(false);
+
+  // Synchronize history state when modal opens/closes
+  useEffect(() => {
+    if (!isOpen) {
+      historyPushedRef.current = false;
+      return;
+    }
+
+    if (!historyPushedRef.current) {
+      window.history.pushState({ amecModal: "bulk-enquiry" }, "");
+      historyPushedRef.current = true;
+    }
+
+    const handlePopState = () => {
+      if (isNavigatingBackRef.current) return;
+      historyPushedRef.current = false;
+      setIsSubmitted(false);
+      setErrorMsg("");
+      onClose();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isOpen, onClose]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -145,6 +175,14 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
   };
 
   const handleClose = () => {
+    if (historyPushedRef.current) {
+      isNavigatingBackRef.current = true;
+      historyPushedRef.current = false;
+      window.history.back();
+      setTimeout(() => {
+        isNavigatingBackRef.current = false;
+      }, 100);
+    }
     setIsSubmitted(false);
     setErrorMsg("");
     setFormData({
