@@ -217,7 +217,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/chatgpt-image-3.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/2.2.png"
             alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority
