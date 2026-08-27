@@ -12,12 +12,7 @@ export default function Footer() {
     <footer className="bg-[#0b0c0e] text-white py-10 xs:py-14 sm:py-20 border-t border-white/5 w-full">
       <ScrollReveal direction="up" className="max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
         {/* PROMEC Brand Logo */}
-        <a
-          href="https://www.promectools.in/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center group mb-6 sm:mb-8"
-        >
+        <div className="flex flex-col items-center group mb-6 sm:mb-8 select-none">
           <div className="relative w-[150px] h-[36px] sm:w-[200px] sm:h-[48px] shrink-0">
             <Image
               src="/aquaforceforautocare/images/promec-logo.svg"
@@ -27,7 +22,7 @@ export default function Footer() {
               className="object-contain object-center"
             />
           </div>
-        </a>
+        </div>
 
         {/* Center Navigation Links */}
         <nav className="flex flex-wrap items-center justify-center gap-4 xs:gap-6 sm:gap-10 text-xs xs:text-sm font-medium text-white/80">
