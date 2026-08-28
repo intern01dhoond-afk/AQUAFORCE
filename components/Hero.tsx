@@ -119,10 +119,10 @@ export default function Hero() {
               <div className="mt-2 flex items-center gap-2">
                 <div className="flex items-baseline gap-1.5 font-open-sans">
                   <span className="text-white text-xl xs:text-2xl font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                    ₹35,999
+                    ₹37,999
                   </span>
                   <span className="text-white/75 line-through text-xs font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
-                    ₹47,999
+                    ₹51,350
                   </span>
                 </div>
                 <span className="inline-block bg-[#18c49e] font-open-sans text-slate-950 text-[9.5px] font-black px-2 py-0.5 rounded-xs uppercase tracking-wider shadow-md">
@@ -174,10 +174,10 @@ export default function Hero() {
             {/* Pricing & Discount Badge */}
             <div className="flex items-center gap-3 sm:gap-4 mt-5 sm:mt-7 font-open-sans">
               <span className="text-white/70 line-through text-sm sm:text-base font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                ₹47,999
+                ₹51,350
               </span>
               <span className="text-white text-2xl sm:text-3xl font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-                ₹35,999
+                ₹37,999
               </span>
               <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
                 26% OFF
@@ -265,10 +265,10 @@ export default function Hero() {
             {/* Pricing Row */}
             <div className="text-white font-inter text-xs font-bold flex items-center gap-2 mt-1 drop-shadow">
               <span className="text-white/70 font-normal">
-                MRP: <span className="line-through">₹47,999</span>
+                MRP: <span className="line-through">₹51,350</span>
               </span>
               <span className="text-white font-extrabold ml-1">
-                Offer Price: Starting at ₹35,999
+                Offer Price: ₹37,999
               </span>
             </div>
 
@@ -317,10 +317,10 @@ export default function Hero() {
             {/* Pricing Row */}
             <div className="text-white font-inter text-base sm:text-lg font-bold flex items-center gap-2 mt-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
               <span className="text-white/80 font-normal">
-                MRP: <span className="line-through">₹47,999</span>
+                MRP: <span className="line-through">₹51,350</span>
               </span>
               <span className="text-white font-extrabold ml-1 text-lg sm:text-xl">
-                Offer Price: Starting at ₹35,999
+                Offer Price: ₹37,999
               </span>
             </div>
 
@@ -399,10 +399,10 @@ export default function Hero() {
             <div className="mt-2.5 flex items-center gap-2.5">
               <div className="flex items-baseline gap-2 font-open-sans">
                 <span className="text-white text-2xl xs:text-[26px] font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                  ₹35,999
+                  ₹37,999
                 </span>
                 <span className="text-white/70 line-through text-xs xs:text-[13px] font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
-                  ₹47,999
+                  ₹51,350
                 </span>
               </div>
               <span className="inline-block bg-[#18c49e] font-open-sans text-slate-950 text-[10.5px] font-black px-2.5 py-0.5 rounded-xs uppercase tracking-wider shadow-md">
@@ -446,10 +446,10 @@ export default function Hero() {
               {/* Pricing Line */}
               <div className="flex items-center gap-3 font-open-sans">
                 <span className="text-white/70 line-through text-sm sm:text-base font-semibold drop-shadow">
-                  ₹47,999
+                  ₹51,350
                 </span>
                 <span className="text-white text-2xl sm:text-3xl font-black tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                  ₹35,999
+                  ₹37,999
                 </span>
                 <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
                   26% OFF
@@ -527,10 +527,10 @@ export default function Hero() {
             <div className="mt-2.5 flex items-center gap-2.5">
               <div className="flex items-baseline gap-2 font-open-sans">
                 <span className="text-white text-2xl xs:text-[26px] font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                  ₹35,999
+                  ₹37,999
                 </span>
                 <span className="text-white/70 line-through text-xs xs:text-[13px] font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
-                  ₹47,999
+                  ₹51,350
                 </span>
               </div>
               <span className="inline-block bg-[#18c49e] font-open-sans text-slate-950 text-[10.5px] font-black px-2.5 py-0.5 rounded-xs uppercase tracking-wider shadow-md">
@@ -574,10 +574,10 @@ export default function Hero() {
               {/* Pricing Line */}
               <div className="flex items-center gap-3 font-open-sans">
                 <span className="text-white/70 line-through text-sm sm:text-base font-semibold drop-shadow">
-                  ₹47,999
+                  ₹51,350
                 </span>
                 <span className="text-white text-2xl sm:text-3xl font-black tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                  ₹35,999
+                  ₹37,999
                 </span>
                 <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
                   26% OFF

@@ -44,10 +44,10 @@ export default function PromoBanner() {
           {/* Pricing Row */}
           <div className="text-white font-open-sans text-sm sm:text-base font-bold flex items-center gap-2 mt-3">
             <span className="text-white/65 font-normal">
-              MRP: <span className="line-through">₹47,999</span>
+              MRP: <span className="line-through">₹51,350</span>
             </span>
             <span className="text-white font-extrabold ml-1">
-              Offer Price: Starting at ₹35,999
+              Offer Price: ₹37,999
             </span>
           </div>
 

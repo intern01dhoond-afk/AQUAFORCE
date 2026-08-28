@@ -46,10 +46,10 @@ export default function MobileStickyBuyBar() {
         {/* Left: Price and Discount */}
         <div className="flex items-center gap-2 font-open-sans">
           <span className="text-[18px] xs:text-[20px] font-bold font-montserrat text-[#0F1729] tracking-tight leading-none">
-            ₹35,999
+            ₹37,999
           </span>
           <span className="text-[12px] xs:text-[13px] text-slate-400 line-through font-medium leading-none">
-            ₹47,999
+            ₹51,350
           </span>
           <span className="bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded leading-none">
             26% OFF

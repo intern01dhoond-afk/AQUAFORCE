@@ -674,6 +674,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </span>
                 </div>
               )}
+
+              {/* Row 6: Order Notifications Sequence */}
+              <div className="flex items-center justify-between text-[12.5px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Order Updates</span>
+                <span className="text-slate-800 font-semibold text-right">
+                  1st on Text &rarr; Email &rarr; WhatsApp
+                </span>
+              </div>
             </div>
 
             {/* Bottom Action Button */}
@@ -947,7 +955,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   required
                 />
                 <span className="text-[11.5px] sm:text-[13px] text-slate-500 leading-snug">
-                  I agree to the terms and agree to receive transactional delivery updates via mobile.
+                  I agree to receive order confirmation &amp; delivery updates (1st on Text, then Email, then WhatsApp).
                 </span>
               </label>
 
