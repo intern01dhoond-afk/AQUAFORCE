@@ -40,6 +40,8 @@ const PRODUCT_DATA = {
         "/aquaforceforautocare/images/products/blue/2.png",
         "/aquaforceforautocare/images/products/blue/3.png",
         "/aquaforceforautocare/images/products/blue/4.png",
+        "/aquaforceforautocare/images/products/blue/5.png",
+        "/aquaforceforautocare/images/products/blue/6.png",
       ],
     },
   ],
