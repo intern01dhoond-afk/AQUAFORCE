@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ShieldCheck, FileText, ChevronDown, ChevronUp, Share2, Gift, Check } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ShieldCheck, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck } from "lucide-react";
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -1331,72 +1331,94 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       </button>
 
                       {isReplacementOpen && (
-                        <div className="space-y-3.5 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150 pt-1 text-slate-700">
-                          {/* Replacement Table */}
-                          <div className="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/80 p-1">
-                            <table className="w-full text-left border-collapse text-[11.5px] sm:text-xs">
+                        <div className="space-y-4 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150 pt-2 text-slate-800 border-t border-slate-100 mt-2">
+                          {/* Clean Amazon-Style Replacement Table */}
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
                               <thead>
-                                <tr className="border-b border-slate-200 text-slate-900 font-bold font-montserrat bg-slate-100/90">
-                                  <th className="p-2 sm:p-2.5">Replacement Reason</th>
-                                  <th className="p-2 sm:p-2.5">Replacement Period</th>
-                                  <th className="p-2 sm:p-2.5">Replacement Policy</th>
+                                <tr className="border-b border-slate-300 text-slate-900 font-bold font-open-sans">
+                                  <th className="py-2.5 pr-3 font-bold text-slate-900 w-2/5">Replacement Reason</th>
+                                  <th className="py-2.5 px-3 font-bold text-slate-900 w-3/10">Replacement Period</th>
+                                  <th className="py-2.5 pl-3 font-bold text-slate-900 w-3/10">Replacement Policy</th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-slate-200/80">
+                              <tbody className="divide-y divide-slate-200">
                                 <tr>
-                                  <td className="p-2 sm:p-2.5 font-medium text-slate-800">Physical Damage, Wrong and Missing Item</td>
-                                  <td className="p-2 sm:p-2.5 text-slate-600">10 days from delivery</td>
-                                  <td className="p-2 sm:p-2.5 font-semibold text-emerald-700">Replacement</td>
+                                  <td className="py-3 pr-3 text-slate-800 font-medium leading-snug">Physical Damage, Wrong and Missing Item</td>
+                                  <td className="py-3 px-3 text-slate-700 font-normal">10 days from delivery</td>
+                                  <td className="py-3 pl-3 text-slate-800 font-medium">Replacement</td>
                                 </tr>
                                 <tr>
-                                  <td className="p-2 sm:p-2.5 font-medium text-slate-800">Defective Item</td>
-                                  <td className="p-2 sm:p-2.5 text-slate-600">10 days from delivery</td>
-                                  <td className="p-2 sm:p-2.5 font-semibold text-slate-800">PROMEC warranty policy (Repair/Replacement by PROMEC)</td>
+                                  <td className="py-3 pr-3 text-slate-800 font-medium leading-snug">Defective Item</td>
+                                  <td className="py-3 px-3 text-slate-700 font-normal">10 days from delivery</td>
+                                  <td className="py-3 pl-3 text-slate-800 font-medium leading-snug">PROMEC warranty policy (Repair/Replacement by PROMEC)</td>
                                 </tr>
                               </tbody>
                             </table>
                           </div>
 
-                          {/* Policy Bullet List */}
-                          <div className="space-y-3 pt-1">
-                            <div>
-                              <h5 className="font-bold text-slate-900 flex items-center gap-1.5 mb-1 text-xs sm:text-[13px]">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#0066cc]" />
-                                <span>Defective item:</span>
-                              </h5>
-                              <ul className="pl-4 space-y-1 text-slate-600 list-disc text-xs sm:text-[12.5px]">
-                                <li>PROMEC will provide On-call support followed by a Technician inspection at your location.</li>
-                                <li>PROMEC expert will repair the product or provide a replacement as applicable. The time taken for resolution will be as per PROMEC policies.</li>
-                              </ul>
+                          <div className="w-full h-px bg-slate-200 my-3" />
+
+                          {/* Info Section with Blue Icon */}
+                          <div className="flex items-start gap-2.5">
+                            <Info size={18} className="text-[#0066cc] shrink-0 mt-0.5" />
+                            <div className="space-y-2 text-xs sm:text-[13px] text-slate-800">
+                              <div>
+                                <strong className="font-bold text-slate-900">Defective item:</strong>
+                                <ul className="pl-4 space-y-1 mt-1 text-slate-700 list-disc">
+                                  <li>PROMEC will provide On-call support followed by a Technician inspection at your location.</li>
+                                  <li>PROMEC expert will repair the product or provide a replacement as applicable. The time taken for resolution will be as per PROMEC policies.</li>
+                                </ul>
+                              </div>
+
+                              <div className="pt-1">
+                                <strong className="font-bold text-slate-900">Physical Damage, Wrong, Missing Items:</strong>
+                                <ul className="pl-4 space-y-1 mt-1 text-slate-700 list-disc">
+                                  <li>Returns will not be accepted if it is an Open Box Delivery order.</li>
+                                  <li>Remote verification by image/video will be done by PROMEC</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Know More Sub-Section */}
+                          <div className="pt-2 space-y-4">
+                            <div className="font-semibold text-xs text-[#0066cc] flex items-center gap-1 cursor-pointer">
+                              <span>Know More</span>
+                              <ChevronUp size={14} />
                             </div>
 
-                            <div>
-                              <h5 className="font-bold text-slate-900 flex items-center gap-1.5 mb-1 text-xs sm:text-[13px]">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#0066cc]" />
-                                <span>Physical Damage, Wrong, Missing Items:</span>
-                              </h5>
-                              <ul className="pl-4 space-y-1 text-slate-600 list-disc text-xs sm:text-[12.5px]">
-                                <li>Returns will not be accepted if it is an Open Box Delivery order.</li>
-                                <li>Remote verification by image/video will be done by PROMEC.</li>
-                              </ul>
+                            {/* Replacement verification Card */}
+                            <div className="space-y-1.5">
+                              <h4 className="font-bold text-sm text-slate-900 font-open-sans">Replacement verification</h4>
+                              <div className="flex items-start gap-3.5 pt-1">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 border border-slate-200/80">
+                                  <Headphones size={28} className="text-slate-700 stroke-[1.5]" />
+                                </div>
+                                <p className="text-xs sm:text-[12.5px] text-slate-700 leading-relaxed font-open-sans">
+                                  During on-call support, you may be prompted to upload an image for verification. Further inspection or repair will be done at your doorstep by PROMEC as per their warranty policies.
+                                </p>
+                              </div>
                             </div>
 
-                            <div className="bg-blue-50/70 border border-blue-200/80 rounded-xl p-3 space-y-1">
-                              <h5 className="font-bold text-slate-900 font-montserrat text-xs uppercase tracking-wider text-[#0066cc]">
-                                Replacement verification
-                              </h5>
-                              <p className="text-slate-600 text-xs leading-relaxed">
-                                During on-call support, you may be prompted to upload an image for verification. Further inspection or repair will be done at your doorstep by PROMEC as per their warranty policies.
-                              </p>
+                            {/* Replacement Instructions Card */}
+                            <div className="space-y-1.5 pt-1">
+                              <h4 className="font-bold text-sm text-slate-900 font-open-sans">Replacement Instructions</h4>
+                              <div className="flex items-start gap-3.5 pt-1">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 border border-slate-200/80">
+                                  <PackageCheck size={28} className="text-slate-700 stroke-[1.5]" />
+                                </div>
+                                <p className="text-xs sm:text-[12.5px] text-slate-700 leading-relaxed font-open-sans">
+                                  Keep the item in its original condition and packaging along with MRP tag, warranty card and accessories for a successful pick-up.
+                                </p>
+                              </div>
                             </div>
 
-                            <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-xl p-3 space-y-1">
-                              <h5 className="font-bold text-slate-900 font-montserrat text-xs uppercase tracking-wider text-emerald-700">
-                                Replacement Instructions
-                              </h5>
-                              <p className="text-slate-600 text-xs leading-relaxed">
-                                Keep the item in its original condition and packaging along with MRP tag, warranty card and accessories for a successful pick-up.
-                              </p>
+                            <div className="pt-2 border-t border-slate-100">
+                              <span className="text-xs text-[#0066cc] font-semibold hover:underline cursor-pointer flex items-center gap-1">
+                                <span>Read full returns policy</span>
+                                <span>&rsaquo;</span>
+                              </span>
                             </div>
                           </div>
                         </div>
