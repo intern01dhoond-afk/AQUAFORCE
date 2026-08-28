@@ -63,7 +63,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
   // Dynamic Pricing Calculations
   const currentOfferPrice = selectedVacuumOption === "without" ? 35999 : 37999;
-  const currentMRP = 49999;
+  const currentMRP = selectedVacuumOption === "without" ? 47999 : 49999;
   const unitSavings = currentMRP - currentOfferPrice;
   const totalPrice = currentOfferPrice * quantity;
   const totalMRP = currentMRP * quantity;
@@ -859,7 +859,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   {/* MRP Total */}
                   <div className="flex items-center justify-between pt-1">
                     <span className="text-slate-500 font-medium">MRP Total</span>
-                    <span className="text-slate-400 line-through">₹{totalMRP.toLocaleString("en-IN")}</span>
+                    <span className="text-slate-400 line-through font-normal">₹{totalMRP.toLocaleString("en-IN")}</span>
                   </div>
 
                   {/* Discount on MRP */}
@@ -871,25 +871,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   {/* Subtotal */}
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-slate-500 font-medium">Subtotal</span>
-                    <span className="text-slate-900 font-semibold">₹{totalPrice.toLocaleString("en-IN")}</span>
+                    <span className="text-slate-900 font-bold">₹{totalPrice.toLocaleString("en-IN")}</span>
                   </div>
 
                   {/* Shipping */}
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-slate-500 font-medium">Shipping</span>
-                    <span className="text-[#00c06d] font-bold uppercase">Free</span>
-                  </div>
-
-                  {/* Tax */}
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="text-slate-500 font-medium">Tax (18% GST Included)</span>
-                    <span className="text-slate-700 font-medium">₹{taxAmount.toLocaleString("en-IN")}</span>
+                    <div>
+                      <span className="text-slate-400 line-through mr-1.5 font-normal">₹1,500</span>
+                      <span className="text-[#00c06d] font-bold uppercase">FREE</span>
+                    </div>
                   </div>
 
                   {/* Handling & Packaging Fee */}
                   <div className="flex items-center justify-between pt-2">
-                    <span className="text-slate-500 font-medium">Handling and Packaging Fee</span>
-                    <span className="text-[#00c06d] font-bold uppercase">Free</span>
+                    <span className="text-slate-500 font-medium">Handling &amp; Packaging Fee</span>
+                    <span className="text-[#00c06d] font-bold uppercase">FREE</span>
                   </div>
                 </div>
 
@@ -1142,9 +1139,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           </div>
                           <div className="mt-1 flex items-baseline gap-1.5 font-open-sans">
                             <span className="text-sm font-bold text-slate-900">₹35,999</span>
-                            <span className="text-[11px] text-slate-400 line-through">₹49,999</span>
+                            <span className="text-[11px] text-slate-400 line-through">₹47,999</span>
                           </div>
-                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹14,000</span>
+                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹12,000</span>
                         </button>
 
                         {/* Option 2: With Vacuum */}
