@@ -37,7 +37,7 @@ export default function WashWithoutLimits() {
           <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
               src="/aquaforceforautocare/images/Remainig%20images/left.png"
-              alt="AMEC Aquaforce 1400 cordless vehicle detailing"
+              alt="Aquaforce 1400 cordless vehicle detailing"
               fill
               priority
               quality={100}
@@ -50,7 +50,7 @@ export default function WashWithoutLimits() {
           <div className="relative w-full h-[185px] xs:h-[215px] sm:h-[290px] rounded-[14px] xs:rounded-[18px] overflow-hidden shadow-sm">
             <Image
               src="/aquaforceforautocare/images/Remainig%20images/right.png"
-              alt="AMEC Aquaforce 1400 outdoor car detailing"
+              alt="Aquaforce 1400 outdoor car detailing"
               fill
               priority
               quality={100}
@@ -99,7 +99,7 @@ export default function WashWithoutLimits() {
         <ScrollReveal direction="right" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
             src="/aquaforceforautocare/images/Remainig%20images/left.png"
-            alt="AMEC Aquaforce 1400 cordless vehicle detailing"
+            alt="Aquaforce 1400 cordless vehicle detailing"
             fill
             priority
             quality={100}
@@ -165,7 +165,7 @@ export default function WashWithoutLimits() {
         <ScrollReveal direction="left" className="md:col-span-4 relative h-full min-h-[340px] overflow-hidden">
           <Image
             src="/aquaforceforautocare/images/Remainig%20images/right.png"
-            alt="AMEC Aquaforce 1400 outdoor car detailing"
+            alt="Aquaforce 1400 outdoor car detailing"
             fill
             priority
             quality={100}

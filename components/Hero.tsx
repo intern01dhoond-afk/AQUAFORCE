@@ -72,7 +72,7 @@ export default function Hero() {
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Remainig%20images/mobile%20banner%206.png"
-            alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer"
+            alt="Aquaforce 1400 Cordless Portable Pressure Washer"
             fill
             priority
             quality={100}
@@ -85,7 +85,7 @@ export default function Hero() {
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/1.jpg"
-            alt="AMEC Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
+            alt="Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
             fill
             priority
             quality={100}
@@ -166,7 +166,7 @@ export default function Hero() {
 
             {/* Description Paragraph */}
             <p className="font-open-sans text-white mt-4 sm:mt-5 max-w-[480px] text-[14px] sm:text-[15.5px] leading-relaxed font-normal drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-              Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful,
+              Wash your car anywhere with the Aquaforce 1400 - a powerful,
               battery-powered portable pressure washer. No cables, no power
               sockets, no fixed setup needed.
             </p>
@@ -218,7 +218,7 @@ export default function Hero() {
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/2.1.png"
-            alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
+            alt="Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority
             quality={100}
@@ -231,7 +231,7 @@ export default function Hero() {
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/2.jpg"
-            alt="AMEC Aquaforce 1400 Promotional Launch Offer 24% OFF"
+            alt="Aquaforce 1400 Promotional Launch Offer 24% OFF"
             fill
             priority
             quality={100}
@@ -363,7 +363,7 @@ export default function Hero() {
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/3.1.png"
-            alt="AMEC Aquaforce 1400 No Power No Socket"
+            alt="Aquaforce 1400 No Power No Socket"
             fill
             priority
             quality={100}
@@ -376,7 +376,7 @@ export default function Hero() {
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/3.jpg"
-            alt="AMEC Aquaforce 1400 No Power No Socket Driveway Washing Scene"
+            alt="Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority
             quality={100}
@@ -392,7 +392,7 @@ export default function Hero() {
           <div className="w-full bg-gradient-to-t from-black via-black/90 via-50% to-transparent pt-14 pb-7 px-4 xs:px-5 pointer-events-auto">
             {/* Description */}
             <p className="text-white font-medium font-open-sans text-[13px] xs:text-[13.5px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              Wash your car anywhere with the AMEC Aquaforce 1400 - powerful cordless portable pressure washer.
+              Wash your car anywhere with the Aquaforce 1400 - powerful cordless portable pressure washer.
             </p>
 
             {/* Pricing & Discount */}
@@ -435,7 +435,7 @@ export default function Hero() {
             {/* Bottom-Left Description */}
             <div className="max-w-xl">
               <p className="text-white/95 font-open-sans text-[14px] sm:text-[15px] leading-relaxed font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful,
+                Wash your car anywhere with the Aquaforce 1400 - a powerful,
                 battery-powered portable pressure washer. No cables, no power
                 sockets, no fixed setup needed.
               </p>
@@ -491,7 +491,7 @@ export default function Hero() {
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/4.1.png"
-            alt="AMEC Aquaforce 1400 Cordless Powerful Portable Bike Washing"
+            alt="Aquaforce 1400 Cordless Powerful Portable Bike Washing"
             fill
             priority
             quality={100}
@@ -504,7 +504,7 @@ export default function Hero() {
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/4.jpeg"
-            alt="AMEC Aquaforce 1400 Cordless Powerful Portable Adventure Bike Washing"
+            alt="Aquaforce 1400 Cordless Powerful Portable Adventure Bike Washing"
             fill
             priority
             quality={100}
@@ -520,7 +520,7 @@ export default function Hero() {
           <div className="w-full bg-gradient-to-t from-black via-black/90 via-50% to-transparent pt-14 pb-7 px-4 xs:px-5 pointer-events-auto">
             {/* Description */}
             <p className="text-white font-medium font-open-sans text-[13px] xs:text-[13.5px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              Wash your car, bike, or outdoor gear anywhere with the AMEC Aquaforce 1400 - high-pressure cordless washing.
+              Wash your car, bike, or outdoor gear anywhere with the Aquaforce 1400 - high-pressure cordless washing.
             </p>
 
             {/* Pricing & Discount */}
@@ -563,7 +563,7 @@ export default function Hero() {
             {/* Bottom-Left Description */}
             <div className="max-w-xl">
               <p className="text-white/95 font-open-sans text-[14px] sm:text-[15px] leading-relaxed font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                Wash your car, bike, or outdoor gear anywhere with the AMEC Aquaforce 1400 - a powerful,
+                Wash your car, bike, or outdoor gear anywhere with the Aquaforce 1400 - a powerful,
                 battery-powered portable pressure washer. No cables, no power
                 sockets, no fixed setup needed.
               </p>

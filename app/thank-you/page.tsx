@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, Package, Truck, Phone, Mail, ArrowLeft, ShieldCheck } from "lucide-react";
-import Header from "@/components/Header";
+import { X } from "lucide-react";
 import Footer from "@/components/Footer";
 
 function ThankYouContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const paymentId = searchParams.get("payment_id") || "";
   const orderId = searchParams.get("order_id") || "";
@@ -22,127 +22,131 @@ function ThankYouContent() {
       (window as any).fbq("track", "Purchase", {
         value: Number(amount) || 9999,
         currency: "INR",
-        content_name: "AMEC AQUAFORCE 1400 PSI TECH Cordless Washer",
+        content_name: "AQUAFORCE 1400 PSI TECH Cordless Washer",
         content_type: "product",
       });
     }
   }, [amount]);
 
-  return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex flex-col justify-between">
-      <Header />
+  const handleReturn = () => {
+    router.push("/");
+  };
 
-      <main className="flex-1 pt-28 sm:pt-36 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
-        {/* Main Confirmation Card */}
-        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-[0_15px_40px_rgba(15,23,42,0.08)] border border-slate-100 p-6 sm:p-10 md:p-12 text-center">
-          {/* Animated Success Badge */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 shadow-md shadow-emerald-500/20 animate-in zoom-in-50 duration-300">
-            <CheckCircle2 className="w-9 h-9 sm:w-12 sm:h-12" />
+  return (
+    <div className="min-h-screen bg-[#0b0c0e] flex flex-col justify-between text-slate-900">
+      {/* Clean Dedicated Brand Header - No overlapping navigation links */}
+      <header className="w-full h-16 sm:h-20 bg-[#0b0c0e] border-b border-white/10 flex items-center justify-center px-4 shrink-0">
+        <div className="relative w-[150px] h-[36px] sm:w-[180px] sm:h-[42px]">
+          <Image
+            src="/aquaforceforautocare/images/promec-logo.svg"
+            alt="PROMEC"
+            fill
+            sizes="(max-width: 640px) 150px, 180px"
+            className="object-contain object-center"
+            priority
+          />
+        </div>
+      </header>
+
+      {/* Centered Confirmation Dialog Card with Generous Margins */}
+      <main className="flex-1 flex items-center justify-center px-3.5 sm:px-6 py-8 sm:py-14 w-full">
+        <div className="relative w-full max-w-[420px] sm:max-w-[520px] p-6 xs:p-7 sm:p-9 pt-8 sm:pt-10 bg-white rounded-[24px] sm:rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] text-slate-900 overflow-hidden my-auto animate-in zoom-in-95 fade-in duration-200 text-center">
+          {/* Top Close Button inside Card */}
+          <button
+            type="button"
+            onClick={handleReturn}
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 bg-[#f1f5f9] hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-xs z-20"
+            aria-label="Close"
+          >
+            <X size={16} />
+          </button>
+
+          {/* Checkmark Icon (Double concentric layer circle) */}
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#e6fbf2] flex items-center justify-center mx-auto mb-4 sm:mb-5">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#00c06d] flex items-center justify-center shadow-xs">
+              <svg
+                className="w-6 h-6 sm:w-7 sm:h-7 text-white stroke-[3.5]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
           </div>
 
-          {/* Title & Subtitle */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black font-montserrat text-slate-900 tracking-tight">
+          {/* Title */}
+          <h1 className="text-xl xs:text-2xl sm:text-[28px] font-bold font-montserrat text-[#0F1729] tracking-tight leading-snug">
             Order Placed Successfully!
           </h1>
-          <p className="text-slate-600 font-open-sans text-sm sm:text-base mt-2 sm:mt-3 max-w-lg mx-auto">
-            {customerName ? (
-              <>
-                Thank you, <strong className="text-slate-900">{customerName}</strong>! Your order has been received and is being processed.
-              </>
-            ) : (
-              "Thank you for your purchase! Your order has been received and is being processed."
-            )}
+
+          {/* Personalized Message without AMEC */}
+          <p className="text-[#475569] font-open-sans text-xs xs:text-[13.5px] sm:text-[14px] max-w-[430px] mx-auto mt-2 sm:mt-2.5 leading-relaxed font-normal">
+            Thank you,{" "}
+            <strong className="text-[#0f172a] font-bold font-open-sans">
+              {customerName || "Valued Customer"}
+            </strong>
+            . Your order for{" "}
+            <strong className="text-[#005DA6] font-bold font-open-sans">
+              Aquaforce 1400
+            </strong>{" "}
+            has been confirmed and our dispatch team is preparing your package for express delivery.
           </p>
 
-          {/* Reference Badges */}
-          <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-2">
-            {paymentId && (
-              <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-mono px-3 py-1.5 rounded-lg">
-                <ShieldCheck size={14} className="text-emerald-600" />
-                Payment ID: {paymentId}
+          {/* Summary Details Card */}
+          <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[16px] p-4 sm:p-5 mt-5 sm:mt-6 text-left font-open-sans space-y-3 divide-y divide-[#e2e8f0]/80 shadow-2xs">
+            {/* Row 1: Product */}
+            <div className="flex items-center justify-between text-[13px] pt-0 font-open-sans">
+              <span className="text-[#64748b] font-medium font-open-sans">Product</span>
+              <span className="text-[#0f172a] font-bold font-open-sans truncate max-w-[180px] sm:max-w-[240px]">
+                Aquaforce 1400 PSI Tech
               </span>
-            )}
-            {orderId && (
-              <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 border border-slate-200 text-xs font-mono px-3 py-1.5 rounded-lg">
-                Order ID: {orderId}
-              </span>
-            )}
-          </div>
+            </div>
 
-          {/* Order Details Summary Box */}
-          <div className="mt-8 bg-slate-50 border border-slate-200/80 rounded-2xl p-5 sm:p-6 text-left max-w-xl mx-auto space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3.5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 text-[#0066cc] rounded-xl flex items-center justify-center shrink-0">
-                  <Package size={20} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm sm:text-[15px] font-montserrat text-slate-900">
-                    AQUAFORCE 1400 PSI TECH
-                  </h4>
-                  <p className="text-xs text-slate-500 font-open-sans">
-                    Cordless High-Pressure Washer Complete Kit
-                  </p>
-                </div>
-              </div>
-              <span className="font-black text-sm sm:text-base font-montserrat text-[#0066cc]">
+            {/* Row 2: Order Status */}
+            <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+              <span className="text-[#64748b] font-medium font-open-sans">Order Status</span>
+              <span className="bg-[#f0f9ff] border border-[#005DA6]/35 text-[#005DA6] text-xs font-bold font-open-sans px-3 py-0.5 rounded-full leading-none">
+                Paid &amp; Confirmed
+              </span>
+            </div>
+
+            {/* Row 3: Total Amount */}
+            <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+              <span className="text-[#64748b] font-medium font-open-sans">Amount Paid</span>
+              <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">
                 ₹{formattedAmount}
               </span>
             </div>
 
-            {/* Shipping & Confirmation info */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-[13px] font-open-sans text-slate-600 pt-1">
-              <div className="flex items-start gap-2.5">
-                <Truck size={18} className="text-emerald-600 shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-bold text-slate-900 block">Free Express Delivery</span>
-                  <span>Expected within 4–6 business days</span>
-                </div>
+            {/* Row 4: Payment ID (if available) */}
+            {paymentId && (
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Payment ID</span>
+                <span className="text-[#0f172a] font-bold font-mono text-xs truncate max-w-[180px] sm:max-w-[240px]">
+                  {paymentId}
+                </span>
               </div>
-              <div className="flex items-start gap-2.5">
-                <ShieldCheck size={18} className="text-[#0066cc] shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-bold text-slate-900 block">1-Year Warranty</span>
-                  <span>100% Genuine PROMEC Product</span>
-                </div>
-              </div>
+            )}
+
+            {/* Row 5: Shipping */}
+            <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+              <span className="text-[#64748b] font-medium font-open-sans">Shipping</span>
+              <span className="text-emerald-700 font-bold font-open-sans">
+                Free Express (4-6 Days)
+              </span>
             </div>
           </div>
 
-          {/* Help & Support */}
-          <div className="mt-8 pt-6 border-t border-slate-100 max-w-md mx-auto">
-            <p className="text-xs text-slate-500 font-open-sans mb-3">
-              Need assistance with your order? Our support team is here to help:
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-700">
-              <a
-                href="tel:+919345247343"
-                className="inline-flex items-center gap-1.5 hover:text-[#0066cc] transition-colors"
-              >
-                <Phone size={14} className="text-[#0066cc]" />
-                +91 93452 47343
-              </a>
-              <span className="text-slate-300">•</span>
-              <a
-                href="mailto:sales@promectools.in"
-                className="inline-flex items-center gap-1.5 hover:text-[#0066cc] transition-colors"
-              >
-                <Mail size={14} className="text-[#0066cc]" />
-                sales@promectools.in
-              </a>
-            </div>
-          </div>
-
-          {/* Back to Home Button */}
-          <div className="mt-8">
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0055b3] text-white font-bold text-xs sm:text-sm uppercase tracking-wider px-8 py-3.5 rounded-xl shadow-lg shadow-blue-600/25 transition-all hover:scale-[1.02] active:scale-95 font-montserrat"
-            >
-              <ArrowLeft size={16} />
-              <span>Return to Homepage</span>
-            </Link>
-          </div>
+          {/* Bottom Action Button */}
+          <Link
+            href="/"
+            className="mt-6 sm:mt-8 w-full block bg-[#0077c8] hover:bg-[#0066b3] active:bg-[#005599] text-white font-bold font-montserrat uppercase tracking-wider py-3.5 sm:py-4 rounded-[12px] shadow-sm hover:shadow-md transition-all cursor-pointer text-xs sm:text-sm text-center"
+          >
+            CONTINUE BROWSING
+          </Link>
         </div>
       </main>
 
@@ -155,7 +159,7 @@ export default function ThankYouPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
+        <div className="min-h-screen flex items-center justify-center bg-[#0b0c0e]">
           <div className="w-8 h-8 border-4 border-[#0066cc] border-t-transparent rounded-full animate-spin" />
         </div>
       }

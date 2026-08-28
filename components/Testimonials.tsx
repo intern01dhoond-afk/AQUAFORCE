@@ -88,7 +88,7 @@ export default function Testimonials() {
 
           {/* Subtitle */}
           <p className="text-slate-600 font-open-sans max-w-xl mx-auto mt-2 sm:mt-3 text-xs xs:text-sm sm:text-base leading-relaxed">
-            Real feedback from car enthusiasts, bike owners, and professionals across India who trust AMEC Aquaforce 1400.
+            Real feedback from car enthusiasts, bike owners, and professionals across India who trust Aquaforce 1400.
           </p>
         </motion.div>
 

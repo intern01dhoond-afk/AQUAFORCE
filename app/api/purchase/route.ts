@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       state,
       pincode,
       gstNumber: gstNumber || "N/A",
-      product: product || "AMEC Aquaforce 1400",
+      product: product || "Aquaforce 1400",
       quantity: Number(quantity) || 1,
       amount: Number(amount) || 37999,
       status: status || "Order Confirmed",

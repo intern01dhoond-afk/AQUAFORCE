@@ -12,7 +12,7 @@ interface OrderModalProps {
 const PRODUCT_DATA = {
   name: "Cordless AquaForce 1400 High-pressure Washer System",
   description:
-    "The AMEC Aquaforce 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
+    "The Aquaforce 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
   rating: 4.8,
   reviewsCount: 2097,
   offerPrice: 37999,
@@ -445,7 +445,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa",
         amount: orderData.amount,
         currency: orderData.currency || "INR",
-        name: "AMEC Technology",
+        name: "PROMEC",
         description: `${PRODUCT_DATA.name} (${currentColor.name}) x ${quantity}`,
         order_id: orderData.id,
         prefill: {
@@ -547,50 +547,88 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         )}
 
         {isSubmitted ? (
-          /* Order Confirmed View */
-          <div className="text-center py-8 sm:py-14">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 animate-in zoom-in-50 duration-300">
-              <CheckCircle2 size={32} className="sm:w-9 sm:h-9" />
+          /* ========================================================= */
+          /* Exact Confirmation View from Reference Screenshot         */
+          /* ========================================================= */
+          <div className="relative flex flex-col items-center text-center py-2 sm:py-4">
+            {/* Checkmark Icon (Double concentric layer circle) */}
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#e6fbf2] flex items-center justify-center mx-auto mb-4 sm:mb-5">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#00c06d] flex items-center justify-center shadow-xs">
+                <svg
+                  className="w-6 h-6 sm:w-7 sm:h-7 text-white stroke-[3.5]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
             </div>
-            <h3 className="text-xl xs:text-2xl sm:text-3xl font-black font-montserrat text-slate-900 tracking-tight">
+
+            {/* Title */}
+            <h3 className="text-xl xs:text-2xl sm:text-[28px] font-bold font-montserrat text-[#0F1729] tracking-tight leading-snug">
               Order Placed Successfully!
             </h3>
-            <p className="text-slate-600 font-open-sans text-xs xs:text-sm sm:text-base mt-2 max-w-md mx-auto">
-              Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your payment was verified and your order for{" "}
-              <strong>
-                {quantity}x {PRODUCT_DATA.name} ({currentColor.name})
-              </strong>{" "}
-              has been confirmed for <strong>₹{(PRODUCT_DATA.offerPrice * quantity).toLocaleString("en-IN")}</strong>.
+
+            {/* Personalized Message */}
+            <p className="text-[#475569] font-open-sans text-xs xs:text-[13.5px] sm:text-[14px] max-w-[430px] mx-auto mt-2 sm:mt-2.5 leading-relaxed font-normal">
+              Thank you, <strong className="text-[#0f172a] font-bold font-open-sans">{formData.fullName || "Valued Customer"}</strong>.
+              Your order for <strong className="text-[#005DA6] font-bold font-open-sans">Aquaforce 1400</strong> has been confirmed and our
+              dispatch team is preparing your package for express delivery.
             </p>
-            {paymentId && (
-              <div className="mt-2.5 inline-block bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] sm:text-xs font-mono px-3 py-1 rounded-md">
-                Payment ID: {paymentId}
+
+            {/* Summary Details Card */}
+            <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[16px] p-4 sm:p-5 mt-5 sm:mt-6 text-left font-open-sans space-y-3 divide-y divide-[#e2e8f0]/80 shadow-2xs">
+              {/* Row 1: Product */}
+              <div className="flex items-center justify-between text-[13px] pt-0 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Product</span>
+                <span className="text-[#0f172a] font-bold font-open-sans truncate max-w-[180px] sm:max-w-[240px]">
+                  Aquaforce 1400 ({currentColor.name})
+                </span>
               </div>
-            )}
-            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-slate-50 border border-slate-200/80 rounded-xl text-xs text-slate-600 max-w-md mx-auto text-left space-y-1 font-open-sans">
-              <p>
-                <strong>Delivery Address:</strong> {formData.deliveryAddress}
-                {formData.city ? `, ${formData.city}` : ""}
-                {formData.state ? `, ${formData.state}` : ""}
-                {formData.pincode ? ` - ${formData.pincode}` : ""}
-              </p>
-              {formData.email && (
-                <p>
-                  <strong>Email:</strong> {formData.email}
-                </p>
+
+              {/* Row 2: Order Status */}
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Order Status</span>
+                <span className="bg-[#f0f9ff] border border-[#005DA6]/35 text-[#005DA6] text-xs font-bold font-open-sans px-3 py-0.5 rounded-full leading-none">
+                  Paid &amp; Confirmed
+                </span>
+              </div>
+
+              {/* Row 3: Total Amount */}
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Amount Paid</span>
+                <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">
+                  ₹{(PRODUCT_DATA.offerPrice * quantity).toLocaleString("en-IN")}
+                </span>
+              </div>
+
+              {/* Row 4: Contact Number */}
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Contact Number</span>
+                <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">{formData.phone}</span>
+              </div>
+
+              {/* Row 5: Payment ID (if available) */}
+              {paymentId && (
+                <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                  <span className="text-[#64748b] font-medium font-open-sans">Payment ID</span>
+                  <span className="text-[#0f172a] font-bold font-mono text-xs truncate max-w-[180px] sm:max-w-[240px]">
+                    {paymentId}
+                  </span>
+                </div>
               )}
-              <p>
-                <strong>Phone:</strong> {formData.phone}
-              </p>
-              <p className="text-emerald-700 font-semibold pt-1">
-                🚚 Free Express Delivery (Expected within 4-6 Days)
-              </p>
             </div>
+
+            {/* Bottom Action Button */}
             <button
+              type="button"
               onClick={resetAll}
-              className="mt-6 sm:mt-8 w-full sm:w-auto bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold px-8 py-3.5 rounded-[8px] shadow-lg shadow-blue-600/30 transition-all active:scale-95 cursor-pointer font-open-sans text-xs xs:text-sm uppercase tracking-wider"
+              className="mt-6 sm:mt-8 w-full bg-[#0077c8] hover:bg-[#0066b3] active:bg-[#005599] text-white font-bold font-montserrat uppercase tracking-wider py-3.5 sm:py-4 rounded-[12px] shadow-sm hover:shadow-md transition-all cursor-pointer text-xs sm:text-sm"
             >
-              Continue Browsing
+              CONTINUE BROWSING
             </button>
           </div>
         ) : isCheckingOut ? (

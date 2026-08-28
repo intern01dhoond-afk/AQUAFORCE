@@ -16,7 +16,7 @@ export default function Footer() {
           <div className="relative w-[150px] h-[36px] sm:w-[200px] sm:h-[48px] shrink-0">
             <Image
               src="/aquaforceforautocare/images/promec-logo.svg"
-              alt="AMEC Technology"
+              alt="PROMEC"
               fill
               sizes="(max-width: 640px) 150px, 200px"
               className="object-contain object-center"
@@ -51,7 +51,7 @@ export default function Footer() {
         <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5 text-xs text-white/50">
           {/* Left: Copyright */}
           <div>
-            &copy; 2026 AMEC Technology. All Rights Reserved.
+            &copy; 2026 PROMEC. All Rights Reserved.
           </div>
 
           {/* Right: Social Media Icons */}

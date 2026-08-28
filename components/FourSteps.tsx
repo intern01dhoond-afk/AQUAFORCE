@@ -34,7 +34,7 @@ export default function FourSteps() {
       <div className="sm:hidden absolute inset-0 z-0">
         <Image
           src="/aquaforceforautocare/images/Remainig%20images/mobile%20banner%207.png"
-          alt="AMEC Aquaforce 4 Steps to Pristine Clean mobile background"
+          alt="Aquaforce 4 Steps to Pristine Clean mobile background"
           fill
           priority
           quality={100}
@@ -49,7 +49,7 @@ export default function FourSteps() {
       <div className="hidden sm:block absolute inset-0 z-0">
         <Image
           src="/aquaforceforautocare/images/Remainig%20images/four-steps-desktop.png"
-          alt="AMEC Aquaforce on workshop workbench 4 Steps to Pristine Clean"
+          alt="Aquaforce on workshop workbench 4 Steps to Pristine Clean"
           fill
           priority
           quality={100}

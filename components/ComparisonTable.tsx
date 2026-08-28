@@ -48,7 +48,7 @@ export default function ComparisonTable() {
           What Makes Aquaforce Different?
         </h2>
         <p className="text-slate-600 font-open-sans max-w-2xl mx-auto mt-3 text-sm sm:text-base leading-relaxed">
-          See how the AMEC Aquaforce 1400 stacks up against a conventional
+          See how the Aquaforce 1400 stacks up against a conventional
           pressure washer across every critical dimension.
         </p>
       </ScrollReveal>

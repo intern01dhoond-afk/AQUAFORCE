@@ -207,14 +207,14 @@ export default function EngineeredPerformance() {
       {/* MOBILE LAYOUT (< lg): Machine in Center + 2-Column Grid */}
       {/* ========================================================= */}
       <div className="lg:hidden max-w-[560px] mx-auto px-3.5 sm:px-6 mt-3 sm:mt-6 flex flex-col items-center">
-        {/* Center 3D AMEC Aquaforce Machine Render */}
+        {/* Center 3D Aquaforce Machine Render */}
         <ScrollReveal direction="zoom" className="relative flex items-center justify-center my-1 sm:my-2 w-full">
           {/* Radiant Brightness Spotlight */}
           <div className="absolute w-56 h-56 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 w-64 h-72 sm:w-80 sm:h-92">
             <Image
               src="/aquaforceforautocare/images/Remainig%20images/features%20image.png"
-              alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
+              alt="Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
               quality={100}
@@ -273,7 +273,7 @@ export default function EngineeredPerformance() {
           ))}
         </ScrollReveal>
 
-        {/* Center Column: Enlarged 3D AMEC Aquaforce Machine Render with Radiant Glow */}
+        {/* Center Column: Enlarged 3D Aquaforce Machine Render with Radiant Glow */}
         <ScrollReveal direction="zoom" className="col-span-6 flex items-center justify-center relative">
           {/* Radiant Spotlight */}
           <div className="absolute w-80 h-80 lg:w-[460px] lg:h-[460px] bg-white/85 rounded-full blur-3xl pointer-events-none" />
@@ -283,7 +283,7 @@ export default function EngineeredPerformance() {
           <div className="relative z-10 w-[420px] h-[480px] lg:w-[460px] lg:h-[530px] xl:w-[500px] xl:h-[560px]">
             <Image
               src="/aquaforceforautocare/images/Remainig%20images/features%20image.png"
-              alt="AMEC Aquaforce 1400 PSI TECH portable high pressure washer machine"
+              alt="Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
               quality={100}

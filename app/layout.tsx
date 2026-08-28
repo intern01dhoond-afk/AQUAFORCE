@@ -50,9 +50,9 @@ const unbounded = Unbounded({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://promectools.in/aquaforceforautocare"),
-  title: "AMEC Aquaforce 1400 | Cordless. Powerful. Portable.",
+  title: "Aquaforce 1400 | Cordless. Powerful. Portable.",
   description:
-    "Wash your car anywhere with the AMEC Aquaforce 1400 - a powerful, battery-powered portable pressure washer. No cables, no power socket, no fixed setup needed.",
+    "Wash your car anywhere with the Aquaforce 1400 - a powerful, battery-powered portable pressure washer. No cables, no power socket, no fixed setup needed.",
   icons: {
     icon: [
       { url: "/aquaforceforautocare/images/favicon.ico" },

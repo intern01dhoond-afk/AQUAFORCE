@@ -63,7 +63,7 @@ export default function Header() {
           >
             <Image
               src="/aquaforceforautocare/images/promec-logo.svg"
-              alt="AMEC Technology"
+              alt="PROMEC"
               fill
               priority
               sizes="(max-width: 640px) 135px, (max-width: 1024px) 170px, 200px"

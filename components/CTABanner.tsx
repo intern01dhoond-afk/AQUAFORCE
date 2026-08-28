@@ -24,7 +24,7 @@ export default function CTABanner() {
             {/* Background Yellow Machine Graphic */}
             <Image
               src="/aquaforceforautocare/images/mobile-banner-2-y.png"
-              alt="AMEC Aquaforce 1400 Portable Pressure Washer"
+              alt="Aquaforce 1400 Portable Pressure Washer"
               fill
               priority
               quality={100}
@@ -65,7 +65,7 @@ export default function CTABanner() {
             {/* Desktop Background Image */}
             <Image
               src="/aquaforceforautocare/images/pressure-washer-banner-5b.png"
-              alt="AMEC Aquaforce 1400 Portable Pressure Washer"
+              alt="Aquaforce 1400 Portable Pressure Washer"
               fill
               priority
               quality={100}

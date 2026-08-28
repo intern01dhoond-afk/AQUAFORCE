@@ -74,7 +74,7 @@ export default function ProfessionalCleaning() {
             {/* Mobile View */}
             <Image
               src="/aquaforceforautocare/images/Remainig%20images/Moto%20mobile.png"
-              alt="AMEC Aquaforce motorcycle washing cordless power"
+              alt="Aquaforce motorcycle washing cordless power"
               fill
               priority
               quality={100}
@@ -84,7 +84,7 @@ export default function ProfessionalCleaning() {
             {/* Desktop View */}
             <Image
               src="/aquaforceforautocare/images/use-cases/2.jpg"
-              alt="AMEC Aquaforce motorcycle washing cordless power"
+              alt="Aquaforce motorcycle washing cordless power"
               fill
               priority
               quality={100}
