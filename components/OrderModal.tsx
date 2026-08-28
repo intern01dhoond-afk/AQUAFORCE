@@ -1140,7 +1140,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 font-open-sans">
                         Select Variant / Package:
                       </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3">
                         {/* Option 1: Without Vacuum */}
                         <button
                           type="button"
@@ -1178,8 +1178,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                               : "border-slate-200 hover:border-slate-300 bg-white"
                           }`}
                         >
-                          <span className="absolute -top-3 right-3 z-10 bg-[#0066cc] text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1 font-montserrat select-none">
-                            <Star size={11} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b] shrink-0" />
+                          <span className="absolute -top-2.5 right-3 z-10 bg-[#0066cc] text-white text-[9.5px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1 font-montserrat select-none">
+                            <Star size={10} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b] shrink-0" />
                             <span>RECOMMENDED</span>
                           </span>
                           <div className="flex items-center justify-between">
@@ -1202,14 +1202,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                       {/* Savings Upsell Highlight Pill - Shown ONLY when With Vacuum option is selected */}
                       {selectedVacuumOption === "with" && (
-                        <div className="mt-3 p-3 bg-[#eafaf1] border border-[#bbf2d7] rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-[13px] font-open-sans shadow-2xs animate-in fade-in duration-150">
-                          <div className="text-[#0e5235] font-bold leading-snug">
+                        <div className="mt-3 p-2.5 sm:p-3 bg-[#eafaf1] border border-[#bbf2d7] rounded-2xl flex items-center justify-between gap-2.5 text-[11px] xs:text-xs sm:text-[12.5px] font-open-sans shadow-2xs animate-in fade-in duration-150">
+                          <div className="text-[#0e5235] font-bold leading-tight">
                             With Vacuum you are saving <span className="font-extrabold text-[#057a4a]">₹1,351/-</span> more!
                           </div>
-                          <div className="bg-[#00965e] text-white px-2.5 py-1.5 rounded-xl font-extrabold text-[9.5px] sm:text-[10px] tracking-wider uppercase leading-tight text-center shrink-0 font-montserrat shadow-xs">
-                            BEST
-                            <br />
-                            VALUE
+                          <div className="bg-[#00965e] text-white px-2.5 py-1 rounded-xl font-extrabold text-[9.5px] sm:text-[10px] tracking-wider uppercase whitespace-nowrap shrink-0 font-montserrat shadow-xs">
+                            BEST VALUE
                           </div>
                         </div>
                       )}
