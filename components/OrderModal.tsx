@@ -87,11 +87,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
   // Dynamic Pricing Calculations
   const currentOfferPrice = selectedVacuumOption === "without" ? 35999 : 37999;
-  const currentMRP = selectedVacuumOption === "without" ? 47999 : 50999;
+  const currentMRP = selectedVacuumOption === "without" ? 47999 : 51350;
   const unitSavings = currentMRP - currentOfferPrice;
   const totalPrice = currentOfferPrice * quantity;
   const totalMRP = currentMRP * quantity;
   const totalSavings = unitSavings * quantity;
+  const savingsPercentage = Math.round((unitSavings / currentMRP) * 100);
   const taxAmount = Math.round(((totalPrice * 18) / 118) * 100) / 100;
 
   const handleShareReferral = () => {
@@ -932,7 +933,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                 {/* Savings Banner Pill (Matching Screenshot 1) */}
                 <div className="mt-3 p-3 bg-[#e6fbf2] border border-[#00c06d]/30 rounded-xl text-center text-[#0db168] font-bold text-xs sm:text-[13px] font-open-sans">
-                  You are Saving <span className="font-extrabold text-[#00c06d]">₹{totalSavings.toLocaleString("en-IN")}</span> on this order.
+                  You are Saving <span className="font-extrabold text-[#00c06d]">₹{totalSavings.toLocaleString("en-IN")} ({savingsPercentage}% OFF)</span> on this order.
                 </div>
               </div>
 
@@ -1107,7 +1108,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           ₹{currentMRP.toLocaleString("en-IN")}
                         </span>
                         <span className="bg-[#16a34a]/10 border border-[#16a34a]/30 text-[#16a34a] text-xs font-bold px-2.5 py-0.5 rounded-full font-open-sans">
-                          Save ₹{unitSavings.toLocaleString("en-IN")}
+                          Save ₹{unitSavings.toLocaleString("en-IN")} ({savingsPercentage}% OFF)
                         </span>
                       </div>
                       <div className="flex items-center gap-2 font-open-sans text-xs sm:text-[13px] flex-wrap">
@@ -1151,7 +1152,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                             <span className="text-sm font-bold text-slate-900">₹35,999</span>
                             <span className="text-[11px] text-slate-400 line-through">₹47,999</span>
                           </div>
-                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹12,000</span>
+                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹12,000 | 25% OFF</span>
                         </button>
 
                         {/* Option 2: With Vacuum */}
@@ -1165,7 +1166,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           }`}
                         >
                           <span className="absolute -top-2.5 right-3 bg-[#0066cc] text-white text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs">
-                            Recommended
+                            ⭐ Recommended
                           </span>
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat">
@@ -1179,9 +1180,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           </div>
                           <div className="mt-1 flex items-baseline gap-1.5 font-open-sans">
                             <span className="text-sm font-bold text-slate-900">₹37,999</span>
-                            <span className="text-[11px] text-slate-400 line-through">₹50,999</span>
+                            <span className="text-[11px] text-slate-400 line-through">₹51,350</span>
                           </div>
-                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹13,000</span>
+                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹13,351 | 26% OFF</span>
                         </button>
                       </div>
                     </div>
