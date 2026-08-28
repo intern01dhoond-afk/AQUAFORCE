@@ -1178,8 +1178,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                               : "border-slate-200 hover:border-slate-300 bg-white"
                           }`}
                         >
-                          <span className="absolute -top-2.5 right-3 bg-[#0066cc] text-white text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs">
-                            ⭐ Recommended
+                          <span className="absolute -top-3 right-3 z-10 bg-[#0066cc] text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1 font-montserrat select-none">
+                            <Star size={11} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b] shrink-0" />
+                            <span>RECOMMENDED</span>
                           </span>
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat">
@@ -1201,13 +1202,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                       {/* Savings Upsell Highlight Pill - Shown ONLY when With Vacuum option is selected */}
                       {selectedVacuumOption === "with" && (
-                        <div className="mt-2.5 p-2.5 bg-emerald-50/90 border border-emerald-200/90 rounded-xl flex items-center justify-between text-[11.5px] sm:text-xs font-open-sans shadow-2xs animate-in fade-in duration-150">
-                          <span className="text-emerald-950 font-bold flex items-center gap-1.5">
-                            <span>With Vacuum you are saving <strong className="text-emerald-700 font-extrabold">₹1,351/- more!</strong></span>
-                          </span>
-                          <span className="text-[10px] font-black uppercase bg-emerald-600 text-white px-2 py-0.5 rounded-md tracking-wider">
-                            Best Value
-                          </span>
+                        <div className="mt-3 p-3 bg-[#eafaf1] border border-[#bbf2d7] rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-[13px] font-open-sans shadow-2xs animate-in fade-in duration-150">
+                          <div className="text-[#0e5235] font-bold leading-snug">
+                            With Vacuum you are saving <span className="font-extrabold text-[#057a4a]">₹1,351/-</span> more!
+                          </div>
+                          <div className="bg-[#00965e] text-white px-2.5 py-1.5 rounded-xl font-extrabold text-[9.5px] sm:text-[10px] tracking-wider uppercase leading-tight text-center shrink-0 font-montserrat shadow-xs">
+                            BEST
+                            <br />
+                            VALUE
+                          </div>
                         </div>
                       )}
                     </div>
@@ -1305,17 +1308,17 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       <ul className="space-y-1.5 text-xs text-slate-600 font-open-sans">
                         <li className="flex items-center gap-2">
                           <span className="text-slate-400 font-normal">-</span>
-                          <span>1-year limited warranty on the product + 2-Years of Service Support</span>
+                          <span>1- year limited warranty on the product + 2-Years of Service Support</span>
                         </li>
                         <li className="space-y-2">
                           <button
                             type="button"
                             onClick={() => toggleSection(setIsReplacementOpen, replacementRef)}
-                            className="flex items-center justify-between w-full text-left text-xs text-slate-700 hover:text-slate-900 font-medium font-open-sans cursor-pointer group py-0.5"
+                            className="flex items-center justify-between w-full text-left text-xs text-slate-600 hover:text-slate-900 font-normal font-open-sans cursor-pointer group py-0.5"
                           >
                             <span className="flex items-center gap-2">
                               <span className="text-slate-400 font-normal">-</span>
-                              <span className="font-medium text-slate-800">10 Days Replacement by Brand</span>
+                              <span className="font-normal text-slate-600">10 Days Replacement by Brand</span>
                             </span>
                             <ChevronDown
                               size={14}
@@ -1413,13 +1416,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                                           Keep the item in its original condition and packaging along with MRP tag, warranty card and accessories for a successful pick-up.
                                         </p>
                                       </div>
-                                    </div>
-
-                                    <div className="pt-2 border-t border-slate-100">
-                                      <span className="text-xs text-[#0066cc] font-semibold hover:underline cursor-pointer flex items-center gap-1">
-                                        <span>Read full returns policy</span>
-                                        <span>&rsaquo;</span>
-                                      </span>
                                     </div>
                                   </div>
                                 )}
