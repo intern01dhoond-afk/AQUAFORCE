@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ShieldCheck, FileText, ChevronDown, ChevronUp } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ShieldCheck, FileText, ChevronDown, ChevronUp, Share2, Gift, Check } from "lucide-react";
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -38,7 +38,7 @@ const PRODUCT_DATA = {
       images: [
         "/aquaforceforautocare/images/products/blue/1.png",
         "/aquaforceforautocare/images/products/blue/2.png",
-        "/aquaforceforautocare/images/products/blue/3.png",
+        "/aquaforceforautocare/images/products/blue/3.jpg",
         "/aquaforceforautocare/images/products/blue/4.png",
         "/aquaforceforautocare/images/products/blue/5.png",
         "/aquaforceforautocare/images/products/blue/6.png",
@@ -49,15 +49,42 @@ const PRODUCT_DATA = {
 
 export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const [selectedVacuumOption, setSelectedVacuumOption] = useState<"with" | "without">("with");
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentId, setPaymentId] = useState("");
+  const [copiedReferral, setCopiedReferral] = useState(false);
   const [isHighlightsOpen, setIsHighlightsOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   const [isBoxOpen, setIsBoxOpen] = useState(false);
+
+  // Dynamic Pricing Calculations
+  const currentOfferPrice = selectedVacuumOption === "without" ? 35999 : 37999;
+  const currentMRP = 49999;
+  const unitSavings = currentMRP - currentOfferPrice;
+  const totalPrice = currentOfferPrice * quantity;
+  const totalMRP = currentMRP * quantity;
+  const totalSavings = unitSavings * quantity;
+  const taxAmount = Math.round(((totalPrice * 18) / 118) * 100) / 100;
+
+  const handleShareReferral = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "AQUAFORCE 1400 Cordless Pressure Washer",
+          text: "Check out the AQUAFORCE 1400 Cordless High-Pressure Washer! Use my referral link for ₹1,000 extra credit.",
+          url: window.location.origin + "/aquaforceforautocare?ref=FRIEND1000",
+        })
+        .catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.origin + "/aquaforceforautocare?ref=FRIEND1000");
+      setCopiedReferral(true);
+      setTimeout(() => setCopiedReferral(false), 2500);
+    }
+  };
 
   // Section Refs for Auto-Scrolling on Accordion Open
   const modalCardRef = useRef<HTMLDivElement>(null);
@@ -408,7 +435,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         return;
       }
 
-      const totalAmount = PRODUCT_DATA.offerPrice * quantity;
+      const totalAmount = currentOfferPrice * quantity;
 
       const res = await fetch("/aquaforceforautocare/api/razorpay/order", {
         method: "POST",
@@ -424,7 +451,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             state: formData.state,
             pincode: formData.pincode,
             gstNumber: formData.gstNumber || "N/A",
-            product: `${PRODUCT_DATA.name} (${currentColor.name})`,
+            product: `${PRODUCT_DATA.name} (${currentColor.name}) [${selectedVacuumOption === "without" ? "Without Vacuum" : "With Vacuum"}]`,
             quantity: String(quantity),
           },
         }),
@@ -817,6 +844,91 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 />
               </div>
 
+              {/* Price Breakdown Card & Savings Banner (Matching Uploaded Screenshots 1 & 2) */}
+              <div className="bg-[#f8fafc] border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-3 font-open-sans">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-bold font-montserrat text-slate-900">
+                    Price Breakdown
+                  </h4>
+                  <span className="bg-sky-50 border border-sky-200 text-[#0066cc] text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                    {selectedVacuumOption === "without" ? "Without Vacuum" : "With Vacuum"}
+                  </span>
+                </div>
+
+                <div className="space-y-2 text-xs sm:text-[13px] divide-y divide-slate-100">
+                  {/* MRP Total */}
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-slate-500 font-medium">MRP Total</span>
+                    <span className="text-slate-400 line-through">₹{totalMRP.toLocaleString("en-IN")}</span>
+                  </div>
+
+                  {/* Discount on MRP */}
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-slate-500 font-medium">Discount on MRP</span>
+                    <span className="text-[#00c06d] font-bold">-₹{totalSavings.toLocaleString("en-IN")}</span>
+                  </div>
+
+                  {/* Subtotal */}
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-slate-500 font-medium">Subtotal</span>
+                    <span className="text-slate-900 font-semibold">₹{totalPrice.toLocaleString("en-IN")}</span>
+                  </div>
+
+                  {/* Shipping */}
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-slate-500 font-medium">Shipping</span>
+                    <span className="text-[#00c06d] font-bold uppercase">Free</span>
+                  </div>
+
+                  {/* Tax */}
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-slate-500 font-medium">Tax (18% GST Included)</span>
+                    <span className="text-slate-700 font-medium">₹{taxAmount.toLocaleString("en-IN")}</span>
+                  </div>
+
+                  {/* Handling & Packaging Fee */}
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-slate-500 font-medium">Handling and Packaging Fee</span>
+                    <span className="text-[#00c06d] font-bold uppercase">Free</span>
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-slate-200/80 my-2" />
+
+                {/* Total Price */}
+                <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-900 font-montserrat">
+                  <span>Total Price</span>
+                  <div className="text-right">
+                    <span className="text-slate-400 line-through text-xs sm:text-sm font-normal mr-2">
+                      ₹{totalMRP.toLocaleString("en-IN")}
+                    </span>
+                    <span className="text-[#0066cc]">₹{totalPrice.toLocaleString("en-IN")}</span>
+                  </div>
+                </div>
+
+                {/* Savings Banner Pill (Matching Screenshot 1) */}
+                <div className="mt-3 p-3 bg-[#e6fbf2] border border-[#00c06d]/30 rounded-xl text-center text-[#0db168] font-bold text-xs sm:text-[13px] font-open-sans">
+                  You are Saving <span className="font-extrabold text-[#00c06d]">₹{totalSavings.toLocaleString("en-IN")}</span> on this order.
+                </div>
+              </div>
+
+              {/* Refer Friend Box in Checkout */}
+              <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 rounded-xl flex items-center justify-between gap-3 font-open-sans">
+                <div className="flex items-center gap-2">
+                  <Share2 size={16} className="text-[#0066cc] shrink-0" />
+                  <span className="text-xs text-slate-800 font-medium">
+                    Refer a friend to earn <strong>₹1,000 credit</strong>
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleShareReferral}
+                  className="text-xs text-[#0066cc] font-bold hover:underline cursor-pointer shrink-0"
+                >
+                  {copiedReferral ? "Copied!" : "Refer Friend"}
+                </button>
+              </div>
+
               {/* Terms Agreement Checkbox */}
               <label className="flex items-start gap-2.5 pt-1.5 cursor-pointer select-none font-open-sans">
                 <input
@@ -836,6 +948,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 type="submit"
                 disabled={isProcessingPayment}
                 className="w-full h-12 sm:h-13 !mt-5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-black font-montserrat text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+              >
               >
                 {isProcessingPayment ? (
                   <span className="flex items-center gap-2">
@@ -983,10 +1096,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     <div className="space-y-1.5">
                       <div className="flex items-baseline gap-3 font-open-sans">
                         <span className="text-3xl sm:text-4xl font-bold text-[#0F1729] tracking-tight">
-                          ₹{PRODUCT_DATA.offerPrice.toLocaleString("en-IN")}
+                          ₹{currentOfferPrice.toLocaleString("en-IN")}
                         </span>
                         <span className="text-slate-400 line-through text-lg font-normal">
-                          ₹{PRODUCT_DATA.mrp.toLocaleString("en-IN")}
+                          ₹{currentMRP.toLocaleString("en-IN")}
+                        </span>
+                        <span className="bg-[#16a34a]/10 border border-[#16a34a]/30 text-[#16a34a] text-xs font-bold px-2.5 py-0.5 rounded-full font-open-sans">
+                          Save ₹{unitSavings.toLocaleString("en-IN")}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 font-open-sans text-xs sm:text-[13px] flex-wrap">
@@ -996,6 +1112,106 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           FREE Delivery
                         </span>
                       </div>
+                    </div>
+
+                    <div className="w-full h-px bg-slate-100 my-2" />
+
+                    {/* Vacuum Package Option Selector (Without Vacuum vs With Vacuum) */}
+                    <div>
+                      <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 font-open-sans">
+                        Select Variant / Package:
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {/* Option 1: Without Vacuum */}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedVacuumOption("without")}
+                          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                            selectedVacuumOption === "without"
+                              ? "border-[#0066cc] bg-blue-50/60 ring-1 ring-[#0066cc]"
+                              : "border-slate-200 hover:border-slate-300 bg-white"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat">
+                              Without Vacuum
+                            </span>
+                            <span className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                              selectedVacuumOption === "without" ? "border-[#0066cc] bg-[#0066cc]" : "border-slate-300"
+                            }`}>
+                              {selectedVacuumOption === "without" && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                            </span>
+                          </div>
+                          <div className="mt-1 flex items-baseline gap-1.5 font-open-sans">
+                            <span className="text-sm font-bold text-slate-900">₹35,999</span>
+                            <span className="text-[11px] text-slate-400 line-through">₹49,999</span>
+                          </div>
+                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹14,000</span>
+                        </button>
+
+                        {/* Option 2: With Vacuum */}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedVacuumOption("with")}
+                          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between relative ${
+                            selectedVacuumOption === "with"
+                              ? "border-[#0066cc] bg-blue-50/60 ring-1 ring-[#0066cc]"
+                              : "border-slate-200 hover:border-slate-300 bg-white"
+                          }`}
+                        >
+                          <span className="absolute -top-2.5 right-3 bg-[#0066cc] text-white text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs">
+                            Recommended
+                          </span>
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat">
+                              With Vacuum
+                            </span>
+                            <span className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                              selectedVacuumOption === "with" ? "border-[#0066cc] bg-[#0066cc]" : "border-slate-300"
+                            }`}>
+                              {selectedVacuumOption === "with" && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                            </span>
+                          </div>
+                          <div className="mt-1 flex items-baseline gap-1.5 font-open-sans">
+                            <span className="text-sm font-bold text-slate-900">₹37,999</span>
+                            <span className="text-[11px] text-slate-400 line-through">₹49,999</span>
+                          </div>
+                          <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹12,000</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="w-full h-px bg-slate-100 my-2" />
+
+                    {/* Refer Friend Banner Card */}
+                    <div className="p-3 bg-gradient-to-r from-blue-50 via-sky-50 to-indigo-50 border border-blue-200/80 rounded-xl flex items-center justify-between gap-3 font-open-sans">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-full bg-[#0066cc] text-white flex items-center justify-center shrink-0 shadow-xs">
+                          <Share2 size={16} />
+                        </div>
+                        <div>
+                          <span className="font-bold text-xs text-slate-900 block">
+                            Refer a Friend &amp; Earn ₹1,000
+                          </span>
+                          <span className="text-[11px] text-slate-600 block leading-tight">
+                            Get ₹1,000 store credit on friend's order
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleShareReferral}
+                        className="bg-white hover:bg-slate-50 text-[#0066cc] border border-[#0066cc]/40 font-bold text-xs px-3 py-1.5 rounded-lg shrink-0 shadow-2xs cursor-pointer transition-all active:scale-95 flex items-center gap-1"
+                      >
+                        {copiedReferral ? (
+                          <>
+                            <Check size={13} className="text-emerald-600" />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <span>Refer Friend</span>
+                        )}
+                      </button>
                     </div>
 
                     <div className="w-full h-px bg-slate-100 my-2" />
