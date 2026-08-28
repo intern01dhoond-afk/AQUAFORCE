@@ -1194,16 +1194,17 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                         </button>
                       </div>
 
-                      {/* Savings Upsell Highlight Pill */}
-                      <div className="mt-2.5 p-2.5 bg-emerald-50/90 border border-emerald-200/90 rounded-xl flex items-center justify-between text-[11.5px] sm:text-xs font-open-sans shadow-2xs">
-                        <span className="text-emerald-950 font-bold flex items-center gap-1.5">
-            
-                          <span>With Vacuum you are saving <strong className="text-emerald-700 font-extrabold">₹1,351/- more!</strong></span>
-                        </span>
-                        <span className="text-[10px] font-black uppercase bg-emerald-600 text-white px-2 py-0.5 rounded-md tracking-wider">
-                          Best Value
-                        </span>
-                      </div>
+                      {/* Savings Upsell Highlight Pill - Shown ONLY when With Vacuum option is selected */}
+                      {selectedVacuumOption === "with" && (
+                        <div className="mt-2.5 p-2.5 bg-emerald-50/90 border border-emerald-200/90 rounded-xl flex items-center justify-between text-[11.5px] sm:text-xs font-open-sans shadow-2xs animate-in fade-in duration-150">
+                          <span className="text-emerald-950 font-bold flex items-center gap-1.5">
+                            <span>With Vacuum you are saving <strong className="text-emerald-700 font-extrabold">₹1,351/- more!</strong></span>
+                          </span>
+                          <span className="text-[10px] font-black uppercase bg-emerald-600 text-white px-2 py-0.5 rounded-md tracking-wider">
+                            Best Value
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="w-full h-px bg-slate-100 my-2" />
