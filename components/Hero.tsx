@@ -119,14 +119,14 @@ export default function Hero() {
               <div className="mt-2 flex items-center gap-2">
                 <div className="flex items-baseline gap-1.5 font-open-sans">
                   <span className="text-white text-xl xs:text-2xl font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                    ₹37,999
+                    ₹35,999
                   </span>
                   <span className="text-white/75 line-through text-xs font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
-                    ₹49,999
+                    ₹47,999
                   </span>
                 </div>
                 <span className="inline-block bg-[#18c49e] font-open-sans text-slate-950 text-[9.5px] font-black px-2 py-0.5 rounded-xs uppercase tracking-wider shadow-md">
-                  24% OFF
+                  26% OFF
                 </span>
               </div>
             </div>
@@ -174,13 +174,13 @@ export default function Hero() {
             {/* Pricing & Discount Badge */}
             <div className="flex items-center gap-3 sm:gap-4 mt-5 sm:mt-7 font-open-sans">
               <span className="text-white/70 line-through text-sm sm:text-base font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                ₹49,999
+                ₹47,999
               </span>
               <span className="text-white text-2xl sm:text-3xl font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-                ₹37,999
+                ₹35,999
               </span>
               <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
-                24% OFF
+                26% OFF
               </span>
             </div>
 
@@ -218,7 +218,7 @@ export default function Hero() {
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/2.1.png"
-            alt="Aquaforce 1400 Promotional Launch Offer 24% OFF"
+            alt="Aquaforce 1400 Promotional Launch Offer 26% OFF"
             fill
             priority
             quality={100}
@@ -231,7 +231,7 @@ export default function Hero() {
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
             src="/aquaforceforautocare/images/Hero%20section%20Images/2.jpg"
-            alt="Aquaforce 1400 Promotional Launch Offer 24% OFF"
+            alt="Aquaforce 1400 Promotional Launch Offer 26% OFF"
             fill
             priority
             quality={100}
@@ -257,18 +257,18 @@ export default function Hero() {
               Get AQUAFORCE 1400 at
             </p>
 
-            {/* Huge 24% OFF Headline with vertical gradient text fill */}
+            {/* Huge 26% OFF Headline with vertical gradient text fill */}
             <h2 className="font-inter text-4xl xs:text-5xl font-black tracking-tight leading-none my-1 bg-gradient-to-b from-white via-[#f0f6ff] to-[#cfe2fe] bg-clip-text text-transparent drop-shadow-md">
-              24% OFF
+              26% OFF
             </h2>
 
             {/* Pricing Row */}
             <div className="text-white font-inter text-xs font-bold flex items-center gap-2 mt-1 drop-shadow">
               <span className="text-white/70 font-normal">
-                MRP: <span className="line-through">₹49,999</span>
+                MRP: <span className="line-through">₹47,999</span>
               </span>
               <span className="text-white font-extrabold ml-1">
-                Offer Price: ₹37,999
+                Offer Price: Starting at ₹35,999
               </span>
             </div>
 
@@ -309,18 +309,18 @@ export default function Hero() {
               Get AQUAFORCE 1400 at
             </p>
 
-            {/* Huge 24% OFF Headline */}
+            {/* Huge 26% OFF Headline */}
             <h2 className="font-inter text-6xl sm:text-8xl lg:text-[104px] xl:text-[120px] font-black tracking-tight leading-none my-2 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
-              24% OFF
+              26% OFF
             </h2>
 
             {/* Pricing Row */}
             <div className="text-white font-inter text-base sm:text-lg font-bold flex items-center gap-2 mt-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
               <span className="text-white/80 font-normal">
-                MRP: <span className="line-through">₹49,999</span>
+                MRP: <span className="line-through">₹47,999</span>
               </span>
               <span className="text-white font-extrabold ml-1 text-lg sm:text-xl">
-                Offer Price: ₹37,999
+                Offer Price: Starting at ₹35,999
               </span>
             </div>
 
@@ -399,14 +399,14 @@ export default function Hero() {
             <div className="mt-2.5 flex items-center gap-2.5">
               <div className="flex items-baseline gap-2 font-open-sans">
                 <span className="text-white text-2xl xs:text-[26px] font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                  ₹37,999
+                  ₹35,999
                 </span>
                 <span className="text-white/70 line-through text-xs xs:text-[13px] font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
-                  ₹49,999
+                  ₹47,999
                 </span>
               </div>
               <span className="inline-block bg-[#18c49e] font-open-sans text-slate-950 text-[10.5px] font-black px-2.5 py-0.5 rounded-xs uppercase tracking-wider shadow-md">
-                24% OFF
+                26% OFF
               </span>
             </div>
 
@@ -446,13 +446,13 @@ export default function Hero() {
               {/* Pricing Line */}
               <div className="flex items-center gap-3 font-open-sans">
                 <span className="text-white/70 line-through text-sm sm:text-base font-semibold drop-shadow">
-                  ₹49,999
+                  ₹47,999
                 </span>
                 <span className="text-white text-2xl sm:text-3xl font-black tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                  ₹37,999
+                  ₹35,999
                 </span>
                 <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
-                  24% OFF
+                  26% OFF
                 </span>
               </div>
 
@@ -527,14 +527,14 @@ export default function Hero() {
             <div className="mt-2.5 flex items-center gap-2.5">
               <div className="flex items-baseline gap-2 font-open-sans">
                 <span className="text-white text-2xl xs:text-[26px] font-black tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                  ₹37,999
+                  ₹35,999
                 </span>
                 <span className="text-white/70 line-through text-xs xs:text-[13px] font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
-                  ₹49,999
+                  ₹47,999
                 </span>
               </div>
               <span className="inline-block bg-[#18c49e] font-open-sans text-slate-950 text-[10.5px] font-black px-2.5 py-0.5 rounded-xs uppercase tracking-wider shadow-md">
-                24% OFF
+                26% OFF
               </span>
             </div>
 
@@ -574,13 +574,13 @@ export default function Hero() {
               {/* Pricing Line */}
               <div className="flex items-center gap-3 font-open-sans">
                 <span className="text-white/70 line-through text-sm sm:text-base font-semibold drop-shadow">
-                  ₹49,999
+                  ₹47,999
                 </span>
                 <span className="text-white text-2xl sm:text-3xl font-black tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                  ₹37,999
+                  ₹35,999
                 </span>
                 <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
-                  24% OFF
+                  26% OFF
                 </span>
               </div>
 

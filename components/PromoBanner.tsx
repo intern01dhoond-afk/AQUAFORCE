@@ -36,18 +36,18 @@ export default function PromoBanner() {
             Get Aquaforce 1400 at
           </p>
 
-          {/* Huge 24% OFF Headline */}
+          {/* Huge 26% OFF Headline */}
           <h2 className="text-white font-montserrat text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-none my-2 drop-shadow-md">
-            24% OFF
+            26% OFF
           </h2>
 
           {/* Pricing Row */}
           <div className="text-white font-open-sans text-sm sm:text-base font-bold flex items-center gap-2 mt-3">
             <span className="text-white/65 font-normal">
-              MRP: <span className="line-through">₹49,999</span>
+              MRP: <span className="line-through">₹47,999</span>
             </span>
             <span className="text-white font-extrabold ml-1">
-              Offer Price: ₹37,999
+              Offer Price: Starting at ₹35,999
             </span>
           </div>
 
