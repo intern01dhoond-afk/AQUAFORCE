@@ -9,6 +9,30 @@ interface OrderModalProps {
   onClose: () => void;
 }
 
+const SpeedingTruckIcon = ({ className = "w-5 h-5 text-[#0066cc]" }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {/* Fast Speed Lines */}
+    <path d="M2 8h3" />
+    <path d="M1 12h4" />
+    <path d="M2 16h3" />
+    {/* Truck Container */}
+    <path d="M7 6h7.5v9H7z" />
+    {/* Aerodynamic Fast Cab */}
+    <path d="M14.5 9h3.5l2 3v3h-5.5V9z" />
+    {/* Wheels */}
+    <circle cx="9" cy="17" r="1.8" fill="currentColor" />
+    <circle cx="17.5" cy="17" r="1.8" fill="currentColor" />
+  </svg>
+);
+
 const PRODUCT_DATA = {
   name: "Cordless AquaForce 1400 High-pressure Washer System",
   description:
@@ -1231,7 +1255,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                       {/* Delivery Info on right side */}
                       <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
-                        <Truck size={17} className="text-[#0066cc]" />
+                        <SpeedingTruckIcon className="w-5 h-5 text-[#0066cc] shrink-0" />
                         <span>Express delivery within 4-6 Days</span>
                       </div>
                     </div>
