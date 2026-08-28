@@ -1116,7 +1116,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           ₹{currentMRP.toLocaleString("en-IN")}
                         </span>
                         <span className="bg-[#16a34a]/10 border border-[#16a34a]/30 text-[#16a34a] text-xs font-bold px-2.5 py-0.5 rounded-full font-open-sans">
-                          Save ₹{unitSavings.toLocaleString("en-IN")} ({savingsPercentage}% OFF)
+                          {savingsPercentage}% OFF
                         </span>
                       </div>
                       <div className="flex items-center gap-2 font-open-sans text-xs sm:text-[13px] flex-wrap">
