@@ -909,23 +909,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
               </div>
 
-              {/* Refer Friend Box in Checkout */}
-              <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 rounded-xl flex items-center justify-between gap-3 font-open-sans">
-                <div className="flex items-center gap-2">
-                  <Share2 size={16} className="text-[#0066cc] shrink-0" />
-                  <span className="text-xs text-slate-800 font-medium">
-                    Refer a friend to earn <strong>₹1,000 credit</strong>
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleShareReferral}
-                  className="text-xs text-[#0066cc] font-bold hover:underline cursor-pointer shrink-0"
-                >
-                  {copiedReferral ? "Copied!" : "Refer Friend"}
-                </button>
-              </div>
-
               {/* Terms Agreement Checkbox */}
               <label className="flex items-start gap-2.5 pt-1.5 cursor-pointer select-none font-open-sans">
                 <input
@@ -1174,39 +1157,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           <span className="text-[10.5px] font-bold text-emerald-600 mt-0.5 font-open-sans">Save ₹12,000</span>
                         </button>
                       </div>
-                    </div>
-
-                    <div className="w-full h-px bg-slate-100 my-2" />
-
-                    {/* Refer Friend Banner Card */}
-                    <div className="p-3 bg-gradient-to-r from-blue-50 via-sky-50 to-indigo-50 border border-blue-200/80 rounded-xl flex items-center justify-between gap-3 font-open-sans">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-[#0066cc] text-white flex items-center justify-center shrink-0 shadow-xs">
-                          <Share2 size={16} />
-                        </div>
-                        <div>
-                          <span className="font-bold text-xs text-slate-900 block">
-                            Refer a Friend &amp; Earn ₹1,000
-                          </span>
-                          <span className="text-[11px] text-slate-600 block leading-tight">
-                            Get ₹1,000 store credit on friend's order
-                          </span>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleShareReferral}
-                        className="bg-white hover:bg-slate-50 text-[#0066cc] border border-[#0066cc]/40 font-bold text-xs px-3 py-1.5 rounded-lg shrink-0 shadow-2xs cursor-pointer transition-all active:scale-95 flex items-center gap-1"
-                      >
-                        {copiedReferral ? (
-                          <>
-                            <Check size={13} className="text-emerald-600" />
-                            <span>Copied!</span>
-                          </>
-                        ) : (
-                          <span>Refer Friend</span>
-                        )}
-                      </button>
                     </div>
 
                     <div className="w-full h-px bg-slate-100 my-2" />
