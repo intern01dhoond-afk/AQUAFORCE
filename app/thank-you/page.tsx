@@ -138,9 +138,9 @@ function ThankYouContent() {
                 <Image
                   src="/aquaforceforautocare/images/TRUCK-03.svg"
                   alt="Express Delivery Truck"
-                  width={20}
-                  height={20}
-                  className="shrink-0 w-5 h-5"
+                  width={28}
+                  height={28}
+                  className="shrink-0 w-7 h-7 object-contain"
                 />
                 Free Express (4-6 Days)
               </span>

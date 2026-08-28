@@ -86,6 +86,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isHighlightsOpen, setIsHighlightsOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   const [isBoxOpen, setIsBoxOpen] = useState(false);
+  const [isReplacementOpen, setIsReplacementOpen] = useState(false);
 
   // Dynamic Pricing Calculations
   const currentOfferPrice = selectedVacuumOption === "without" ? 35999 : 37999;
@@ -116,6 +117,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   // Section Refs for Auto-Scrolling on Accordion Open
   const modalCardRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const replacementRef = useRef<HTMLDivElement>(null);
   const highlightsRef = useRef<HTMLDivElement>(null);
   const specsRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -1284,9 +1286,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                         <Image
                           src="/aquaforceforautocare/images/TRUCK-03.svg"
                           alt="Express Delivery Truck"
-                          width={24}
-                          height={24}
-                          className="shrink-0 w-[22px] h-[22px]"
+                          width={36}
+                          height={36}
+                          className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 object-contain"
                         />
                         <span>Express delivery within 4-6 Days</span>
                       </div>
@@ -1304,11 +1306,101 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           <span className="text-slate-400 font-normal">-</span>
                           <span>1-year limited warranty on the product + 2-Years of Service Support</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <span className="text-slate-400 font-normal">-</span>
-                          <span>10 Days Replacement by Brand</span>
-                        </li>
                       </ul>
+                    </div>
+
+                    <div className="w-full h-px bg-slate-100 my-3" />
+
+                    {/* 10 Days Replacement by Brand (Accordion Dropdown) */}
+                    <div ref={replacementRef} className="space-y-3 pt-0.5 scroll-mt-4">
+                      <button
+                        type="button"
+                        onClick={() => toggleSection(setIsReplacementOpen, replacementRef)}
+                        className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-[15px] text-[#0F1729] font-open-sans cursor-pointer group"
+                      >
+                        <span className="flex items-center gap-2">
+                          <RotateCcw size={16} className="text-[#0066cc]" />
+                          <span>10 Days Replacement by Brand</span>
+                        </span>
+                        <ChevronDown
+                          size={16}
+                          className={`text-slate-500 transition-transform duration-200 ${
+                            isReplacementOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {isReplacementOpen && (
+                        <div className="space-y-3.5 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150 pt-1 text-slate-700">
+                          {/* Replacement Table */}
+                          <div className="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/80 p-1">
+                            <table className="w-full text-left border-collapse text-[11.5px] sm:text-xs">
+                              <thead>
+                                <tr className="border-b border-slate-200 text-slate-900 font-bold font-montserrat bg-slate-100/90">
+                                  <th className="p-2 sm:p-2.5">Replacement Reason</th>
+                                  <th className="p-2 sm:p-2.5">Replacement Period</th>
+                                  <th className="p-2 sm:p-2.5">Replacement Policy</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-slate-200/80">
+                                <tr>
+                                  <td className="p-2 sm:p-2.5 font-medium text-slate-800">Physical Damage, Wrong and Missing Item</td>
+                                  <td className="p-2 sm:p-2.5 text-slate-600">10 days from delivery</td>
+                                  <td className="p-2 sm:p-2.5 font-semibold text-emerald-700">Replacement</td>
+                                </tr>
+                                <tr>
+                                  <td className="p-2 sm:p-2.5 font-medium text-slate-800">Defective Item</td>
+                                  <td className="p-2 sm:p-2.5 text-slate-600">10 days from delivery</td>
+                                  <td className="p-2 sm:p-2.5 font-semibold text-slate-800">PROMEC warranty policy (Repair/Replacement by PROMEC)</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                          {/* Policy Bullet List */}
+                          <div className="space-y-3 pt-1">
+                            <div>
+                              <h5 className="font-bold text-slate-900 flex items-center gap-1.5 mb-1 text-xs sm:text-[13px]">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#0066cc]" />
+                                <span>Defective item:</span>
+                              </h5>
+                              <ul className="pl-4 space-y-1 text-slate-600 list-disc text-xs sm:text-[12.5px]">
+                                <li>PROMEC will provide On-call support followed by a Technician inspection at your location.</li>
+                                <li>PROMEC expert will repair the product or provide a replacement as applicable. The time taken for resolution will be as per PROMEC policies.</li>
+                              </ul>
+                            </div>
+
+                            <div>
+                              <h5 className="font-bold text-slate-900 flex items-center gap-1.5 mb-1 text-xs sm:text-[13px]">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#0066cc]" />
+                                <span>Physical Damage, Wrong, Missing Items:</span>
+                              </h5>
+                              <ul className="pl-4 space-y-1 text-slate-600 list-disc text-xs sm:text-[12.5px]">
+                                <li>Returns will not be accepted if it is an Open Box Delivery order.</li>
+                                <li>Remote verification by image/video will be done by PROMEC.</li>
+                              </ul>
+                            </div>
+
+                            <div className="bg-blue-50/70 border border-blue-200/80 rounded-xl p-3 space-y-1">
+                              <h5 className="font-bold text-slate-900 font-montserrat text-xs uppercase tracking-wider text-[#0066cc]">
+                                Replacement verification
+                              </h5>
+                              <p className="text-slate-600 text-xs leading-relaxed">
+                                During on-call support, you may be prompted to upload an image for verification. Further inspection or repair will be done at your doorstep by PROMEC as per their warranty policies.
+                              </p>
+                            </div>
+
+                            <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-xl p-3 space-y-1">
+                              <h5 className="font-bold text-slate-900 font-montserrat text-xs uppercase tracking-wider text-emerald-700">
+                                Replacement Instructions
+                              </h5>
+                              <p className="text-slate-600 text-xs leading-relaxed">
+                                Keep the item in its original condition and packaging along with MRP tag, warranty card and accessories for a successful pick-up.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="w-full h-px bg-slate-100 my-4" />
@@ -1367,54 +1459,56 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                       {isSpecsOpen && (
                         <div className="space-y-2.5 text-xs sm:text-[13px] text-slate-700 font-open-sans animate-in fade-in duration-150 pt-1">
-                          <div className="flex items-start gap-2.5 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl">
-                            <span className="text-[#0066cc] font-bold text-sm shrink-0">💧</span>
-                            <div>
-                              <strong className="text-slate-900 font-bold">Water Pressure &amp; Flow Rate:</strong> &gt;1,400 PSI pressure and 7 L/min flow rate for powerful cleaning.
-                            </div>
-                          </div>
+                          <ul className="space-y-2">
+                            <li className="flex items-start gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                              <span className="text-slate-400 font-normal select-none mt-0.5">•</span>
+                              <div>
+                                <strong className="text-slate-900 font-semibold font-open-sans">Water Pressure &amp; Flow Rate:</strong> &gt;1,400 PSI pressure and 7 L/min flow rate for powerful cleaning.
+                              </div>
+                            </li>
 
-                          <div className="flex items-start gap-2.5 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl">
-                            <span className="text-[#0066cc] font-bold text-sm shrink-0">🌀</span>
-                            <div>
-                              <strong className="text-slate-900 font-bold">Vacuum Suction Power:</strong> &gt;12 kPa suction pressure to easily pick up dirt and debris.
-                            </div>
-                          </div>
+                            <li className="flex items-start gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                              <span className="text-slate-400 font-normal select-none mt-0.5">•</span>
+                              <div>
+                                <strong className="text-slate-900 font-semibold font-open-sans">Vacuum Suction Power:</strong> &gt;12 kPa suction pressure to easily pick up dirt and debris.
+                              </div>
+                            </li>
 
-                          <div className="flex items-start gap-2.5 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl">
-                            <span className="text-[#0066cc] font-bold text-sm shrink-0">🔇</span>
-                            <div>
-                              <strong className="text-slate-900 font-bold">Ultra-Quiet Operation:</strong> Noise levels kept low at 40–52 dBA for the pressure washer and 45–58 dBA for the vacuum.
-                            </div>
-                          </div>
+                            <li className="flex items-start gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                              <span className="text-slate-400 font-normal select-none mt-0.5">•</span>
+                              <div>
+                                <strong className="text-slate-900 font-semibold font-open-sans">Ultra-Quiet Operation:</strong> Noise levels kept low at 40–52 dBA for the pressure washer and 45–58 dBA for the vacuum.
+                              </div>
+                            </li>
 
-                          <div className="flex items-start gap-2.5 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl">
-                            <span className="text-[#0066cc] font-bold text-sm shrink-0">⚡</span>
-                            <div>
-                              <strong className="text-slate-900 font-bold">Power &amp; Performance:</strong> 580 W rated power for the pressure washer and 450 W for the vacuum cleaner.
-                            </div>
-                          </div>
+                            <li className="flex items-start gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                              <span className="text-slate-400 font-normal select-none mt-0.5">•</span>
+                              <div>
+                                <strong className="text-slate-900 font-semibold font-open-sans">Power &amp; Performance:</strong> 580 W rated power for the pressure washer and 450 W for the vacuum cleaner.
+                              </div>
+                            </li>
 
-                          <div className="flex items-start gap-2.5 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl">
-                            <span className="text-[#0066cc] font-bold text-sm shrink-0">📏</span>
-                            <div>
-                              <strong className="text-slate-900 font-bold">Hose &amp; Cable Reach:</strong> Includes a 22 ft washer hose and a 20 ft (6 m) vacuum cable for convenient movement.
-                            </div>
-                          </div>
+                            <li className="flex items-start gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                              <span className="text-slate-400 font-normal select-none mt-0.5">•</span>
+                              <div>
+                                <strong className="text-slate-900 font-semibold font-open-sans">Hose &amp; Cable Reach:</strong> Includes a 22 ft washer hose and a 20 ft (6 m) vacuum cable for convenient movement.
+                              </div>
+                            </li>
 
-                          <div className="flex items-start gap-2.5 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl">
-                            <span className="text-[#0066cc] font-bold text-sm shrink-0">🛡️</span>
-                            <div>
-                              <strong className="text-slate-900 font-bold">Fast &amp; Safe Charging:</strong> 84V / 6A charger with multi-layer safety protections (short circuit, over-voltage, over-temperature).
-                            </div>
-                          </div>
+                            <li className="flex items-start gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                              <span className="text-slate-400 font-normal select-none mt-0.5">•</span>
+                              <div>
+                                <strong className="text-slate-900 font-semibold font-open-sans">Fast &amp; Safe Charging:</strong> 84V / 6A charger with multi-layer safety protections (short circuit, over-voltage, over-temperature).
+                              </div>
+                            </li>
 
-                          <div className="flex items-start gap-2.5 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl">
-                            <span className="text-[#0066cc] font-bold text-sm shrink-0">⚖️</span>
-                            <div>
-                              <strong className="text-slate-900 font-bold">Total Kit Weight:</strong> 8 kg complete kit weight (6 kg washer, 2 kg vacuum).
-                            </div>
-                          </div>
+                            <li className="flex items-start gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                              <span className="text-slate-400 font-normal select-none mt-0.5">•</span>
+                              <div>
+                                <strong className="text-slate-900 font-semibold font-open-sans">Total Kit Weight:</strong> 8 kg complete kit weight (6 kg washer, 2 kg vacuum).
+                              </div>
+                            </li>
+                          </ul>
                         </div>
                       )}
                     </div>
