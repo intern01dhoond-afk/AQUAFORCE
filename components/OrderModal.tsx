@@ -82,7 +82,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [paymentId, setPaymentId] = useState("");
   const [copiedReferral, setCopiedReferral] = useState(false);
   const [isHighlightsOpen, setIsHighlightsOpen] = useState(false);
-  const [isSpecsOpen, setIsSpecsOpen] = useState(false);
+  const [isSpecsOpen, setIsSpecsOpen] = useState(true);
   const [isBoxOpen, setIsBoxOpen] = useState(false);
 
   // Dynamic Pricing Calculations
@@ -1357,38 +1357,225 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       </button>
 
                       {isSpecsOpen && (
-                        <div className="space-y-2.5 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150">
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Pressure rating</span>
-                            <span className="font-bold text-slate-900">1400 PSI</span>
+                        <div className="space-y-3.5 text-xs sm:text-[13px] font-open-sans animate-in fade-in duration-150 pt-1">
+                          {/* 1. Complete Kit Specifications */}
+                          <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-1.5">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-[#0066cc] font-montserrat pb-1 border-b border-slate-200/80">
+                              1. Complete Kit Specifications
+                            </h4>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Complete Kit Weight</span>
+                              <span className="font-bold text-slate-900">16 kg</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Complete Kit Dimensions</span>
+                              <span className="font-bold text-slate-900">37 × 36.5 × 56 cm (L × W × H)</span>
+                            </div>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Suction power</span>
-                            <span className="font-bold text-slate-900">12 kPa</span>
+
+                          {/* 2. PROMEC Cordless Pressure Washer */}
+                          <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-1.5">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-[#0066cc] font-montserrat pb-1 border-b border-slate-200/80">
+                              2. PROMEC Cordless Pressure Washer
+                            </h4>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Model</span>
+                              <span className="font-bold text-slate-900">PROMEC Cordless Pressure Washer</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Operating Voltage</span>
+                              <span className="font-bold text-slate-900">72 V DC</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Rated Power</span>
+                              <span className="font-bold text-slate-900">580 W</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Pressure</span>
+                              <span className="font-bold text-slate-900">&gt;1,400 PSI</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Noise Level</span>
+                              <span className="font-bold text-slate-900">40–52 dBA</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Water Flow Rate</span>
+                              <span className="font-bold text-slate-900">7 L/min</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Hose Length</span>
+                              <span className="font-bold text-slate-900">22 ft</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Weight</span>
+                              <span className="font-bold text-slate-900">Approx. 11.5 kg</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Dimensions</span>
+                              <span className="font-bold text-slate-900">36.6 × 36 × 35 cm (L × W × H)</span>
+                            </div>
+                            <div className="flex items-start justify-between py-0.5 gap-2">
+                              <span className="text-slate-500 shrink-0">Accessories</span>
+                              <span className="font-bold text-slate-900 text-right">Gun / Pipe / Foam Bottle / QRC 1/4 / M15 / 22 mm</span>
+                            </div>
+                            <div className="flex items-start justify-between py-0.5 gap-2">
+                              <span className="text-slate-500 shrink-0">Output Connector</span>
+                              <span className="font-bold text-slate-900 text-right">PROMEC-FM25, 2-Pin Push-Lock, Dust Cap</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Switch</span>
+                              <span className="font-bold text-slate-900">3-Way: PW / OFF / VC &amp; Charger</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Filter</span>
+                              <span className="font-bold text-slate-900">ANO Mesh Water Filter</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Enclosure Material</span>
+                              <span className="font-bold text-slate-900">PP / HC</span>
+                            </div>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Battery life</span>
-                            <span className="font-bold text-slate-900">Up to 30 min</span>
+
+                          {/* 3. PROMEC Corded Vacuum Cleaner */}
+                          <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-1.5">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-[#0066cc] font-montserrat pb-1 border-b border-slate-200/80">
+                              3. PROMEC Corded Vacuum Cleaner
+                            </h4>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Model</span>
+                              <span className="font-bold text-slate-900">PROMEC Corded Vacuum Cleaner</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Operating Voltage</span>
+                              <span className="font-bold text-slate-900">72–110 V DC</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Rated Power</span>
+                              <span className="font-bold text-slate-900">450 W</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Suction Pressure</span>
+                              <span className="font-bold text-slate-900">&gt;12 kPa</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Noise Level</span>
+                              <span className="font-bold text-slate-900">45–58 dBA</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Cable Length</span>
+                              <span className="font-bold text-slate-900">6 m ≈ 20 ft</span>
+                            </div>
+                            <div className="flex items-start justify-between py-0.5 gap-2">
+                              <span className="text-slate-500 shrink-0">Hose</span>
+                              <span className="font-bold text-slate-900 text-right">Ø32 mm × 2 m ≈ Ø1.26 in × 6.56 ft</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Weight</span>
+                              <span className="font-bold text-slate-900">Approx. 3 kg</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Dimensions</span>
+                              <span className="font-bold text-slate-900">D1: 24 cm / D2: 31 cm / H: 35 cm</span>
+                            </div>
+                            <div className="flex items-start justify-between py-0.5 gap-2">
+                              <span className="text-slate-500 shrink-0">Output Connector</span>
+                              <span className="font-bold text-slate-900 text-right">PROMEC-MM25, 2-Pin Push-Lock</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Enclosure Material</span>
+                              <span className="font-bold text-slate-900">PP / HC</span>
+                            </div>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Water flow rate</span>
-                            <span className="font-bold text-slate-900">1.2 GPM</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Weight</span>
-                            <span className="font-bold text-slate-900">Approx. 12.5 kg</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Tank capacity</span>
-                            <span className="font-bold text-slate-900">5 L</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Nozzle types</span>
-                            <span className="font-bold text-slate-900">0° / 15° / 25° / 45°</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-500">Charging time</span>
-                            <span className="font-bold text-slate-900">Approx. 1.4 hrs</span>
+
+                          {/* 4. PROMEC 84V / 6A Battery Charger */}
+                          <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-1.5">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-[#0066cc] font-montserrat pb-1 border-b border-slate-200/80">
+                              4. PROMEC 84V / 6A Battery Charger
+                            </h4>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Model</span>
+                              <span className="font-bold text-slate-900">PRO84V6A</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Battery Type</span>
+                              <span className="font-bold text-slate-900">Li-ion</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Battery Nominal Voltage</span>
+                              <span className="font-bold text-slate-900">72 V</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Battery Maximum Voltage</span>
+                              <span className="font-bold text-slate-900">84 V</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Input Voltage</span>
+                              <span className="font-bold text-slate-900">200–240 VAC</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Input Frequency</span>
+                              <span className="font-bold text-slate-900">47–63 Hz</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Output Voltage</span>
+                              <span className="font-bold text-slate-900">84 V DC</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Output Current</span>
+                              <span className="font-bold text-slate-900">6 A ±3%</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Rated Power</span>
+                              <span className="font-bold text-slate-900">504 W</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Charging Mode</span>
+                              <span className="font-bold text-slate-900">CC/CV</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Efficiency</span>
+                              <span className="font-bold text-slate-900">≥88% @ 200 VAC</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Cooling</span>
+                              <span className="font-bold text-slate-900">Forced-Air Fan</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Operating Temperature</span>
+                              <span className="font-bold text-slate-900">−25°C to +45°C</span>
+                            </div>
+                            <div className="flex items-start justify-between py-0.5 gap-2">
+                              <span className="text-slate-500 shrink-0">Protection</span>
+                              <span className="font-bold text-slate-900 text-right">Short Circuit / Reverse Polarity / Over-Current / Over-Load / Under-Voltage / Over-Voltage / Over-Temperature</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Safety Standards</span>
+                              <span className="font-bold text-slate-900">EN60335, UL62368</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">LED Indication</span>
+                              <span className="font-bold text-slate-900">Red: Charging / Green: Fully Charged</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Weight</span>
+                              <span className="font-bold text-slate-900">0.84 kg</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Dimensions</span>
+                              <span className="font-bold text-slate-900">17.5 × 9 × 6.5 cm (L × W × H)</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">Housing</span>
+                              <span className="font-bold text-slate-900">Aluminium Alloy</span>
+                            </div>
+                            <div className="flex items-center justify-between py-0.5">
+                              <span className="text-slate-500">MTBF</span>
+                              <span className="font-bold text-slate-900">20,000 hours</span>
+                            </div>
+                            <div className="flex items-start justify-between py-0.5 gap-2">
+                              <span className="text-slate-500 shrink-0">Connector</span>
+                              <span className="font-bold text-slate-900 text-right">PROMEC-MM25, 2-Pin Push-Lock</span>
+                            </div>
                           </div>
                         </div>
                       )}
