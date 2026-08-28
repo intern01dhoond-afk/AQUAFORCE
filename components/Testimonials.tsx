@@ -94,13 +94,15 @@ export default function Testimonials() {
 
         {/* Animated Marquee Columns */}
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] max-h-[720px] overflow-hidden w-full p-2">
+          {/* Mobile View: Shows ALL 9 Testimonials in single smooth marquee column */}
+          <div className="block md:hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] max-h-[640px] overflow-hidden w-full p-2">
+            <TestimonialsColumn testimonials={testimonials} duration={28} className="w-full" />
+          </div>
+
+          {/* Desktop & Tablet View: 2 or 3 Parallel Columns */}
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] max-h-[720px] overflow-hidden w-full p-2">
             <TestimonialsColumn testimonials={firstColumn} duration={16} className="w-full" />
-            <TestimonialsColumn
-              testimonials={secondColumn}
-              className="hidden md:block w-full"
-              duration={20}
-            />
+            <TestimonialsColumn testimonials={secondColumn} duration={20} className="w-full" />
             <TestimonialsColumn
               testimonials={thirdColumn}
               className="hidden lg:block w-full"
