@@ -73,6 +73,39 @@ export async function POST(req: Request) {
       console.warn("GOOGLE_SHEET_PURCHASE_URL is not configured in .env.local. Purchase data logged:", payload);
     }
 
+    // AiSensy WhatsApp Notification Trigger
+    const aisensyApiKey = process.env.AISENSY_API_KEY;
+    const aisensyCampaign = process.env.AISENSY_CAMPAIGN_NAME || "order_confirmation";
+
+    if (aisensyApiKey && phone) {
+      const formattedPhone = phone.replace(/\D/g, "");
+      const destination = formattedPhone.length === 10 ? `91${formattedPhone}` : formattedPhone;
+
+      fetch("https://backend.aisensy.com/campaign/t1/api/v2", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          apiKey: aisensyApiKey,
+          campaignName: aisensyCampaign,
+          destination: destination,
+          userName: fullName,
+          templateParams: [
+            fullName,
+            payload.product,
+            payload.amount.toLocaleString("en-IN"),
+            payload.orderId,
+          ],
+        }),
+      })
+        .then(async (res) => {
+          const resText = await res.text();
+          console.log("AiSensy WhatsApp notification response:", res.status, resText);
+        })
+        .catch((aiErr) => {
+          console.error("Failed to send AiSensy WhatsApp notification:", aiErr);
+        });
+    }
+
     return NextResponse.json({ success: true, data: payload });
   } catch (error: any) {
     console.error("Purchase API error:", error);
