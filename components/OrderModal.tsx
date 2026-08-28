@@ -52,7 +52,7 @@ const PRODUCT_DATA = {
         "/aquaforceforautocare/images/products/yellow/3.1.png",
         "/aquaforceforautocare/images/products/yellow/4.png",
         "/aquaforceforautocare/images/products/yellow/5.png",
-        "/aquaforceforautocare/images/products/yellow/6.png",
+        "/aquaforceforautocare/images/products/yellow/6.2.png",
       ],
     },
     {
