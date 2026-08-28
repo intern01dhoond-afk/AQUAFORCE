@@ -82,7 +82,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [paymentId, setPaymentId] = useState("");
   const [copiedReferral, setCopiedReferral] = useState(false);
   const [isHighlightsOpen, setIsHighlightsOpen] = useState(false);
-  const [isSpecsOpen, setIsSpecsOpen] = useState(true);
+  const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   const [isBoxOpen, setIsBoxOpen] = useState(false);
 
   // Dynamic Pricing Calculations
