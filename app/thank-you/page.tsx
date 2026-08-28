@@ -135,23 +135,13 @@ function ThankYouContent() {
             <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
               <span className="text-[#64748b] font-medium font-open-sans">Shipping</span>
               <span className="text-emerald-700 font-bold font-open-sans flex items-center gap-1.5">
-                <svg
-                  className="w-4 h-4 text-emerald-600 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 8h3" />
-                  <path d="M1 12h4" />
-                  <path d="M2 16h3" />
-                  <path d="M7 6h7.5v9H7z" />
-                  <path d="M14.5 9h3.5l2 3v3h-5.5V9z" />
-                  <circle cx="9" cy="17" r="1.8" fill="currentColor" />
-                  <circle cx="17.5" cy="17" r="1.8" fill="currentColor" />
-                </svg>
+                <Image
+                  src="/aquaforceforautocare/images/TRUCK-03.svg"
+                  alt="Express Delivery Truck"
+                  width={20}
+                  height={20}
+                  className="shrink-0 w-5 h-5"
+                />
                 Free Express (4-6 Days)
               </span>
             </div>

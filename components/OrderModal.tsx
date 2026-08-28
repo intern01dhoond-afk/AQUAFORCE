@@ -1279,7 +1279,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
                       {/* Delivery Info on right side */}
                       <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
-                        <SpeedingTruckIcon className="w-5 h-5 text-[#0066cc] shrink-0" />
+                        <Image
+                          src="/aquaforceforautocare/images/TRUCK-03.svg"
+                          alt="Express Delivery Truck"
+                          width={24}
+                          height={24}
+                          className="shrink-0 w-[22px] h-[22px]"
+                        />
                         <span>Express delivery within 4-6 Days</span>
                       </div>
                     </div>
