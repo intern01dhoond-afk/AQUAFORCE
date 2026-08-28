@@ -5,13 +5,13 @@ import { useOrderModal } from "@/context/OrderModalContext";
 export default function SaleTicker() {
   const { openModal } = useOrderModal();
 
-  const items = Array(12).fill("SALE 24% OFF");
+  const items = Array(12).fill("SALE 26% OFF");
 
   return (
     <div
       onClick={openModal}
       className="relative w-full bg-[#E52E2E] overflow-hidden cursor-pointer select-none py-2.5 sm:py-3 shadow-md z-20 transition-colors hover:bg-[#d92222]"
-      title="Click to claim 24% OFF"
+      title="Click to claim 26% OFF"
     >
       <div className="animate-marquee flex items-center whitespace-nowrap">
         {/* Double array to create a seamless infinite loop */}

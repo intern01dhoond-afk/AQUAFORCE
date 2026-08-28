@@ -1197,7 +1197,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       {/* Savings Upsell Highlight Pill */}
                       <div className="mt-2.5 p-2.5 bg-emerald-50/90 border border-emerald-200/90 rounded-xl flex items-center justify-between text-[11.5px] sm:text-xs font-open-sans shadow-2xs">
                         <span className="text-emerald-950 font-bold flex items-center gap-1.5">
-                          <span className="text-sm">🔥</span>
+            
                           <span>With Vacuum you are saving <strong className="text-emerald-700 font-extrabold">₹1,351/- more!</strong></span>
                         </span>
                         <span className="text-[10px] font-black uppercase bg-emerald-600 text-white px-2 py-0.5 rounded-md tracking-wider">
@@ -1437,9 +1437,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                           </li>
                           <li className="flex items-center gap-2">
                             <span className="text-slate-400 font-normal">-</span> Corded Vacuum with Accessories
-                          </li>
-                          <li className="flex items-center gap-2">
-                            <span className="text-slate-400 font-normal">-</span> User Manual
                           </li>
                         </ul>
                       )}
