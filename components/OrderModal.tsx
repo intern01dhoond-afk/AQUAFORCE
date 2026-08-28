@@ -943,12 +943,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </span>
               </label>
 
-              {/* Submit Button (BUY NOW / Pay with Razorpay) */}
               <button
                 type="submit"
                 disabled={isProcessingPayment}
                 className="w-full h-12 sm:h-13 !mt-5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-black font-montserrat text-sm sm:text-base uppercase tracking-wider rounded-[8px] shadow-lg shadow-blue-600/30 transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
-              >
               >
                 {isProcessingPayment ? (
                   <span className="flex items-center gap-2">
