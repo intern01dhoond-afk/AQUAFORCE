@@ -27,7 +27,7 @@ const USE_CASES: UseCaseItem[] = [
     id: "home-users",
     label: "Home Users",
     desc: "Power-wash patio tiles, stone steps, driveways, garden paths, and outdoor patio furniture with zero setup hassle.",
-    image: "/aquaforceforautocare/images/use-cases/3.png",
+    image: "/aquaforceforautocare/images/use-cases/3.1.png",
   },
   {
     id: "workshops-garages",
