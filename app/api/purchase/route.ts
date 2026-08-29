@@ -55,20 +55,18 @@ export async function POST(req: Request) {
     const webhookUrl = process.env.GOOGLE_SHEET_PURCHASE_URL;
 
     if (webhookUrl) {
-      // Fire-and-forget async execution so Google Apps Script never delays the user's order confirmation
-      fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        redirect: "follow",
-      })
-        .then(async (res) => {
-          const text = await res.text();
-          console.log("Google Sheets Purchase logged successfully:", text);
-        })
-        .catch((sheetError) => {
-          console.error("Failed to forward purchase to Google Sheets:", sheetError);
+      try {
+        const sheetRes = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          redirect: "follow",
         });
+        const text = await sheetRes.text();
+        console.log("Google Sheets Purchase logged successfully:", text);
+      } catch (sheetError) {
+        console.error("Failed to forward purchase to Google Sheets:", sheetError);
+      }
     } else {
       console.warn("GOOGLE_SHEET_PURCHASE_URL is not configured in .env.local. Purchase data logged:", payload);
     }

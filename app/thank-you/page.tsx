@@ -17,16 +17,38 @@ function ThankYouContent() {
   const formattedAmount = Number(amount).toLocaleString("en-IN");
 
   useEffect(() => {
+    // Backup order sync to Google Sheets if payment details exist in URL
+    if (paymentId && orderId) {
+      fetch("/aquaforceforautocare/api/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId,
+          paymentId,
+          fullName: customerName || "Customer",
+          phone: "See Razorpay Dashboard",
+          deliveryAddress: "See Razorpay Dashboard",
+          city: "N/A",
+          state: "N/A",
+          pincode: "000000",
+          product: "Aquaforce 1400",
+          quantity: 1,
+          amount: Number(amount) || 37999,
+          status: "Paid & Confirmed",
+        }),
+      }).catch((err) => console.error("Backup Google Sheets sync error:", err));
+    }
+
     // Trigger Meta Pixel Purchase Conversion Event
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "Purchase", {
-        value: Number(amount) || 9999,
+        value: Number(amount) || 37999,
         currency: "INR",
         content_name: "AQUAFORCE 1400 PSI TECH Cordless Washer",
         content_type: "product",
       });
     }
-  }, [amount]);
+  }, [amount, paymentId, orderId, customerName]);
 
   const handleReturn = () => {
     router.push("/");

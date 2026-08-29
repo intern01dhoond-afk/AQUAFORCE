@@ -560,8 +560,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             });
           }
 
-          // Redirect to dedicated Thank You confirmation page
-          window.location.href = `/aquaforceforautocare/thank-you?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(totalAmount)}&name=${encodeURIComponent(formData.fullName)}`;
+          // Redirect to dedicated Thank You confirmation page with a short delay
+          setTimeout(() => {
+            window.location.href = `/aquaforceforautocare/thank-you?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(totalAmount)}&name=${encodeURIComponent(formData.fullName)}`;
+          }, 300);
         },
         modal: {
           ondismiss: function () {
