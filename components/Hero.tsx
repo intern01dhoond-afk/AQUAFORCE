@@ -71,7 +71,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Remainig%20images/mobile%20banner%206.png"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/1.1.1.png"
             alt="Aquaforce 1400 Cordless Portable Pressure Washer"
             fill
             priority
