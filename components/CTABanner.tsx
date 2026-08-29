@@ -23,7 +23,7 @@ export default function CTABanner() {
           <div className="sm:hidden relative w-full aspect-[3/4] max-w-[420px] mx-auto overflow-hidden flex flex-col justify-end p-5 xs:p-6 pb-5 xs:pb-6 rounded-[22px]">
             {/* Background Yellow Machine Graphic */}
             <Image
-              src="/aquaforceforautocare/images/mobile-banner-2-y.1.png"
+              src="/aquaforceforautocare/images/mobile-banner-2-y.0.png"
               alt="Aquaforce 1400 Portable Pressure Washer"
               fill
               priority
