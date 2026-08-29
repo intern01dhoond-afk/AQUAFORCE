@@ -28,36 +28,36 @@ export default function FourSteps() {
   return (
     <section
       id="how-it-works"
-      className="relative w-full min-h-[560px] xs:min-h-[600px] sm:min-h-[720px] lg:min-h-[820px] flex flex-col justify-between py-10 xs:py-12 sm:py-18 lg:py-20 bg-black overflow-hidden"
+      className="relative w-full min-h-[750px] xs:min-h-[820px] sm:min-h-[880px] lg:min-h-[940px] flex flex-col justify-between pt-10 xs:pt-12 sm:pt-16 pb-8 xs:pb-10 sm:pb-12 bg-black overflow-hidden"
     >
       {/* Mobile Cinematic Background Image */}
       <div className="sm:hidden absolute inset-0 z-0">
         <Image
-          src="/aquaforceforautocare/images/Remainig%20images/mobile%20banner%207.1.png"
+          src="/aquaforceforautocare/images/Remainig%20images/mobile%20banner%207.1.webp"
           alt="Aquaforce 4 Steps to Pristine Clean mobile background"
           fill
           priority
           quality={100}
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-[center_20%]"
         />
         {/* Soft Contrast Gradient Mask */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-black/60" />
       </div>
 
       {/* Desktop Cinematic Background Image */}
       <div className="hidden sm:block absolute inset-0 z-0">
         <Image
-          src="/aquaforceforautocare/images/Remainig%20images/four-steps-desktop.png"
+          src="/aquaforceforautocare/images/Remainig%20images/four-steps-desktop.webp"
           alt="Aquaforce on workshop workbench 4 Steps to Pristine Clean"
           fill
           priority
           quality={100}
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-[center_30%]"
         />
         {/* Soft Contrast Gradient Mask */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/50" />
       </div>
 
       {/* Top Heading */}
@@ -73,7 +73,7 @@ export default function FourSteps() {
       </ScrollReveal>
 
       {/* Bottom 4-Step Bordered Glass Container (2x2 on Mobile, 4-Col on Desktop) */}
-      <ScrollReveal direction="up" delay={0.1} className="relative z-10 w-full max-w-[1440px] mx-auto px-3 sm:px-8 lg:px-[77px] mt-8 sm:mt-14">
+      <ScrollReveal direction="up" delay={0.1} className="relative z-10 w-full max-w-[1440px] mx-auto px-3 sm:px-8 lg:px-[77px] mt-44 xs:mt-52 sm:mt-60 lg:mt-64">
         <div className="w-full max-w-[1286px] mx-auto bg-black/65 backdrop-blur-xl border border-white/20 rounded-[12px] sm:rounded-[8px] py-3 xs:py-4 px-2.5 xs:px-3 sm:px-4 shadow-2xl">
           <ScrollRevealStagger className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 xs:gap-3 sm:gap-0 sm:divide-x divide-white/20" staggerDelay={0.08}>
             {STEPS.map((step) => (
