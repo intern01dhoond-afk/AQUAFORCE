@@ -1,43 +1,25 @@
+import Image from "next/image";
 import { Plus } from "lucide-react";
 import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
 
 const MODULES = [
   {
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="6" width="16" height="12" rx="2.5" />
-        <path d="M6 12h2l1-2 2 4 1-2h2" />
-        <path d="M22 10v4" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/icons/engineering-1.svg",
     title: "Lithium-Ion Battery pack",
     desc: "Intelligent thermal vents and quick-charge support protect cell longevity.",
   },
   {
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/icons/engineering-2.svg",
     title: "Heavy-Duty DC Pump",
     desc: "Forged alloy pistons deliver stable maximum fluid flow and zero corrosion risk.",
   },
   {
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/icons/engineering-3.svg",
     title: "Compact Water Tank Option",
     desc: "Mount the onboard tank directly or drop the hose in any external vessel.",
   },
   {
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/icons/engineering-4.svg",
     title: "Dynamic Power Control",
     desc: "Manage motor speeds dynamically using the tactile dual-mode pressure trigger.",
   },
@@ -72,8 +54,14 @@ export default function CompactModules() {
             >
               {/* Card Content */}
               <div className="h-full min-h-[175px] xs:min-h-[195px] sm:min-h-[250px] bg-white rounded-xl sm:rounded-2xl border border-slate-200/90 p-3.5 xs:p-4.5 sm:p-7 shadow-xs hover:shadow-md hover:border-blue-400 transition-all flex flex-col justify-start">
-                <div className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 flex items-center justify-center mb-2.5 xs:mb-3 sm:mb-5 text-[#3B82F6]">
-                  {m.icon}
+                <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-2.5 xs:mb-3 sm:mb-5">
+                  <Image
+                    src={m.iconSrc}
+                    alt={m.title}
+                    width={48}
+                    height={48}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <h3 className="text-[12.5px] xs:text-[13.5px] sm:text-[17px] font-bold font-montserrat text-slate-900 leading-snug">
                   {m.title}

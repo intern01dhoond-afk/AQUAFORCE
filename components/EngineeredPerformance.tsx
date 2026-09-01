@@ -3,83 +3,22 @@ import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollRev
 
 const FEATURES_LEFT = [
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect x="2" y="6" width="16" height="12" rx="2.5" />
-        <path d="M22 10V14" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-01 Powerful Battery Operation.svg",
     title: "Powerful Battery Operation",
     desc: "High-voltage lithium cells deliver constant output throughout every wash cycle",
   },
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M2 12H7L10 4L14 20L17 12H22" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-02 3 Hours Continuous Use.svg",
     title: "3 Hours Continuous Use",
     desc: "Extended runtime for multiple vehicle cleaning sessions",
   },
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <line x1="4" y1="4" x2="20" y2="20" />
-        <path d="M10 3.5L12 8L14 3.5" />
-        <path d="M16.5 10L21 12L16.5 14" />
-        <path d="M7.5 10L3 12L7.5 14" />
-        <path d="M10 20.5L12 16L14 20.5" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-03 No Power Socket Required.svg",
     title: "No Power Socket Required",
     desc: "Complete operational freedom anywhere without relying on external power sources",
   },
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 2L4 22L12 18L20 22L12 2Z" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-04 Cordless & Portable.svg",
     title: "Cordless & Portable",
     desc: "Zero cables, lightweight chassis for easy maneuvering",
   },
@@ -87,86 +26,22 @@ const FEATURES_LEFT = [
 
 const FEATURES_RIGHT = [
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect x="3" y="3" width="18" height="18" rx="2" />
-        <path d="M9 3V21" />
-        <path d="M15 3V21" />
-        <path d="M3 9H21" />
-        <path d="M3 15H21" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-05 Built-In Pressure Pump.svg",
     title: "Built-In Pressure Pump",
     desc: "Precision engineering delivers 1400 PSI directly from an integrated internal pump",
   },
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="8" r="7" />
-        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-06 Vehicle Optimised.svg",
     title: "Vehicle Optimised",
     desc: "Precision nozzle for targeted cleaning on wheels, panels, and tight crevices",
   },
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M4.93 4.93L19.07 19.07" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-07 Zero Power Reliance.svg",
     title: "Zero Power Reliance",
     desc: "Operates fully independent of electrical outlets, extension cords, or generators",
   },
   {
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-        <line x1="12" y1="22.08" x2="12" y2="12" />
-      </svg>
-    ),
+    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-08 Compact & Easy to Carry.svg",
     title: "Compact & Easy to Carry",
     desc: "Dual-module design fits in any vehicle trunk for easy transport and storage",
   },
@@ -232,10 +107,14 @@ export default function EngineeredPerformance() {
               className="flex flex-col items-start bg-white/50 backdrop-blur-xs border border-white/80 rounded-[12px] p-3 xs:p-3.5 shadow-[0_2px_8px_rgba(15,40,75,0.05)] hover:bg-white/70 transition-colors"
             >
               {/* Icon in Accent Badge */}
-              <div className="w-7 h-7 xs:w-8 xs:h-8 rounded-[8px] bg-sky-600/10 text-sky-700 flex items-center justify-center mb-2 shrink-0">
-                <div className="scale-75 xs:scale-85 origin-center">
-                  {item.icon}
-                </div>
+              <div className="w-7 h-7 xs:w-8 xs:h-8 rounded-[8px] bg-sky-600/10 flex items-center justify-center mb-2 shrink-0 p-1">
+                <Image
+                  src={item.iconSrc}
+                  alt={item.title}
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain"
+                />
               </div>
               {/* Title */}
               <h3 className="text-[12px] xs:text-[13px] sm:text-[14.5px] font-bold font-montserrat text-[#0F1729] leading-tight">
@@ -258,8 +137,14 @@ export default function EngineeredPerformance() {
         <ScrollReveal direction="right" delay={0.1} className="col-span-3 flex flex-col gap-10 text-right">
           {FEATURES_LEFT.map((item) => (
             <div key={item.title} className="flex flex-row-reverse items-start gap-4">
-              <div className="shrink-0 text-sky-700 mt-0.5">
-                {item.icon}
+              <div className="w-8 h-8 lg:w-9 lg:h-9 shrink-0 relative mt-0.5">
+                <Image
+                  src={item.iconSrc}
+                  alt={item.title}
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h3 className="text-[15px] font-bold font-montserrat text-slate-900">
@@ -297,8 +182,14 @@ export default function EngineeredPerformance() {
         <ScrollReveal direction="left" delay={0.1} className="col-span-3 flex flex-col gap-10 text-left">
           {FEATURES_RIGHT.map((item) => (
             <div key={item.title} className="flex items-start gap-4">
-              <div className="shrink-0 text-sky-700 mt-0.5">
-                {item.icon}
+              <div className="w-8 h-8 lg:w-9 lg:h-9 shrink-0 relative mt-0.5">
+                <Image
+                  src={item.iconSrc}
+                  alt={item.title}
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h3 className="text-[15px] font-bold font-montserrat text-slate-900">
