@@ -8,7 +8,7 @@ export default function ProfessionalCleaning() {
         {/* Top Eyebrow Badge */}
         <ScrollReveal direction="up" className="flex justify-center lg:justify-start mb-3 sm:mb-5">
           <div className="inline-flex items-center px-3.5 py-1 rounded-full border border-sky-600/50 font-open-sans text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase text-slate-900 bg-transparent">
-            WHY AQUAFORCE 1400?
+            WHY AQUAFORCE® 1400?
           </div>
         </ScrollReveal>
 
@@ -35,7 +35,7 @@ export default function ProfessionalCleaning() {
               parking lots or locations without convenient electrical access.
             </p>
             <p>
-              Aquaforce 1400 changes that. Its integrated lithium-ion battery
+              Aquaforce® 1400 changes that. Its integrated lithium-ion battery
               system powers the pressure pump, allowing you to carry the
               machine wherever you need it and start cleaning without
               connecting it to a power socket.

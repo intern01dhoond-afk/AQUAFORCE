@@ -33,7 +33,7 @@ export default function PromoBanner() {
 
           {/* Subtitle */}
           <p className="text-white font-open-sans font-bold text-lg sm:text-xl mt-4">
-            Get Aquaforce 1400 at
+            Get Aquaforce® 1400 at
           </p>
 
           {/* Huge 26% OFF Headline */}

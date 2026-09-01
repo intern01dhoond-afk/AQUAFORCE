@@ -253,7 +253,7 @@ export default function BulkEnquiryModal({ isOpen, onClose }: BulkEnquiryModalPr
             {/* Personalized Message */}
             <p className="text-[#475569] font-open-sans text-xs xs:text-[13.5px] sm:text-[14px] max-w-[430px] mx-auto mt-2 sm:mt-2.5 leading-relaxed font-normal">
               Thank you, <strong className="text-[#0f172a] font-bold font-open-sans">{formData.fullName}</strong>. Our enterprise sales team for{" "}
-              <strong className="text-[#005DA6] font-bold font-open-sans">Aquaforce 1400</strong> has received your bulk order request and will
+              <strong className="text-[#005DA6] font-bold font-open-sans">Aquaforce® 1400</strong> has received your bulk order request and will
               contact you within 24 hours with wholesale tiered pricing.
             </p>
 

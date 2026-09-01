@@ -34,9 +34,9 @@ const SpeedingTruckIcon = ({ className = "w-5 h-5 text-[#0066cc]" }: { className
 );
 
 const PRODUCT_DATA = {
-  name: "Cordless AquaForce 1400 High-pressure Washer System",
+  name: "Cordless AquaForce® 1400 High-pressure Washer System",
   description:
-    "The Aquaforce 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
+    "The Aquaforce® 1400 is a powerful, battery-powered portable pressure washer. No cables, no power sockets, no fixed setup needed.",
   rating: 4.8,
   reviewsCount: 2097,
   offerPrice: 37999,
@@ -90,6 +90,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isBoxOpen, setIsBoxOpen] = useState(false);
   const [isReplacementOpen, setIsReplacementOpen] = useState(false);
   const [isKnowMoreOpen, setIsKnowMoreOpen] = useState(false);
+  const [isFullReturnPolicyOpen, setIsFullReturnPolicyOpen] = useState(false);
 
   // Dynamic Pricing Calculations
   const currentOfferPrice = selectedVacuumOption === "without" ? 35999 : 37999;
@@ -105,8 +106,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     if (navigator.share) {
       navigator
         .share({
-          title: "AQUAFORCE 1400 Cordless Pressure Washer",
-          text: "Check out the AQUAFORCE 1400 Cordless High-Pressure Washer! Use my referral link for ₹1,000 extra credit.",
+          title: "AQUAFORCE® 1400 Cordless Pressure Washer",
+          text: "Check out the AQUAFORCE® 1400 Cordless High-Pressure Washer! Use my referral link for ₹1,000 extra credit.",
           url: window.location.origin + "/aquaforceforautocare?ref=FRIEND1000",
         })
         .catch(() => {});
@@ -638,7 +639,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {/* Personalized Message */}
             <p className="text-[#475569] font-open-sans text-xs xs:text-[13.5px] sm:text-[14px] max-w-[430px] mx-auto mt-2 sm:mt-2.5 leading-relaxed font-normal">
               Thank you, <strong className="text-[#0f172a] font-bold font-open-sans">{formData.fullName || "Valued Customer"}</strong>.
-              Your order for <strong className="text-[#005DA6] font-bold font-open-sans">Aquaforce 1400</strong> has been confirmed and our
+              Your order for <strong className="text-[#005DA6] font-bold font-open-sans">Aquaforce® 1400</strong> has been confirmed and our
               dispatch team is preparing your package for express delivery.
             </p>
 
@@ -648,7 +649,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               <div className="flex items-center justify-between text-[13px] pt-0 font-open-sans">
                 <span className="text-[#64748b] font-medium font-open-sans">Product</span>
                 <span className="text-[#0f172a] font-bold font-open-sans truncate max-w-[180px] sm:max-w-[240px]">
-                  Aquaforce 1400 ({currentColor.name})
+                  Aquaforce® 1400 ({currentColor.name})
                 </span>
               </div>
 
@@ -1144,22 +1145,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       <p className="text-xs sm:text-sm font-semibold text-[#0F1729] mb-2 font-open-sans">
                         Select Variant / Package:
                       </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-3">
                         {/* Option 1: Without Vacuum */}
                         <button
                           type="button"
                           onClick={() => setSelectedVacuumOption("without")}
-                          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                          className={`pt-3.5 pb-3 px-3 sm:px-3.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                             selectedVacuumOption === "without"
                               ? "border-[#0066cc] bg-blue-50/60 ring-1 ring-[#0066cc]"
                               : "border-slate-200 hover:border-slate-300 bg-white"
                           }`}
                         >
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat">
+                          <div className="flex items-center justify-between gap-1.5 sm:gap-2">
+                            <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat whitespace-nowrap">
                               Without Vacuum
                             </span>
-                            <span className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                            <span className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ml-1 ${
                               selectedVacuumOption === "without" ? "border-[#0066cc] bg-[#0066cc]" : "border-slate-300"
                             }`}>
                               {selectedVacuumOption === "without" && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -1176,21 +1177,21 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                         <button
                           type="button"
                           onClick={() => setSelectedVacuumOption("with")}
-                          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between relative ${
+                          className={`pt-3.5 pb-3 px-3 sm:px-3.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between relative ${
                             selectedVacuumOption === "with"
                               ? "border-[#0066cc] bg-blue-50/60 ring-1 ring-[#0066cc]"
                               : "border-slate-200 hover:border-slate-300 bg-white"
                           }`}
                         >
-                          <span className="absolute -top-2.5 right-3 z-10 bg-[#0066cc] text-white text-[9.5px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1 font-montserrat select-none">
+                          <span className="absolute -top-2.5 right-2.5 sm:right-3 z-10 bg-[#0066cc] text-white text-[9.5px] font-extrabold uppercase tracking-wider px-2 sm:px-2.5 py-0.5 rounded-full shadow-xs flex items-center gap-1 font-montserrat select-none whitespace-nowrap">
                             <Star size={10} fill="#f59e0b" strokeWidth={0} className="text-[#f59e0b] shrink-0" />
                             <span>RECOMMENDED</span>
                           </span>
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat">
+                          <div className="flex items-center justify-between gap-1.5 sm:gap-2">
+                            <span className="font-bold text-xs sm:text-[13px] text-slate-900 font-montserrat whitespace-nowrap">
                               With Vacuum
                             </span>
-                            <span className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                            <span className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ml-1 ${
                               selectedVacuumOption === "with" ? "border-[#0066cc] bg-[#0066cc]" : "border-slate-300"
                             }`}>
                               {selectedVacuumOption === "with" && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -1421,6 +1422,18 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                                     </div>
                                   </div>
                                 )}
+
+                                {/* Read full returns policy > Link (Matching Screenshot) */}
+                                <div className="pt-3 border-t border-slate-200/80">
+                                  <button
+                                    type="button"
+                                    onClick={() => setIsFullReturnPolicyOpen(true)}
+                                    className="inline-flex items-center gap-1 text-[#0066cc] hover:text-[#0052b3] text-xs sm:text-[13px] font-semibold font-open-sans cursor-pointer hover:underline"
+                                  >
+                                    <span>Read full returns policy</span>
+                                    <ChevronRight size={14} className="stroke-[2.5]" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           )}
@@ -1617,6 +1630,155 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           </>
         )}
       </div>
+
+      {/* Full AquaForce Return & Refund Policy Modal Overlay */}
+      {isFullReturnPolicyOpen && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-6 overflow-hidden overscroll-contain bg-slate-950/75 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-[680px] max-h-[85vh] flex flex-col bg-white rounded-[20px] shadow-2xl border border-slate-100 overflow-hidden animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-5 sm:px-7 py-4 border-b border-slate-100 bg-white shrink-0">
+              <div>
+                <h3 className="text-lg sm:text-xl font-bold font-montserrat text-slate-900 tracking-tight">
+                  AquaForce® Return &amp; Refund Policy
+                </h3>
+                <p className="text-xs text-slate-500 font-open-sans mt-0.5">
+                  Official Return, Replacement &amp; Warranty Terms
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsFullReturnPolicyOpen(false)}
+                className="w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shrink-0"
+                aria-label="Close Return Policy"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Body - Scrollable */}
+            <div className="flex-1 overflow-y-auto p-5 sm:p-7 space-y-5 text-slate-800 font-open-sans text-xs sm:text-[13px] leading-relaxed no-scrollbar">
+              {/* Preamble Card */}
+              <div className="p-3.5 bg-blue-50/70 border border-blue-200/80 rounded-xl text-slate-700 font-medium">
+                At <strong className="font-bold text-[#0066cc]">AquaForce®</strong>, we ensure that every product is properly checked and packed before dispatch. Returns and refunds are accepted only under the conditions mentioned below.
+              </div>
+
+              {/* 1. Return Period */}
+              <div className="space-y-2 border-b border-slate-100 pb-4">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2 font-montserrat">
+                  <span className="w-6 h-6 rounded-full bg-[#0066cc] text-white text-xs flex items-center justify-center font-extrabold shrink-0">1</span>
+                  <span>Return Period</span>
+                </h4>
+                <ul className="pl-8 space-y-1.5 text-slate-600 list-disc">
+                  <li>Return requests must be raised within <strong>7 days</strong> of delivery.</li>
+                  <li>Returns are accepted only for damaged, defective, incorrect, or incomplete products.</li>
+                </ul>
+              </div>
+
+              {/* 2. Product Condition */}
+              <div className="space-y-2 border-b border-slate-100 pb-4">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2 font-montserrat">
+                  <span className="w-6 h-6 rounded-full bg-[#0066cc] text-white text-xs flex items-center justify-center font-extrabold shrink-0">2</span>
+                  <span>Product Condition</span>
+                </h4>
+                <p className="pl-8 font-semibold text-slate-800">For a return to be accepted, the product must:</p>
+                <ul className="pl-12 space-y-1.5 text-slate-600 list-disc">
+                  <li>Be unused or only tested for the reported issue.</li>
+                  <li>Have no scratches, dents, cracks, stains, or physical damage caused by the customer.</li>
+                  <li>Not be opened, dismantled, repaired, modified, or misused.</li>
+                  <li>Include all original parts, accessories, attachments, manuals, warranty card, and packaging.</li>
+                </ul>
+              </div>
+
+              {/* 3. Returns Not Accepted */}
+              <div className="space-y-2 border-b border-slate-100 pb-4">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2 font-montserrat">
+                  <span className="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center font-extrabold shrink-0">3</span>
+                  <span>Returns Not Accepted</span>
+                </h4>
+                <p className="pl-8 font-semibold text-slate-800">Returns will not be accepted for:</p>
+                <ul className="pl-12 space-y-1.5 text-slate-600 list-disc">
+                  <li>Customer-caused damage or improper use.</li>
+                  <li>Scratches, dents, cracks, or signs of excessive use.</li>
+                  <li>Missing parts or accessories.</li>
+                  <li>Products that have been opened, modified, repaired, or dismantled.</li>
+                  <li>Normal wear and tear.</li>
+                  <li>Return requests made after the return period.</li>
+                </ul>
+              </div>
+
+              {/* 4. Unboxing Video */}
+              <div className="space-y-2 border-b border-slate-100 pb-4">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2 font-montserrat">
+                  <span className="w-6 h-6 rounded-full bg-[#0066cc] text-white text-xs flex items-center justify-center font-extrabold shrink-0">4</span>
+                  <span>Unboxing Video</span>
+                </h4>
+                <p className="pl-8 text-slate-600 leading-relaxed">
+                  Customers are strongly advised to record a complete unboxing video. It may be required for claims related to transit damage, missing parts, or incorrect products.
+                </p>
+              </div>
+
+              {/* 5. Return Request */}
+              <div className="space-y-2 border-b border-slate-100 pb-4">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2 font-montserrat">
+                  <span className="w-6 h-6 rounded-full bg-[#0066cc] text-white text-xs flex items-center justify-center font-extrabold shrink-0">5</span>
+                  <span>Return Request</span>
+                </h4>
+                <p className="pl-8 font-semibold text-slate-800">To request a return, contact AquaForce® Customer Support with:</p>
+                <ul className="pl-12 space-y-1.5 text-slate-600 list-disc">
+                  <li>Order number</li>
+                  <li>Reason for return</li>
+                  <li>Photos/videos of the product and packaging</li>
+                  <li>Unboxing video, if available</li>
+                </ul>
+                <p className="pl-8 text-xs text-slate-500 font-medium italic mt-1">
+                  All return requests are subject to verification and approval.
+                </p>
+              </div>
+
+              {/* 6. Refund / Replacement */}
+              <div className="space-y-2 border-b border-slate-100 pb-4">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2 font-montserrat">
+                  <span className="w-6 h-6 rounded-full bg-[#0066cc] text-white text-xs flex items-center justify-center font-extrabold shrink-0">6</span>
+                  <span>Refund / Replacement</span>
+                </h4>
+                <p className="pl-8 font-semibold text-slate-800">After inspection and approval:</p>
+                <ul className="pl-12 space-y-1.5 text-slate-600 list-disc">
+                  <li>A replacement may be provided where applicable.</li>
+                  <li>If a refund is approved, it will be processed through the applicable payment method.</li>
+                  <li>Refunds may be adjusted for missing parts, customer-caused damage, or other applicable charges.</li>
+                </ul>
+              </div>
+
+              {/* 7. Warranty */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2 font-montserrat">
+                  <span className="w-6 h-6 rounded-full bg-[#0066cc] text-white text-xs flex items-center justify-center font-extrabold shrink-0">7</span>
+                  <span>Warranty</span>
+                </h4>
+                <p className="pl-8 text-slate-600 leading-relaxed">
+                  Technical issues reported after the return period may be covered under the manufacturer warranty, subject to warranty terms and conditions.
+                </p>
+              </div>
+
+              {/* Reserved Rights Banner */}
+              <div className="p-3.5 bg-amber-50 border border-amber-200/80 rounded-xl text-xs text-amber-900 font-medium leading-relaxed">
+                AquaForce® reserves the right to approve or reject any return, replacement, or refund request based on product condition and verification.
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-end shrink-0">
+              <button
+                type="button"
+                onClick={() => setIsFullReturnPolicyOpen(false)}
+                className="bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-[8px] transition-colors cursor-pointer"
+              >
+                Close Policy
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

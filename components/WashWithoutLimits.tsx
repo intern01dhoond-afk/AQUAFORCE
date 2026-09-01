@@ -27,7 +27,7 @@ export default function WashWithoutLimits() {
 
           {/* Subtitle */}
           <p className="text-[#8892a0] font-open-sans text-[11px] xs:text-xs font-bold tracking-[0.2em] uppercase mb-4 xs:mb-6">
-            AQUAFORCE 1400
+            AQUAFORCE® 1400
           </p>
         </ScrollReveal>
 
@@ -122,7 +122,7 @@ export default function WashWithoutLimits() {
 
           {/* Subtitle */}
           <p className="text-slate-500 font-open-sans text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-6">
-            AQUAFORCE 1400
+            AQUAFORCE® 1400
           </p>
 
           {/* 5 Feature Badges */}

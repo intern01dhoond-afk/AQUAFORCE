@@ -45,10 +45,10 @@ export default function ComparisonTable() {
 
         {/* Heading & Subtitle */}
         <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-medium font-montserrat text-[#0F1729] tracking-tight leading-tight">
-          What Makes Aquaforce Different?
+          What Makes Aquaforce® Different?
         </h2>
         <p className="text-slate-600 font-open-sans max-w-2xl mx-auto mt-3 text-sm sm:text-base leading-relaxed">
-          See how the Aquaforce 1400 stacks up against a conventional
+          See how the Aquaforce® 1400 stacks up against a conventional
           pressure washer across every critical dimension.
         </p>
       </ScrollReveal>
@@ -69,7 +69,7 @@ export default function ComparisonTable() {
               </div>
               {/* Aquaforce Header */}
               <div className="sm:col-span-4 bg-[#f0fdf4] text-[#16a34a] font-bold text-[10px] sm:text-[13px] tracking-wider uppercase py-3.5 sm:py-5 px-3.5 sm:px-6 flex items-center">
-                AQUAFORCE 1400
+                AQUAFORCE® 1400
               </div>
             </div>
 

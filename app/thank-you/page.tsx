@@ -112,7 +112,7 @@ function ThankYouContent() {
             </strong>
             . Your order for{" "}
             <strong className="text-[#005DA6] font-bold font-open-sans">
-              Aquaforce 1400
+              Aquaforce® 1400
             </strong>{" "}
             has been confirmed and our dispatch team is preparing your package for express delivery.
           </p>
@@ -123,7 +123,7 @@ function ThankYouContent() {
             <div className="flex items-center justify-between text-[13px] pt-0 font-open-sans">
               <span className="text-[#64748b] font-medium font-open-sans">Product</span>
               <span className="text-[#0f172a] font-bold font-open-sans truncate max-w-[180px] sm:max-w-[240px]">
-                Aquaforce 1400 PSI Tech
+                Aquaforce® 1400 PSI Tech
               </span>
             </div>
 

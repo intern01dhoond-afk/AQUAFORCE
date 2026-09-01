@@ -44,7 +44,7 @@ export default function CTABanner() {
               </h2>
 
               <p className="text-white/90 text-xs xs:text-[13px] font-normal font-open-sans mt-1.5 drop-shadow-xs">
-                Go Cordless. Go Portable. Go Aquaforce.
+                Go Cordless. Go Portable. Go Aquaforce®.
               </p>
 
               <button
@@ -82,7 +82,7 @@ export default function CTABanner() {
               </h2>
 
               <p className="text-white/90 text-sm md:text-base lg:text-[16px] font-normal font-open-sans mt-2.5 sm:mt-3 drop-shadow-xs">
-                Go Cordless. Go Portable. Go Aquaforce.
+                Go Cordless. Go Portable. Go Aquaforce®.
               </p>
 
               <button

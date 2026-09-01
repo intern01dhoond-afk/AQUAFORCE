@@ -40,6 +40,13 @@ export default function Footer() {
             onClick={openModal}
             className="hover:text-white transition-colors cursor-pointer font-medium focus:outline-none py-1 px-1.5"
           >
+            Return Policy
+          </button>
+          <button
+            type="button"
+            onClick={openModal}
+            className="hover:text-white transition-colors cursor-pointer font-medium focus:outline-none py-1 px-1.5"
+          >
             Buy Now
           </button>
         </nav>

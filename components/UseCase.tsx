@@ -173,7 +173,7 @@ export default function UseCase() {
 
             {/* Subtitle */}
             <p className="text-[#333340] font-open-sans text-xs xs:text-sm sm:text-base lg:text-[17px] font-normal leading-relaxed mt-1.5 sm:mt-2 max-w-[800px] mx-auto">
-              Whether detailing high-end vehicles or prepping off-road gear, Aquaforce fits every scenario.
+              Whether detailing high-end vehicles or prepping off-road gear, Aquaforce® fits every scenario.
             </p>
           </div>
 

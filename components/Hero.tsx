@@ -166,7 +166,7 @@ export default function Hero() {
 
             {/* Description Paragraph */}
             <p className="font-open-sans text-white mt-4 sm:mt-5 max-w-[480px] text-[14px] sm:text-[15.5px] leading-relaxed font-normal drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-              Wash your car anywhere with the Aquaforce 1400 - a powerful,
+              Wash your car anywhere with the Aquaforce® 1400 - a powerful,
               battery-powered portable pressure washer. No cables, no power
               sockets, no fixed setup needed.
             </p>
@@ -392,7 +392,7 @@ export default function Hero() {
           <div className="w-full bg-gradient-to-t from-black via-black/90 via-50% to-transparent pt-14 pb-7 px-4 xs:px-5 pointer-events-auto">
             {/* Description */}
             <p className="text-white font-medium font-open-sans text-[13px] xs:text-[13.5px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              Wash your car anywhere with the Aquaforce 1400 - powerful cordless portable pressure washer.
+              Wash your car anywhere with the Aquaforce® 1400 - powerful cordless portable pressure washer.
             </p>
 
             {/* Pricing & Discount */}
@@ -435,7 +435,7 @@ export default function Hero() {
             {/* Bottom-Left Description */}
             <div className="max-w-xl">
               <p className="text-white/95 font-open-sans text-[14px] sm:text-[15px] leading-relaxed font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                Wash your car anywhere with the Aquaforce 1400 - a powerful,
+                Wash your car anywhere with the Aquaforce® 1400 - a powerful,
                 battery-powered portable pressure washer. No cables, no power
                 sockets, no fixed setup needed.
               </p>
@@ -520,7 +520,7 @@ export default function Hero() {
           <div className="w-full bg-gradient-to-t from-black via-black/90 via-50% to-transparent pt-14 pb-7 px-4 xs:px-5 pointer-events-auto">
             {/* Description */}
             <p className="text-white font-medium font-open-sans text-[13px] xs:text-[13.5px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              Wash your car, bike, or outdoor gear anywhere with the Aquaforce 1400 - high-pressure cordless washing.
+              Wash your car, bike, or outdoor gear anywhere with the Aquaforce® 1400 - high-pressure cordless washing.
             </p>
 
             {/* Pricing & Discount */}
@@ -563,7 +563,7 @@ export default function Hero() {
             {/* Bottom-Left Description */}
             <div className="max-w-xl">
               <p className="text-white/95 font-open-sans text-[14px] sm:text-[15px] leading-relaxed font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                Wash your car, bike, or outdoor gear anywhere with the Aquaforce 1400 - a powerful,
+                Wash your car, bike, or outdoor gear anywhere with the Aquaforce® 1400 - a powerful,
                 battery-powered portable pressure washer. No cables, no power
                 sockets, no fixed setup needed.
               </p>
