@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
     const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
     const smtpPort = Number(process.env.SMTP_PORT) || 465;
-    const smtpUser = process.env.SMTP_USER;
+    const smtpUser = process.env.SMTP_USER || "promec.india@gmail.com";
     const smtpPass = process.env.SMTP_PASS;
 
     if (!smtpUser || !smtpPass) {
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     });
 
     const mailOptions = {
-      from: `"AQUAFORCE Care" <${smtpUser}>`,
+      from: `"PROMEC Care" <${smtpUser}>`,
       to: email,
       subject: `Order Confirmed: ${product || "Aquaforce 1400"} [#${orderId || "CONFIRMED"}]`,
       html: `
@@ -52,7 +52,6 @@ export async function POST(req: Request) {
             <p style="margin: 4px 0;"><strong>Delivery Address:</strong> ${deliveryAddress || ""}, ${city || ""}, ${state || ""} - ${pincode || ""}</p>
           </div>
           <p style="color: #16a34a; font-weight: bold;">🚚 Free Express Delivery (Expected in 4-6 Days)</p>
-          <p style="font-size: 12px; color: #64748b; margin-top: 24px;">Order updates sequence: 1st on Text, then Email, then WhatsApp.</p>
         </div>
       `,
     };

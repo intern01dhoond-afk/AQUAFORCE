@@ -167,14 +167,6 @@ function ThankYouContent() {
                 Free Express (4-6 Days)
               </span>
             </div>
-
-            {/* Row 6: Order Notifications Sequence */}
-            <div className="flex items-center justify-between text-[12.5px] pt-3 font-open-sans">
-              <span className="text-[#64748b] font-medium font-open-sans">Order Updates</span>
-              <span className="text-slate-800 font-semibold text-right">
-                1st on Text &rarr; Email &rarr; WhatsApp
-              </span>
-            </div>
           </div>
 
           {/* Bottom Action Button */}

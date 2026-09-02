@@ -568,6 +568,29 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             console.error("Failed to forward purchase to Google Sheets:", sheetErr);
           }
 
+          // Send Email Confirmation from promec.india@gmail.com via SMTP
+          try {
+            await fetch("/aquaforceforautocare/api/send-email", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: formData.email,
+                fullName: formData.fullName,
+                orderId: orderData.id,
+                paymentId: payId,
+                product: `${PRODUCT_DATA.name} (${currentColor.name})`,
+                amount: totalAmount,
+                deliveryAddress: formData.deliveryAddress,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                altPhone: formData.altPhone || "N/A",
+              }),
+            });
+          } catch (emailErr) {
+            console.error("Failed to send email confirmation:", emailErr);
+          }
+
           // Track Meta Pixel Purchase event
           if (typeof window !== "undefined" && (window as any).fbq) {
             (window as any).fbq("track", "Purchase", {
@@ -709,14 +732,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </span>
                 </div>
               )}
-
-              {/* Row 6: Order Notifications Sequence */}
-              <div className="flex items-center justify-between text-[12.5px] pt-3 font-open-sans">
-                <span className="text-[#64748b] font-medium font-open-sans">Order Updates</span>
-                <span className="text-slate-800 font-semibold text-right">
-                  1st on Text &rarr; Email &rarr; WhatsApp
-                </span>
-              </div>
             </div>
 
             {/* Bottom Action Button */}
@@ -1021,7 +1036,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   required
                 />
                 <span className="text-[11.5px] sm:text-[13px] text-slate-500 leading-snug">
-                  I agree to receive order confirmation &amp; delivery updates (1st on Text, then Email, then WhatsApp).
+                  I agree to receive order confirmation &amp; delivery updates.
                 </span>
               </label>
 
