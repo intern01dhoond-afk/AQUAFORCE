@@ -194,6 +194,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     fullName: "",
     email: "",
     phone: "",
+    altPhone: "",
     deliveryAddress: "",
     city: "",
     state: "",
@@ -204,6 +205,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
   const [formErrors, setFormErrors] = useState<{
     phone?: string;
+    altPhone?: string;
     email?: string;
     pincode?: string;
   }>({});
@@ -219,6 +221,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     setFormData((prev) => ({ ...prev, phone: digitsOnly }));
     if (formErrors.phone && digitsOnly.length === 10) {
       setFormErrors((prev) => ({ ...prev, phone: undefined }));
+    }
+  };
+
+  const handleAltPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digitsOnly = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setFormData((prev) => ({ ...prev, altPhone: digitsOnly }));
+    if (formErrors.altPhone && (digitsOnly.length === 10 || digitsOnly.length === 0)) {
+      setFormErrors((prev) => ({ ...prev, altPhone: undefined }));
     }
   };
 
@@ -438,11 +448,16 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     e.preventDefault();
     if (!currentColor.inStock) return;
 
-    const errors: { phone?: string; email?: string; pincode?: string } = {};
+    const errors: { phone?: string; altPhone?: string; email?: string; pincode?: string } = {};
 
     const cleanPhone = formData.phone.replace(/\D/g, "");
     if (!cleanPhone || cleanPhone.length !== 10) {
       errors.phone = "Please enter a valid 10-digit mobile number";
+    }
+
+    const cleanAltPhone = formData.altPhone.replace(/\D/g, "");
+    if (cleanAltPhone && cleanAltPhone.length !== 10) {
+      errors.altPhone = "Please enter a valid 10-digit mobile number";
     }
 
     if (!formData.email.trim() || !isValidEmail(formData.email)) {
@@ -480,6 +495,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             fullName: formData.fullName,
             email: formData.email,
             phone: formData.phone,
+            altPhone: formData.altPhone || "N/A",
             deliveryAddress: formData.deliveryAddress,
             city: formData.city,
             state: formData.state,
@@ -536,6 +552,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 fullName: formData.fullName,
                 email: formData.email,
                 phone: formData.phone,
+                altPhone: formData.altPhone || "N/A",
                 deliveryAddress: formData.deliveryAddress,
                 city: formData.city,
                 state: formData.state,
@@ -676,6 +693,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">{formData.phone}</span>
               </div>
 
+              {formData.altPhone && (
+                <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                  <span className="text-[#64748b] font-medium font-open-sans">Alt. Contact Number</span>
+                  <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">{formData.altPhone}</span>
+                </div>
+              )}
+
               {/* Row 5: Payment ID (if available) */}
               {paymentId && (
                 <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
@@ -767,28 +791,59 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
               </div>
 
-              {/* Row 2: Email Address */}
-              <div>
-                <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="rahul.sharma@example.com"
-                  value={formData.email}
-                  onChange={handleEmailChange}
-                  className={`w-full bg-white border ${
-                    formErrors.email
-                      ? "border-red-500 ring-1 ring-red-500"
-                      : "border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]"
-                  } rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
-                />
-                {formErrors.email && (
-                  <p className="text-red-500 text-[11px] sm:text-xs mt-1 font-open-sans font-medium">
-                    {formErrors.email}
-                  </p>
-                )}
+              {/* Row 2: Email Address & Alternative Mobile Number */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5">
+                <div>
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5 sm:mb-2 font-open-sans">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="rahul.sharma@example.com"
+                    value={formData.email}
+                    onChange={handleEmailChange}
+                    className={`w-full bg-white border ${
+                      formErrors.email
+                        ? "border-red-500 ring-1 ring-red-500"
+                        : "border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]"
+                    } rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
+                  />
+                  {formErrors.email && (
+                    <p className="text-red-500 text-[11px] sm:text-xs mt-1 font-open-sans font-medium">
+                      {formErrors.email}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                    <label className="text-xs sm:text-sm font-semibold text-slate-700 font-open-sans">
+                      Alt. Mobile Number
+                    </label>
+                    <span className="text-[11px] font-medium text-slate-400 font-open-sans">
+                      Optional
+                    </span>
+                  </div>
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    maxLength={10}
+                    placeholder="9876543210"
+                    value={formData.altPhone}
+                    onChange={handleAltPhoneChange}
+                    className={`w-full bg-white border ${
+                      formErrors.altPhone
+                        ? "border-red-500 ring-1 ring-red-500"
+                        : "border-slate-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]"
+                    } rounded-[8px] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[16px] sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
+                  />
+                  {formErrors.altPhone && (
+                    <p className="text-red-500 text-[11px] sm:text-xs mt-1 font-open-sans font-medium">
+                      {formErrors.altPhone}
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Row 3: Complete Delivery Address */}

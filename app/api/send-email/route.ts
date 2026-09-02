@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, fullName, orderId, paymentId, product, amount, deliveryAddress, city, state, pincode } = body;
+    const { email, fullName, orderId, paymentId, product, amount, deliveryAddress, city, state, pincode, altPhone } = body;
 
     if (!email || !fullName) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -48,6 +48,7 @@ export async function POST(req: Request) {
             <p style="margin: 4px 0;"><strong>Amount Paid:</strong> ₹${Number(amount || 37999).toLocaleString("en-IN")}</p>
             <p style="margin: 4px 0;"><strong>Order ID:</strong> ${orderId || "N/A"}</p>
             <p style="margin: 4px 0;"><strong>Payment ID:</strong> ${paymentId || "N/A"}</p>
+            ${altPhone && altPhone !== "N/A" ? `<p style="margin: 4px 0;"><strong>Alt. Contact:</strong> ${altPhone}</p>` : ""}
             <p style="margin: 4px 0;"><strong>Delivery Address:</strong> ${deliveryAddress || ""}, ${city || ""}, ${state || ""} - ${pincode || ""}</p>
           </div>
           <p style="color: #16a34a; font-weight: bold;">🚚 Free Express Delivery (Expected in 4-6 Days)</p>
