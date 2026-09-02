@@ -68,7 +68,7 @@ export default function Footer() {
           {/* Right: Social Media Icons */}
           <div className="flex items-center gap-5 text-white/60">
             <a
-              href="https://www.facebook.com/amectechnology/"
+              href="https://www.facebook.com/share/19cRYjSKRA/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -77,7 +77,7 @@ export default function Footer() {
               <Facebook size={18} />
             </a>
             <a
-              href="https://www.instagram.com/amectechnology/?hl=en"
+              href="https://www.instagram.com/promec.india?igsi=MXpocDh4NGJyc3F3"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -86,27 +86,7 @@ export default function Footer() {
               <Instagram size={18} />
             </a>
             <a
-              href="https://x.com/AMECTechnology"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X (Twitter)"
-              className="hover:text-white transition-colors duration-200 flex items-center"
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
-            <a
-              href="https://in.linkedin.com/company/amec-technology"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="hover:text-white transition-colors duration-200"
-            >
-              <Linkedin size={18} />
-            </a>
-            <a
-              href="https://www.youtube.com/@amecmobility"
+              href="https://youtube.com/@promectools?si=2IvjOZwgD73HWBaP"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"

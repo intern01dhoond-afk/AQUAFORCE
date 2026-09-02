@@ -211,6 +211,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   }>({});
 
   const [isLoadingPincode, setIsLoadingPincode] = useState(false);
+  const [delhiveryStatus, setDelhiveryStatus] = useState<{
+    serviceable?: boolean;
+    message?: string;
+  }>({});
 
   const isValidEmail = (emailStr: string) => {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailStr.trim());
@@ -251,6 +255,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
     if (cleanVal.length === 6) {
       setIsLoadingPincode(true);
+      setDelhiveryStatus({});
       try {
         const res = await fetch(`https://api.postalpincode.in/pincode/${cleanVal}`);
         const data = await res.json();
@@ -264,6 +269,21 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             city: fetchedCity || prev.city,
             state: fetchedState || prev.state,
           }));
+        }
+
+        // Live Delhivery Serviceability Check
+        const delRes = await fetch(`/aquaforceforautocare/api/delhivery/serviceability?pincode=${cleanVal}`);
+        const delData = await delRes.json();
+        if (delData.success && delData.serviceable) {
+          setDelhiveryStatus({
+            serviceable: true,
+            message: "✓ Delhivery Express Delivery Available",
+          });
+        } else if (delData.remarks) {
+          setDelhiveryStatus({
+            serviceable: false,
+            message: delData.remarks,
+          });
         }
       } catch (err) {
         console.warn("Error fetching pincode details:", err);
@@ -591,6 +611,30 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             console.error("Failed to send email confirmation:", emailErr);
           }
 
+          // Automatically Create Shipment Order on Delhivery
+          try {
+            await fetch("/aquaforceforautocare/api/delhivery/create-shipment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: orderData.id,
+                fullName: formData.fullName,
+                email: formData.email,
+                phone: formData.phone,
+                altPhone: formData.altPhone || "N/A",
+                deliveryAddress: formData.deliveryAddress,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                product: `${PRODUCT_DATA.name} (${currentColor.name})`,
+                quantity: quantity,
+                amount: totalAmount,
+              }),
+            });
+          } catch (delhiveryErr) {
+            console.error("Failed to create Delhivery shipment:", delhiveryErr);
+          }
+
           // Track Meta Pixel Purchase event
           if (typeof window !== "undefined" && (window as any).fbq) {
             (window as any).fbq("track", "Purchase", {
@@ -906,6 +950,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   {formErrors.pincode && (
                     <p className="text-red-500 text-[11px] sm:text-xs mt-1 font-open-sans font-medium">
                       {formErrors.pincode}
+                    </p>
+                  )}
+                  {delhiveryStatus.message && (
+                    <p
+                      className={`text-[11px] sm:text-xs mt-1.5 font-open-sans font-semibold flex items-center gap-1 ${
+                        delhiveryStatus.serviceable ? "text-emerald-600" : "text-slate-500"
+                      }`}
+                    >
+                      {delhiveryStatus.message}
                     </p>
                   )}
                 </div>
