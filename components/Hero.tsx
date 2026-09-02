@@ -503,7 +503,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/4.2.webp"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/4.webp"
             alt="Aquaforce 1400 Cordless Powerful Portable Adventure Bike Washing"
             fill
             priority
