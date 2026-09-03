@@ -375,7 +375,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/3.webp"
+            src="/aquaforceforautocare/images/Hero%20section%20Images/0.3.webp"
             alt="Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority
