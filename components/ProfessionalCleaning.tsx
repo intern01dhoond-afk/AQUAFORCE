@@ -49,7 +49,7 @@ export default function ProfessionalCleaning() {
           <ScrollReveal direction="zoom" delay={0.05} className="w-full lg:w-[940px] h-[210px] xs:h-[250px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
             {/* Mobile View */}
             <Image
-              src="/images/Remainig%20images/12%20Mobile.webp"
+              src="/aquaforceforautocare/images/Remainig%20images/12%20Mobile.webp"
               alt="Car detailing with high pressure water spray outdoors"
               fill
               priority
@@ -59,7 +59,7 @@ export default function ProfessionalCleaning() {
             />
             {/* Desktop View */}
             <Image
-              src="/images/Remainig%20images/12.webp"
+              src="/aquaforceforautocare/images/Remainig%20images/12.webp"
               alt="Car detailing with high pressure water spray outdoors"
               fill
               priority
@@ -73,7 +73,7 @@ export default function ProfessionalCleaning() {
           <ScrollReveal direction="zoom" delay={0.15} className="w-full lg:w-[324px] h-[210px] xs:h-[250px] sm:h-[300px] lg:h-[364px] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md shrink-0">
             {/* Mobile View */}
             <Image
-              src="/images/Remainig%20images/Moto%20mobile.webp"
+              src="/aquaforceforautocare/images/Remainig%20images/Moto%20mobile.webp"
               alt="Aquaforce motorcycle washing cordless power"
               fill
               priority
@@ -83,7 +83,7 @@ export default function ProfessionalCleaning() {
             />
             {/* Desktop View */}
             <Image
-              src="/images/use-cases/2.webp"
+              src="/aquaforceforautocare/images/use-cases/2.webp"
               alt="Aquaforce motorcycle washing cordless power"
               fill
               priority

@@ -55,11 +55,11 @@ export const metadata: Metadata = {
     "Wash your car anywhere with the Aquaforce® 1400 - a powerful, battery-powered portable pressure washer. No cables, no power socket, no fixed setup needed.",
   icons: {
     icon: [
-      { url: "/images/favicon.ico" },
-      { url: "/favicon.ico" },
+      { url: "/aquaforceforautocare/images/favicon.ico" },
+      { url: "/aquaforceforautocare/favicon.ico" },
     ],
-    shortcut: "/images/favicon.ico",
-    apple: "/images/favicon.ico",
+    shortcut: "/aquaforceforautocare/images/favicon.ico",
+    apple: "/aquaforceforautocare/images/favicon.ico",
   },
 };
 

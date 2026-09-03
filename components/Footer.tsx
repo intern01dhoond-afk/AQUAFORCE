@@ -17,13 +17,13 @@ export default function Footer() {
         <ScrollReveal direction="up" className="max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-[80px] flex flex-col items-center text-center">
           {/* PROMEC Brand Logo */}
           <div className="flex flex-col items-center group mb-6 sm:mb-8 select-none">
-            <div className="relative w-[150px] h-[36px] sm:w-[200px] sm:h-[48px] shrink-0">
+            <div className="relative w-[150px] h-[32px] sm:w-[170px] sm:h-[36px]">
               <Image
-                src="/images/promec-logo.svg"
+                src="/aquaforceforautocare/images/promec-logo.svg"
                 alt="PROMEC"
                 fill
-                sizes="(max-width: 640px) 150px, 200px"
-                className="object-contain object-center"
+                sizes="(max-width: 640px) 150px, 170px"
+                className="object-contain object-left"
               />
             </div>
           </div>

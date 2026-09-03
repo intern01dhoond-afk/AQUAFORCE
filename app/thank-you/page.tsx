@@ -60,7 +60,7 @@ function ThankYouContent() {
       <header className="w-full h-16 sm:h-20 bg-[#0b0c0e] border-b border-white/10 flex items-center justify-center px-4 shrink-0">
         <div className="relative w-[150px] h-[36px] sm:w-[180px] sm:h-[42px]">
           <Image
-            src="/images/promec-logo.svg"
+            src="/aquaforceforautocare/images/promec-logo.svg"
             alt="PROMEC"
             fill
             sizes="(max-width: 640px) 150px, 180px"
@@ -168,7 +168,7 @@ function ThankYouContent() {
               <span className="text-[#64748b] font-medium font-open-sans">Shipping</span>
               <span className="text-emerald-700 font-bold font-open-sans flex items-center gap-1.5">
                 <Image
-                  src="/images/TRUCK-03.svg"
+                  src="/aquaforceforautocare/images/TRUCK-03.svg"
                   alt="Express Delivery Truck"
                   width={28}
                   height={28}

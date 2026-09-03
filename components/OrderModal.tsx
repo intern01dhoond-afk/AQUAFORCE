@@ -47,17 +47,17 @@ const PRODUCT_DATA = {
       hex: "#f5c518",
       inStock: true,
       images: [
-        "/images/products/yellow/1.webp",
-        "/images/products/yellow/2.webp",
-        "/images/products/yellow/3.webp",
-        "/images/products/yellow/4.webp",
-        "/images/products/yellow/5.webp",
-        "/images/products/yellow/6.webp",
-        "/images/products/yellow/7.webp",
-        "/images/products/yellow/8.webp",
-        "/images/products/yellow/9.webp",
-        "/images/products/yellow/10.webp",
-        "/images/products/yellow/11.webp",
+        "/aquaforceforautocare/images/products/yellow/1.webp",
+        "/aquaforceforautocare/images/products/yellow/2.webp",
+        "/aquaforceforautocare/images/products/yellow/3.webp",
+        "/aquaforceforautocare/images/products/yellow/4.webp",
+        "/aquaforceforautocare/images/products/yellow/5.webp",
+        "/aquaforceforautocare/images/products/yellow/6.webp",
+        "/aquaforceforautocare/images/products/yellow/7.webp",
+        "/aquaforceforautocare/images/products/yellow/8.webp",
+        "/aquaforceforautocare/images/products/yellow/9.webp",
+        "/aquaforceforautocare/images/products/yellow/10.webp",
+        "/aquaforceforautocare/images/products/yellow/11.webp",
       ],
     },
     {
@@ -65,17 +65,17 @@ const PRODUCT_DATA = {
       hex: "#0066cc",
       inStock: false,
       images: [
-        "/images/products/blue/1.webp",
-        "/images/products/blue/2.webp",
-        "/images/products/blue/3.webp",
-        "/images/products/blue/4.webp",
-        "/images/products/blue/5.webp",
-        "/images/products/blue/6.webp",
-        "/images/products/blue/7.webp",
-        "/images/products/blue/8.webp",
-        "/images/products/blue/9.webp",
-        "/images/products/blue/10.webp",
-        "/images/products/blue/11.webp",
+        "/aquaforceforautocare/images/products/blue/1.webp",
+        "/aquaforceforautocare/images/products/blue/2.webp",
+        "/aquaforceforautocare/images/products/blue/3.webp",
+        "/aquaforceforautocare/images/products/blue/4.webp",
+        "/aquaforceforautocare/images/products/blue/5.webp",
+        "/aquaforceforautocare/images/products/blue/6.webp",
+        "/aquaforceforautocare/images/products/blue/7.webp",
+        "/aquaforceforautocare/images/products/blue/8.webp",
+        "/aquaforceforautocare/images/products/blue/9.webp",
+        "/aquaforceforautocare/images/products/blue/10.webp",
+        "/aquaforceforautocare/images/products/blue/11.webp",
       ],
     },
   ],
@@ -1440,7 +1440,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       {/* Delivery Info on right side */}
                       <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
                         <Image
-                          src="/images/TRUCK-03.svg"
+                          src="/aquaforceforautocare/images/TRUCK-03.svg"
                           alt="Express Delivery Truck"
                           width={36}
                           height={36}

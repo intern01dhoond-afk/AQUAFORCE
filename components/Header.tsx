@@ -62,7 +62,7 @@ export default function Header() {
             }`}
           >
             <Image
-              src="/images/promec-logo.svg"
+              src="/aquaforceforautocare/images/promec-logo.svg"
               alt="PROMEC"
               fill
               priority
