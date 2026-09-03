@@ -44,39 +44,66 @@ export async function POST(req: Request) {
     const instaIconPath = path.join(process.cwd(), "public", "images", "Email icons", "insta.png");
     const youtubeIconPath = path.join(process.cwd(), "public", "images", "Email icons", "Youtube.png");
 
-    const fbIconSrc = fs.existsSync(fbIconPath)
-      ? `data:image/png;base64,${fs.readFileSync(fbIconPath).toString("base64")}`
-      : "";
-    const instaIconSrc = fs.existsSync(instaIconPath)
-      ? `data:image/png;base64,${fs.readFileSync(instaIconPath).toString("base64")}`
-      : "";
-    const youtubeIconSrc = fs.existsSync(youtubeIconPath)
-      ? `data:image/png;base64,${fs.readFileSync(youtubeIconPath).toString("base64")}`
-      : "";
-
     const attachments: any[] = [];
     if (hasSticker) {
-      attachments.push({ filename: "email-sticker.png", path: imagePath, cid: "emailSticker" });
+      attachments.push({
+        filename: "email-sticker.png",
+        path: imagePath,
+        cid: "emailSticker",
+        contentType: "image/png",
+        contentDisposition: "inline",
+      });
+    }
+
+    const hasFb = fs.existsSync(fbIconPath);
+    const hasInsta = fs.existsSync(instaIconPath);
+    const hasYoutube = fs.existsSync(youtubeIconPath);
+
+    if (hasFb) {
+      attachments.push({
+        filename: "fb.png",
+        path: fbIconPath,
+        cid: "fbIcon",
+        contentType: "image/png",
+        contentDisposition: "inline",
+      });
+    }
+    if (hasInsta) {
+      attachments.push({
+        filename: "insta.png",
+        path: instaIconPath,
+        cid: "instaIcon",
+        contentType: "image/png",
+        contentDisposition: "inline",
+      });
+    }
+    if (hasYoutube) {
+      attachments.push({
+        filename: "youtube.png",
+        path: youtubeIconPath,
+        cid: "youtubeIcon",
+        contentType: "image/png",
+        contentDisposition: "inline",
+      });
     }
 
     const now = new Date();
     const formattedAmount = Number(amount || 37999).toLocaleString("en-IN");
     const formattedOrderId = orderId || `ORD_TEST_${Date.now().toString().slice(-5)}`;
 
-    const orderDateStr =
-      now.toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        timeZone: "Asia/Kolkata",
-      }) +
-      " " +
-      now.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-        timeZone: "Asia/Kolkata",
-      });
+    const dateOnlyStr = now.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      timeZone: "Asia/Kolkata",
+    });
+
+    const timeOnlyStr = now.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Kolkata",
+    });
 
     const orderDateShort = now.toLocaleDateString("en-IN", {
       day: "2-digit",
@@ -84,8 +111,14 @@ export async function POST(req: Request) {
       timeZone: "Asia/Kolkata",
     });
 
+    const mapsQuery = encodeURIComponent(
+      `${deliveryAddress || ""}, ${city || ""}, ${state || ""} - ${pincode || ""}`.trim()
+    );
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+    const invoiceUrl = `https://promectools.in/aquaforceforautocare/thank-you?order_id=${encodeURIComponent(formattedOrderId)}&name=${encodeURIComponent(fullName)}&amount=${encodeURIComponent(amount || 37999)}${paymentId ? `&payment_id=${encodeURIComponent(paymentId)}` : ""}`;
+
     const mailOptions = {
-      from: `"PROMEC Care" <${smtpUser}>`,
+      from: `"Promec India" <${smtpUser}>`,
       to: email,
       subject: `Order Confirmed: ${product || "Aquaforce 1400 PSI Tech"} [#${formattedOrderId}]`,
       attachments,
@@ -98,18 +131,29 @@ export async function POST(req: Request) {
           <title>Order Confirmed</title>
           <style>
             @media only screen and (max-width: 630px) {
-              .email-wrapper { padding: 10px 4px !important; }
-              .email-container { padding: 24px 16px !important; border-radius: 20px !important; }
+              body, .email-wrapper, .email-container {
+                background-color: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+              }
+              .email-container {
+                max-width: 100% !important;
+                width: 100% !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                padding: 16px 12px !important;
+              }
               
-              /* Mobile Header: Centered checkmark, centered text, hidden sticker */
+              /* Mobile Header */
               .header-table { display: block !important; width: 100% !important; text-align: center !important; }
               .header-table tr { display: block !important; width: 100% !important; text-align: center !important; }
               .header-icon-td { display: block !important; width: 100% !important; text-align: center !important; margin: 0 auto 12px auto !important; }
               .header-icon-circle { margin: 0 auto !important; }
               .header-text-td { display: block !important; width: 100% !important; text-align: center !important; padding-left: 0 !important; }
               .header-sticker-td { display: none !important; }
-              .header-title { font-size: 24px !important; text-align: center !important; }
-              .header-subtitle { text-align: center !important; }
+              .header-title { font-size: 22px !important; text-align: center !important; }
+              .header-subtitle { text-align: center !important; font-size: 13px !important; }
 
               /* Stat KPI Cards: 2x2 Grid on Mobile */
               .stat-col {
@@ -126,8 +170,8 @@ export async function POST(req: Request) {
                 background-color: #f8fafc !important;
                 border: 1px solid #e2e8f0 !important;
                 border-radius: 12px !important;
-                padding: 12px 10px !important;
-                min-height: 72px !important;
+                padding: 10px !important;
+                height: 76px !important;
                 box-sizing: border-box !important;
               }
 
@@ -139,13 +183,20 @@ export async function POST(req: Request) {
                 margin-bottom: 14px !important;
                 box-sizing: border-box !important;
               }
-              .card-box { min-height: auto !important; }
+              .card-box { height: auto !important; min-height: auto !important; }
 
-              /* Stepper Mobile */
+              /* Stepper Mobile Styling */
               .stepper-header-left { display: block !important; width: 100% !important; text-align: left !important; margin-bottom: 4px !important; }
               .stepper-header-right { display: block !important; width: 100% !important; text-align: left !important; }
-              .stepper-step-text { font-size: 10.5px !important; }
-              .stepper-sub-text { font-size: 9.5px !important; }
+              .stepper-step-text {
+                font-size: 9.5px !important;
+                line-height: 1.2 !important;
+                white-space: nowrap !important;
+              }
+              .stepper-sub-text {
+                font-size: 8.5px !important;
+                white-space: nowrap !important;
+              }
 
               /* Trust Banner Mobile */
               .trust-table td { display: block !important; width: 100% !important; text-align: center !important; }
@@ -154,14 +205,14 @@ export async function POST(req: Request) {
             }
           </style>
         </head>
-        <body style="margin: 0; padding: 20px 10px; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+        <body style="margin: 0; padding: 0; background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
 
-          <!-- Main Card Container -->
-          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="email-wrapper">
+          <!-- Main Container (Pure White Background) -->
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="email-wrapper" style="background-color: #ffffff;">
             <tr>
-              <td align="center">
+              <td align="center" style="padding: 16px 0; background-color: #ffffff;">
                 
-                <div class="email-container" style="max-width: 680px; width: 100%; background-color: #ffffff; border-radius: 24px; padding: 36px 32px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: left; box-sizing: border-box;">
+                <div class="email-container" style="max-width: 680px; width: 100%; background-color: #ffffff; border-radius: 0px; padding: 24px 20px; text-align: left; box-sizing: border-box;">
 
                   <!-- Top Header Row -->
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="header-table" style="margin-bottom: 28px;">
@@ -190,19 +241,19 @@ export async function POST(req: Request) {
 
                   <!-- 4 Stat KPI Cards (Desktop 4-col row, Mobile 2x2 grid) -->
                   <div style="margin-bottom: 24px;">
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed;">
                       <tr>
                         <!-- Stat 1: Order ID -->
-                        <td class="stat-col" width="25%" valign="top" style="padding-right: 6px;">
-                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; min-height: 80px; box-sizing: border-box;">
+                        <td class="stat-col" width="25%" valign="top" style="padding-right: 4px;">
+                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 76px; box-sizing: border-box;">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                               <tr>
-                                <td style="padding-right: 8px;" valign="top" width="34">
-                                  <div style="width: 34px; height: 34px; border-radius: 8px; background-color: #eff6ff; text-align: center; line-height: 34px; font-size: 16px;">📄</div>
+                                <td style="padding-right: 6px;" valign="top" width="28">
+                                  <div style="width: 28px; height: 28px; border-radius: 6px; background-color: #eff6ff; text-align: center; line-height: 28px; font-size: 13px;">📄</div>
                                 </td>
                                 <td valign="top">
-                                  <div style="font-size: 10.5px; color: #64748b; font-weight: 700; text-transform: uppercase;">Order ID</div>
-                                  <div style="font-size: 12.5px; color: #0f172a; font-weight: 700; word-break: break-all; margin-top: 2px;">${formattedOrderId}</div>
+                                  <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px;">Order ID</div>
+                                  <div style="font-size: 9.5px; color: #0f172a; font-weight: 700; white-space: nowrap; margin-top: 2px; line-height: 1.2;">${formattedOrderId}</div>
                                 </td>
                               </tr>
                             </table>
@@ -210,16 +261,17 @@ export async function POST(req: Request) {
                         </td>
 
                         <!-- Stat 2: Order Date -->
-                        <td class="stat-col" width="25%" valign="top" style="padding: 0 3px;">
-                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; min-height: 80px; box-sizing: border-box;">
+                        <td class="stat-col" width="25%" valign="top" style="padding: 0 2px;">
+                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 76px; box-sizing: border-box;">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                               <tr>
-                                <td style="padding-right: 8px;" valign="top" width="34">
-                                  <div style="width: 34px; height: 34px; border-radius: 8px; background-color: #faf5ff; text-align: center; line-height: 34px; font-size: 16px;">📅</div>
+                                <td style="padding-right: 6px;" valign="top" width="28">
+                                  <div style="width: 28px; height: 28px; border-radius: 6px; background-color: #faf5ff; text-align: center; line-height: 28px; font-size: 13px;">📅</div>
                                 </td>
                                 <td valign="top">
-                                  <div style="font-size: 10.5px; color: #64748b; font-weight: 700; text-transform: uppercase;">Order Date</div>
-                                  <div style="font-size: 12px; color: #0f172a; font-weight: 700; margin-top: 2px;">${orderDateStr}</div>
+                                  <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px;">Order Date</div>
+                                  <div style="font-size: 10.5px; color: #0f172a; font-weight: 700; margin-top: 2px; line-height: 1.2;">${dateOnlyStr}</div>
+                                  <div style="font-size: 9.5px; color: #64748b; font-weight: 500; margin-top: 2px;">${timeOnlyStr}</div>
                                 </td>
                               </tr>
                             </table>
@@ -227,19 +279,18 @@ export async function POST(req: Request) {
                         </td>
 
                         <!-- Stat 3: Payment Status -->
-                        <td class="stat-col" width="25%" valign="top" style="padding: 0 3px;">
-                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; min-height: 80px; box-sizing: border-box;">
+                        <td class="stat-col" width="25%" valign="top" style="padding: 0 2px;">
+                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 76px; box-sizing: border-box;">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                               <tr>
-                                <td style="padding-right: 8px;" valign="top" width="34">
-                                  <div style="width: 34px; height: 34px; border-radius: 8px; background-color: #ecfdf5; text-align: center; line-height: 34px; font-size: 16px;">💳</div>
+                                <td style="padding-right: 6px;" valign="top" width="28">
+                                  <div style="width: 28px; height: 28px; border-radius: 6px; background-color: #ecfdf5; text-align: center; line-height: 28px; font-size: 13px;">💳</div>
                                 </td>
                                 <td valign="top">
-                                  <div style="font-size: 10.5px; color: #64748b; font-weight: 700; text-transform: uppercase;">
-                                    Payment Status
-                                  </div>
-                                  <div style="font-size: 12.5px; color: #0f172a; font-weight: 700; margin-top: 2px;">
-                                    ₹${formattedAmount} <span style="background-color: #d1fae5; color: #065f46; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 99px; margin-left: 2px;">Paid ✓</span>
+                                  <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px;">Payment Status</div>
+                                  <div style="font-size: 10.5px; color: #0f172a; font-weight: 700; margin-top: 2px; line-height: 1.2;">₹${formattedAmount}</div>
+                                  <div style="margin-top: 2px;">
+                                    <span style="background-color: #d1fae5; color: #065f46; font-size: 8.5px; font-weight: 800; padding: 1px 5px; border-radius: 99px; display: inline-block;">Paid ✓</span>
                                   </div>
                                 </td>
                               </tr>
@@ -248,16 +299,17 @@ export async function POST(req: Request) {
                         </td>
 
                         <!-- Stat 4: Delivery -->
-                        <td class="stat-col" width="25%" valign="top" style="padding-left: 6px;">
-                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; min-height: 80px; box-sizing: border-box;">
+                        <td class="stat-col" width="25%" valign="top" style="padding-left: 4px;">
+                          <div class="stat-box" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 76px; box-sizing: border-box;">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                               <tr>
-                                <td style="padding-right: 8px;" valign="top" width="34">
-                                  <div style="width: 34px; height: 34px; border-radius: 8px; background-color: #fff7ed; text-align: center; line-height: 34px; font-size: 16px;">🚚</div>
+                                <td style="padding-right: 6px;" valign="top" width="28">
+                                  <div style="width: 28px; height: 28px; border-radius: 6px; background-color: #fff7ed; text-align: center; line-height: 28px; font-size: 13px;">🚚</div>
                                 </td>
                                 <td valign="top">
-                                  <div style="font-size: 10.5px; color: #64748b; font-weight: 700; text-transform: uppercase;">Delivery</div>
-                                  <div style="font-size: 12px; color: #0f172a; font-weight: 700; margin-top: 2px;">Expected 4-6 Days</div>
+                                  <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px;">Delivery</div>
+                                  <div style="font-size: 10.5px; color: #0f172a; font-weight: 700; margin-top: 2px; line-height: 1.2;">Expected</div>
+                                  <div style="font-size: 9.5px; color: #16a34a; font-weight: 700; margin-top: 2px;">4-6 Days</div>
                                 </td>
                               </tr>
                             </table>
@@ -268,117 +320,152 @@ export async function POST(req: Request) {
                   </div>
 
                   <!-- Order Tracking Stepper Card -->
-                  <div style="background-color: #f8fafc; border: 1px solid #e0f2fe; border-radius: 18px; padding: 20px; margin-bottom: 24px;">
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 20px;">
+                  <div style="background-color: #f8fafc; border: 1px solid #e0f2fe; border-radius: 18px; padding: 20px 10px; margin-bottom: 24px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
                       <tr>
                         <td align="left" class="stepper-header-left">
-                          <strong style="font-size: 15.5px; color: #0284c7; font-weight: 700;">Order Tracking</strong>
+                          <strong style="font-size: 15px; color: #0284c7; font-weight: 700;">Order Tracking</strong>
                         </td>
                         <td align="right" class="stepper-header-right">
-                          <span style="font-size: 12.5px; color: #16a34a; font-weight: 700;">Expected Delivery: 4-6 Days 📅</span>
+                          <span style="font-size: 12px; color: #16a34a; font-weight: 700;">Expected Delivery: 4-6 Days 📅</span>
                         </td>
                       </tr>
                     </table>
 
-                    <!-- Stepper Timeline Steps -->
+                    <!-- Stepper Dots & Connecting Lines Table -->
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed;">
+                      <!-- Row 1: Circles and Connecting Lines -->
                       <tr>
-                        <!-- Step 1: Order Confirmed -->
-                        <td width="20%" align="center" valign="top">
-                          <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #005DA6; color: #ffffff; text-align: center; line-height: 28px; font-size: 14px; font-weight: bold; margin: 0 auto 8px auto;">✓</div>
-                          <div class="stepper-step-text" style="font-size: 11.5px; font-weight: 700; color: #0f172a;">Order Confirmed</div>
-                          <div class="stepper-sub-text" style="font-size: 10px; color: #64748b; margin-top: 2px;">${orderDateShort}</div>
+                        <!-- Step 1 Dot -->
+                        <td width="12%" align="center" valign="middle">
+                          <div style="width: 26px; height: 26px; border-radius: 50%; background-color: #10b981; color: #ffffff; text-align: center; line-height: 26px; font-size: 13px; font-weight: bold; margin: 0 auto;">✓</div>
                         </td>
-
-                        <!-- Step 2: Payment Verified -->
-                        <td width="20%" align="center" valign="top">
-                          <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #005DA6; color: #ffffff; text-align: center; line-height: 28px; font-size: 14px; font-weight: bold; margin: 0 auto 8px auto;">✓</div>
-                          <div class="stepper-step-text" style="font-size: 11.5px; font-weight: 700; color: #0f172a;">Payment Verified</div>
-                          <div class="stepper-sub-text" style="font-size: 10px; color: #64748b; margin-top: 2px;">${orderDateShort}</div>
+                        <!-- Line 1-2 (Active Green Line) -->
+                        <td width="10%" valign="middle" style="padding: 0;">
+                          <div style="height: 3px; background-color: #10b981; border-radius: 2px; width: 100%;"></div>
                         </td>
-
-                        <!-- Step 3: Processing -->
-                        <td width="20%" align="center" valign="top">
-                          <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #005DA6; background-color: #ffffff; color: #005DA6; text-align: center; line-height: 24px; font-size: 13px; font-weight: bold; margin: 0 auto 8px auto;">📦</div>
-                          <div class="stepper-step-text" style="font-size: 11.5px; font-weight: 700; color: #005DA6;">Processing</div>
-                          <div class="stepper-sub-text" style="font-size: 10px; color: #005DA6; font-weight: 700; margin-top: 2px;">In Progress</div>
+                        <!-- Step 2 Dot -->
+                        <td width="12%" align="center" valign="middle">
+                          <div style="width: 26px; height: 26px; border-radius: 50%; background-color: #10b981; color: #ffffff; text-align: center; line-height: 26px; font-size: 13px; font-weight: bold; margin: 0 auto;">✓</div>
                         </td>
-
-                        <!-- Step 4: Shipped -->
-                        <td width="20%" align="center" valign="top">
-                          <div style="width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cbd5e1; background-color: #ffffff; margin: 0 auto 8px auto;"></div>
-                          <div class="stepper-step-text" style="font-size: 11.5px; font-weight: 600; color: #64748b;">Shipped</div>
-                          <div class="stepper-sub-text" style="font-size: 10px; color: #94a3b8; margin-top: 2px;">Pending</div>
+                        <!-- Line 2-3 (Active Green Line) -->
+                        <td width="10%" valign="middle" style="padding: 0;">
+                          <div style="height: 3px; background-color: #10b981; border-radius: 2px; width: 100%;"></div>
                         </td>
+                        <!-- Step 3 Dot -->
+                        <td width="12%" align="center" valign="middle">
+                          <div style="width: 26px; height: 26px; border-radius: 50%; border: 2px solid #0284c7; background-color: #ffffff; color: #0284c7; text-align: center; line-height: 22px; font-size: 12px; font-weight: bold; margin: 0 auto;">📦</div>
+                        </td>
+                        <!-- Line 3-4 (Dashed Grey Line) -->
+                        <td width="10%" valign="middle" style="padding: 0;">
+                          <div style="height: 0px; border-top: 2px dashed #cbd5e1; width: 100%;"></div>
+                        </td>
+                        <!-- Step 4 Dot -->
+                        <td width="12%" align="center" valign="middle">
+                          <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #cbd5e1; background-color: #ffffff; margin: 0 auto;"></div>
+                        </td>
+                        <!-- Line 4-5 (Dashed Grey Line) -->
+                        <td width="10%" valign="middle" style="padding: 0;">
+                          <div style="height: 0px; border-top: 2px dashed #cbd5e1; width: 100%;"></div>
+                        </td>
+                        <!-- Step 5 Dot -->
+                        <td width="12%" align="center" valign="middle">
+                          <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #cbd5e1; background-color: #ffffff; margin: 0 auto;"></div>
+                        </td>
+                      </tr>
 
-                        <!-- Step 5: Delivered -->
-                        <td width="20%" align="center" valign="top">
-                          <div style="width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cbd5e1; background-color: #ffffff; margin: 0 auto 8px auto;"></div>
-                          <div class="stepper-step-text" style="font-size: 11.5px; font-weight: 600; color: #64748b;">Delivered</div>
-                          <div class="stepper-sub-text" style="font-size: 10px; color: #94a3b8; margin-top: 2px;">Pending</div>
+                      <!-- Row 2: Step Labels and Dates -->
+                      <tr>
+                        <!-- Step 1 Text -->
+                        <td width="12%" align="center" valign="top" style="padding-top: 8px;">
+                          <div class="stepper-step-text" style="font-size: 10px; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">Confirmed</div>
+                          <div class="stepper-sub-text" style="font-size: 9px; color: #64748b; text-align: center; margin-top: 3px;">${orderDateShort}</div>
+                        </td>
+                        <td width="10%"></td>
+                        <!-- Step 2 Text -->
+                        <td width="12%" align="center" valign="top" style="padding-top: 8px;">
+                          <div class="stepper-step-text" style="font-size: 10px; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">Verified</div>
+                          <div class="stepper-sub-text" style="font-size: 9px; color: #64748b; text-align: center; margin-top: 3px;">${orderDateShort}</div>
+                        </td>
+                        <td width="10%"></td>
+                        <!-- Step 3 Text -->
+                        <td width="12%" align="center" valign="top" style="padding-top: 8px;">
+                          <div class="stepper-step-text" style="font-size: 10px; font-weight: 700; color: #0284c7; text-align: center; line-height: 1.2;">Processing</div>
+                          <div class="stepper-sub-text" style="font-size: 9px; color: #0284c7; font-weight: 700; text-align: center; margin-top: 3px;">Active</div>
+                        </td>
+                        <td width="10%"></td>
+                        <!-- Step 4 Text -->
+                        <td width="12%" align="center" valign="top" style="padding-top: 8px;">
+                          <div class="stepper-step-text" style="font-size: 10px; font-weight: 600; color: #64748b; text-align: center; line-height: 1.2;">Shipped</div>
+                          <div class="stepper-sub-text" style="font-size: 9px; color: #94a3b8; text-align: center; margin-top: 3px;">Pending</div>
+                        </td>
+                        <td width="10%"></td>
+                        <!-- Step 5 Text -->
+                        <td width="12%" align="center" valign="top" style="padding-top: 8px;">
+                          <div class="stepper-step-text" style="font-size: 10px; font-weight: 600; color: #64748b; text-align: center; line-height: 1.2;">Delivered</div>
+                          <div class="stepper-sub-text" style="font-size: 9px; color: #94a3b8; text-align: center; margin-top: 3px;">Pending</div>
                         </td>
                       </tr>
                     </table>
                   </div>
 
-                  <!-- 3 Details Cards Row (Desktop 3 Columns, Mobile 3 Stacked Cards) -->
+                  <!-- 3 Details Cards Row (Desktop 3 Equal Columns, Mobile 3 Stacked Cards) -->
                   <div style="margin-bottom: 24px;">
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed;">
                       <tr>
                         <!-- Card 1: Product Details -->
-                        <td class="card-col" width="33%" valign="top" style="padding-right: 6px;">
-                          <div class="card-box" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; min-height: 165px; box-sizing: border-box;">
-                            <div style="font-size: 13px; font-weight: 700; color: #0284c7; margin-bottom: 12px;">
+                        <td class="card-col" width="33.33%" valign="top" style="padding-right: 4px;">
+                          <div class="card-box" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px; box-sizing: border-box;">
+                            <div style="font-size: 12px; font-weight: 700; color: #0284c7; margin-bottom: 10px;">
                               📦 Product Details
                             </div>
-                            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-bottom: 14px;">
+                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
                               <tr>
-                                <td valign="top" style="padding-right: 10px;" width="52">
-                                  ${hasSticker ? `<img src="cid:emailSticker" style="width: 48px; height: 48px; border-radius: 8px; object-fit: contain; background: #f8fafc; border: 1px solid #f1f5f9;" />` : ""}
+                                <td valign="top" style="padding-right: 8px;" width="44">
+                                  ${hasSticker ? `<img src="cid:emailSticker" width="44" height="44" alt="Aquaforce 1400" style="width: 44px; height: 44px; border-radius: 8px; object-fit: contain; background: #f8fafc; border: 1px solid #e2e8f0; display: block;" />` : ""}
                                 </td>
                                 <td valign="top">
-                                  <div style="font-size: 12px; font-weight: 700; color: #0f172a; line-height: 1.3;">${product || "Aquaforce 1400 PSI Tech (Yellow)"}</div>
-                                  <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
-                                    Qty: 1 <span style="font-weight: 700; color: #0f172a; margin-left: 6px;">₹${formattedAmount}</span>
+                                  <div style="font-size: 11.5px; font-weight: 700; color: #0f172a; line-height: 1.25;">${product || "Aquaforce 1400 PSI Tech (Yellow)"}</div>
+                                  <div style="font-size: 10.5px; color: #64748b; margin-top: 3px;">
+                                    Qty: 1 <span style="font-weight: 700; color: #0f172a; margin-left: 4px;">₹${formattedAmount}</span>
                                   </div>
                                 </td>
                               </tr>
                             </table>
-                            <div style="border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: 10px;">
-                              <a href="#" style="font-size: 12px; font-weight: 700; color: #0284c7; text-decoration: none;">📄 View Invoice &rsaquo;</a>
+                            <div style="border-top: 1px solid #f1f5f9; padding-top: 8px; margin-top: 10px;">
+                              <a href="${invoiceUrl}" target="_blank" style="font-size: 11.5px; font-weight: 700; color: #0284c7; text-decoration: none;">📄 View Invoice &rsaquo;</a>
                             </div>
                           </div>
                         </td>
 
                         <!-- Card 2: Delivery Address -->
-                        <td class="card-col" width="34%" valign="top" style="padding: 0 3px;">
-                          <div class="card-box" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; min-height: 165px; box-sizing: border-box;">
-                            <div style="font-size: 13px; font-weight: 700; color: #7c3aed; margin-bottom: 12px;">
+                        <td class="card-col" width="33.33%" valign="top" style="padding: 0 2px;">
+                          <div class="card-box" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px; box-sizing: border-box;">
+                            <div style="font-size: 12px; font-weight: 700; color: #7c3aed; margin-bottom: 10px;">
                               📍 Delivery Address
                             </div>
-                            <div style="font-size: 12px; color: #334155; line-height: 1.45; font-weight: 500;">
+                            <div style="font-size: 11px; color: #334155; line-height: 1.35; font-weight: 500;">
                               ${deliveryAddress || "456 Test Boulevard"},<br/>
                               ${city || "Bengaluru"}, ${state || "Karnataka"} - ${pincode || "560001"}<br/>
-                              India
-                              ${altPhone && altPhone !== "N/A" ? `<br/><span style="color: #64748b; font-size: 11px;">Alt: ${altPhone}</span>` : ""}
+                              India ${altPhone && altPhone !== "N/A" ? `<span style="color: #64748b; font-size: 10px;">(Alt: ${altPhone})</span>` : ""}
                             </div>
-                            <div style="border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: 10px;">
-                              <a href="#" style="font-size: 12px; font-weight: 700; color: #7c3aed; text-decoration: none;">🗺️ View on Map &rsaquo;</a>
+                            <div style="border-top: 1px solid #f1f5f9; padding-top: 8px; margin-top: 10px;">
+                              <a href="${googleMapsUrl}" target="_blank" style="font-size: 11.5px; font-weight: 700; color: #7c3aed; text-decoration: none;">🗺️ View on Map &rsaquo;</a>
                             </div>
                           </div>
                         </td>
 
                         <!-- Card 3: Need Help? -->
-                        <td class="card-col" width="33%" valign="top" style="padding-left: 6px;">
-                          <div class="card-box" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; min-height: 165px; box-sizing: border-box;">
-                            <div style="font-size: 13px; font-weight: 700; color: #059669; margin-bottom: 4px;">
+                        <td class="card-col" width="33.33%" valign="top" style="padding-left: 4px;">
+                          <div class="card-box" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px; box-sizing: border-box;">
+                            <div style="font-size: 12px; font-weight: 700; color: #059669; margin-bottom: 6px;">
                               🎧 Need Help?
                             </div>
-                            <div style="font-size: 11px; color: #64748b; margin-bottom: 8px;">Our support team is here to help you.</div>
-                            <div style="font-size: 11.5px; color: #0f172a; font-weight: 600; margin-bottom: 2px;">📞 9876543210</div>
-                            <div style="font-size: 11.5px; color: #0f172a; font-weight: 600;">✉️ care@promec.in</div>
-                            <div style="border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: 10px;">
-                              <a href="mailto:care@promec.in" style="font-size: 12px; font-weight: 700; color: #059669; text-decoration: none;">Contact Support &rsaquo;</a>
+                            <div style="font-size: 10.5px; color: #64748b; margin-bottom: 6px;">Our support team is here to help.</div>
+                            <div style="font-size: 11px; color: #0f172a; font-weight: 600; margin-bottom: 2px;">📞 9876543210</div>
+                            <div style="font-size: 11px; color: #0f172a; font-weight: 600;">✉️ promec.india@gmail.com</div>
+                            <div style="border-top: 1px solid #f1f5f9; padding-top: 8px; margin-top: 10px;">
+                              <a href="mailto:promec.india@gmail.com" style="font-size: 11.5px; font-weight: 700; color: #059669; text-decoration: none;">Contact Support &rsaquo;</a>
                             </div>
                           </div>
                         </td>
@@ -397,7 +484,7 @@ export async function POST(req: Request) {
                                 <div style="width: 32px; height: 32px; border-radius: 50%; background-color: #fef08a; text-align: center; line-height: 32px; font-size: 16px;">🛡️</div>
                               </td>
                               <td>
-                                <div style="font-size: 13px; font-weight: 800; color: #78350f;">Thank you for choosing PROMEC Care!</div>
+                                <div style="font-size: 13px; font-weight: 800; color: #78350f;">Thank you for choosing Promec India!</div>
                                 <div style="font-size: 11px; color: #92400e;">We appreciate your trust in us.</div>
                               </td>
                             </tr>
@@ -405,9 +492,9 @@ export async function POST(req: Request) {
                         </td>
                         <td class="trust-right-td" align="right" style="font-size: 12px; color: #78350f; font-weight: 600;">
                           Follow us &nbsp;
-                          ${fbIconSrc ? `<a href="https://www.facebook.com/share/19cRYjSKRA/" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="${fbIconSrc}" alt="Facebook" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle;" /></a>` : ""}
-                          ${instaIconSrc ? `<a href="https://www.instagram.com/promec.india?igsi=MXpocDh4NGJyc3F3" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="${instaIconSrc}" alt="Instagram" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle;" /></a>` : ""}
-                          ${youtubeIconSrc ? `<a href="https://youtube.com/@promectools?si=2IvjOZwgD73HWBaP" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="${youtubeIconSrc}" alt="YouTube" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle;" /></a>` : ""}
+                          ${hasFb ? `<a href="https://www.facebook.com/share/19cRYjSKRA/" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:fbIcon" alt="Facebook" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
+                          ${hasInsta ? `<a href="https://www.instagram.com/promec.india?igsi=MXpocDh4NGJyc3F3" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:instaIcon" alt="Instagram" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
+                          ${hasYoutube ? `<a href="https://youtube.com/@promectools?si=2IvjOZwgD73HWBaP" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:youtubeIcon" alt="YouTube" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
                         </td>
                       </tr>
                     </table>

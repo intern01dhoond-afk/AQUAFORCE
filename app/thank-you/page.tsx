@@ -10,10 +10,10 @@ import Footer from "@/components/Footer";
 function ThankYouContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const paymentId = searchParams.get("payment_id") || "";
-  const orderId = searchParams.get("order_id") || "";
-  const amount = searchParams.get("amount") || "9999";
-  const customerName = searchParams.get("name") || "";
+  const paymentId = searchParams.get("payment_id") || searchParams.get("paymentId") || "";
+  const orderId = searchParams.get("order_id") || searchParams.get("orderId") || "";
+  const amount = searchParams.get("amount") || "37999";
+  const customerName = searchParams.get("name") || searchParams.get("fullName") || "";
   const formattedAmount = Number(amount).toLocaleString("en-IN");
 
   useEffect(() => {
@@ -143,7 +143,17 @@ function ThankYouContent() {
               </span>
             </div>
 
-            {/* Row 4: Payment ID (if available) */}
+            {/* Row 4: Order ID (if available) */}
+            {orderId && (
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
+                <span className="text-[#64748b] font-medium font-open-sans">Order ID</span>
+                <span className="text-[#0f172a] font-bold font-mono text-xs truncate max-w-[180px] sm:max-w-[240px]">
+                  {orderId}
+                </span>
+              </div>
+            )}
+
+            {/* Row 5: Payment ID (if available) */}
             {paymentId && (
               <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
                 <span className="text-[#64748b] font-medium font-open-sans">Payment ID</span>

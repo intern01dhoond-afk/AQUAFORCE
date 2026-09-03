@@ -53,7 +53,7 @@ export async function POST(req: Request) {
           order_date: new Date().toISOString(),
           total_amount: Number(amount) || 37999,
           quantity: String(quantity || 1),
-          seller_name: "PROMEC",
+          seller_name: "Promec India",
           weight: 8500,
         },
       ],

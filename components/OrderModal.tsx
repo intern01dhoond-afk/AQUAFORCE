@@ -550,7 +550,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa",
         amount: orderData.amount,
         currency: orderData.currency || "INR",
-        name: "PROMEC",
+        name: "Promec India",
         description: `${PRODUCT_DATA.name} (${currentColor.name}) x ${quantity}`,
         order_id: orderData.id,
         prefill: {
