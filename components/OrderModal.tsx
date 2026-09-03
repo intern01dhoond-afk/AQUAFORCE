@@ -47,17 +47,17 @@ const PRODUCT_DATA = {
       hex: "#f5c518",
       inStock: true,
       images: [
-        "/aquaforceforautocare/images/products/yellow/1.webp",
-        "/aquaforceforautocare/images/products/yellow/2.webp",
-        "/aquaforceforautocare/images/products/yellow/3.webp",
-        "/aquaforceforautocare/images/products/yellow/4.webp",
-        "/aquaforceforautocare/images/products/yellow/5.webp",
-        "/aquaforceforautocare/images/products/yellow/6.webp",
-        "/aquaforceforautocare/images/products/yellow/7.webp",
-        "/aquaforceforautocare/images/products/yellow/8.webp",
-        "/aquaforceforautocare/images/products/yellow/9.webp",
-        "/aquaforceforautocare/images/products/yellow/10.webp",
-        "/aquaforceforautocare/images/products/yellow/11.webp",
+        "/images/products/yellow/1.webp",
+        "/images/products/yellow/2.webp",
+        "/images/products/yellow/3.webp",
+        "/images/products/yellow/4.webp",
+        "/images/products/yellow/5.webp",
+        "/images/products/yellow/6.webp",
+        "/images/products/yellow/7.webp",
+        "/images/products/yellow/8.webp",
+        "/images/products/yellow/9.webp",
+        "/images/products/yellow/10.webp",
+        "/images/products/yellow/11.webp",
       ],
     },
     {
@@ -65,17 +65,17 @@ const PRODUCT_DATA = {
       hex: "#0066cc",
       inStock: false,
       images: [
-        "/aquaforceforautocare/images/products/blue/1.webp",
-        "/aquaforceforautocare/images/products/blue/2.webp",
-        "/aquaforceforautocare/images/products/blue/3.webp",
-        "/aquaforceforautocare/images/products/blue/4.webp",
-        "/aquaforceforautocare/images/products/blue/5.webp",
-        "/aquaforceforautocare/images/products/blue/6.webp",
-        "/aquaforceforautocare/images/products/blue/7.webp",
-        "/aquaforceforautocare/images/products/blue/8.webp",
-        "/aquaforceforautocare/images/products/blue/9.webp",
-        "/aquaforceforautocare/images/products/blue/10.webp",
-        "/aquaforceforautocare/images/products/blue/11.webp",
+        "/images/products/blue/1.webp",
+        "/images/products/blue/2.webp",
+        "/images/products/blue/3.webp",
+        "/images/products/blue/4.webp",
+        "/images/products/blue/5.webp",
+        "/images/products/blue/6.webp",
+        "/images/products/blue/7.webp",
+        "/images/products/blue/8.webp",
+        "/images/products/blue/9.webp",
+        "/images/products/blue/10.webp",
+        "/images/products/blue/11.webp",
       ],
     },
   ],
@@ -109,16 +109,18 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const taxAmount = Math.round(((totalPrice * 18) / 118) * 100) / 100;
 
   const handleShareReferral = () => {
+    const currentUrl = typeof window !== "undefined" ? window.location.href.split("?")[0] : "https://promectools.in";
+    const shareUrl = `${currentUrl}?ref=FRIEND1000`;
     if (navigator.share) {
       navigator
         .share({
           title: "AQUAFORCE® 1400 Cordless Pressure Washer",
           text: "Check out the AQUAFORCE® 1400 Cordless High-Pressure Washer! Use my referral link for ₹1,000 extra credit.",
-          url: window.location.origin + "/aquaforceforautocare?ref=FRIEND1000",
+          url: shareUrl,
         })
         .catch(() => {});
     } else {
-      navigator.clipboard.writeText(window.location.origin + "/aquaforceforautocare?ref=FRIEND1000");
+      navigator.clipboard.writeText(shareUrl);
       setCopiedReferral(true);
       setTimeout(() => setCopiedReferral(false), 2500);
     }
@@ -278,7 +280,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         }
 
         // Live Delhivery Serviceability Check
-        const delRes = await fetch(`/aquaforceforautocare/api/delhivery/serviceability?pincode=${cleanVal}`);
+        const delRes = await fetch(`/api/delhivery/serviceability?pincode=${cleanVal}`);
         const delData = await delRes.json();
         if (delData.success && delData.serviceable) {
           setDelhiveryStatus({
@@ -512,7 +514,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
       const totalAmount = currentOfferPrice * quantity;
 
-      const res = await fetch("/aquaforceforautocare/api/razorpay/order", {
+      const res = await fetch("/api/razorpay/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -569,7 +571,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
           // Record purchase into Google Sheets
           try {
-            await fetch("/aquaforceforautocare/api/purchase", {
+            await fetch("/api/purchase", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -596,7 +598,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
           // Send Email Confirmation from promec.india@gmail.com via SMTP
           try {
-            await fetch("/aquaforceforautocare/api/send-email", {
+            await fetch("/api/send-email", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -617,9 +619,26 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             console.error("Failed to send email confirmation:", emailErr);
           }
 
+          // Send SMS Confirmation via YourBulkSMS (http://control.yourbulksms.com/)
+          try {
+            await fetch("/api/send-sms", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                phone: formData.phone,
+                fullName: formData.fullName,
+                orderId: orderData.id,
+                amount: totalAmount,
+                product: `${PRODUCT_DATA.name} (${currentColor.name})`,
+              }),
+            });
+          } catch (smsErr) {
+            console.error("Failed to send SMS confirmation:", smsErr);
+          }
+
           // Automatically Create Shipment Order on Delhivery
           try {
-            await fetch("/aquaforceforautocare/api/delhivery/create-shipment", {
+            await fetch("/api/delhivery/create-shipment", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -654,7 +673,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
           // Redirect to dedicated Thank You confirmation page with a short delay
           setTimeout(() => {
-            window.location.href = `/aquaforceforautocare/thank-you?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(totalAmount)}&name=${encodeURIComponent(formData.fullName)}`;
+            window.location.href = `/thank-you?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(totalAmount)}&name=${encodeURIComponent(formData.fullName)}`;
           }, 300);
         },
         modal: {
@@ -1421,7 +1440,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       {/* Delivery Info on right side */}
                       <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-800 font-semibold font-open-sans">
                         <Image
-                          src="/aquaforceforautocare/images/TRUCK-03.svg"
+                          src="/images/TRUCK-03.svg"
                           alt="Express Delivery Truck"
                           width={36}
                           height={36}

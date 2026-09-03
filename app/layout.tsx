@@ -49,17 +49,17 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://promectools.in/aquaforceforautocare"),
+  metadataBase: new URL("https://promectools.in"),
   title: "Aquaforce® 1400 | Cordless. Powerful. Portable.",
   description:
     "Wash your car anywhere with the Aquaforce® 1400 - a powerful, battery-powered portable pressure washer. No cables, no power socket, no fixed setup needed.",
   icons: {
     icon: [
-      { url: "/aquaforceforautocare/images/favicon.ico" },
-      { url: "/aquaforceforautocare/favicon.ico" },
+      { url: "/images/favicon.ico" },
+      { url: "/favicon.ico" },
     ],
-    shortcut: "/aquaforceforautocare/images/favicon.ico",
-    apple: "/aquaforceforautocare/images/favicon.ico",
+    shortcut: "/images/favicon.ico",
+    apple: "/images/favicon.ico",
   },
 };
 

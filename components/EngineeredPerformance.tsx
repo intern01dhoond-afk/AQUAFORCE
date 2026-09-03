@@ -3,22 +3,22 @@ import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollRev
 
 const FEATURES_LEFT = [
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-01 Powerful Battery Operation.svg",
+    iconSrc: "/images/Engineered/Precision engineering-01 Powerful Battery Operation.svg",
     title: "Powerful Battery Operation",
     desc: "High-voltage lithium cells deliver constant output throughout every wash cycle",
   },
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-02 3 Hours Continuous Use.svg",
+    iconSrc: "/images/Engineered/Precision engineering-02 3 Hours Continuous Use.svg",
     title: "3 Hours Continuous Use",
     desc: "Extended runtime for multiple vehicle cleaning sessions",
   },
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-03 No Power Socket Required.svg",
+    iconSrc: "/images/Engineered/Precision engineering-03 No Power Socket Required.svg",
     title: "No Power Socket Required",
     desc: "Complete operational freedom anywhere without relying on external power sources",
   },
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-04 Cordless & Portable.svg",
+    iconSrc: "/images/Engineered/Precision engineering-04 Cordless & Portable.svg",
     title: "Cordless & Portable",
     desc: "Zero cables, lightweight chassis for easy maneuvering",
   },
@@ -26,22 +26,22 @@ const FEATURES_LEFT = [
 
 const FEATURES_RIGHT = [
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-05 Built-In Pressure Pump.svg",
+    iconSrc: "/images/Engineered/Precision engineering-05 Built-In Pressure Pump.svg",
     title: "Built-In Pressure Pump",
     desc: "Precision engineering delivers 1400 PSI directly from an integrated internal pump",
   },
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-06 Vehicle Optimised.svg",
+    iconSrc: "/images/Engineered/Precision engineering-06 Vehicle Optimised.svg",
     title: "Vehicle Optimised",
     desc: "Precision nozzle for targeted cleaning on wheels, panels, and tight crevices",
   },
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-07 Zero Power Reliance.svg",
+    iconSrc: "/images/Engineered/Precision engineering-07 Zero Power Reliance.svg",
     title: "Zero Power Reliance",
     desc: "Operates fully independent of electrical outlets, extension cords, or generators",
   },
   {
-    iconSrc: "/aquaforceforautocare/images/Engineered/Precision engineering-08 Compact & Easy to Carry.svg",
+    iconSrc: "/images/Engineered/Precision engineering-08 Compact & Easy to Carry.svg",
     title: "Compact & Easy to Carry",
     desc: "Dual-module design fits in any vehicle trunk for easy transport and storage",
   },
@@ -88,7 +88,7 @@ export default function EngineeredPerformance() {
           <div className="absolute w-56 h-56 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 w-64 h-72 sm:w-80 sm:h-92">
             <Image
-              src="/aquaforceforautocare/images/Remainig%20images/features%20image.webp"
+              src="/images/Remainig%20images/features%20image.webp"
               alt="Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority
@@ -167,7 +167,7 @@ export default function EngineeredPerformance() {
           {/* Machine Image Container */}
           <div className="relative z-10 w-[420px] h-[480px] lg:w-[460px] lg:h-[530px] xl:w-[500px] xl:h-[560px]">
             <Image
-              src="/aquaforceforautocare/images/Remainig%20images/features%20image.webp"
+              src="/images/Remainig%20images/features%20image.webp"
               alt="Aquaforce 1400 PSI TECH portable high pressure washer machine"
               fill
               priority

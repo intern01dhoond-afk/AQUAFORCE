@@ -71,7 +71,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/1.1.webp"
+            src="/images/Hero%20section%20Images/1.1.webp"
             alt="Aquaforce 1400 Cordless Portable Pressure Washer"
             fill
             priority
@@ -84,7 +84,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/1.webp"
+            src="/images/Hero%20section%20Images/1.webp"
             alt="Aquaforce 1400 Cordless Portable Pressure Washer car wash outdoor"
             fill
             priority
@@ -217,7 +217,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/2.1.webp"
+            src="/images/Hero%20section%20Images/2.1.webp"
             alt="Aquaforce 1400 Promotional Launch Offer 26% OFF"
             fill
             priority
@@ -230,7 +230,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/2.webp"
+            src="/images/Hero%20section%20Images/2.webp"
             alt="Aquaforce 1400 Promotional Launch Offer 26% OFF"
             fill
             priority
@@ -362,7 +362,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/3.1.webp"
+            src="/images/Hero%20section%20Images/3.1.webp"
             alt="Aquaforce 1400 No Power No Socket"
             fill
             priority
@@ -375,7 +375,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/3.webp"
+            src="/images/Hero%20section%20Images/3.webp"
             alt="Aquaforce 1400 No Power No Socket Driveway Washing Scene"
             fill
             priority
@@ -490,7 +490,7 @@ export default function Hero() {
         {/* Mobile Background Image */}
         <div className="sm:hidden absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/4.1.webp"
+            src="/images/Hero%20section%20Images/4.1.webp"
             alt="Aquaforce 1400 Cordless Powerful Portable Bike Washing"
             fill
             priority
@@ -503,7 +503,7 @@ export default function Hero() {
         {/* Desktop Background Image */}
         <div className="hidden sm:block absolute inset-0 z-0">
           <Image
-            src="/aquaforceforautocare/images/Hero%20section%20Images/4.webp"
+            src="/images/Hero%20section%20Images/4.webp"
             alt="Aquaforce 1400 Cordless Powerful Portable Adventure Bike Washing"
             fill
             priority

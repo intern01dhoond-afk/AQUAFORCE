@@ -5,7 +5,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: "/aquaforceforautocare",
   devIndicators: false,
   images: {
     unoptimized: true,
@@ -13,13 +12,15 @@ const nextConfig = {
       { protocol: "https", hostname: "images.unsplash.com" },
     ],
   },
-  async redirects() {
+  async rewrites() {
     return [
       {
-        source: "/",
-        destination: "/aquaforceforautocare",
-        basePath: false,
-        permanent: false,
+        source: "/aquaforceforautocare",
+        destination: "/",
+      },
+      {
+        source: "/aquaforceforautocare/:path*",
+        destination: "/:path*",
       },
     ];
   },

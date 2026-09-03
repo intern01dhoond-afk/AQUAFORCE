@@ -19,7 +19,7 @@ export default function Footer() {
           <div className="flex flex-col items-center group mb-6 sm:mb-8 select-none">
             <div className="relative w-[150px] h-[36px] sm:w-[200px] sm:h-[48px] shrink-0">
               <Image
-                src="/aquaforceforautocare/images/promec-logo.svg"
+                src="/images/promec-logo.svg"
                 alt="PROMEC"
                 fill
                 sizes="(max-width: 640px) 150px, 200px"
