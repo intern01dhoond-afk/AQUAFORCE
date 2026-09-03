@@ -3,6 +3,14 @@
     {
       "source": "/",
       "destination": "/aquaforceforautocare"
+    },
+    {
+      "source": "/thank-you",
+      "destination": "/aquaforceforautocare/thank-you"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "/aquaforceforautocare/api/:path*"
     }
   ]
 }

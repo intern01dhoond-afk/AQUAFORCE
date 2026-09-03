@@ -673,7 +673,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
           // Redirect to dedicated Thank You confirmation page with a short delay
           setTimeout(() => {
-            window.location.href = `/thank-you?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(totalAmount)}&name=${encodeURIComponent(formData.fullName)}`;
+            const targetThankYou = window.location.pathname.startsWith("/aquaforceforautocare")
+              ? "/aquaforceforautocare/thank-you"
+              : "/thank-you";
+            window.location.href = `${targetThankYou}?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(totalAmount)}&name=${encodeURIComponent(formData.fullName)}`;
           }, 300);
         },
         modal: {
