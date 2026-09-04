@@ -13,13 +13,20 @@ function ThankYouContent() {
   const paymentId = searchParams.get("payment_id") || searchParams.get("paymentId") || "";
   const orderId = searchParams.get("order_id") || searchParams.get("orderId") || "";
   const amount = searchParams.get("amount") || "37999";
+  const totalAmountParam = searchParams.get("total_amount") || amount;
+  const codBalance = searchParams.get("cod_balance") || "0";
+  const method = searchParams.get("method") || "PREPAID";
+  const waybill = searchParams.get("waybill") || "";
   const customerName = searchParams.get("name") || searchParams.get("fullName") || "";
+
+  const isCod = method.toUpperCase().includes("COD") || Number(codBalance) > 0;
   const formattedAmount = Number(amount).toLocaleString("en-IN");
+  const formattedCodBalance = Number(codBalance).toLocaleString("en-IN");
 
   useEffect(() => {
     // Backup order sync to Google Sheets if payment details exist in URL
     if (paymentId && orderId) {
-      fetch("/api/purchase", {
+      fetch("/aquaforceforautocare/api/purchase", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -33,8 +40,12 @@ function ThankYouContent() {
           pincode: "000000",
           product: "Aquaforce 1400",
           quantity: 1,
-          amount: Number(amount) || 37999,
-          status: "Paid & Confirmed",
+          amount: Number(totalAmountParam) || 37999,
+          paymentMethod: isCod ? "10% Cash on Delivery" : method,
+          advanceAmount: Number(amount),
+          codBalance: Number(codBalance),
+          waybill: waybill,
+          status: isCod ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed",
         }),
       }).catch((err) => console.error("Backup Google Sheets sync error:", err));
     }
@@ -131,17 +142,29 @@ function ThankYouContent() {
             <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
               <span className="text-[#64748b] font-medium font-open-sans">Order Status</span>
               <span className="bg-[#f0f9ff] border border-[#005DA6]/35 text-[#005DA6] text-xs font-bold font-open-sans px-3 py-0.5 rounded-full leading-none">
-                Paid &amp; Confirmed
+                {isCod ? "10% Advance Paid • COD Confirmed" : "Paid & Confirmed"}
               </span>
             </div>
 
             {/* Row 3: Total Amount */}
             <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
-              <span className="text-[#64748b] font-medium font-open-sans">Amount Paid</span>
+              <span className="text-[#64748b] font-medium font-open-sans">
+                {isCod ? "10% Advance Paid" : "Amount Paid"}
+              </span>
               <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">
                 ₹{formattedAmount}
               </span>
             </div>
+
+            {/* Row 3.5: Balance on Delivery if COD */}
+            {isCod && (
+              <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans bg-amber-50 -mx-4 px-4 py-2 rounded-lg border border-amber-200">
+                <span className="text-amber-800 font-bold font-open-sans">Balance on Delivery</span>
+                <span className="text-amber-900 font-extrabold font-open-sans tracking-wide">
+                  ₹{formattedCodBalance} (Cash / UPI)
+                </span>
+              </div>
+            )}
 
             {/* Row 4: Order ID (if available) */}
             {orderId && (
@@ -163,9 +186,9 @@ function ThankYouContent() {
               </div>
             )}
 
-            {/* Row 5: Shipping */}
+            {/* Row 6: Shipping */}
             <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans">
-              <span className="text-[#64748b] font-medium font-open-sans">Shipping</span>
+              <span className="text-[#64748b] font-medium font-open-sans">Shipping Partner</span>
               <span className="text-emerald-700 font-bold font-open-sans flex items-center gap-1.5">
                 <Image
                   src="/aquaforceforautocare/images/TRUCK-03.svg"
@@ -174,7 +197,7 @@ function ThankYouContent() {
                   height={28}
                   className="shrink-0 w-7 h-7 object-contain"
                 />
-                Free Express (4-6 Days)
+                Delhivery Express {waybill ? `(#${waybill})` : "(4-6 Days)"}
               </span>
             </div>
           </div>

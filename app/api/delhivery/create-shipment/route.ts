@@ -16,6 +16,9 @@ export async function POST(req: Request) {
       product,
       quantity,
       amount,
+      paymentMode,
+      codAmount,
+      advanceAmount,
     } = body;
 
     const token = process.env.DELHIVERY_API_TOKEN;
@@ -26,9 +29,13 @@ export async function POST(req: Request) {
       );
     }
 
-    const pickupLocationName = process.env.DELHIVERY_PICKUP_LOCATION || "Nagpur MIDC";
+    const pickupLocationName = process.env.DELHIVERY_PICKUP_LOCATION || "AMEC MOBILITY B2C";
     const pickupAddress = process.env.DELHIVERY_PICKUP_ADDRESS || "PLOT NO.5A, 3RD FLOOR Nagpur MIDC HINGNA BESIDE JAIKA TATA MOTORS SERVICE CENTRE";
     const pickupPincode = process.env.DELHIVERY_PICKUP_PINCODE || "440016";
+
+    const isCod = paymentMode === "COD" || Number(codAmount) > 0;
+    const resolvedCodAmount = isCod ? Math.round(Number(codAmount) || (Number(amount) * 0.9)) : 0;
+    const resolvedPaymentMode = isCod ? "COD" : "Pre-paid";
 
     const payload = {
       shipments: [
@@ -41,7 +48,7 @@ export async function POST(req: Request) {
           country: "India",
           phone: phone,
           order: orderId || `ORD_${Date.now()}`,
-          payment_mode: "Pre-paid",
+          payment_mode: resolvedPaymentMode,
           return_add: pickupAddress,
           return_pin: pickupPincode,
           return_city: "Nagpur",
@@ -49,7 +56,7 @@ export async function POST(req: Request) {
           return_country: "India",
           products_desc: product || "Aquaforce 1400 PSI Tech",
           hsn_code: "84243000",
-          cod_amount: 0,
+          cod_amount: resolvedCodAmount,
           order_date: new Date().toISOString(),
           total_amount: Number(amount) || 37999,
           quantity: String(quantity || 1),

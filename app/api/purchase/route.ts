@@ -19,6 +19,10 @@ export async function POST(req: Request) {
       quantity,
       amount,
       status,
+      paymentMethod,
+      advanceAmount,
+      codBalance,
+      waybill,
     } = body;
 
     if (!fullName || !phone || !deliveryAddress || !city || !state || !pincode) {
@@ -34,11 +38,18 @@ export async function POST(req: Request) {
       timeStyle: "medium",
     });
 
+    const isCodOrder = paymentMethod === "10_PERCENT_COD" || Number(codBalance) > 0;
+    const resolvedStatus = status || (isCodOrder ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed");
+
     const payload = {
       type: "PURCHASE",
       timestamp,
       orderId: orderId || `ORD_${Date.now()}`,
       paymentId: paymentId || "PENDING",
+      paymentMethod: paymentMethod || (isCodOrder ? "10% Cash on Delivery" : "Full Online Payment"),
+      advanceAmount: Number(advanceAmount) || (isCodOrder ? Math.round(Number(amount) * 0.1) : Number(amount)),
+      codBalance: isCodOrder ? (Number(codBalance) || Math.round(Number(amount) * 0.9)) : 0,
+      delhiveryWaybill: waybill || "AUTO_GENERATED",
       fullName,
       email: email || "N/A",
       phone,
@@ -51,7 +62,7 @@ export async function POST(req: Request) {
       product: product || "Aquaforce 1400",
       quantity: Number(quantity) || 1,
       amount: Number(amount) || 37999,
-      status: status || "Order Confirmed",
+      status: resolvedStatus,
     };
 
     const webhookUrl = process.env.GOOGLE_SHEET_PURCHASE_URL;

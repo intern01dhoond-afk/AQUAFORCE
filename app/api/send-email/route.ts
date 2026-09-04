@@ -6,7 +6,7 @@ import fs from "fs";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, fullName, orderId, paymentId, product, amount, deliveryAddress, city, state, pincode, altPhone } = body;
+    const { email, fullName, orderId, paymentId, product, amount, deliveryAddress, city, state, pincode, altPhone, paymentMethod, advanceAmount, codBalance, waybill } = body;
 
     if (!email || !fullName) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -111,11 +111,16 @@ export async function POST(req: Request) {
       timeZone: "Asia/Kolkata",
     });
 
+    const isCod = paymentMethod === "10_PERCENT_COD" || Number(codBalance) > 0;
+    const resolvedAdvance = isCod ? Number(advanceAmount || Math.round(Number(amount || 37999) * 0.1)).toLocaleString("en-IN") : formattedAmount;
+    const resolvedBalance = isCod ? Number(codBalance || Math.round(Number(amount || 37999) * 0.9)).toLocaleString("en-IN") : "0";
+    const paymentStatusBadge = isCod ? "10% Advance Paid ✓" : paymentMethod === "SNAPMINT_EMI" ? "Snapmint EMI ✓" : "Paid ✓";
+
     const mapsQuery = encodeURIComponent(
       `${deliveryAddress || ""}, ${city || ""}, ${state || ""} - ${pincode || ""}`.trim()
     );
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
-    const invoiceUrl = `https://promectools.in/thank-you?order_id=${encodeURIComponent(formattedOrderId)}&name=${encodeURIComponent(fullName)}&amount=${encodeURIComponent(amount || 37999)}${paymentId ? `&payment_id=${encodeURIComponent(paymentId)}` : ""}`;
+    const invoiceUrl = `https://promectools.in/thank-you?order_id=${encodeURIComponent(formattedOrderId)}&name=${encodeURIComponent(fullName)}&amount=${encodeURIComponent(amount || 37999)}${paymentId ? `&payment_id=${encodeURIComponent(paymentId)}` : ""}${isCod ? `&advance=${encodeURIComponent(advanceAmount || "")}&cod_balance=${encodeURIComponent(codBalance || "")}&method=COD` : ""}`;
 
     const mailOptions = {
       from: `"Promec India" <${smtpUser}>`,
@@ -287,11 +292,12 @@ export async function POST(req: Request) {
                                   <div style="width: 28px; height: 28px; border-radius: 6px; background-color: #ecfdf5; text-align: center; line-height: 28px; font-size: 13px;">💳</div>
                                 </td>
                                 <td valign="top">
-                                  <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px;">Payment Status</div>
-                                  <div style="font-size: 10.5px; color: #0f172a; font-weight: 700; margin-top: 2px; line-height: 1.2;">₹${formattedAmount}</div>
+                                  <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px;">${isCod ? "Advance Paid" : "Payment Status"}</div>
+                                  <div style="font-size: 10.5px; color: #0f172a; font-weight: 700; margin-top: 2px; line-height: 1.2;">₹${resolvedAdvance}</div>
                                   <div style="margin-top: 2px;">
-                                    <span style="background-color: #d1fae5; color: #065f46; font-size: 8.5px; font-weight: 800; padding: 1px 5px; border-radius: 99px; display: inline-block;">Paid ✓</span>
+                                    <span style="background-color: #d1fae5; color: #065f46; font-size: 8px; font-weight: 800; padding: 1px 5px; border-radius: 99px; display: inline-block;">${paymentStatusBadge}</span>
                                   </div>
+                                  ${isCod ? `<div style="font-size: 8px; color: #b45309; font-weight: 700; margin-top: 2px;">COD Due: ₹${resolvedBalance}</div>` : ""}
                                 </td>
                               </tr>
                             </table>
