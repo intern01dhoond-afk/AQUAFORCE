@@ -103,7 +103,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isReplacementOpen, setIsReplacementOpen] = useState(false);
   const [isKnowMoreOpen, setIsKnowMoreOpen] = useState(false);
   const [isFullReturnPolicyOpen, setIsFullReturnPolicyOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"FULL_ONLINE" | "SNAPMINT_EMI" | "BANK_EMI">("FULL_ONLINE");
+  const [paymentMethod, setPaymentMethod] = useState<"FULL_ONLINE" | "10_PERCENT_COD">("10_PERCENT_COD");
   const [isCodSuccess, setIsCodSuccess] = useState(false);
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
   const [delhiveryCodAvailable, setDelhiveryCodAvailable] = useState<boolean | null>(null);
@@ -121,7 +121,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   // 10% Cash on Delivery calculations
   const advanceAmount = Math.round(totalPrice * 0.10);
   const codBalance = totalPrice - advanceAmount;
-  const payableAmount = totalPrice;
+  const payableAmount = paymentMethod === "10_PERCENT_COD" ? advanceAmount : totalPrice;
 
   const handleShareReferral = () => {
     const currentUrl = typeof window !== "undefined" ? window.location.href.split("?")[0] : "https://promectools.in";
@@ -545,10 +545,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       }
 
       const totalAmount = currentOfferPrice * quantity;
-      const isEmi = paymentMethod === "SNAPMINT_EMI" || paymentMethod === "BANK_EMI";
-      const chargeAmount = totalAmount;
-      const partialCodAmount = Math.round(totalAmount * 0.10);
-      const partialCodBalance = totalAmount - partialCodAmount;
+      const isCod = paymentMethod === "10_PERCENT_COD";
+      const chargeAmount = isCod ? advanceAmount : totalAmount;
+      const partialCodAmount = advanceAmount;
+      const partialCodBalance = codBalance;
 
       const res = await fetch(getApiPath("/api/razorpay/order"), {
         method: "POST",
@@ -567,10 +567,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             gstNumber: formData.gstNumber || "N/A",
             product: `${PRODUCT_DATA.name} (${currentColor.name}) [${selectedVacuumOption === "without" ? "Without Vacuum" : "With Vacuum"}]`,
             quantity: String(quantity),
-            paymentMethod: isEmi ? "No-Cost EMI" : "Online Payment / Razorpay Magic Checkout",
+            paymentMethod: isCod ? "10% Cash on Delivery" : "Full Online Payment",
             totalOrderAmount: String(totalAmount),
-            partial_cod_advance: String(partialCodAmount),
-            partial_cod_balance: String(partialCodBalance),
+            advanceAmount: String(chargeAmount),
+            codBalance: String(isCod ? partialCodBalance : 0),
           },
         }),
       });
@@ -593,45 +593,25 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         amount: orderData.amount,
         currency: orderData.currency || "INR",
         name: "Promec India",
-        description: isEmi
-          ? `No-Cost EMI - ${PRODUCT_DATA.name} (${currentColor.name})`
+        description: isCod
+          ? `10% COD Booking - ${PRODUCT_DATA.name} (${currentColor.name})`
           : `${PRODUCT_DATA.name} (${currentColor.name}) x ${quantity}`,
         order_id: orderData.id,
-        one_click_checkout: true, // Enables Razorpay Magic Checkout with Partial COD
+        one_click_checkout: true, // Enables Razorpay Magic Checkout
         show_coupons: false,
         prefill: {
           name: formData.fullName,
           email: formData.email,
           contact: formData.phone.startsWith("+91") ? formData.phone : `+91${formData.phone}`,
-          method: isEmi ? "emi" : undefined,
         },
         notes: {
-          order_type: "Razorpay Magic Checkout",
+          order_type: isCod ? "10% Advance COD Booking" : "Full Online Payment",
           total_order_amount: `₹${totalAmount}`,
-          partial_cod_amount: `₹${partialCodAmount}`,
-          balance_on_delivery: `₹${partialCodBalance}`,
+          advance_amount: `₹${chargeAmount}`,
+          balance_on_delivery: `₹${isCod ? partialCodBalance : 0}`,
           pincode: formData.pincode,
           city: formData.city,
         },
-        ...(isEmi
-          ? {
-              display: {
-                blocks: {
-                  emi_block: {
-                    name: "No-Cost EMI & Bank Installments",
-                    instruments: [
-                      { method: "emi" },
-                      { method: "cardless_emi" },
-                    ],
-                  },
-                },
-                sequence: ["block.emi_block", "card", "upi", "netbanking"],
-                preferences: {
-                  show_default_blocks: true,
-                },
-              },
-            }
-          : {}),
         theme: {
           color: "#005a9c",
         },
@@ -642,7 +622,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
           let generatedWaybill = "";
 
-          const isCodOrder = Boolean(response.is_partial_cod || response.partial_payment);
+          const isCodOrder = paymentMethod === "10_PERCENT_COD" || Boolean(response.is_partial_cod || response.partial_payment);
           setIsCodSuccess(isCodOrder);
           setIsSubmitted(true);
           const advanceAmountPaid = isCodOrder ? partialCodAmount : totalAmount;
@@ -699,7 +679,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 product: `${PRODUCT_DATA.name} (${currentColor.name})`,
                 quantity: quantity,
                 amount: totalAmount,
-                paymentMethod: isCodOrder ? "10% Cash on Delivery" : isEmi ? "No-Cost EMI" : "Full Online Payment",
+                paymentMethod: isCodOrder ? "10% Cash on Delivery" : "Full Online Payment",
                 advanceAmount: advanceAmountPaid,
                 codBalance: codBalanceDue,
                 waybill: generatedWaybill,
@@ -727,7 +707,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 state: formData.state,
                 pincode: formData.pincode,
                 altPhone: formData.altPhone || "N/A",
-                paymentMethod: isCodOrder ? "10% Cash on Delivery" : isEmi ? "No-Cost EMI" : "Full Online Payment",
+                paymentMethod: isCodOrder ? "10% Cash on Delivery" : "Full Online Payment",
                 advanceAmount: advanceAmountPaid,
                 codBalance: codBalanceDue,
                 waybill: generatedWaybill,
@@ -772,7 +752,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             const targetThankYou = window.location.pathname.startsWith("/aquaforceforautocare")
               ? "/aquaforceforautocare/thank-you"
               : "/thank-you";
-            window.location.href = `${targetThankYou}?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(advanceAmountPaid)}&total_amount=${encodeURIComponent(totalAmount)}&cod_balance=${encodeURIComponent(codBalanceDue)}&name=${encodeURIComponent(formData.fullName)}&method=${encodeURIComponent(isCodOrder ? "10% Cash on Delivery" : isEmi ? "No-Cost EMI" : "Full Online Payment")}${generatedWaybill ? `&waybill=${encodeURIComponent(generatedWaybill)}` : ""}`;
+            window.location.href = `${targetThankYou}?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(advanceAmountPaid)}&total_amount=${encodeURIComponent(totalAmount)}&cod_balance=${encodeURIComponent(codBalanceDue)}&name=${encodeURIComponent(formData.fullName)}&method=${encodeURIComponent(isCodOrder ? "10% Cash on Delivery" : "Full Online Payment")}${generatedWaybill ? `&waybill=${encodeURIComponent(generatedWaybill)}` : ""}`;
           }, 300);
         },
         modal: {
@@ -1167,12 +1147,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
 
                 <div className="grid grid-cols-1 gap-2.5 font-open-sans">
-                  {/* Option 1: Online Payment & 10% Partial COD via Razorpay Magic Checkout */}
+                  {/* Option 1: Full Online Payment (100% Online) */}
                   <div
                     onClick={() => setPaymentMethod("FULL_ONLINE")}
                     className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
                       paymentMethod === "FULL_ONLINE"
-                        ? "border-2 border-[#005a9c] bg-blue-50/20"
+                        ? "border-2 border-[#005a9c] bg-[#f0f9ff]"
                         : "border-slate-200 hover:border-slate-300 bg-white"
                     }`}
                   >
@@ -1186,53 +1166,53 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat">
-                          Online Payment &amp; 10% Partial COD
+                          Full Online Payment (100% Online)
                         </span>
                         <span className={`${
                           paymentMethod === "FULL_ONLINE"
                             ? "bg-[#005a9c] text-white"
-                            : "bg-blue-50 text-[#005a9c] border border-blue-100"
+                            : "bg-[#eff6ff] text-[#005a9c]"
                         } text-[9px] sm:text-[9.5px] font-extrabold px-2.5 py-0.5 rounded-full uppercase font-montserrat shrink-0 transition-colors`}>
                           FASTEST DISPATCH
                         </span>
                       </div>
                       <p className="text-[11px] sm:text-[11.5px] text-slate-500 font-open-sans mt-0.5 leading-normal">
-                        UPI (GPay, PhonePe, Paytm), Cards, Netbanking &amp; 10% Partial COD via Razorpay Magic Checkout.
+                        UPI (GPay, PhonePe, Paytm), Cards &amp; Netbanking via Razorpay. Zero transaction charges.
                       </p>
                     </div>
                   </div>
 
-                  {/* Option 2: No-Cost EMI */}
+                  {/* Option 2: 10% Cash on Delivery (Advance Booking) */}
                   <div
-                    onClick={() => setPaymentMethod("SNAPMINT_EMI")}
+                    onClick={() => setPaymentMethod("10_PERCENT_COD")}
                     className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
-                      paymentMethod === "SNAPMINT_EMI" || paymentMethod === "BANK_EMI"
-                        ? "border-2 border-[#005a9c] bg-blue-50/20"
+                      paymentMethod === "10_PERCENT_COD"
+                        ? "border-2 border-[#005a9c] bg-[#f0f9ff]"
                         : "border-slate-200 hover:border-slate-300 bg-white"
                     }`}
                   >
                     <input
                       type="radio"
                       name="payment_method"
-                      checked={paymentMethod === "SNAPMINT_EMI" || paymentMethod === "BANK_EMI"}
-                      onChange={() => setPaymentMethod("SNAPMINT_EMI")}
+                      checked={paymentMethod === "10_PERCENT_COD"}
+                      onChange={() => setPaymentMethod("10_PERCENT_COD")}
                       className="mt-1 w-4 h-4 text-[#005a9c] focus:ring-[#005a9c] accent-[#005a9c] cursor-pointer"
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat">
-                          No-Cost EMI <span className="hidden sm:inline">(Snapmint, HDFC, Bajaj &amp; Cards)</span>
+                          10% Cash on Delivery (Advance Booking)
                         </span>
                         <span className={`${
-                          paymentMethod === "SNAPMINT_EMI" || paymentMethod === "BANK_EMI"
+                          paymentMethod === "10_PERCENT_COD"
                             ? "bg-[#005a9c] text-white"
-                            : "bg-blue-50 text-[#005a9c] border border-blue-100"
+                            : "bg-[#eff6ff] text-[#005a9c]"
                         } text-[9px] sm:text-[9.5px] font-extrabold px-2.5 py-0.5 rounded-full uppercase font-montserrat shrink-0 transition-colors`}>
-                          0% INTEREST
+                          10% ADV + 90% COD
                         </span>
                       </div>
                       <p className="text-[11px] sm:text-[11.5px] text-slate-500 font-open-sans mt-0.5 leading-normal">
-                        Split in easy monthly installments from ₹{Math.round(totalPrice / 6).toLocaleString("en-IN")}/mo via Snapmint Cardless (No Credit Card), Bajaj Finserv, HDFC Bank, and top Credit Cards.
+                        Pay ₹{advanceAmount.toLocaleString("en-IN")} now to confirm booking. Pay remaining ₹{codBalance.toLocaleString("en-IN")} in Cash/UPI to Delhivery courier upon doorstep delivery.
                       </p>
                     </div>
                   </div>
@@ -1295,6 +1275,19 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   <span>Total Order Value</span>
                   <span className="font-extrabold text-base sm:text-lg">₹{totalPrice.toLocaleString("en-IN")}</span>
                 </div>
+
+                {paymentMethod === "10_PERCENT_COD" && (
+                  <div className="pt-2.5 border-t border-slate-100 space-y-2 font-open-sans">
+                    <div className="flex items-center justify-between text-xs sm:text-[13px] font-bold text-[#005a9c]">
+                      <span>Advance Payable Now (10%)</span>
+                      <span className="text-sm font-extrabold">₹{advanceAmount.toLocaleString("en-IN")}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs sm:text-[13px] font-bold text-slate-700">
+                      <span>Balance on Delivery (90% COD)</span>
+                      <span className="text-sm font-extrabold text-slate-900">₹{codBalance.toLocaleString("en-IN")}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Savings Banner Pill */}
@@ -1334,17 +1327,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     PROCESSING ORDER...
                   </span>
+                ) : paymentMethod === "10_PERCENT_COD" ? (
+                  <>
+                    <span className="hidden sm:inline">
+                      PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE &amp; CONFIRM COD
+                    </span>
+                    <span className="sm:hidden">
+                      PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
+                    </span>
+                  </>
                 ) : (
                   <>
                     <span className="hidden sm:inline">
-                      {paymentMethod === "SNAPMINT_EMI" || paymentMethod === "BANK_EMI"
-                        ? `PROCEED WITH NO-COST EMI`
-                        : `PAY ₹${totalPrice.toLocaleString("en-IN")} & CONFIRM ORDER`}
+                      PAY ₹{totalPrice.toLocaleString("en-IN")} &amp; CONFIRM ORDER
                     </span>
                     <span className="sm:hidden">
-                      {paymentMethod === "SNAPMINT_EMI" || paymentMethod === "BANK_EMI"
-                        ? `PROCEED WITH NO-COST EMI`
-                        : `PAY ₹${totalPrice.toLocaleString("en-IN")}`}
+                      PAY ₹{totalPrice.toLocaleString("en-IN")}
                     </span>
                   </>
                 )}
