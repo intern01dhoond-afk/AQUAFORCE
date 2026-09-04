@@ -37,16 +37,20 @@ export async function POST(req: Request) {
     const resolvedCodAmount = isCod ? Math.round(Number(codAmount) || (Number(amount) * 0.9)) : 0;
     const resolvedPaymentMode = isCod ? "COD" : "Pre-paid";
 
+    const hasAltPhone = altPhone && altPhone !== "N/A" && altPhone.trim().length > 0;
+    const resolvedAddress = hasAltPhone ? `${deliveryAddress} (Alt Phone: ${altPhone})` : deliveryAddress;
+
     const payload = {
       shipments: [
         {
           name: fullName,
-          add: deliveryAddress,
+          add: resolvedAddress,
           pin: pincode,
           city: city,
           state: state,
           country: "India",
           phone: phone,
+          alt_phone: hasAltPhone ? altPhone : undefined,
           order: orderId || `ORD_${Date.now()}`,
           payment_mode: resolvedPaymentMode,
           return_add: pickupAddress,
