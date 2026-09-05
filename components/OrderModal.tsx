@@ -1226,7 +1226,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </span>
                 </div>
 
-                <div className="space-y-3 sm:space-y-3.5 font-open-sans">
+                <div className="space-y-4 sm:space-y-5 font-open-sans">
                   {/* Top Row: 2-Column Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {/* Option 1: 100% Online Payment */}
@@ -1273,7 +1273,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   {/* Option 3: Cash on Delivery (Full Width) */}
                   <div
                     onClick={() => setPaymentMethod("10_PERCENT_COD")}
-                    className={`relative p-3.5 sm:p-4.5 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 select-none bg-white ${
+                    className={`relative mt-3 sm:mt-3.5 p-3.5 sm:p-4.5 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 select-none bg-white ${
                       paymentMethod === "10_PERCENT_COD"
                         ? "border-[#005a9c] ring-1 ring-[#005a9c] shadow-2xs"
                         : "border-slate-200/90 hover:border-slate-300"
