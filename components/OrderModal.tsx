@@ -166,7 +166,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const [isReplacementOpen, setIsReplacementOpen] = useState(false);
   const [isKnowMoreOpen, setIsKnowMoreOpen] = useState(false);
   const [isFullReturnPolicyOpen, setIsFullReturnPolicyOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"FULL_ONLINE" | "NO_COST_EMI" | "10_PERCENT_COD">("10_PERCENT_COD");
+  const [paymentMethod, setPaymentMethod] = useState<"FULL_ONLINE" | "10_PERCENT_COD">("FULL_ONLINE");
+  const [onlinePaymentMode, setOnlinePaymentMode] = useState<"FULL" | "EMI">("FULL");
   const [isCodSuccess, setIsCodSuccess] = useState(false);
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
   const [delhiveryCodAvailable, setDelhiveryCodAvailable] = useState<boolean | null>(null);
@@ -180,6 +181,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const totalSavings = unitSavings * quantity;
   const savingsPercentage = Math.round((unitSavings / currentMRP) * 100);
   const taxAmount = Math.round(((totalPrice * 18) / 118) * 100) / 100;
+  const monthlyEmi = Math.round(totalPrice / 6);
 
   // 10% Cash on Delivery calculations
   const advanceAmount = Math.floor(totalPrice * 0.10);
@@ -506,6 +508,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     setIsProcessingPayment(false);
     setPaymentId("");
     setIsCodSuccess(false);
+    setPaymentMethod("FULL_ONLINE");
+    setOnlinePaymentMode("FULL");
     setFormErrors({});
     onClose();
   };
@@ -526,6 +530,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       setIsProcessingPayment(false);
       setPaymentId("");
       setIsCodSuccess(false);
+      setPaymentMethod("FULL_ONLINE");
+      setOnlinePaymentMode("FULL");
       setFormErrors({});
       return () => {
         document.body.style.overflow = originalBodyOverflow || "";
@@ -633,9 +639,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             quantity: String(quantity),
             paymentMethod: isCod
               ? "10% Cash on Delivery"
-              : paymentMethod === "NO_COST_EMI"
-              ? "No Cost EMI"
-              : "Full Online Payment",
+              : "100% Online Payment / No Cost EMI",
             totalOrderAmount: String(totalAmount),
             advanceAmount: String(chargeAmount),
             codBalance: String(isCod ? partialCodBalance : 0),
@@ -675,9 +679,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         notes: {
           order_type: isCod
             ? "10% Advance COD Booking"
-            : paymentMethod === "NO_COST_EMI"
-            ? "No Cost EMI Order"
-            : "Full Online Payment",
+            : "100% Online Payment / No Cost EMI",
           total_order_amount: `₹${totalAmount}`,
           advance_amount: `₹${chargeAmount}`,
           balance_on_delivery: `₹${isCod ? partialCodBalance : 0}`,
@@ -753,9 +755,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 amount: totalAmount,
                 paymentMethod: isCodOrder
                   ? "10% Cash on Delivery"
-                  : paymentMethod === "NO_COST_EMI"
-                  ? "No Cost EMI"
-                  : "Full Online Payment",
+                  : "100% Online Payment / No Cost EMI",
                 advanceAmount: advanceAmountPaid,
                 codBalance: codBalanceDue,
                 waybill: generatedWaybill,
@@ -785,9 +785,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 altPhone: formData.altPhone || "N/A",
                 paymentMethod: isCodOrder
                   ? "10% Cash on Delivery"
-                  : paymentMethod === "NO_COST_EMI"
-                  ? "No Cost EMI"
-                  : "Full Online Payment",
+                  : "100% Online Payment / No Cost EMI",
                 advanceAmount: advanceAmountPaid,
                 codBalance: codBalanceDue,
                 waybill: generatedWaybill,
@@ -1227,53 +1225,113 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 </div>
 
                 <div className="space-y-4 sm:space-y-5 font-open-sans">
-                  {/* Top Row: 2-Column Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {/* Option 1: 100% Online Payment */}
-                    <div
-                      onClick={() => setPaymentMethod("FULL_ONLINE")}
-                      className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex items-start gap-2.5 sm:gap-3 select-none bg-white ${
-                        paymentMethod === "FULL_ONLINE"
-                          ? "border-[#005a9c] ring-1 ring-[#005a9c] shadow-2xs"
-                          : "border-slate-200/90 hover:border-slate-300"
-                      }`}
-                    >
-                      <PaymentCardIcon className="w-6 h-4 mt-0.5 shrink-0" />
-                      <div className="min-w-0">
-                        <h4 className="text-[13px] sm:text-[14px] font-bold text-slate-900 font-montserrat tracking-tight leading-snug">
-                          100% Online Payment
-                        </h4>
-                        <p className="text-[11px] sm:text-xs text-slate-400 font-normal font-open-sans mt-1 leading-snug">
-                          UPI, Debit/Credit Cards, Net Banking &amp; EMI options via Razorpay.
-                        </p>
-                      </div>
-                    </div>
+                  {/* Option 1: 100% Online Payment / No Cost EMI (Segmented Button in 1 section) */}
+                  <div
+                    onClick={() => {
+                      setPaymentMethod("FULL_ONLINE");
+                    }}
+                    className={`relative p-2 sm:p-2.5 rounded-2xl sm:rounded-3xl border transition-all select-none bg-white cursor-pointer ${
+                      paymentMethod === "FULL_ONLINE"
+                        ? "border-[#005a9c] ring-1 ring-[#005a9c] shadow-2xs"
+                        : "border-slate-200/90 hover:border-slate-300"
+                    }`}
+                  >
+                    <div className="bg-[#edf2f7] p-1.5 rounded-[18px] sm:rounded-[22px] grid grid-cols-2 gap-1.5 relative">
+                      {/* Segment 1: Pay in full */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPaymentMethod("FULL_ONLINE");
+                          setOnlinePaymentMode("FULL");
+                        }}
+                        className={`py-2.5 sm:py-3.5 px-2 sm:px-4 rounded-[14px] sm:rounded-[18px] flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+                          paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "FULL"
+                            ? "bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                            : "hover:bg-white/40"
+                        }`}
+                      >
+                        <span
+                          className={`text-xs sm:text-[13px] font-semibold font-montserrat leading-tight ${
+                            paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "FULL"
+                              ? "text-slate-900"
+                              : "text-slate-500"
+                          }`}
+                        >
+                          Pay in full
+                        </span>
+                        <span
+                          className={`text-sm sm:text-base font-extrabold font-montserrat mt-0.5 leading-tight ${
+                            paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "FULL"
+                              ? "text-slate-900"
+                              : "text-slate-600"
+                          }`}
+                        >
+                          ₹{totalPrice.toLocaleString("en-IN")}
+                        </span>
+                      </button>
 
-                    {/* Option 2: No Cost EMI */}
-                    <div
-                      onClick={() => setPaymentMethod("NO_COST_EMI")}
-                      className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex items-start gap-2.5 sm:gap-3 select-none bg-white ${
-                        paymentMethod === "NO_COST_EMI"
-                          ? "border-[#005a9c] ring-1 ring-[#005a9c] shadow-2xs"
-                          : "border-slate-200/90 hover:border-slate-300"
-                      }`}
-                    >
-                      <EmiBadgeIcon className="w-[26px] h-[16px] mt-0.5 shrink-0" />
-                      <div className="min-w-0">
-                        <h4 className="text-[13px] sm:text-[14px] font-bold text-slate-900 font-montserrat tracking-tight leading-snug">
-                          No Cost EMI
-                        </h4>
-                        <p className="text-[11px] sm:text-xs text-slate-400 font-normal font-open-sans mt-1 leading-snug">
-                          Starting from 1336/month Debit/Credit Cards, Cardless
-                        </p>
-                      </div>
+                      {/* Segment 2: EMI on UPI & Cards */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPaymentMethod("FULL_ONLINE");
+                          setOnlinePaymentMode("EMI");
+                        }}
+                        className={`relative py-2.5 sm:py-3.5 px-2 sm:px-4 rounded-[14px] sm:rounded-[18px] flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+                          paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "EMI"
+                            ? "bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                            : "hover:bg-white/40"
+                        }`}
+                      >
+                        {/* No Cost EMI Ribbon Badge */}
+                        <div className="absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+                          <div className="relative bg-[#16a34a] text-white font-montserrat font-bold text-[9px] sm:text-[10px] tracking-tight px-2.5 sm:px-3 py-0.5 rounded-b-[4px] shadow-xs whitespace-nowrap">
+                            <svg
+                              className="absolute top-0 -left-1.5 w-1.5 h-2.5 text-[#147d5a]"
+                              viewBox="0 0 6 10"
+                              fill="currentColor"
+                            >
+                              <polygon points="0,10 6,0 6,10" />
+                            </svg>
+                            <svg
+                              className="absolute top-0 -right-1.5 w-1.5 h-2.5 text-[#147d5a]"
+                              viewBox="0 0 6 10"
+                              fill="currentColor"
+                            >
+                              <polygon points="6,10 0,0 0,10" />
+                            </svg>
+                            No Cost EMI
+                          </div>
+                        </div>
+
+                        <span
+                          className={`text-xs sm:text-[13px] font-semibold font-montserrat leading-tight ${
+                            paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "EMI"
+                              ? "text-slate-900"
+                              : "text-slate-500"
+                          }`}
+                        >
+                          EMI on UPI &amp; Cards
+                        </span>
+                        <span
+                          className={`text-sm sm:text-base font-extrabold font-montserrat mt-0.5 leading-tight ${
+                            paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "EMI"
+                              ? "text-slate-900"
+                              : "text-slate-600"
+                          }`}
+                        >
+                          ₹{monthlyEmi.toLocaleString("en-IN")} + 6 EMIs
+                        </span>
+                      </button>
                     </div>
                   </div>
 
-                  {/* Option 3: Cash on Delivery (Full Width) */}
+                  {/* Option 2: Cash on Delivery */}
                   <div
                     onClick={() => setPaymentMethod("10_PERCENT_COD")}
-                    className={`relative mt-3 sm:mt-3.5 p-3.5 sm:p-4.5 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 select-none bg-white ${
+                    className={`relative mt-4 sm:mt-5 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 select-none bg-white ${
                       paymentMethod === "10_PERCENT_COD"
                         ? "border-[#005a9c] ring-1 ring-[#005a9c] shadow-2xs"
                         : "border-slate-200/90 hover:border-slate-300"
@@ -1302,10 +1360,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 pr-2">
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 pr-2">
                       <CodPaymentIcon className="w-7 h-7 sm:w-8 sm:h-8 shrink-0" />
                       <div className="min-w-0">
-                        <h4 className="text-[13px] sm:text-[14px] font-bold text-slate-900 font-montserrat tracking-tight leading-snug">
+                        <h4 className="text-sm sm:text-base font-bold text-slate-900 font-montserrat tracking-tight leading-snug">
                           Cash on Delivery
                         </h4>
                         <p className="text-[11px] sm:text-xs text-slate-400 font-normal font-open-sans mt-0.5 leading-snug">
@@ -1445,6 +1503,15 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     </span>
                     <span className="sm:hidden">
                       PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
+                    </span>
+                  </>
+                ) : onlinePaymentMode === "EMI" ? (
+                  <>
+                    <span className="hidden sm:inline">
+                      PAY ₹{totalPrice.toLocaleString("en-IN")} VIA EMI &amp; CONFIRM ORDER
+                    </span>
+                    <span className="sm:hidden">
+                      PAY ₹{totalPrice.toLocaleString("en-IN")} VIA EMI
                     </span>
                   </>
                 ) : (
@@ -2173,7 +2240,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   <div className="hidden lg:block shrink-0 pt-3 pb-1 border-t border-slate-100 mt-2 bg-white/95 backdrop-blur-xs sticky bottom-0 z-20">
                     {currentColor.inStock ? (
                       <button
-                        onClick={() => setIsCheckingOut(true)}
+                        onClick={() => {
+                          setPaymentMethod("FULL_ONLINE");
+                          setOnlinePaymentMode("FULL");
+                          setIsCheckingOut(true);
+                        }}
                         className="w-full h-12 sm:h-12.5 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-[0_6px_18px_rgba(0,102,204,0.28)] transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                       >
                         BUY NOW
@@ -2198,7 +2269,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             >
               {currentColor.inStock ? (
                 <button
-                  onClick={() => setIsCheckingOut(true)}
+                  onClick={() => {
+                    setPaymentMethod("FULL_ONLINE");
+                    setOnlinePaymentMode("FULL");
+                    setIsCheckingOut(true);
+                  }}
                   className="w-full h-12 bg-[#0066cc] hover:bg-[#0055b3] active:bg-[#004799] text-white font-bold font-montserrat text-sm tracking-wider uppercase rounded-[8px] shadow-[0_6px_18px_rgba(0,102,204,0.28)] transition-all active:scale-[0.99] cursor-pointer"
                 >
                   BUY NOW
