@@ -1505,15 +1505,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                       PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
                     </span>
                   </>
-                ) : onlinePaymentMode === "EMI" ? (
-                  <>
-                    <span className="hidden sm:inline">
-                      PAY ₹{totalPrice.toLocaleString("en-IN")} VIA EMI &amp; CONFIRM ORDER
-                    </span>
-                    <span className="sm:hidden">
-                      PAY ₹{totalPrice.toLocaleString("en-IN")} VIA EMI
-                    </span>
-                  </>
                 ) : (
                   <>
                     <span className="hidden sm:inline">
