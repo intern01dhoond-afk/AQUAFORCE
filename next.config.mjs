@@ -7,6 +7,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   basePath: "/aquaforceforautocare",
   devIndicators: false,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/aquaforceforautocare",
+        basePath: false,
+        permanent: false,
+      },
+    ];
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

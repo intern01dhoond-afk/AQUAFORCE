@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles } from "lucide-react";
 import EmiCalculatorModal from "./EmiCalculatorModal";
 
 interface OrderModalProps {
@@ -31,6 +31,46 @@ const SpeedingTruckIcon = ({ className = "w-5 h-5 text-[#0066cc]" }: { className
     {/* Wheels */}
     <circle cx="9" cy="17" r="1.8" fill="currentColor" />
     <circle cx="17.5" cy="17" r="1.8" fill="currentColor" />
+  </svg>
+);
+
+const PaymentCardIcon = ({ className = "w-8 h-8 sm:w-9 sm:h-9 shrink-0" }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5.84383 16.6676C6.40667 16.6556 7.00501 16.6653 7.56977 16.6653L10.8494 16.6653L20.6965 16.6656L27.0415 16.6654L29.0742 16.6654C29.4569 16.6654 29.9152 16.6538 30.2918 16.6762C30.2773 16.8284 30.2865 17.1254 30.2865 17.289V18.5046L30.2864 21.7129C30.2864 22.2698 30.2918 22.8271 30.2845 23.3838C30.2747 24.1237 29.9503 24.7729 29.4167 25.2728C29.1424 25.516 28.8683 25.6911 28.5226 25.8202C28.2573 25.918 27.979 25.9759 27.6967 25.992C27.3356 26.0125 26.8682 25.9994 26.497 25.9992L24.337 25.9985L17.6831 25.9986L11.4454 25.9988L9.41709 25.9995C9.06738 25.9995 8.62386 26.0123 8.28372 25.9906C7.9311 25.9675 7.58572 25.8798 7.26488 25.7317C6.61743 25.432 6.11432 24.889 5.86476 24.2206C5.65805 23.6533 5.70471 22.978 5.7053 22.3784L5.70592 20.7099L5.70528 17.7855C5.70527 17.4585 5.71354 17.1304 5.69753 16.8042C5.69552 16.7632 5.70498 16.7346 5.72218 16.6981C5.77069 16.6606 5.76947 16.673 5.84383 16.6676ZM27.5488 23.9899C28.2639 23.9164 28.2526 23.4268 28.2438 22.8569C28.236 22.3431 28.2588 21.8201 28.233 21.3062C28.1875 20.5529 27.4004 20.6645 26.8622 20.6648L25.5173 20.6655L24.2003 20.6651C24.0229 20.6649 23.6677 20.6543 23.5059 20.6713C22.7755 20.7279 22.7804 21.1361 22.7796 21.7236L22.7791 22.4413C22.7791 22.7391 22.7595 23.0921 22.7888 23.3831C22.8556 24.0482 23.48 23.9932 23.9725 23.9933H24.8965C25.7498 23.9931 26.7013 24.0132 27.5488 23.9899Z"
+      fill="#005DA6"
+    />
+    <path
+      d="M8.35485 10.0127C8.67943 10.0009 9.06545 10.0098 9.39417 10.0098H11.3222L17.2059 10.0099L24.0588 10.0099L26.3378 10.0094C27.5517 10.0093 28.6452 9.87624 29.5674 10.8712C30.1954 11.5488 30.2877 12.1413 30.2877 13.0254C30.2897 13.2942 30.2868 13.5631 30.2792 13.8319C29.4134 13.8505 28.4975 13.8357 27.6278 13.8357L12.8873 13.8356L8.02685 13.8356L6.36726 13.8371C6.16022 13.8374 5.90361 13.8258 5.70436 13.8329C5.71304 12.6925 5.57019 11.8004 6.41791 10.8802C6.92548 10.3292 7.61096 10.0448 8.35485 10.0127Z"
+      fill="#005DA6"
+    />
+  </svg>
+);
+
+const CodPaymentIcon = ({ className = "w-8 h-8 sm:w-9 sm:h-9 shrink-0" }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 19.0367C6.04955 18.8906 6.04734 18.5055 6.06803 18.3282C6.18976 17.2849 6.4434 16.3058 6.86209 15.3403C7.7873 13.1932 9.40162 11.4155 11.45 10.2884C12.2796 9.84244 13.1623 9.50327 14.0771 9.27892C14.3582 9.21278 14.7174 9.1542 15.005 9.10303L15.0066 16.9395L15.0066 19.1818L15.0058 19.8694C15.0057 20.0118 15.0006 20.1938 15.0165 20.332C15.0369 20.4992 15.1131 20.6544 15.2329 20.7727C15.4613 20.9967 15.7066 20.9924 16.0084 20.9914C16.2116 20.9908 16.4168 20.9903 16.6203 20.9901L18.4273 20.99H24.0409L25.8568 20.9901C26.1745 20.9901 26.5894 20.9791 26.9008 20.9982C26.8817 21.0824 26.8645 21.1682 26.8497 21.2533C26.7589 21.7792 26.6352 22.3114 26.466 22.8186C25.6676 25.1776 24.0666 27.1818 21.942 28.4815C21.8191 28.5582 21.658 28.6417 21.5295 28.7121C20.696 29.1738 19.8012 29.5155 18.872 29.7269C18.4125 29.8344 17.9811 29.9054 17.5101 29.9516C17.363 29.966 17.0943 29.9564 16.963 29.9999H15.8839C15.8125 29.9732 15.7069 29.967 15.6293 29.9608C14.2854 29.8522 12.9771 29.488 11.7706 28.8721C9.12736 27.5356 7.16986 25.1468 6.37869 22.2925C6.27464 21.9211 6.16953 21.4437 6.11616 21.0573C6.09543 20.9078 6.07727 20.7579 6.0617 20.6077C6.05018 20.4856 6.04098 20.2348 6 20.1271V19.0367Z"
+      fill="#005DA6"
+    />
+    <path
+      d="M17.1005 6H17.5119C17.5843 6.02684 17.699 6.03435 17.779 6.04048C18.0561 6.06172 18.3322 6.09948 18.607 6.1411C19.1896 6.23348 19.7658 6.36331 20.3318 6.52979C23.8972 7.58574 26.872 10.0602 28.5596 13.3736C29.149 14.5353 29.5667 15.7763 29.7995 17.058C29.8717 17.4683 29.9316 17.876 29.9638 18.2919C29.9693 18.3638 29.9761 18.4542 29.9998 18.522V18.8782C29.9351 19.0274 29.9034 19.1291 29.79 19.2525C29.539 19.5259 29.2257 19.497 28.8876 19.4972L28.2389 19.4971L26.0279 19.4965H19.7122H17.6396C17.2803 19.4965 16.8583 19.4856 16.5039 19.5011C16.5213 19.1575 16.5074 18.6983 16.5074 18.3448L16.5075 16.1264L16.5075 9.36869L16.507 7.68138C16.5069 7.38106 16.4804 6.79996 16.5497 6.52764C16.6314 6.20613 16.8546 6.1308 17.0917 6.00476L17.1005 6ZM18.0059 17.9875C18.1503 17.9774 18.3274 17.9873 18.4763 17.9876L19.4305 17.9879L22.4411 17.9878H26.4027L27.7187 17.9879C27.9354 17.9879 28.2021 17.9814 28.4166 17.9903C28.4199 17.9153 28.3749 17.7085 28.3627 17.6245C28.3169 17.3093 28.2651 17.0259 28.1886 16.7169C28.056 16.1809 27.8847 15.5842 27.6783 15.0696C27.1617 13.7806 26.3818 12.4926 25.4438 11.4688C25.0819 11.0659 24.6949 10.6865 24.2846 10.333C23.172 9.3915 21.8968 8.66109 20.5217 8.1777C20.0186 8.00362 19.4418 7.82203 18.9179 7.72764C18.7196 7.69383 18.5211 7.66119 18.3224 7.62973C18.2496 7.61812 18.0727 7.59458 18.0115 7.57348C17.9968 8.46329 18.0085 9.38369 18.0085 10.2753L18.0087 15.287V17.0205C18.0087 17.3361 18.0147 17.6736 18.0059 17.9875Z"
+      fill="#005DA6"
+    />
+    <path
+      d="M20.6674 10.7035C20.905 10.7019 21.1427 10.7016 21.3803 10.7025L22.6246 10.7017L23.2746 10.7017L23.4742 10.7017C23.6186 10.7017 23.7332 10.6994 23.8326 10.8236C23.8862 10.8914 23.9102 10.9778 23.8992 11.0634C23.8887 11.1486 23.8444 11.226 23.7763 11.2781C23.6732 11.3577 23.5784 11.3476 23.4554 11.3476L23.2035 11.3475L23.037 11.3475C23.0024 11.3475 22.958 11.349 22.9244 11.3447C23.0977 11.6091 23.1698 11.8353 23.2213 12.1428C23.2684 12.1464 23.3173 12.1435 23.3645 12.1448C23.5309 12.1494 23.6912 12.1127 23.8171 12.2487C23.8753 12.312 23.9057 12.396 23.9014 12.4819C23.8975 12.5672 23.8597 12.6474 23.7964 12.7047C23.6563 12.8312 23.4904 12.7776 23.3201 12.7894C23.2892 12.7915 23.2492 12.7905 23.2181 12.7889L23.2177 12.7918C23.15 13.2387 22.9265 13.6901 22.5568 13.962C22.3566 14.111 22.1167 14.1972 21.8675 14.21C21.7681 14.216 21.6353 14.2125 21.5335 14.2123L21.3365 14.2118C21.2987 14.2117 21.2489 14.2138 21.2128 14.2083C21.3623 14.4023 21.5282 14.602 21.6823 14.7935L22.5423 15.8621L22.8896 16.2935C22.9086 16.317 22.9278 16.3406 22.9466 16.3642C23.0374 16.4783 23.1215 16.5541 23.1075 16.7118C23.0996 16.7963 23.0584 16.8742 22.9928 16.9281C22.9271 16.9831 22.8418 17.0091 22.7566 16.9999C22.5882 16.9833 22.5235 16.8572 22.4243 16.7393C22.4067 16.7185 22.39 16.6967 22.3729 16.6754L21.9875 16.1969C21.8524 16.0226 21.7034 15.8432 21.5647 15.6709L20.7584 14.669L20.4438 14.2778C20.3974 14.2206 20.3 14.1068 20.2663 14.0506C20.2222 13.9785 20.2095 13.8916 20.231 13.8098C20.2586 13.703 20.3378 13.6141 20.4426 13.5824C20.5188 13.5593 20.6773 13.5664 20.7621 13.5664L21.4756 13.5666C21.5852 13.5666 21.7873 13.5726 21.8865 13.5567C21.9743 13.5424 22.0584 13.5114 22.1345 13.4654C22.3865 13.3139 22.4992 13.0615 22.5661 12.7896L20.9627 12.7891L20.5138 12.7892C20.4533 12.7892 20.3247 12.7926 20.2699 12.7842C20.2039 12.7736 20.1429 12.7426 20.0954 12.6956C20.0342 12.6345 19.9998 12.5516 20 12.4651C20.001 12.3778 20.0369 12.2944 20.0996 12.2337C20.1641 12.1717 20.2445 12.1449 20.3325 12.145C20.3993 12.145 20.4663 12.1446 20.5331 12.1447L21.0265 12.1447L22.0314 12.1447C22.2101 12.1447 22.3951 12.142 22.5729 12.1454C22.5666 12.126 22.5624 12.1029 22.5576 12.0828C22.5138 11.9006 22.4326 11.7263 22.2996 11.5911C22.196 11.485 22.0647 11.4102 21.9206 11.3752C21.7941 11.3433 21.7019 11.3472 21.5741 11.3474L21.3312 11.3476L20.6054 11.3476C20.5027 11.3476 20.3431 11.356 20.2455 11.3363C20.109 11.3086 20.0056 11.174 20.0021 11.0329C19.9996 10.9455 20.0328 10.8609 20.0942 10.7986C20.1969 10.6933 20.3131 10.7038 20.4463 10.7041C20.52 10.7047 20.5937 10.7046 20.6674 10.7035Z"
+      fill="#005DA6"
+    />
   </svg>
 );
 
@@ -119,7 +159,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const taxAmount = Math.round(((totalPrice * 18) / 118) * 100) / 100;
 
   // 10% Cash on Delivery calculations
-  const advanceAmount = Math.round(totalPrice * 0.10);
+  const advanceAmount = Math.floor(totalPrice * 0.10);
   const codBalance = totalPrice - advanceAmount;
   const payableAmount = paymentMethod === "10_PERCENT_COD" ? advanceAmount : totalPrice;
 
@@ -858,7 +898,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   {isCodSuccess ? "10% Advance Paid" : "Amount Paid"}
                 </span>
                 <span className="text-[#0f172a] font-bold font-open-sans tracking-wide">
-                  ₹{(isCodSuccess ? Math.round(currentOfferPrice * quantity * 0.1) : currentOfferPrice * quantity).toLocaleString("en-IN")}
+                  ₹{(isCodSuccess ? advanceAmount : currentOfferPrice * quantity).toLocaleString("en-IN")}
                 </span>
               </div>
 
@@ -866,7 +906,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 <div className="flex items-center justify-between text-[13px] pt-3 font-open-sans bg-amber-50/80 -mx-4 px-4 py-2 rounded-lg border border-amber-200/70">
                   <span className="text-amber-800 font-bold font-open-sans">Balance on Delivery</span>
                   <span className="text-amber-900 font-extrabold font-open-sans tracking-wide">
-                    ₹{(currentOfferPrice * quantity - Math.round(currentOfferPrice * quantity * 0.1)).toLocaleString("en-IN")}
+                    ₹{codBalance.toLocaleString("en-IN")}
                   </span>
                 </div>
               )}
@@ -1135,86 +1175,81 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
               </div>
 
               {/* Section 3: Select Payment Method */}
-              <div className="space-y-2.5 pt-2">
+              <div className="space-y-3 pt-2">
                 <div className="flex items-center justify-between">
-                  <label className="block text-xs sm:text-sm font-bold text-slate-900 font-montserrat">
+                  <label className="block text-sm sm:text-base font-bold text-slate-900 font-montserrat">
                     Select Payment Method:
                   </label>
-                  <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 font-montserrat">
-                    <ShieldCheck size={12} className="text-emerald-600 shrink-0" />
-                    <span className="hidden sm:inline">100% </span>SECURE CHECKOUT
+                  <span className="bg-[#e2f4ec] text-[#0a8961] border border-[#a7f3d0] text-[10px] sm:text-[11.5px] font-bold px-2.5 sm:px-3 py-1 rounded-full flex items-center gap-1.5 font-montserrat tracking-tight shrink-0">
+                    <Lock size={12} className="text-[#0a8961] shrink-0 stroke-[2.5]" />
+                    <span>100% SECURE CHECKOUT</span>
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-2.5 font-open-sans">
-                  {/* Option 1: Full Online Payment (100% Online) */}
+                <div className="flex flex-col gap-4 sm:gap-5 font-open-sans">
+                  {/* Option 1: 100% Online Payment */}
                   <div
                     onClick={() => setPaymentMethod("FULL_ONLINE")}
-                    className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
+                    className={`p-3.5 sm:p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 select-none ${
                       paymentMethod === "FULL_ONLINE"
-                        ? "border-2 border-[#005a9c] bg-[#f0f9ff]"
+                        ? "border-[#005a9c] ring-1 ring-[#005a9c] bg-white shadow-xs"
                         : "border-slate-200 hover:border-slate-300 bg-white"
                     }`}
                   >
-                    <input
-                      type="radio"
-                      name="payment_method"
-                      checked={paymentMethod === "FULL_ONLINE"}
-                      onChange={() => setPaymentMethod("FULL_ONLINE")}
-                      className="mt-1 w-4 h-4 text-[#005a9c] focus:ring-[#005a9c] accent-[#005a9c] cursor-pointer"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat">
-                          Full Online Payment (100% Online)
-                        </span>
-                        <span className={`${
-                          paymentMethod === "FULL_ONLINE"
-                            ? "bg-[#005a9c] text-white"
-                            : "bg-[#eff6ff] text-[#005a9c]"
-                        } text-[9px] sm:text-[9.5px] font-extrabold px-2.5 py-0.5 rounded-full uppercase font-montserrat shrink-0 transition-colors`}>
-                          FASTEST DISPATCH
-                        </span>
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 pr-2">
+                      <PaymentCardIcon className="w-8 h-8 sm:w-9 sm:h-9 shrink-0" />
+                      <div className="min-w-0">
+                        <h4 className="text-sm sm:text-base font-bold text-slate-900 font-montserrat tracking-tight leading-snug">
+                          100% Online Payment
+                        </h4>
+                        <p className="text-[11px] sm:text-xs text-slate-400 font-normal font-open-sans mt-0.5 leading-snug">
+                          UPI, Debit/Credit Cards, Net Banking &amp; EMI options via Razorpay.
+                        </p>
                       </div>
-                      <p className="text-[11px] sm:text-[11.5px] text-slate-500 font-open-sans mt-0.5 leading-normal">
-                        UPI (GPay, PhonePe, Paytm), Cards &amp; Netbanking via Razorpay. Zero transaction charges.
-                      </p>
                     </div>
+                    <span className="text-base sm:text-lg md:text-xl font-bold text-slate-900 font-montserrat shrink-0 whitespace-nowrap">
+                      ₹{totalPrice.toLocaleString("en-IN")}
+                    </span>
                   </div>
 
-                  {/* Option 2: 10% Cash on Delivery (Advance Booking) */}
+                  {/* Option 2: Cash on Delivery */}
                   <div
                     onClick={() => setPaymentMethod("10_PERCENT_COD")}
-                    className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
+                    className={`relative p-3.5 sm:p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 select-none ${
                       paymentMethod === "10_PERCENT_COD"
-                        ? "border-2 border-[#005a9c] bg-[#f0f9ff]"
+                        ? "border-[#005a9c] ring-1 ring-[#005a9c] bg-white shadow-xs"
                         : "border-slate-200 hover:border-slate-300 bg-white"
                     }`}
                   >
-                    <input
-                      type="radio"
-                      name="payment_method"
-                      checked={paymentMethod === "10_PERCENT_COD"}
-                      onChange={() => setPaymentMethod("10_PERCENT_COD")}
-                      className="mt-1 w-4 h-4 text-[#005a9c] focus:ring-[#005a9c] accent-[#005a9c] cursor-pointer"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat">
-                          10% Cash on Delivery (Advance Booking)
-                        </span>
-                        <span className={`${
-                          paymentMethod === "10_PERCENT_COD"
-                            ? "bg-[#005a9c] text-white"
-                            : "bg-[#eff6ff] text-[#005a9c]"
-                        } text-[9px] sm:text-[9.5px] font-extrabold px-2.5 py-0.5 rounded-full uppercase font-montserrat shrink-0 transition-colors`}>
-                          10% ADV + 90% COD
-                        </span>
+                    {/* Green Ribbon on Top Border */}
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center pointer-events-none">
+                      <div className="relative bg-[#16a34a] text-white font-montserrat font-bold text-[10.5px] sm:text-xs tracking-tight sm:tracking-normal px-4 sm:px-6 py-0.5 sm:py-1 rounded-b-md shadow-xs whitespace-nowrap">
+                        {/* Left triangular fold ear */}
+                        <svg className="absolute top-0 -left-2.5 sm:-left-3 w-2.5 sm:w-3 h-3 sm:h-3.5 text-[#147d5a]" viewBox="0 0 12 14" fill="currentColor">
+                          <polygon points="12,0 12,14 0,14" />
+                        </svg>
+                        {/* Right triangular fold ear */}
+                        <svg className="absolute top-0 -right-2.5 sm:-right-3 w-2.5 sm:w-3 h-3 sm:h-3.5 text-[#147d5a]" viewBox="0 0 12 14" fill="currentColor">
+                          <polygon points="0,0 0,14 12,14" />
+                        </svg>
+                        Pay Just 10% Now, Rest on Delivery
                       </div>
-                      <p className="text-[11px] sm:text-[11.5px] text-slate-500 font-open-sans mt-0.5 leading-normal">
-                        Pay ₹{advanceAmount.toLocaleString("en-IN")} now to confirm booking. Pay remaining ₹{codBalance.toLocaleString("en-IN")} in Cash/UPI to Delhivery courier upon doorstep delivery.
-                      </p>
                     </div>
+
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 pr-2">
+                      <CodPaymentIcon className="w-8 h-8 sm:w-9 sm:h-9 shrink-0" />
+                      <div className="min-w-0">
+                        <h4 className="text-sm sm:text-base font-bold text-slate-900 font-montserrat tracking-tight leading-snug">
+                          Cash on Delivery
+                        </h4>
+                        <p className="text-[11px] sm:text-xs text-slate-400 font-normal font-open-sans mt-0.5 leading-snug">
+                          Safe Upfront Payment
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-base sm:text-lg md:text-xl font-bold text-slate-900 font-montserrat shrink-0 whitespace-nowrap">
+                      ₹{advanceAmount.toLocaleString("en-IN")}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1234,36 +1269,36 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   {/* MRP Total */}
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500 font-medium">MRP Total</span>
-                    <span className="text-slate-500 font-normal">₹{totalMRP.toLocaleString("en-IN")}</span>
+                    <span className="text-slate-500 font-normal text-right">₹{totalMRP.toLocaleString("en-IN")}</span>
                   </div>
 
                   {/* Discount on MRP */}
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500 font-medium">Discount on MRP</span>
-                    <span className="text-emerald-600 font-bold">-₹{totalSavings.toLocaleString("en-IN")}</span>
+                    <span className="text-emerald-600 font-bold text-right">-₹{totalSavings.toLocaleString("en-IN")}</span>
                   </div>
 
                   {/* Subtotal */}
                   <div className="flex items-center justify-between">
                     <span className="text-slate-900 font-bold">Subtotal</span>
-                    <span className="text-slate-900 font-bold">₹{totalPrice.toLocaleString("en-IN")}</span>
+                    <span className="text-slate-900 font-bold text-right">₹{totalPrice.toLocaleString("en-IN")}</span>
                   </div>
 
                   {/* Shipping */}
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500 font-medium">Shipping</span>
-                    <div>
-                      <span className="text-slate-400 line-through mr-1.5 font-normal">₹1,500</span>
-                      <span className="text-emerald-600 font-bold uppercase">FREE (DELHIVERY EXPRESS)</span>
+                    <div className="flex items-center justify-end gap-1.5 text-right shrink-0">
+                      <span className="text-emerald-600 font-bold uppercase">FREE</span>
+                      <span className="text-slate-400 line-through font-normal">₹1,500</span>
                     </div>
                   </div>
 
                   {/* Handling & Packaging Fee */}
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500 font-medium">Handling &amp; Packaging Fee</span>
-                    <div>
-                      <span className="text-slate-400 line-through mr-1.5 font-normal">₹550</span>
+                    <div className="flex items-center justify-end gap-1.5 text-right shrink-0">
                       <span className="text-emerald-600 font-bold uppercase">FREE</span>
+                      <span className="text-slate-400 line-through font-normal">₹550</span>
                     </div>
                   </div>
                 </div>
@@ -1273,18 +1308,18 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 {/* Total Order Value */}
                 <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-900 font-montserrat">
                   <span>Total Order Value</span>
-                  <span className="font-extrabold text-base sm:text-lg">₹{totalPrice.toLocaleString("en-IN")}</span>
+                  <span className="font-extrabold text-base sm:text-lg text-right">₹{totalPrice.toLocaleString("en-IN")}</span>
                 </div>
 
                 {paymentMethod === "10_PERCENT_COD" && (
                   <div className="pt-2.5 border-t border-slate-100 space-y-2 font-open-sans">
                     <div className="flex items-center justify-between text-xs sm:text-[13px] font-bold text-[#005a9c]">
                       <span>Advance Payable Now (10%)</span>
-                      <span className="text-sm font-extrabold">₹{advanceAmount.toLocaleString("en-IN")}</span>
+                      <span className="text-sm font-extrabold text-right">₹{advanceAmount.toLocaleString("en-IN")}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs sm:text-[13px] font-bold text-slate-700">
                       <span>Balance on Delivery (90% COD)</span>
-                      <span className="text-sm font-extrabold text-slate-900">₹{codBalance.toLocaleString("en-IN")}</span>
+                      <span className="text-sm font-extrabold text-slate-900 text-right">₹{codBalance.toLocaleString("en-IN")}</span>
                     </div>
                   </div>
                 )}
