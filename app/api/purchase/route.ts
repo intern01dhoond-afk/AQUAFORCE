@@ -93,11 +93,23 @@ export async function POST(req: Request) {
 
     // AiSensy WhatsApp Notification Trigger
     const aisensyApiKey = process.env.AISENSY_API_KEY;
-    const aisensyCampaign = process.env.AISENSY_CAMPAIGN_NAME || "order_confirmation";
+    const aisensyCampaign = process.env.AISENSY_CAMPAIGN_NAME || "order_confirmation_2";
 
     if (aisensyApiKey && phone) {
       const formattedPhone = phone.replace(/\D/g, "");
       const destination = formattedPhone.length === 10 ? `91${formattedPhone}` : formattedPhone;
+
+      // Calculate estimated delivery date (4-6 business days from now)
+      const deliveryDate = new Date();
+      deliveryDate.setDate(deliveryDate.getDate() + 5);
+      const estimatedDelivery = deliveryDate.toLocaleDateString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+
+      const fullAddress = `${deliveryAddress}, ${city}, ${state} - ${pincode}`;
 
       fetch("https://backend.aisensy.com/campaign/t1/api/v2", {
         method: "POST",
@@ -108,10 +120,12 @@ export async function POST(req: Request) {
           destination: destination,
           userName: fullName,
           templateParams: [
-            fullName,
-            payload.product,
-            payload.amount.toLocaleString("en-IN"),
-            payload.orderId,
+            fullName,                                    // {1} - Name
+            payload.product,                             // {2} - Product
+            String(payload.quantity),                     // {3} - Quantity
+            payload.orderId,                             // {4} - Order ID
+            fullAddress,                                 // {5} - Delivery Address
+            estimatedDelivery,                           // {6} - Estimated Delivery Date
           ],
         }),
       })

@@ -702,7 +702,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           const advanceAmountPaid = isCodOrder ? partialCodAmount : totalAmount;
           const codBalanceDue = isCodOrder ? partialCodBalance : 0;
 
-          // Automatically Create Shipment Order on Delhivery
+          // Step 1: Create Delhivery shipment first (we need the waybill for subsequent calls)
           try {
             const delRes = await fetch(getApiPath("/api/delhivery/create-shipment"), {
               method: "POST",
@@ -733,9 +733,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             console.error("Failed to create Delhivery shipment:", delhiveryErr);
           }
 
-          // Record purchase into Google Sheets
-          try {
-            await fetch(getApiPath("/api/purchase"), {
+          // Step 2: Fire Google Sheets, Email, and SMS in parallel (they all depend on waybill from step 1)
+          await Promise.allSettled([
+            // Record purchase into Google Sheets
+            fetch(getApiPath("/api/purchase"), {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -761,14 +762,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 waybill: generatedWaybill,
                 status: isCodOrder ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed",
               }),
-            });
-          } catch (sheetErr) {
-            console.error("Failed to forward purchase to Google Sheets:", sheetErr);
-          }
+            }).catch((sheetErr) => {
+              console.error("Failed to forward purchase to Google Sheets:", sheetErr);
+            }),
 
-          // Send Email Confirmation from promec.india@gmail.com via SMTP
-          try {
-            await fetch(getApiPath("/api/send-email"), {
+            // Send Email Confirmation from promec.india@gmail.com via SMTP
+            fetch(getApiPath("/api/send-email"), {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -790,14 +789,12 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 codBalance: codBalanceDue,
                 waybill: generatedWaybill,
               }),
-            });
-          } catch (emailErr) {
-            console.error("Failed to send email confirmation:", emailErr);
-          }
+            }).catch((emailErr) => {
+              console.error("Failed to send email confirmation:", emailErr);
+            }),
 
-          // Send SMS Confirmation via YourBulkSMS (http://control.yourbulksms.com/)
-          try {
-            await fetch(getApiPath("/api/send-sms"), {
+            // Send SMS Confirmation via YourBulkSMS (http://control.yourbulksms.com/)
+            fetch(getApiPath("/api/send-sms"), {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -809,10 +806,10 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   ? `${PRODUCT_DATA.name} (10% COD Booking - Balance Rs.${codBalanceDue.toLocaleString("en-IN")})`
                   : `${PRODUCT_DATA.name} (${currentColor.name})`,
               }),
-            });
-          } catch (smsErr) {
-            console.error("Failed to send SMS confirmation:", smsErr);
-          }
+            }).catch((smsErr) => {
+              console.error("Failed to send SMS confirmation:", smsErr);
+            }),
+          ]);
 
           // Track Meta Pixel Purchase event
           if (typeof window !== "undefined" && (window as any).fbq) {
@@ -825,13 +822,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             });
           }
 
-          // Redirect to dedicated Thank You confirmation page with a short delay
-          setTimeout(() => {
-            const targetThankYou = window.location.pathname.startsWith("/aquaforceforautocare")
-              ? "/aquaforceforautocare/thank-you"
-              : "/thank-you";
-            window.location.href = `${targetThankYou}?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(advanceAmountPaid)}&total_amount=${encodeURIComponent(totalAmount)}&cod_balance=${encodeURIComponent(codBalanceDue)}&name=${encodeURIComponent(formData.fullName)}&method=${encodeURIComponent(isCodOrder ? "10% Cash on Delivery" : "Full Online Payment")}${generatedWaybill ? `&waybill=${encodeURIComponent(generatedWaybill)}` : ""}`;
-          }, 300);
+          // Redirect to Thank You page AFTER all API calls have completed
+          const targetThankYou = window.location.pathname.startsWith("/aquaforceforautocare")
+            ? "/aquaforceforautocare/thank-you"
+            : "/thank-you";
+          window.location.href = `${targetThankYou}?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(advanceAmountPaid)}&total_amount=${encodeURIComponent(totalAmount)}&cod_balance=${encodeURIComponent(codBalanceDue)}&name=${encodeURIComponent(formData.fullName)}&method=${encodeURIComponent(isCodOrder ? "10% Cash on Delivery" : "Full Online Payment")}${generatedWaybill ? `&waybill=${encodeURIComponent(generatedWaybill)}` : ""}`;
         },
         modal: {
           ondismiss: function () {
