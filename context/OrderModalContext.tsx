@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import OrderModal from "@/components/OrderModal";
 import MobileVerificationModal from "@/components/MobileVerificationModal";
 
@@ -28,12 +28,27 @@ export function OrderModalProvider({ children }: { children: React.ReactNode }) 
   const [isVerificationOpen, setIsVerificationOpen] = useState(false);
   const [verifiedUser, setVerifiedUser] = useState<VerifiedUser | null>(null);
 
+  // Load verified user from localStorage on mount so returning users don't need OTP again
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("promec_verified_user");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed?.phone && parsed?.fullName) {
+          setVerifiedUser(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Failed to read verified user from localStorage:", e);
+    }
+  }, []);
+
   const openModal = () => {
     if (!verifiedUser) {
       // Require Name & Mobile OTP verification first
       setIsVerificationOpen(true);
     } else {
-      // Already verified in this session -> directly open order modal at checkout!
+      // Already verified previously -> skip OTP completely and open product modal!
       setIsOrderModalOpen(true);
     }
   };
@@ -45,8 +60,13 @@ export function OrderModalProvider({ children }: { children: React.ReactNode }) 
 
   const handleVerified = (data: { fullName: string; phone: string }) => {
     setVerifiedUser(data);
+    // Persist so user is never asked for OTP again
+    try {
+      localStorage.setItem("promec_verified_user", JSON.stringify(data));
+    } catch (e) {
+      console.error("Failed to save verified user to localStorage:", e);
+    }
     setIsVerificationOpen(false);
-    // Immediately open OrderModal straight into checkout with verified data pre-filled!
     setIsOrderModalOpen(true);
   };
 
