@@ -8,6 +8,11 @@ import EmiCalculatorModal from "./EmiCalculatorModal";
 interface OrderModalProps {
   isOpen: boolean;
   onClose: () => void;
+  verifiedUser?: {
+    fullName: string;
+    phone: string;
+  } | null;
+  startAtCheckout?: boolean;
 }
 
 const SpeedingTruckIcon = ({ className = "w-5 h-5 text-[#0066cc]" }: { className?: string }) => (
@@ -150,7 +155,12 @@ const PRODUCT_DATA = {
   ],
 };
 
-export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
+export default function OrderModal({
+  isOpen,
+  onClose,
+  verifiedUser,
+  startAtCheckout = false,
+}: OrderModalProps) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedVacuumOption, setSelectedVacuumOption] = useState<"with" | "without">("with");
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -186,7 +196,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   // 10% Cash on Delivery calculations
   const advanceAmount = Math.floor(totalPrice * 0.10);
   const codFee = 149;
-  const codBalance = Math.round(totalPrice * 0.90) + codFee;
+  const codBalance = totalPrice - advanceAmount + codFee;
   const payableAmount = paymentMethod === "10_PERCENT_COD" ? advanceAmount : totalPrice;
 
   const handleShareReferral = () => {
@@ -525,7 +535,14 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       const originalHtmlOverflow = document.documentElement.style.overflow;
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
-      setIsCheckingOut(false);
+      setIsCheckingOut(startAtCheckout);
+      if (verifiedUser) {
+        setFormData((prev) => ({
+          ...prev,
+          fullName: verifiedUser.fullName || prev.fullName,
+          phone: verifiedUser.phone || prev.phone,
+        }));
+      }
       setIsSubmitted(false);
       setIsProcessingPayment(false);
       setPaymentId("");
@@ -1029,9 +1046,17 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     </div>
 
                     <div>
-                      <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                        Mobile Number
-                      </label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 font-open-sans">
+                          Mobile Number
+                        </label>
+                        {verifiedUser?.phone && formData.phone === verifiedUser.phone && (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full select-none">
+                            <CheckCircle2 size={12} className="text-emerald-600" />
+                            <span>Verified</span>
+                          </span>
+                        )}
+                      </div>
                       <input
                         type="tel"
                         inputMode="numeric"

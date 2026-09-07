@@ -99,18 +99,28 @@ export async function POST(req: Request) {
     const data = await res.json();
     console.log("Delhivery Order Creation Response:", JSON.stringify(data, null, 2));
 
-    if (data?.success || data?.packages?.length > 0 || data?.upload_wbn) {
-      const waybill = data?.packages?.[0]?.waybill || data?.upload_wbn || "GENERATED";
+    const pkg = data?.packages?.[0];
+    const isPackageFailed = pkg?.status === "Fail" || !pkg?.waybill;
+
+    if (data?.success && !isPackageFailed && pkg?.waybill) {
       return NextResponse.json({
         success: true,
-        waybill,
+        waybill: pkg.waybill,
         delhiveryData: data,
       });
     }
 
+    const failureReason =
+      pkg?.remarks?.[0] ||
+      data?.rmk ||
+      data?.error ||
+      "Failed to create shipment on Delhivery (check wallet balance or address)";
+
+    console.warn("Delhivery Shipment Booking Failed:", failureReason);
+
     return NextResponse.json({
       success: false,
-      error: data?.rmk || data?.error || "Failed to create shipment on Delhivery",
+      error: failureReason,
       raw: data,
     });
   } catch (error: any) {

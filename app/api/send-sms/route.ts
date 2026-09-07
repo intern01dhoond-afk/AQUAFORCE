@@ -15,9 +15,9 @@ export async function POST(req: Request) {
       cleanPhone = `91${cleanPhone}`;
     }
 
-    const authKey = process.env.YOURBULKSMS_AUTH_KEY || "";
-    const senderId = process.env.YOURBULKSMS_SENDER_ID || "PROMEC";
-    const route = process.env.YOURBULKSMS_ROUTE || "4";
+    const authKey = process.env.YOURBULKSMS_AUTH_KEY || "3236524f4d454338373214";
+    const senderId = process.env.YOURBULKSMS_SENDER_ID || "PROMCC";
+    const route = process.env.YOURBULKSMS_ROUTE || "2";
     const templateId = process.env.YOURBULKSMS_TEMPLATE_ID || "";
 
     const formattedAmount = Number(amount || 37999).toLocaleString("en-IN");
