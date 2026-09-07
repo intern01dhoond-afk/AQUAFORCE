@@ -127,6 +127,10 @@ export async function POST(req: Request) {
             fullAddress,                                 // {5} - Delivery Address
             estimatedDelivery,                           // {6} - Estimated Delivery Date
           ],
+          media: {
+            url: "https://files.catbox.moe/jpksbs.png",
+            filename: "Promec Tools WhatsApp Template Image.png",
+          },
         }),
       })
         .then(async (res) => {
