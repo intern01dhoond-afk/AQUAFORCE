@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { storeOtp } from "@/lib/otpStore";
+import { storeOtp, generateOtpToken } from "@/lib/otpStore";
 
 export async function POST(req: Request) {
   try {
@@ -66,9 +66,12 @@ export async function POST(req: Request) {
 
     console.log(`[OTP GENERATED] Phone: ${cleanPhone}, Code: ${otp}, Name: ${fullName}`);
 
+    const token = generateOtpToken(cleanPhone, otp);
+
     return NextResponse.json({
       success: true,
       message: "Verification code sent successfully to your mobile number.",
+      token,
       // Include testOtp in development/sandbox mode for testing convenience
       ...(process.env.NODE_ENV !== "production" || smsError ? { devOtp: otp } : {}),
     });

@@ -59,6 +59,7 @@ export default function MobileVerificationModal({
   const [resendTimer, setResendTimer] = useState(30);
   const [canResend, setCanResend] = useState(false);
   const [devOtpNotice, setDevOtpNotice] = useState<string | null>(null);
+  const [verificationToken, setVerificationToken] = useState<string>("");
 
   const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -132,6 +133,10 @@ export default function MobileVerificationModal({
       setResendTimer(30);
       setCanResend(false);
 
+      if (data.token) {
+        setVerificationToken(data.token);
+      }
+
       if (data.devOtp) {
         setDevOtpNotice(data.devOtp);
       }
@@ -203,6 +208,8 @@ export default function MobileVerificationModal({
         body: JSON.stringify({
           phone: phone.replace(/\D/g, ""),
           otp: finalOtp,
+          fullName: fullName.trim(),
+          token: verificationToken,
         }),
       });
 

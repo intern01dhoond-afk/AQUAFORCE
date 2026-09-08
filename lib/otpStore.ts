@@ -1,57 +1,84 @@
-// In-memory OTP storage with 10-minute expiry
-// Key: clean 10-digit mobile number
+import crypto from "crypto";
 
+const OTP_SECRET =
+  process.env.OTP_SECRET ||
+  process.env.RAZORPAY_KEY_SECRET ||
+  "promec-india-secure-otp-key-2026-auth";
+
+// Generate a stateless cryptographic token that works across all Vercel serverless lambdas
+export function generateOtpToken(phone: string, otp: string): string {
+  const cleanPhone = phone.replace(/\D/g, "").slice(-10);
+  const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+  const dataToSign = `${cleanPhone}|${otp.trim()}|${expiresAt}`;
+  const hash = crypto.createHmac("sha256", OTP_SECRET).update(dataToSign).digest("hex");
+  return `${hash}.${expiresAt}`;
+}
+
+export function verifyOtpToken(
+  phone: string,
+  inputOtp: string,
+  token?: string
+): { valid: boolean; error?: string } {
+  const cleanOtp = String(inputOtp || "").trim();
+  const cleanPhone = phone.replace(/\D/g, "").slice(-10);
+
+  // If token is provided, verify cryptographically (serverless stateless)
+  if (token && token.includes(".")) {
+    const [expectedHash, expiresAtStr] = token.split(".");
+    const expiresAt = parseInt(expiresAtStr, 10);
+
+    if (isNaN(expiresAt) || Date.now() > expiresAt) {
+      return { valid: false, error: "OTP has expired. Please request a new code." };
+    }
+
+    try {
+      const dataToSign = `${cleanPhone}|${cleanOtp}|${expiresAt}`;
+      const computedHash = crypto.createHmac("sha256", OTP_SECRET).update(dataToSign).digest("hex");
+
+      const expectedBuffer = Buffer.from(expectedHash, "hex");
+      const computedBuffer = Buffer.from(computedHash, "hex");
+
+      if (
+        expectedBuffer.length === computedBuffer.length &&
+        crypto.timingSafeEqual(expectedBuffer, computedBuffer)
+      ) {
+        return { valid: true };
+      }
+    } catch (e) {
+      console.error("HMAC verification error:", e);
+    }
+  }
+
+  // Fallback in-memory check for backwards compatibility
+  const record = inMemoryOtpCache.get(cleanPhone);
+  if (record) {
+    if (Date.now() > record.expiresAt) {
+      inMemoryOtpCache.delete(cleanPhone);
+      return { valid: false, error: "OTP has expired. Please request a new code." };
+    }
+    if (record.otp === cleanOtp) {
+      inMemoryOtpCache.delete(cleanPhone);
+      return { valid: true };
+    }
+  }
+
+  return { valid: false, error: "Incorrect verification code. Please try again." };
+}
+
+// In-memory fallback
 interface OtpRecord {
   otp: string;
   fullName: string;
   expiresAt: number;
-  attempts: number;
 }
 
-const globalForOtp = global as unknown as {
-  otpCache: Map<string, OtpRecord>;
-};
-
-export const otpCache = globalForOtp.otpCache || new Map<string, OtpRecord>();
-if (process.env.NODE_ENV !== "production") globalForOtp.otpCache = otpCache;
+const inMemoryOtpCache = new Map<string, OtpRecord>();
 
 export function storeOtp(phone: string, fullName: string, otp: string) {
   const cleanPhone = phone.replace(/\D/g, "").slice(-10);
-  const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes validity
-  otpCache.set(cleanPhone, {
-    otp,
-    fullName,
-    expiresAt,
-    attempts: 0,
+  inMemoryOtpCache.set(cleanPhone, {
+    otp: otp.trim(),
+    fullName: fullName.trim(),
+    expiresAt: Date.now() + 10 * 60 * 1000,
   });
-}
-
-export function verifyOtp(phone: string, inputOtp: string): { valid: boolean; error?: string; fullName?: string } {
-  const cleanPhone = phone.replace(/\D/g, "").slice(-10);
-  const record = otpCache.get(cleanPhone);
-
-  if (!record) {
-    return { valid: false, error: "No OTP request found for this number. Please request a new OTP." };
-  }
-
-  if (Date.now() > record.expiresAt) {
-    otpCache.delete(cleanPhone);
-    return { valid: false, error: "OTP has expired. Please request a new code." };
-  }
-
-  if (record.attempts >= 5) {
-    otpCache.delete(cleanPhone);
-    return { valid: false, error: "Too many failed attempts. Please request a new OTP." };
-  }
-
-  record.attempts += 1;
-
-  if (record.otp !== inputOtp.trim()) {
-    return { valid: false, error: "Incorrect verification code. Please try again." };
-  }
-
-  // OTP verified successfully
-  const fullName = record.fullName;
-  otpCache.delete(cleanPhone);
-  return { valid: true, fullName };
 }

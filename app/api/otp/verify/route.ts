@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { verifyOtp } from "@/lib/otpStore";
+import { verifyOtpToken } from "@/lib/otpStore";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { phone, otp } = body;
+    const { phone, otp, fullName, token } = body;
 
     if (!phone || !otp) {
       return NextResponse.json(
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     }
 
     const cleanPhone = String(phone).replace(/\D/g, "").slice(-10);
-    const result = verifyOtp(cleanPhone, String(otp));
+    const result = verifyOtpToken(cleanPhone, String(otp), token);
 
     if (!result.valid) {
       return NextResponse.json(
@@ -23,30 +23,40 @@ export async function POST(req: Request) {
       );
     }
 
-    // Automatically record verified signup lead into the Signups Google Sheet
+    const customerName = (fullName || "").trim() || "Customer";
+
+    // Record verified signup lead into the Signups Google Sheet
     const signupsSheetUrl =
       process.env.GOOGLE_SHEET_SIGNUPS_URL ||
       "https://script.google.com/macros/s/AKfycbzZX776z13tAYJY9KjTxNqcGt5WajxAfOg9uI86LDagVlTPnILyYjC7fIOlwzc1jrajaQ/exec";
 
     if (signupsSheetUrl) {
-      fetch(signupsSheetUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          timestamp: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
-          fullName: result.fullName || "Customer",
-          phone: cleanPhone,
-          source: "Website Buy Now (OTP Verified)",
-          status: "Verified Lead",
-        }),
-      }).catch((err) => console.error("Failed to log verified signup to Google Sheets:", err));
+      try {
+        console.log(`Forwarding verified signup to Google Sheet: ${customerName} (${cleanPhone})`);
+        const sheetRes = await fetch(signupsSheetUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            timestamp: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+            fullName: customerName,
+            phone: cleanPhone,
+            source: "Website Buy Now (OTP Verified)",
+            status: "Verified Lead",
+          }),
+        });
+
+        const sheetText = await sheetRes.text();
+        console.log("Google Sheets Signup Log Response:", sheetRes.status, sheetText);
+      } catch (sheetErr) {
+        console.error("Failed to log verified signup to Google Sheets:", sheetErr);
+      }
     }
 
     return NextResponse.json({
       success: true,
       verified: true,
       phone: cleanPhone,
-      fullName: result.fullName || "",
+      fullName: customerName,
       message: "Mobile number verified successfully!",
     });
   } catch (error: any) {
