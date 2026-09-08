@@ -1520,6 +1520,10 @@ export default function OrderModal({
                   <span>
                     PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
                   </span>
+                ) : onlinePaymentMode === "EMI" ? (
+                  <span>
+                    PAY ₹{totalPrice.toLocaleString("en-IN")} ON EMI
+                  </span>
                 ) : (
                   <span>
                     PAY ₹{totalPrice.toLocaleString("en-IN")}
