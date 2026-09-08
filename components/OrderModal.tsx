@@ -1517,14 +1517,9 @@ export default function OrderModal({
                     PROCESSING ORDER...
                   </span>
                 ) : paymentMethod === "10_PERCENT_COD" ? (
-                  <>
-                    <span className="hidden sm:inline">
-                      PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE &amp; CONFIRM COD
-                    </span>
-                    <span className="sm:hidden">
-                      PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
-                    </span>
-                  </>
+                  <span>
+                    PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
+                  </span>
                 ) : (
                   <>
                     <span className="hidden sm:inline">
