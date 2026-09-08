@@ -1521,14 +1521,9 @@ export default function OrderModal({
                     PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
                   </span>
                 ) : (
-                  <>
-                    <span className="hidden sm:inline">
-                      PAY ₹{totalPrice.toLocaleString("en-IN")} &amp; CONFIRM ORDER
-                    </span>
-                    <span className="sm:hidden">
-                      PAY ₹{totalPrice.toLocaleString("en-IN")}
-                    </span>
-                  </>
+                  <span>
+                    PAY ₹{totalPrice.toLocaleString("en-IN")}
+                  </span>
                 )}
               </button>
             </div>
