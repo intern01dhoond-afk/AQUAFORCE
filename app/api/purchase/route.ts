@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createDelhiveryShipment } from "@/lib/delhivery";
 
 export async function POST(req: Request) {
   try {
@@ -41,6 +42,40 @@ export async function POST(req: Request) {
     const isCodOrder = paymentMethod === "10_PERCENT_COD" || Number(codBalance) > 0;
     const resolvedStatus = status || (isCodOrder ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed");
 
+    // Auto-create Delhivery shipment if waybill was not already created by client
+    let resolvedWaybill = (waybill && waybill !== "AUTO_GENERATED") ? waybill : "";
+
+    if (!resolvedWaybill) {
+      try {
+        console.log(`Auto-creating Delhivery shipment for order ${orderId || "new"}...`);
+        const delResult = await createDelhiveryShipment({
+          orderId: orderId || `ORD_${Date.now()}`,
+          fullName,
+          email,
+          phone,
+          altPhone,
+          deliveryAddress,
+          city,
+          state,
+          pincode,
+          product: product || "Cordless AquaForce 1400 High-pressure Washer System",
+          quantity: quantity || 1,
+          amount: amount || 37999,
+          paymentMode: isCodOrder ? "COD" : "Pre-paid",
+          codAmount: isCodOrder ? (Number(codBalance) || (Number(amount) - Math.floor(Number(amount) * 0.1) + 149)) : 0,
+        });
+
+        if (delResult.success && delResult.waybill) {
+          resolvedWaybill = delResult.waybill;
+          console.log(`Auto-created Delhivery shipment successfully! Waybill: ${resolvedWaybill}`);
+        } else {
+          console.warn("Auto-creation of Delhivery shipment failed:", delResult.error);
+        }
+      } catch (delErr) {
+        console.error("Error auto-creating Delhivery shipment in /api/purchase:", delErr);
+      }
+    }
+
     const payload = {
       type: "PURCHASE",
       timestamp,
@@ -49,7 +84,7 @@ export async function POST(req: Request) {
       paymentMethod: paymentMethod || (isCodOrder ? "10% Cash on Delivery" : "Full Online Payment"),
       advanceAmount: Number(advanceAmount) || (isCodOrder ? Math.floor(Number(amount) * 0.1) : Number(amount)),
       codBalance: isCodOrder ? (Number(codBalance) || (Number(amount) - Math.floor(Number(amount) * 0.1) + 149)) : 0,
-      delhiveryWaybill: waybill || "AUTO_GENERATED",
+      delhiveryWaybill: resolvedWaybill || "AUTO_GENERATED",
       fullName,
       email: email || "N/A",
       phone,
@@ -72,7 +107,9 @@ export async function POST(req: Request) {
       status: resolvedStatus,
     };
 
-    const webhookUrl = process.env.GOOGLE_SHEET_PURCHASE_URL;
+    const webhookUrl =
+      process.env.GOOGLE_SHEET_PURCHASE_URL ||
+      "https://script.google.com/macros/s/AKfycbw93k8Td-zP_4HnTq4QTio4KgbFobeXatiTR2BvPPJJczur1RFRggZHq15InxQJBthFAw/exec";
 
     if (webhookUrl) {
       try {
@@ -88,11 +125,13 @@ export async function POST(req: Request) {
         console.error("Failed to forward purchase to Google Sheets:", sheetError);
       }
     } else {
-      console.warn("GOOGLE_SHEET_PURCHASE_URL is not configured in .env.local. Purchase data logged:", payload);
+      console.warn("GOOGLE_SHEET_PURCHASE_URL is not configured. Purchase data logged:", payload);
     }
 
     // AiSensy WhatsApp Notification Trigger
-    const aisensyApiKey = process.env.AISENSY_API_KEY;
+    const aisensyApiKey =
+      process.env.AISENSY_API_KEY ||
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhOTgxMTQzNjYwZTk1MGU3ZDJlYTM0MyIsIm5hbWUiOiJQcm9tZWMgSW5kaWEiLCJhcHBOYW1lIjoiQWlTZW5zeSIsImNsaWVudElkIjoiNmE5ODExNDM2NjBlOTUwZTdkMmVhMzNlIiwiYWN0aXZlUGxhbiI6IkJBU0lDX01PTlRITFkiLCJpYXQiOjE3ODg3NTYzNDV9._N2prpFIwKpOsYjSUsSoOtu79upNaa72J0bRtYxgQYQ";
     const aisensyCampaign = process.env.AISENSY_CAMPAIGN_NAME || "order_confirmation_2";
 
     if (aisensyApiKey && phone) {
@@ -111,38 +150,41 @@ export async function POST(req: Request) {
 
       const fullAddress = `${deliveryAddress}, ${city}, ${state} - ${pincode}`;
 
-      fetch("https://backend.aisensy.com/campaign/t1/api/v2", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          apiKey: aisensyApiKey,
-          campaignName: aisensyCampaign,
-          destination: destination,
-          userName: fullName,
-          templateParams: [
-            fullName,                                    // {1} - Name
-            payload.product,                             // {2} - Product
-            String(payload.quantity),                     // {3} - Quantity
-            payload.orderId,                             // {4} - Order ID
-            fullAddress,                                 // {5} - Delivery Address
-            estimatedDelivery,                           // {6} - Estimated Delivery Date
-          ],
-          media: {
-            url: "https://files.catbox.moe/jpksbs.png",
-            filename: "Promec Tools WhatsApp Template Image.png",
-          },
-        }),
-      })
-        .then(async (res) => {
-          const resText = await res.text();
-          console.log("AiSensy WhatsApp notification response:", res.status, resText);
-        })
-        .catch((aiErr) => {
-          console.error("Failed to send AiSensy WhatsApp notification:", aiErr);
+      try {
+        const aiRes = await fetch("https://backend.aisensy.com/campaign/t1/api/v2", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            apiKey: aisensyApiKey,
+            campaignName: aisensyCampaign,
+            destination: destination,
+            userName: fullName,
+            templateParams: [
+              fullName,                                    // {1} - Name
+              payload.product,                             // {2} - Product
+              String(payload.quantity),                     // {3} - Quantity
+              payload.orderId,                             // {4} - Order ID
+              fullAddress,                                 // {5} - Delivery Address
+              estimatedDelivery,                           // {6} - Estimated Delivery Date
+            ],
+            media: {
+              url: "https://files.catbox.moe/jpksbs.png",
+              filename: "Promec Tools WhatsApp Template Image.png",
+            },
+          }),
         });
+        const resText = await aiRes.text();
+        console.log("AiSensy WhatsApp notification response:", aiRes.status, resText);
+      } catch (aiErr) {
+        console.error("Failed to send AiSensy WhatsApp notification:", aiErr);
+      }
     }
 
-    return NextResponse.json({ success: true, data: payload });
+    return NextResponse.json({
+      success: true,
+      data: payload,
+      waybill: resolvedWaybill,
+    });
   } catch (error: any) {
     console.error("Purchase API error:", error);
     return NextResponse.json(

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { DELHIVERY_API_TOKEN } from "@/lib/delhivery";
 
 export async function GET(req: Request) {
   try {
@@ -12,10 +13,10 @@ export async function GET(req: Request) {
       );
     }
 
-    const token = process.env.DELHIVERY_API_TOKEN;
+    const token = DELHIVERY_API_TOKEN;
     if (!token) {
       return NextResponse.json(
-        { success: false, error: "DELHIVERY_API_TOKEN not configured in .env.local" },
+        { success: false, error: "DELHIVERY_API_TOKEN not configured" },
         { status: 500 }
       );
     }
