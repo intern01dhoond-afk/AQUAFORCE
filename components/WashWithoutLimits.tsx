@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
+import EmiCodBadges from "@/components/EmiCodBadges";
 
 export default function WashWithoutLimits() {
   const { openModal } = useOrderModal();
@@ -81,9 +82,12 @@ export default function WashWithoutLimits() {
 
         {/* CTA Action Button */}
         <ScrollReveal direction="up" delay={0.2}>
+          <div className="mt-4">
+            <EmiCodBadges />
+          </div>
           <button
             onClick={openModal}
-            className="mt-5 xs:mt-6 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
+            className="mt-4 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] active:bg-[#004799] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all active:scale-95 cursor-pointer font-montserrat group"
           >
             <span>BUY NOW</span>
             <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
@@ -151,10 +155,15 @@ export default function WashWithoutLimits() {
             </div>
           </div>
 
+          {/* COD & EMI Badges */}
+          <div className="mt-5">
+            <EmiCodBadges />
+          </div>
+
           {/* CTA Action Button */}
           <button
             onClick={openModal}
-            className="mt-7 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all hover:scale-[1.03] active:scale-95 cursor-pointer font-montserrat group"
+            className="mt-5 inline-flex items-center justify-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-black tracking-wider uppercase px-7 py-3 rounded-[6px] shadow-md transition-all hover:scale-[1.03] active:scale-95 cursor-pointer font-montserrat group"
           >
             <span>BUY NOW</span>
             <ArrowRight className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />

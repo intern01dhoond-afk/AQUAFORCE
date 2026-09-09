@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 import { useBulkEnquiry } from "@/context/BulkEnquiryContext";
+import EmiCodBadges from "@/components/EmiCodBadges";
 
 const TOTAL_SLIDES = 4;
 
@@ -129,6 +130,11 @@ export default function Hero() {
                   26% OFF
                 </span>
               </div>
+
+              {/* COD & EMI Badges */}
+              <div className="mt-2.5">
+                <EmiCodBadges />
+              </div>
             </div>
 
             {/* Mobile Action Buttons - Side-by-Side 2-Column Grid */}
@@ -182,6 +188,11 @@ export default function Hero() {
               <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
                 26% OFF
               </span>
+            </div>
+
+            {/* COD & EMI Badges */}
+            <div className="mt-4 sm:mt-5">
+              <EmiCodBadges />
             </div>
 
             {/* CTA Action Buttons */}
@@ -272,6 +283,11 @@ export default function Hero() {
               </span>
             </div>
 
+            {/* COD & EMI Badges */}
+            <div className="mt-2.5">
+              <EmiCodBadges />
+            </div>
+
             {/* Mobile Action Buttons */}
             <div className="grid grid-cols-2 gap-2 mt-3 mb-4 w-full">
               <button
@@ -322,6 +338,11 @@ export default function Hero() {
               <span className="text-white font-extrabold ml-1 text-lg sm:text-xl">
                 Offer Price: ₹37,999
               </span>
+            </div>
+
+            {/* COD & EMI Badges */}
+            <div className="mt-4 sm:mt-5">
+              <EmiCodBadges />
             </div>
 
             {/* CTA Buttons */}
@@ -410,6 +431,11 @@ export default function Hero() {
               </span>
             </div>
 
+            {/* COD & EMI Badges */}
+            <div className="mt-2.5">
+              <EmiCodBadges />
+            </div>
+
             {/* Mobile Action Buttons - Side-by-Side 2-Column Grid */}
             <div className="grid grid-cols-2 gap-2 mt-3 mb-4 w-full">
               <button
@@ -454,6 +480,11 @@ export default function Hero() {
                 <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
                   26% OFF
                 </span>
+              </div>
+
+              {/* COD & EMI Badges */}
+              <div className="my-1">
+                <EmiCodBadges />
               </div>
 
               {/* Action Buttons */}
@@ -538,6 +569,11 @@ export default function Hero() {
               </span>
             </div>
 
+            {/* COD & EMI Badges */}
+            <div className="mt-2.5">
+              <EmiCodBadges />
+            </div>
+
             {/* Mobile Action Buttons - Side-by-Side 2-Column Grid */}
             <div className="grid grid-cols-2 gap-2 mt-3 mb-4 w-full">
               <button
@@ -582,6 +618,11 @@ export default function Hero() {
                 <span className="bg-[#18c49e] text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
                   26% OFF
                 </span>
+              </div>
+
+              {/* COD & EMI Badges */}
+              <div className="my-1">
+                <EmiCodBadges />
               </div>
 
               {/* Action Buttons */}

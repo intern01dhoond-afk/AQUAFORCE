@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
+import EmiCodBadges from "@/components/EmiCodBadges";
 
 export default function PromoBanner() {
   const { openModal } = useOrderModal();
@@ -51,8 +52,13 @@ export default function PromoBanner() {
             </span>
           </div>
 
+          {/* COD & EMI Badges */}
+          <div className="mt-4">
+            <EmiCodBadges />
+          </div>
+
           {/* CTA Button */}
-          <div className="mt-6 sm:mt-7">
+          <div className="mt-5 sm:mt-6">
             <button
               onClick={openModal}
               className="inline-flex items-center gap-2 bg-[#0066cc] hover:bg-[#0052b3] text-white font-montserrat text-xs sm:text-sm font-black tracking-wider uppercase px-7 py-3.5 rounded-[4px] shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
