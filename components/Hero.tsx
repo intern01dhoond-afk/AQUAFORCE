@@ -130,11 +130,11 @@ export default function Hero() {
                   26% OFF
                 </span>
               </div>
+            </div>
 
-              {/* COD & EMI Badges */}
-              <div className="mt-2.5">
-                <EmiCodBadges />
-              </div>
+            {/* COD & EMI Badges */}
+            <div className="mt-2.5">
+              <EmiCodBadges />
             </div>
 
             {/* Mobile Action Buttons - Side-by-Side 2-Column Grid */}
