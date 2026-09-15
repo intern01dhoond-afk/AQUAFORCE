@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ScrollReveal, { ScrollRevealStagger, ScrollRevealItem } from "./ScrollReveal";
+import PerformanceVideoPlayer from "./PerformanceVideoPlayer";
 
 const FEATURES_LEFT = [
   {
@@ -79,28 +80,16 @@ export default function EngineeredPerformance() {
       </ScrollReveal>
 
       {/* ========================================================= */}
-      {/* MOBILE LAYOUT (< lg): Machine in Center + 2-Column Grid */}
+      {/* MOBILE LAYOUT (< lg): Video Player + 2-Column Grid */}
       {/* ========================================================= */}
-      <div className="lg:hidden max-w-[560px] mx-auto px-3.5 sm:px-6 mt-3 sm:mt-6 flex flex-col items-center">
-        {/* Center 3D Aquaforce Machine Render */}
-        <ScrollReveal direction="zoom" className="relative flex items-center justify-center my-1 sm:my-2 w-full">
-          {/* Radiant Brightness Spotlight */}
-          <div className="absolute w-56 h-56 sm:w-80 sm:h-80 bg-white/85 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 w-64 h-72 sm:w-80 sm:h-92">
-            <Image
-              src="/aquaforceforautocare/images/Remainig%20images/features%20image.webp"
-              alt="Aquaforce 1400 PSI TECH portable high pressure washer machine"
-              fill
-              priority
-              quality={100}
-              sizes="(max-width: 640px) 100vw, 500px"
-              className="object-contain drop-shadow-[0_20px_35px_rgba(15,40,75,0.25)]"
-            />
-          </div>
+      <div className="lg:hidden max-w-[560px] mx-auto px-3.5 sm:px-6 mt-4 sm:mt-6 flex flex-col items-center">
+        {/* Center Video Player */}
+        <ScrollReveal direction="zoom" className="relative flex flex-col items-center justify-center my-2 w-full">
+          <PerformanceVideoPlayer />
         </ScrollReveal>
 
         {/* 2-Column Features Grid Styled as Crisp Modern Cards */}
-        <ScrollRevealStagger className="w-full grid grid-cols-2 gap-2.5 xs:gap-3 sm:gap-4 mt-2 text-left" staggerDelay={0.08}>
+        <ScrollRevealStagger className="w-full grid grid-cols-2 gap-2.5 xs:gap-3 sm:gap-4 mt-6 text-left" staggerDelay={0.08}>
           {MOBILE_FEATURE_PAIRS.flat().map((item) => (
             <ScrollRevealItem
               key={item.title}
@@ -158,24 +147,9 @@ export default function EngineeredPerformance() {
           ))}
         </ScrollReveal>
 
-        {/* Center Column: Enlarged 3D Aquaforce Machine Render with Radiant Glow */}
-        <ScrollReveal direction="zoom" className="col-span-6 flex items-center justify-center relative">
-          {/* Radiant Spotlight */}
-          <div className="absolute w-80 h-80 lg:w-[460px] lg:h-[460px] bg-white/85 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute w-60 h-60 sm:w-72 sm:h-72 bg-white rounded-full blur-2xl pointer-events-none" />
-
-          {/* Machine Image Container */}
-          <div className="relative z-10 w-[420px] h-[480px] lg:w-[460px] lg:h-[530px] xl:w-[500px] xl:h-[560px]">
-            <Image
-              src="/aquaforceforautocare/images/Remainig%20images/features%20image.webp"
-              alt="Aquaforce 1400 PSI TECH portable high pressure washer machine"
-              fill
-              priority
-              quality={100}
-              sizes="(max-width: 1024px) 100vw, 800px"
-              className="object-contain drop-shadow-[0_25px_45px_rgba(15,40,75,0.28)]"
-            />
-          </div>
+        {/* Center Column: Video Player with Glow */}
+        <ScrollReveal direction="zoom" className="col-span-6 flex items-center justify-center relative px-2">
+          <PerformanceVideoPlayer />
         </ScrollReveal>
 
         {/* Right Column (4 Features) */}
