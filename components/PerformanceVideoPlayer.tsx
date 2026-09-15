@@ -124,7 +124,6 @@ export default function PerformanceVideoPlayer({
           {/* Main Video Element */}
           <video
             ref={videoRef}
-            src={videoSrc}
             autoPlay
             loop
             muted={isMuted}
@@ -133,7 +132,12 @@ export default function PerformanceVideoPlayer({
             onLoadedMetadata={handleLoadedMetadata}
             onClick={togglePlay}
             className="w-full h-auto aspect-[16/10] sm:aspect-[4/3] object-cover cursor-pointer block"
-          />
+          >
+            <source src="/aquaforceforautocare/ASMR_PROMEC_LAPTOP_compressed.mp4" type="video/mp4" />
+            <source src="/ASMR_PROMEC_LAPTOP_compressed.mp4" type="video/mp4" />
+            <source src="/aquaforceforautocare/ASMR%20PROMEC%20LAPTOP.mp4" type="video/mp4" />
+            <source src="/ASMR%20PROMEC%20LAPTOP.mp4" type="video/mp4" />
+          </video>
 
           {/* Top Right Mute / Unmute Button */}
           <button
