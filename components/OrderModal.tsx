@@ -1291,7 +1291,7 @@ export default function OrderModal({
                         </span>
                       </button>
 
-                      {/* Segment 2: EMI on UPI & Cards */}
+                      {/* Segment 2: EMI on Credit/Debit Cards */}
                       <button
                         type="button"
                         onClick={(e) => {
@@ -1333,7 +1333,7 @@ export default function OrderModal({
                               : "text-slate-500"
                           }`}
                         >
-                          EMI on UPI &amp; Cards
+                          EMI on Credit/Debit Cards
                         </span>
                         <span
                           className={`text-sm sm:text-base font-extrabold font-montserrat mt-0.5 leading-tight ${
