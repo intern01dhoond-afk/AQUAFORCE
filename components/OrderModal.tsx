@@ -371,25 +371,25 @@ export default function OrderModal({
           }));
         }
 
-        // Live Delhivery Serviceability Check
-        const delRes = await fetch(getApiPath(`/api/delhivery/serviceability?pincode=${cleanVal}`));
-        const delData = await delRes.json();
-        if (delData.success && delData.serviceable) {
-          const codOk = delData.cod === true;
+        // Live Shiprocket Serviceability Check
+        const shipRes = await fetch(getApiPath(`/api/shiprocket/serviceability?pincode=${cleanVal}`));
+        const shipData = await shipRes.json();
+        if (shipData.success && shipData.serviceable) {
+          const codOk = shipData.cod === true;
           setDelhiveryCodAvailable(codOk);
           setDelhiveryStatus({
             serviceable: true,
             cod: codOk,
             message: codOk
-              ? "✓ Delhivery Express: Prepaid & Cash on Delivery Available"
-              : "✓ Delhivery Express: Prepaid Delivery Available (COD Not Serviceable)",
+              ? "✓ Shiprocket Express: Prepaid & Cash on Delivery Available"
+              : "✓ Shiprocket Express: Prepaid Delivery Available (COD Not Serviceable)",
           });
-        } else if (delData.remarks) {
+        } else if (shipData.remarks) {
           setDelhiveryCodAvailable(false);
           setDelhiveryStatus({
             serviceable: false,
             cod: false,
-            message: delData.remarks,
+            message: shipData.remarks,
           });
         }
       } catch (err) {
@@ -719,9 +719,9 @@ export default function OrderModal({
           const advanceAmountPaid = isCodOrder ? partialCodAmount : totalAmount;
           const codBalanceDue = isCodOrder ? partialCodBalance : 0;
 
-          // Step 1: Create Delhivery shipment first (we need the waybill for subsequent calls)
+          // Step 1: Create Shiprocket shipment first (we need the waybill for subsequent calls)
           try {
-            const delRes = await fetch(getApiPath("/api/delhivery/create-shipment"), {
+            const shipRes = await fetch(getApiPath("/api/shiprocket/create-shipment"), {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -742,12 +742,12 @@ export default function OrderModal({
                 advanceAmount: advanceAmountPaid,
               }),
             });
-            const delData = await delRes.json();
-            if (delData?.waybill) {
-              generatedWaybill = delData.waybill;
+            const shipData = await shipRes.json();
+            if (shipData?.waybill) {
+              generatedWaybill = shipData.waybill;
             }
-          } catch (delhiveryErr) {
-            console.error("Failed to create Delhivery shipment:", delhiveryErr);
+          } catch (shiprocketErr) {
+            console.error("Failed to create Shiprocket shipment:", shiprocketErr);
           }
 
           // Step 2: Fire Google Sheets, Email, and SMS in parallel (they all depend on waybill from step 1)

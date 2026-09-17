@@ -396,7 +396,7 @@ export default function EmiCalculatorModal({
               <CheckCircle2 size={14} className="text-[#0066cc]" /> Instant Paperless Approval
             </span>
             <span className="flex items-center gap-1">
-              <Zap size={14} className="text-amber-500" /> Express Delhivery Dispatch
+              <Zap size={14} className="text-amber-500" /> Express Shiprocket Dispatch
             </span>
           </div>
         </div>

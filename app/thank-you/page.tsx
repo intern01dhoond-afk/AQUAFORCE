@@ -197,7 +197,7 @@ function ThankYouContent() {
                   height={28}
                   className="shrink-0 w-7 h-7 object-contain"
                 />
-                Delhivery Express {waybill ? `(#${waybill})` : "(4-6 Days)"}
+                Shiprocket Express {waybill ? `(#${waybill})` : "(2-4 Days)"}
               </span>
             </div>
           </div>

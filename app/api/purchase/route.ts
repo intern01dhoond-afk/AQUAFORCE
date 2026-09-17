@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createDelhiveryShipment } from "@/lib/delhivery";
+import { createShiprocketShipment } from "@/lib/shiprocket";
 
 export async function POST(req: Request) {
   try {
@@ -42,13 +42,13 @@ export async function POST(req: Request) {
     const isCodOrder = paymentMethod === "10_PERCENT_COD" || Number(codBalance) > 0;
     const resolvedStatus = status || (isCodOrder ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed");
 
-    // Auto-create Delhivery shipment if waybill was not already created by client
+    // Auto-create Shiprocket shipment if waybill was not already created by client
     let resolvedWaybill = (waybill && waybill !== "AUTO_GENERATED") ? waybill : "";
 
     if (!resolvedWaybill) {
       try {
-        console.log(`Auto-creating Delhivery shipment for order ${orderId || "new"}...`);
-        const delResult = await createDelhiveryShipment({
+        console.log(`Auto-creating Shiprocket shipment for order ${orderId || "new"}...`);
+        const shipResult = await createShiprocketShipment({
           orderId: orderId || `ORD_${Date.now()}`,
           fullName,
           email,
@@ -65,14 +65,14 @@ export async function POST(req: Request) {
           codAmount: isCodOrder ? (Number(codBalance) || (Number(amount) - Math.floor(Number(amount) * 0.1) + 149)) : 0,
         });
 
-        if (delResult.success && delResult.waybill) {
-          resolvedWaybill = delResult.waybill;
-          console.log(`Auto-created Delhivery shipment successfully! Waybill: ${resolvedWaybill}`);
+        if (shipResult.success && (shipResult.awbCode || shipResult.shipmentId)) {
+          resolvedWaybill = String(shipResult.awbCode || shipResult.shipmentId);
+          console.log(`Auto-created Shiprocket shipment successfully! Waybill/ShipmentId: ${resolvedWaybill}`);
         } else {
-          console.warn("Auto-creation of Delhivery shipment failed:", delResult.error);
+          console.warn("Auto-creation of Shiprocket shipment failed:", shipResult.error);
         }
-      } catch (delErr) {
-        console.error("Error auto-creating Delhivery shipment in /api/purchase:", delErr);
+      } catch (shipErr) {
+        console.error("Error auto-creating Shiprocket shipment in /api/purchase:", shipErr);
       }
     }
 
