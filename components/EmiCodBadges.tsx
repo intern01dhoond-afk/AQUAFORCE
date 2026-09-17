@@ -7,19 +7,14 @@ interface EmiCodBadgesProps {
 export default function EmiCodBadges({ className = "" }: EmiCodBadgesProps) {
   return (
     <div
-      className={`inline-flex items-stretch rounded-full overflow-hidden shadow-[0_0_18px_rgba(0,102,204,0.45)] shadow-blue-600/40 border border-blue-400/20 select-none ${className}`}
+      className={`inline-flex items-center justify-center bg-[#0066cc] sm:bg-[#0070f3] text-white px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-[8px] shadow-[0_8px_25px_rgba(0,102,238,0.6)] border border-blue-400/20 select-none ${className}`}
     >
-      {/* Left Light Blue Section: Available Options */}
-      <div className="bg-[#7ec2ff] text-[#0a437a] font-bold text-[9.5px] xs:text-[11px] sm:text-[12.5px] px-3 xs:px-3.5 py-1 sm:py-1.5 flex items-center shrink-0">
-        <span>Available Options</span>
-      </div>
-
-      {/* Right White Section: NO COST EMI | CASH ON DELIVERY */}
-      <div className="bg-white text-[#0a437a] font-extrabold text-[8.5px] xs:text-[10px] sm:text-[11.5px] tracking-wider uppercase px-3 xs:px-4 py-1 sm:py-1.5 flex items-center gap-1.5 xs:gap-3 shrink-0">
-        <span>NO COST EMI</span>
-        <span className="text-[#0a437a]/40 font-light text-xs sm:text-sm">|</span>
-        <span>CASH ON DELIVERY</span>
-      </div>
+      <span className="font-bold text-xs xs:text-sm sm:text-[15px] tracking-wide uppercase">
+        NO COST EMI / COD
+      </span>
+      <span className="font-normal text-xs xs:text-sm sm:text-[15px] ml-2">
+        Available
+      </span>
     </div>
   );
 }
