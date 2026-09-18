@@ -121,7 +121,7 @@ export async function createShiprocketShipment(
       order_id: orderId || `ORD_${Date.now()}`,
       order_date: formattedDate,
       pickup_location: SHIPROCKET_PICKUP_LOCATION,
-      channel_id: "",
+      channel_id: process.env.SHIPROCKET_CHANNEL_ID || "12211988",
       comment: "Next.js Custom E-commerce Order",
       billing_customer_name: fullName || "Valued Customer",
       billing_last_name: "",
@@ -164,12 +164,19 @@ export async function createShiprocketShipment(
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         },
         body: JSON.stringify(payload),
       }
     );
 
-    const data = await res.json();
+    const resText = await res.text();
+    let data: any = {};
+    try {
+      data = JSON.parse(resText);
+    } catch {
+      console.warn("Shiprocket response was non-JSON:", res.status, resText);
+    }
     console.log("Shiprocket Order Create Response:", JSON.stringify(data, null, 2));
 
     if (res.ok && (data.order_id || data.shipment_id)) {
