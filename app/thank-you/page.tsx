@@ -24,32 +24,6 @@ function ThankYouContent() {
   const formattedCodBalance = Number(codBalance).toLocaleString("en-IN");
 
   useEffect(() => {
-    // Backup order sync to Google Sheets if payment details exist in URL
-    if (paymentId && orderId) {
-      fetch("/aquaforceforautocare/api/purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderId,
-          paymentId,
-          fullName: customerName || "Customer",
-          phone: "See Razorpay Dashboard",
-          deliveryAddress: "See Razorpay Dashboard",
-          city: "N/A",
-          state: "N/A",
-          pincode: "000000",
-          product: "Aquaforce 1400",
-          quantity: 1,
-          amount: Number(totalAmountParam) || 37999,
-          paymentMethod: isCod ? "10% Cash on Delivery" : method,
-          advanceAmount: Number(amount),
-          codBalance: Number(codBalance),
-          waybill: waybill,
-          status: isCod ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed",
-        }),
-      }).catch((err) => console.error("Backup Google Sheets sync error:", err));
-    }
-
     // Trigger Meta Pixel Purchase Conversion Event
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "Purchase", {
@@ -59,7 +33,7 @@ function ThankYouContent() {
         content_type: "product",
       });
     }
-  }, [amount, paymentId, orderId, customerName]);
+  }, [amount]);
 
   const handleReturn = () => {
     router.push("/");

@@ -1,6 +1,19 @@
 import { NextResponse } from "next/server";
 import { createShiprocketShipment } from "@/lib/shiprocket";
 
+const processedOrdersCache = new Map<string, number>();
+
+function isDuplicate(id: string): boolean {
+  if (!id) return false;
+  const now = Date.now();
+  for (const [key, exp] of processedOrdersCache.entries()) {
+    if (now > exp) processedOrdersCache.delete(key);
+  }
+  if (processedOrdersCache.has(id)) return true;
+  processedOrdersCache.set(id, now + 15 * 60 * 1000); // 15-minute deduplication window
+  return false;
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -25,6 +38,15 @@ export async function POST(req: Request) {
       codBalance,
       waybill,
     } = body;
+
+    const dedupKey = orderId || paymentId;
+    if (dedupKey && isDuplicate(dedupKey)) {
+      console.warn(`Duplicate purchase event ignored for Order/Payment ID: ${dedupKey}`);
+      return NextResponse.json({
+        success: true,
+        message: "Duplicate purchase record ignored",
+      });
+    }
 
     if (!fullName || !phone || !deliveryAddress || !city || !state || !pincode) {
       return NextResponse.json(

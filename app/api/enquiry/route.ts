@@ -30,7 +30,9 @@ export async function POST(req: Request) {
       status: "New Enquiry",
     };
 
-    const webhookUrl = process.env.GOOGLE_SHEET_ENQUIRY_URL;
+    const webhookUrl =
+      process.env.GOOGLE_SHEET_ENQUIRY_URL ||
+      "https://script.google.com/macros/s/AKfycbyVAJccNewtDHw_EPlY90UIIjXVdB3FeTXZCg_6OPJJq-h3p3XgIZ_AYLupETD0YRXd/exec";
 
     if (webhookUrl) {
       try {
@@ -46,7 +48,7 @@ export async function POST(req: Request) {
         console.error("Failed to forward enquiry to Google Sheets:", sheetError);
       }
     } else {
-      console.warn("GOOGLE_SHEET_ENQUIRY_URL is not configured in .env.local. Enquiry data logged:", payload);
+      console.warn("GOOGLE_SHEET_ENQUIRY_URL is not configured. Enquiry data logged:", payload);
     }
 
     return NextResponse.json({ success: true, data: payload });
