@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, Building2 } from "lucide-react";
 import EmiCalculatorModal from "./EmiCalculatorModal";
 
 interface OrderModalProps {
@@ -102,6 +102,153 @@ const CodPaymentIcon = ({ className = "w-[22px] h-[22px] shrink-0" }: { classNam
   </svg>
 );
 
+
+const EMI_BANKS = [
+  {
+    id: "axis",
+    name: "Axis Bank",
+    code: "UTIB",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-rose-900",
+    logoText: "AXIS",
+  },
+  {
+    id: "hdfc",
+    name: "HDFC Bank",
+    code: "HDFC",
+    type: "both",
+    isNoCost: true,
+    hasOffer: true,
+    offerText: "10% Instant Discount",
+    logoBg: "bg-blue-900",
+    logoText: "HDFC",
+  },
+  {
+    id: "icici",
+    name: "ICICI Bank",
+    code: "ICIC",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-orange-700",
+    logoText: "ICICI",
+  },
+  {
+    id: "amex",
+    name: "American Express",
+    code: "AMEX",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-sky-700",
+    logoText: "AMEX",
+  },
+  {
+    id: "sbi",
+    name: "State Bank of India (SBI)",
+    code: "SBIN",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-[#005a9c]",
+    logoText: "SBI",
+  },
+  {
+    id: "kotak",
+    name: "Kotak Mahindra Bank",
+    code: "KKBK",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-red-700",
+    logoText: "KOTAK",
+  },
+  {
+    id: "rbl",
+    name: "RBL Bank",
+    code: "RATN",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-blue-950",
+    logoText: "RBL",
+  },
+  {
+    id: "indusind",
+    name: "IndusInd Bank",
+    code: "INDB",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-amber-900",
+    logoText: "INDUS",
+  },
+  {
+    id: "idbi",
+    name: "IDBI Bank",
+    code: "IBKL",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-emerald-800",
+    logoText: "IDBI",
+  },
+  {
+    id: "yesbank",
+    name: "Yes Bank",
+    code: "YESB",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-blue-800",
+    logoText: "YES",
+  },
+  {
+    id: "hsbc",
+    name: "HSBC Bank",
+    code: "HSBC",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-red-600",
+    logoText: "HSBC",
+  },
+  {
+    id: "federal",
+    name: "Federal Bank",
+    code: "FDRL",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-amber-600",
+    logoText: "FED",
+  },
+  {
+    id: "bajaj",
+    name: "Bajaj Finserv Insta EMI Card",
+    code: "BAJAJ",
+    type: "bajaj",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    logoBg: "bg-blue-600",
+    logoText: "BAJAJ",
+  },
+];
+
 const getApiPath = (endpoint: string) => {
   const clean = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   return `/aquaforceforautocare${clean}`;
@@ -180,7 +327,13 @@ export default function OrderModal({
   const [onlinePaymentMode, setOnlinePaymentMode] = useState<"FULL" | "EMI">("FULL");
   const [isCodSuccess, setIsCodSuccess] = useState(false);
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
-  const [delhiveryCodAvailable, setDelhiveryCodAvailable] = useState<boolean | null>(null);
+    const [delhiveryCodAvailable, setDelhiveryCodAvailable] = useState<boolean | null>(null);
+  const [checkoutStep, setCheckoutStep] = useState<"details" | "choose_emi">("details");
+  const [bankSearchQuery, setBankSearchQuery] = useState("");
+  const [selectedEmiFilter, setSelectedEmiFilter] = useState<"all" | "no_cost" | "credit" | "debit" | "bajaj">("all");
+  const [expandedBankId, setExpandedBankId] = useState<string | null>("hdfc");
+  const [selectedTenure, setSelectedTenure] = useState<number>(6);
+
 
   // Dynamic Pricing Calculations
   const currentOfferPrice = selectedVacuumOption === "without" ? 35999 : 37999;
@@ -192,6 +345,19 @@ export default function OrderModal({
   const savingsPercentage = Math.round((unitSavings / currentMRP) * 100);
   const taxAmount = Math.round(((totalPrice * 18) / 118) * 100) / 100;
   const monthlyEmi = Math.round(totalPrice / 6);
+
+  const filteredBanks = EMI_BANKS.filter((bank) => {
+    const matchesSearch =
+      bank.name.toLowerCase().includes(bankSearchQuery.toLowerCase()) ||
+      bank.code.toLowerCase().includes(bankSearchQuery.toLowerCase());
+    if (!matchesSearch) return false;
+    if (selectedEmiFilter === "no_cost") return bank.isNoCost;
+    if (selectedEmiFilter === "credit") return bank.type === "credit" || bank.type === "both";
+    if (selectedEmiFilter === "debit") return bank.type === "debit" || bank.type === "both";
+    if (selectedEmiFilter === "bajaj") return bank.type === "bajaj";
+    return true;
+  });
+
 
   // 10% Cash on Delivery calculations
   const advanceAmount = Math.floor(totalPrice * 0.10);
@@ -481,9 +647,14 @@ export default function OrderModal({
 
   // Handle back button from Checkout Form -> Product Details view
   const handleBackToProduct = () => {
+    if (checkoutStep === "choose_emi") {
+      setCheckoutStep("details");
+      return;
+    }
     if (historyStateRef.current === "checkout") {
       historyStateRef.current = "product";
       setIsCheckingOut(false);
+      setCheckoutStep("details");
       setIsSubmitted(false);
       setIsProcessingPayment(false);
       isNavigatingBackRef.current = true;
@@ -493,6 +664,7 @@ export default function OrderModal({
       }, 100);
     } else {
       setIsCheckingOut(false);
+      setCheckoutStep("details");
     }
   };
 
@@ -520,6 +692,8 @@ export default function OrderModal({
     setIsCodSuccess(false);
     setPaymentMethod("FULL_ONLINE");
     setOnlinePaymentMode("FULL");
+    setCheckoutStep("details");
+    setBankSearchQuery("");
     setFormErrors({});
     onClose();
   };
@@ -692,7 +866,31 @@ export default function OrderModal({
           name: formData.fullName,
           email: formData.email,
           contact: formData.phone.startsWith("+91") ? formData.phone : `+91${formData.phone}`,
+          ...(onlinePaymentMode === "EMI" && !isCod ? { method: "emi" } : {}),
         },
+        ...(onlinePaymentMode === "EMI" && !isCod
+          ? {
+              config: {
+                display: {
+                  blocks: {
+                    emi_banks: {
+                      name: "Choose Credit Card EMI",
+                      instruments: [
+                        {
+                          method: "emi",
+                          types: ["credit"],
+                        },
+                      ],
+                    },
+                  },
+                  sequence: ["block.emi_banks"],
+                  preferences: {
+                    show_default_blocks: true,
+                  },
+                },
+              },
+            }
+          : {}),
         notes: {
           order_type: isCod
             ? "10% Advance COD Booking"
@@ -997,16 +1195,18 @@ export default function OrderModal({
         ) : isCheckingOut ? (
           /* Exact Delivery Checkout Form Matching Reference Mockups (Desktop & Mobile) */
           <div className="flex flex-col h-full flex-1 overflow-hidden">
-            {/* Header row: Back button on left, Close button on right (Fixed Top) */}
-            <div className="shrink-0 px-4 sm:px-8 md:px-10 lg:px-12 pt-4 sm:pt-5 pb-3 border-b border-slate-100 flex items-center justify-between bg-white z-20">
+            {/* Header row: Promec Logo/Back button on left, Close button right */}
+            <div className="shrink-0 px-4 sm:px-8 md:px-10 lg:px-12 pt-3.5 sm:pt-4 pb-3 border-b border-slate-100 flex items-center justify-between bg-white z-20">
               <button
                 type="button"
                 onClick={handleBackToProduct}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 font-bold text-xs sm:text-sm font-montserrat cursor-pointer hover:bg-slate-100 px-2 py-1 rounded-lg transition-colors"
                 aria-label="Back"
               >
-                <ArrowLeft size={18} />
+                <ArrowLeft size={16} />
+                <span>PROMEC</span>
               </button>
+
               <button
                 type="button"
                 onClick={handleClose}
@@ -1022,6 +1222,7 @@ export default function OrderModal({
               onSubmit={handleCheckoutSubmit}
               className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-10 lg:px-12 py-5 sm:py-6 space-y-5 no-scrollbar"
             >
+
               {/* Section 1: Personal Information */}
               <div>
                 <div className="text-[11px] sm:text-xs font-bold tracking-wider text-slate-500 uppercase font-montserrat mb-2.5 sm:mb-3">
@@ -1291,7 +1492,7 @@ export default function OrderModal({
                         </span>
                       </button>
 
-                      {/* Segment 2: EMI on Credit/Debit Cards */}
+                      {/* Segment 2: EMI on Credit/Debit Cards (Instant Choose EMI Transition) */}
                       <button
                         type="button"
                         onClick={(e) => {
@@ -1333,7 +1534,7 @@ export default function OrderModal({
                               : "text-slate-500"
                           }`}
                         >
-                          EMI on Credit/Debit Cards
+                          EMI / No-Cost EMI
                         </span>
                         <span
                           className={`text-sm sm:text-base font-extrabold font-montserrat mt-0.5 leading-tight ${
@@ -1342,7 +1543,7 @@ export default function OrderModal({
                               : "text-slate-600"
                           }`}
                         >
-                          ₹{monthlyEmi.toLocaleString("en-IN")} + 6 EMIs
+                          ₹{monthlyEmi.toLocaleString("en-IN")}/m →
                         </span>
                       </button>
                     </div>
@@ -1844,7 +2045,7 @@ export default function OrderModal({
                           height={36}
                           className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 object-contain"
                         />
-                        <span>Express delivery within 4-6 Days</span>
+                        <span>Express delivery in 6 to 8 days</span>
                       </div>
                     </div>
 

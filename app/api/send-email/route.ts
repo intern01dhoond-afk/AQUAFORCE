@@ -498,9 +498,9 @@ export async function POST(req: Request) {
                         </td>
                         <td class="trust-right-td" align="right" style="font-size: 12px; color: #78350f; font-weight: 600;">
                           Follow us &nbsp;
-                          ${hasFb ? `<a href="https://www.facebook.com/share/19cRYjSKRA/" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:fbIcon" alt="Facebook" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
-                          ${hasInsta ? `<a href="https://www.instagram.com/promec.india?igsi=MXpocDh4NGJyc3F3" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:instaIcon" alt="Instagram" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
-                          ${hasYoutube ? `<a href="https://youtube.com/@promectools?si=2IvjOZwgD73HWBaP" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:youtubeIcon" alt="YouTube" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
+                          ${hasFb ? `<a href="https://www.facebook.com/promecindia" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:fbIcon" alt="Facebook" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
+                          ${hasInsta ? `<a href="https://www.instagram.com/promec.india" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:instaIcon" alt="Instagram" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
+                          ${hasYoutube ? `<a href="https://www.youtube.com/@PROMECIndia" target="_blank" style="text-decoration: none; margin-left: 6px; display: inline-block; vertical-align: middle;"><img src="cid:youtubeIcon" alt="YouTube" style="width: 22px; height: 22px; display: inline-block; vertical-align: middle; border: 0;" /></a>` : ""}
                         </td>
                       </tr>
                     </table>
