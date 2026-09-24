@@ -119,21 +119,21 @@ export default function Footer() {
 
           {/* Right: Policy Links separated by pipes */}
           <div className="flex flex-wrap items-center justify-center lg:justify-end gap-x-2 text-xs text-white/50">
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">
+            <a href="/privacy-policy" className="hover:text-white transition-colors">
               Privacy Policy
-            </Link>
+            </a>
             <span className="text-white/20 select-none">|</span>
-            <Link href="/terms-of-service" className="hover:text-white transition-colors">
+            <a href="/terms-of-service" className="hover:text-white transition-colors">
               Terms of Use
-            </Link>
+            </a>
             <span className="text-white/20 select-none">|</span>
-            <Link href="/cancellation-policy" className="hover:text-white transition-colors">
+            <a href="/cancellation-policy" className="hover:text-white transition-colors">
               Cancelation Policy
-            </Link>
+            </a>
             <span className="text-white/20 select-none">|</span>
-            <Link href="/refund-policy" className="hover:text-white transition-colors">
+            <a href="/refund-policy" className="hover:text-white transition-colors">
               Refund Policy
-            </Link>
+            </a>
           </div>
         </div>
       </ScrollReveal>

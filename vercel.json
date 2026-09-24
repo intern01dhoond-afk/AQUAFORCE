@@ -9,6 +9,26 @@
       "destination": "/aquaforceforautocare/thank-you"
     },
     {
+      "source": "/privacy-policy",
+      "destination": "/aquaforceforautocare/privacy-policy"
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "/aquaforceforautocare/terms-of-service"
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "/aquaforceforautocare/terms-and-conditions"
+    },
+    {
+      "source": "/cancellation-policy",
+      "destination": "/aquaforceforautocare/cancellation-policy"
+    },
+    {
+      "source": "/refund-policy",
+      "destination": "/aquaforceforautocare/refund-policy"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/aquaforceforautocare/api/:path*"
     }
