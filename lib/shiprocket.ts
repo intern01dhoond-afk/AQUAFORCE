@@ -1,12 +1,7 @@
-export const SHIPROCKET_EMAIL =
-  process.env.SHIPROCKET_EMAIL || "hemanthk0804@gmail.com";
-
-export const SHIPROCKET_PASSWORD =
-  process.env.SHIPROCKET_PASSWORD || "9GW&KOtvjA@$9LT8t4ztD4KX%Z74IhYn";
-
+export const SHIPROCKET_EMAIL = process.env.SHIPROCKET_EMAIL || "";
+export const SHIPROCKET_PASSWORD = process.env.SHIPROCKET_PASSWORD || "";
 export const SHIPROCKET_PICKUP_LOCATION =
-  process.env.SHIPROCKET_PICKUP_LOCATION || "warehouse";
-
+  process.env.SHIPROCKET_PICKUP_LOCATION || "primary_warehouse";
 export const SHIPROCKET_PICKUP_PINCODE =
   process.env.SHIPROCKET_PICKUP_PINCODE || "440016";
 

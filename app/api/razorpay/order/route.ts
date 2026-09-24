@@ -11,8 +11,8 @@ export async function POST(req: Request) {
     }
     const { amount, receipt, notes } = body;
 
-    const key_id = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa";
-    const key_secret = process.env.RAZORPAY_KEY_SECRET || "0KXVl9FKyL7UlWPDw0HJancL";
+    const key_id = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "";
+    const key_secret = process.env.RAZORPAY_KEY_SECRET || "";
 
     if (!key_id || !key_secret) {
       return NextResponse.json(

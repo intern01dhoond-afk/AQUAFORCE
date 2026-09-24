@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, Building2 } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, Building2, ShoppingCart, Eye } from "lucide-react";
 import EmiCalculatorModal from "./EmiCalculatorModal";
+import { QRCodeSVG } from "qrcode.react";
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -38,6 +39,106 @@ const SpeedingTruckIcon = ({ className = "w-5 h-5 text-[#0066cc]" }: { className
     <circle cx="17.5" cy="17" r="1.8" fill="currentColor" />
   </svg>
 );
+
+const getApiPath = (endpoint: string) => {
+  const clean = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  return `/aquaforceforautocare${clean}`;
+};
+
+type UpiAppId = "paytm" | "phonepe" | "gpay" | "amazonpay" | "bhim";
+
+const UPI_APP_OPTIONS: {
+  id: UpiAppId;
+  name: string;
+  shortName: string;
+  badge?: string;
+  bgClass: string;
+  borderClass: string;
+  avatarBg: string;
+  logo: string;
+  androidPackage: string;
+  iosScheme: string;
+}[] = [
+  {
+    id: "paytm",
+    name: "Paytm",
+    shortName: "Paytm",
+    badge: "Win Cashback",
+    bgClass: "bg-[#f0f9ff]",
+    borderClass: "border-sky-100",
+    avatarBg: "bg-white",
+    logo: "/UPI options/paytm_logo.svg.png",
+    androidPackage: "net.one97.paytm",
+    iosScheme: "paytmmp://pay",
+  },
+  {
+    id: "phonepe",
+    name: "PhonePe",
+    shortName: "PhonePe",
+    bgClass: "bg-[#f5f0fb]",
+    borderClass: "border-purple-100",
+    avatarBg: "bg-[#5f259f]",
+    logo: "/UPI options/phonepe_symbol.svg.png",
+    androidPackage: "com.phonepe.app",
+    iosScheme: "phonepe://pay",
+  },
+  {
+    id: "gpay",
+    name: "Google Pay",
+    shortName: "G Pay",
+    bgClass: "bg-[#fef6f0]",
+    borderClass: "border-orange-100",
+    avatarBg: "bg-white",
+    logo: "/UPI options/google.png",
+    androidPackage: "com.google.android.apps.nbu.paisa.user",
+    iosScheme: "gpay://upi/pay",
+  },
+  {
+    id: "amazonpay",
+    name: "Amazon Pay",
+    shortName: "Amazon Pay",
+    badge: "Win Cashback",
+    bgClass: "bg-[#f8fafc]",
+    borderClass: "border-slate-200",
+    avatarBg: "bg-[#232f3e]",
+    logo: "/UPI options/amazonpay.png",
+    androidPackage: "in.amazon.mShop.android.shopping",
+    iosScheme: "amazonpay://pay",
+  },
+  {
+    id: "bhim",
+    name: "BHIM UPI",
+    shortName: "BHIM",
+    bgClass: "bg-[#f0fdf4]",
+    borderClass: "border-emerald-100",
+    avatarBg: "bg-[#eef8ee]",
+    logo: "/UPI options/bhim_logo.svg.png",
+    androidPackage: "in.org.npci.upiapp",
+    iosScheme: "bhim://pay",
+  },
+];
+
+const getAppSpecificUpiUrl = (baseUpiUrl: string, appId: UpiAppId): string => {
+  const isAndroid = typeof navigator !== "undefined" && /android/i.test(navigator.userAgent);
+  const isIOS = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  const query = baseUpiUrl.includes("?")
+    ? baseUpiUrl.split("?")[1]
+    : baseUpiUrl.replace(/^upi:\/\/pay\??/, "");
+
+  const app = UPI_APP_OPTIONS.find((a) => a.id === appId);
+  if (!app) return baseUpiUrl;
+
+  if (isAndroid) {
+    return `intent://pay?${query}#Intent;scheme=upi;package=${app.androidPackage};end`;
+  }
+
+  if (isIOS) {
+    return `${app.iosScheme}?${query}`;
+  }
+
+  return `upi://pay?${query}`;
+};
 
 const PaymentCardIcon = ({ className = "w-6 h-4 shrink-0" }: { className?: string }) => (
   <svg
@@ -101,158 +202,525 @@ const CodPaymentIcon = ({ className = "w-[22px] h-[22px] shrink-0" }: { classNam
     />
   </svg>
 );
+const UpiPaymentIcon = ({ className = "w-5 h-5 text-[#005DA6]" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 32 32" fill="none">
+    <path
+      d="M15.665 7.09912L16.4209 8.479V8.47998C16.5307 8.6798 16.7018 9.00597 16.8555 9.25732L18.0713 11.2456L18.6738 8.99463L19.6562 5.32764L21.7432 9.12549L24.3486 13.8608C24.7028 14.5032 25.0806 15.1637 25.4258 15.7993L16.6064 24.2231L13.8916 26.813L14.457 24.7085L14.8467 23.2573L14.8477 23.2554C14.8699 23.1718 14.9153 22.988 14.9453 22.8726C14.9631 22.8041 14.9802 22.7412 14.9951 22.689C15.0024 22.6633 15.0086 22.6425 15.0137 22.6265C15.0176 22.6139 15.0199 22.6068 15.0205 22.605L16.2588 19.2632L13.4629 21.4722C13.3297 21.5774 13.1122 21.7967 13.082 21.8257L12.5713 22.314V22.3149L10.8242 23.9858L8.55664 26.146L12.874 10.0552L14.1152 5.42432V5.42236C14.1831 5.16726 14.2497 4.90956 14.3174 4.65186L15.665 7.09912Z"
+      stroke="#005DA6"
+      strokeWidth={2}
+    />
+    <path
+      d="M21.7432 9.125V9.12598L24.3486 13.8604V13.8613C24.7029 14.5038 25.0805 15.1641 25.4258 15.7998L16.6064 24.2227L13.8916 26.8125L14.457 24.708L14.8467 23.2578V23.2559C14.8689 23.1724 14.9153 22.9887 14.9453 22.873C14.9526 22.8451 14.9589 22.8177 14.9658 22.792C15.0735 22.6904 15.195 22.5794 15.3408 22.4404L15.4365 22.3496L15.5049 22.2363L16.7725 20.1533L20.1504 17.2588L20.1709 17.2422L20.1895 17.2236C20.8162 16.6266 20.6552 16.7621 21.209 16.2061L21.7217 15.6904L21.3896 15.0439C21.1069 14.4924 20.7236 13.6507 20.376 13.0186L20.3623 12.9922L20.3467 12.9678L18.3799 9.84375L19.6523 5.32324L21.7432 9.125Z"
+      stroke="#005DA6"
+      strokeWidth={2}
+    />
+  </svg>
+);
 
+const CardPaymentIcon = ({ className = "w-5 h-5 text-[#005a9c]" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path fillRule="evenodd" d="M2.25 6A2.25 2.25 0 014.5 3.75h15A2.25 2.25 0 0121.75 6v12a2.25 2.25 0 01-2.25 2.25h-15A2.25 2.25 0 012.25 18V6zm3 1.5a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5zm0 3a.75.75 0 000 1.5h6a.75.75 0 000-1.5h-6z" clipRule="evenodd" />
+  </svg>
+);
 
-const EMI_BANKS = [
+const BankPaymentIcon = ({ className = "w-5 h-5 text-[#005DA6]" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <g clipPath="url(#clip0_netbanking_bank)">
+      <path d="M11.9146 0.755046C11.9313 0.754477 11.9479 0.754049 11.9645 0.753764C12.2112 0.749366 12.457 0.786913 12.691 0.864802C12.8918 0.932183 13.1139 1.02873 13.3116 1.10945L14.273 1.50249L17.2543 2.72084L20.637 4.10233L21.7356 4.55116C21.9445 4.63655 22.1867 4.72914 22.3897 4.82423C22.5401 4.89488 22.6779 4.98978 22.7976 5.10512C23.1169 5.41798 23.247 5.7988 23.251 6.23883L23.2504 7.07345C23.2492 7.68284 23.2663 8.08419 22.8117 8.55628C22.2864 9.10165 21.6257 9.00409 20.942 9.00409L19.0393 9.00373L12.0993 9.00393L5.1279 9.00398L3.14294 9.00449C2.85923 9.00455 2.29306 9.01968 2.03648 8.98405C1.7512 8.9453 1.48355 8.82369 1.26674 8.63428C0.973832 8.38102 0.769212 7.99051 0.754676 7.59978C0.740648 7.22264 0.754785 6.84113 0.7493 6.46333C0.746066 6.24069 0.744966 6.01228 0.800216 5.79529C0.85837 5.57121 0.967825 5.36372 1.11994 5.18919C1.41195 4.85683 1.73306 4.76644 2.12773 4.60589L3.11408 4.20483L6.22678 2.93246L9.56642 1.56809L10.634 1.13137C11.0945 0.942782 11.4062 0.786966 11.9146 0.755046Z" fill="#005DA6"/>
+      <path d="M2.51097 19.5045C2.92208 19.4849 3.44589 19.4991 3.86543 19.4991L6.3699 19.4992H14.0004L19.1174 19.4991L20.6724 19.4992C20.9298 19.4992 21.3258 19.4876 21.5698 19.512C21.9437 19.549 22.2978 19.6988 22.5846 19.9416C22.9658 20.2628 23.2027 20.7231 23.2426 21.22C23.2842 21.7179 23.1247 22.2119 22.7997 22.5914C22.4651 22.9863 22.0167 23.2029 21.5051 23.2475C21.0402 23.2656 20.5184 23.2537 20.0481 23.2538H17.4595L9.60819 23.2537L4.76614 23.2536L3.28592 23.2541C3.03685 23.2541 2.65677 23.265 2.41848 23.2395C2.06264 23.2007 1.72551 23.0602 1.44748 22.8347C1.05163 22.5107 0.805734 22.0643 0.759764 21.5534C0.710725 21.048 0.868369 20.5442 1.19679 20.1569C1.53854 19.7478 1.98733 19.5491 2.51097 19.5045Z" fill="#005DA6"/>
+      <path d="M9.00477 10.5009L12.2507 10.4995C13.1611 10.4995 14.0909 10.4889 14.9994 10.5028L15.0005 15.0757C15.0005 16.0418 15.0136 17.0385 14.998 18.0022C14.3481 18.0129 13.6731 18.0041 13.0216 18.0041H8.9983C9.01576 17.4137 8.99983 16.7324 8.99987 16.1362L8.9999 12.4964L8.99959 11.219C8.99946 10.9953 8.99142 10.7179 9.00477 10.5009Z" fill="#005DA6"/>
+      <path d="M16.5048 10.5008L18.869 10.4995C19.5747 10.4994 20.2946 10.4924 20.9995 10.5026L21.0005 15.0724C21.0007 16.0394 21.0134 17.0371 20.9981 18.0021C20.5076 18.0103 20.0006 18.0039 19.5091 18.004H16.4983C16.5158 17.4158 16.4998 16.7367 16.5 16.1428V12.4939L16.4996 11.2234C16.4995 10.9987 16.4914 10.7189 16.5048 10.5008Z" fill="#005DA6"/>
+      <path d="M3.00481 10.5008L5.36898 10.4995C6.07477 10.4994 6.79461 10.4924 7.49946 10.5026L7.50054 15.096C7.5006 16.0548 7.51358 17.0453 7.4981 18.0021C7.0074 18.0104 6.49927 18.0039 6.00752 18.004H2.99834C3.01581 17.4136 2.99987 16.732 2.99991 16.1358L2.99994 12.4989L2.99963 11.2239C2.9995 10.9991 2.99136 10.7189 3.00481 10.5008Z" fill="#005DA6"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_netbanking_bank">
+        <rect width="24" height="24" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+const RibbonBadge = ({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) => (
+  <div
+    className={`absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex items-start justify-center select-none ${className}`}
+  >
+    {/* Left folded wing */}
+    <svg
+      className="w-2 sm:w-2.5 h-3 sm:h-3.5 text-[#0c6b32] shrink-0 fill-current -mr-[0.5px]"
+      viewBox="0 0 10 14"
+      preserveAspectRatio="none"
+    >
+      <polygon points="0,14 10,0 10,14" />
+    </svg>
+
+    {/* Center Banner */}
+    <div className="bg-[#16a34a] text-white font-montserrat font-bold text-[10px] sm:text-[11px] tracking-tight px-3 sm:px-4 py-0.5 rounded-b-[6px] shadow-xs whitespace-nowrap flex items-center justify-center leading-none">
+      {text}
+    </div>
+
+    {/* Right folded wing */}
+    <svg
+      className="w-2 sm:w-2.5 h-3 sm:h-3.5 text-[#0c6b32] shrink-0 fill-current -ml-[0.5px]"
+      viewBox="0 0 10 14"
+      preserveAspectRatio="none"
+    >
+      <polygon points="0,0 10,14 0,14" />
+    </svg>
+  </div>
+);
+
+const GooglePayIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+  <div
+    className={`${className} rounded-full bg-white border border-slate-200/90 flex items-center justify-center p-1.5 shadow-2xs shrink-0 select-none hover:border-slate-300 transition-colors overflow-hidden`}
+    title="Google Pay"
+  >
+    <img
+      src={getApiPath("/UPI options/google.png")}
+      alt="Google Pay"
+      className="w-full h-full object-contain"
+      loading="lazy"
+    />
+  </div>
+);
+
+const PhonePeIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+  <div
+    className={`${className} rounded-full flex items-center justify-center shrink-0 select-none overflow-hidden shadow-2xs hover:brightness-105 transition-all`}
+    title="PhonePe"
+  >
+    <img
+      src={getApiPath("/UPI options/phonepe_symbol.svg.png")}
+      alt="PhonePe"
+      className="w-full h-full object-cover"
+      loading="lazy"
+    />
+  </div>
+);
+
+const PaytmIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+  <div
+    className={`${className} rounded-full bg-white border border-slate-200/90 flex items-center justify-center px-1.5 py-1 shadow-2xs shrink-0 select-none hover:border-slate-300 transition-colors overflow-hidden`}
+    title="Paytm"
+  >
+    <img
+      src={getApiPath("/UPI options/paytm_logo.svg.png")}
+      alt="Paytm"
+      className="w-full h-full object-contain"
+      loading="lazy"
+    />
+  </div>
+);
+
+const AmazonPayIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+  <div
+    className={`${className} rounded-full bg-white border border-slate-200/90 flex items-center justify-center p-1.5 shadow-2xs shrink-0 select-none hover:border-slate-300 transition-colors overflow-hidden`}
+    title="Amazon Pay"
+  >
+    <img
+      src={getApiPath("/UPI options/amazonpay.png")}
+      alt="Amazon Pay"
+      className="w-full h-full object-contain"
+      loading="lazy"
+    />
+  </div>
+);
+
+const BhimIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+  <div
+    className={`${className} rounded-full bg-white border border-slate-200/90 flex items-center justify-center p-1.5 shadow-2xs shrink-0 select-none hover:border-slate-300 transition-colors overflow-hidden`}
+    title="BHIM UPI"
+  >
+    <img
+      src={getApiPath("/UPI options/bhim_logo.svg.png")}
+      alt="BHIM UPI"
+      className="w-full h-full object-contain"
+      loading="lazy"
+    />
+  </div>
+);
+
+export interface EmiPlan {
+  months: number;
+  interestRate: number;
+  monthlyAmount: number;
+  totalPayable: number;
+  isNoCost: boolean;
+}
+
+export interface EmiBankItem {
+  id: string;
+  code: string;
+  name: string;
+  logo: string;
+  type: "credit" | "debit" | "both";
+  isNoCost: boolean;
+  hasOffer: boolean;
+  offerText: string;
+  minAmount: number;
+  startingEmi: number;
+  plans: EmiPlan[];
+}
+
+export interface NetbankingBankItem {
+  code: string;
+  name: string;
+  shortName: string;
+  logo: string;
+  isPopular: boolean;
+}
+
+const DEFAULT_EMI_BANKS: EmiBankItem[] = [
   {
-    id: "axis",
-    name: "Axis Bank",
-    code: "UTIB",
-    type: "credit",
-    isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    logoBg: "bg-rose-900",
-    logoText: "AXIS",
-  },
-  {
-    id: "hdfc",
-    name: "HDFC Bank",
-    code: "HDFC",
-    type: "both",
-    isNoCost: true,
-    hasOffer: true,
-    offerText: "10% Instant Discount",
-    logoBg: "bg-blue-900",
-    logoText: "HDFC",
-  },
-  {
-    id: "icici",
-    name: "ICICI Bank",
+    id: "icic",
     code: "ICIC",
+    name: "ICICI Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/icici.png",
     type: "credit",
     isNoCost: true,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-orange-700",
-    logoText: "ICICI",
+    minAmount: 3000,
+    startingEmi: 1860,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: true },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: true },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1860, totalPayable: 44640, isNoCost: false },
+    ],
+  },
+  {
+    id: "utib",
+    code: "UTIB",
+    name: "Axis Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/axis.png",
+    type: "credit",
+    isNoCost: true,
+    hasOffer: false,
+    offerText: "",
+    minAmount: 2500,
+    startingEmi: 1879,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: true },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: true },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 16, monthlyAmount: 1879, totalPayable: 45096, isNoCost: false },
+    ],
   },
   {
     id: "amex",
-    name: "American Express",
     code: "AMEX",
+    name: "American Express",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/card/64/amex.png",
     type: "credit",
     isNoCost: true,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-sky-700",
-    logoText: "AMEX",
+    minAmount: 5000,
+    startingEmi: 1842,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: true },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: true },
+      { months: 9, interestRate: 14, monthlyAmount: 4468, totalPayable: 40212, isNoCost: false },
+      { months: 12, interestRate: 14, monthlyAmount: 3408, totalPayable: 40896, isNoCost: false },
+      { months: 18, interestRate: 14, monthlyAmount: 2349, totalPayable: 42282, isNoCost: false },
+      { months: 24, interestRate: 14, monthlyAmount: 1842, totalPayable: 44208, isNoCost: false },
+    ],
   },
   {
-    id: "sbi",
-    name: "State Bank of India (SBI)",
-    code: "SBIN",
-    type: "credit",
-    isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    logoBg: "bg-[#005a9c]",
-    logoText: "SBI",
-  },
-  {
-    id: "kotak",
-    name: "Kotak Mahindra Bank",
+    id: "kkbk",
     code: "KKBK",
+    name: "Kotak Mahindra Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/paylater/64/kotak.png",
     type: "credit",
-    isNoCost: true,
+    isNoCost: false,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-red-700",
-    logoText: "KOTAK",
+    minAmount: 3000,
+    startingEmi: 1861,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1861, totalPayable: 44664, isNoCost: false },
+    ],
   },
   {
-    id: "rbl",
-    name: "RBL Bank",
-    code: "RATN",
+    id: "idfb",
+    code: "IDFB",
+    name: "IDFC FIRST Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/idfc.png",
     type: "credit",
-    isNoCost: true,
+    isNoCost: false,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-blue-950",
-    logoText: "RBL",
+    minAmount: 3000,
+    startingEmi: 1336,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1861, totalPayable: 44664, isNoCost: false },
+      { months: 36, interestRate: 16, monthlyAmount: 1336, totalPayable: 48096, isNoCost: false },
+    ],
   },
   {
-    id: "indusind",
-    name: "IndusInd Bank",
+    id: "indb",
     code: "INDB",
-    type: "credit",
-    isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    logoBg: "bg-amber-900",
-    logoText: "INDUS",
-  },
-  {
-    id: "idbi",
-    name: "IDBI Bank",
-    code: "IBKL",
+    name: "IndusInd Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/indusind.png",
     type: "credit",
     isNoCost: false,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-emerald-800",
-    logoText: "IDBI",
+    minAmount: 3000,
+    startingEmi: 1336,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 14.5, monthlyAmount: 4477, totalPayable: 40293, isNoCost: false },
+      { months: 12, interestRate: 14.5, monthlyAmount: 3417, totalPayable: 41004, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1861, totalPayable: 44664, isNoCost: false },
+      { months: 36, interestRate: 16, monthlyAmount: 1336, totalPayable: 48096, isNoCost: false },
+    ],
   },
   {
-    id: "yesbank",
-    name: "Yes Bank",
-    code: "YESB",
+    id: "aubl",
+    code: "AUBL",
+    name: "AU Small Finance Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/aus.png",
     type: "credit",
     isNoCost: false,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-blue-800",
-    logoText: "YES",
+    minAmount: 3000,
+    startingEmi: 1824,
+    plans: [
+      { months: 3, interestRate: 13, monthlyAmount: 12940, totalPayable: 38820, isNoCost: false },
+      { months: 6, interestRate: 13, monthlyAmount: 6571, totalPayable: 39426, isNoCost: false },
+      { months: 9, interestRate: 13, monthlyAmount: 4450, totalPayable: 40050, isNoCost: false },
+      { months: 12, interestRate: 13, monthlyAmount: 3389, totalPayable: 40668, isNoCost: false },
+      { months: 18, interestRate: 13, monthlyAmount: 2330, totalPayable: 41940, isNoCost: false },
+      { months: 24, interestRate: 13, monthlyAmount: 1824, totalPayable: 43776, isNoCost: false },
+    ],
+  },
+  {
+    id: "barb",
+    code: "BARB",
+    name: "Bank of Baroda",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/bobc.png",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    minAmount: 3000,
+    startingEmi: 1861,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1861, totalPayable: 44664, isNoCost: false },
+    ],
+  },
+  {
+    id: "fdrl",
+    code: "FDRL",
+    name: "Federal Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/federal.png",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    minAmount: 3000,
+    startingEmi: 1860,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1860, totalPayable: 44640, isNoCost: false },
+    ],
   },
   {
     id: "hsbc",
-    name: "HSBC Bank",
     code: "HSBC",
+    name: "HSBC Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hsb.png",
     type: "credit",
     isNoCost: false,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-red-600",
-    logoText: "HSBC",
+    minAmount: 3000,
+    startingEmi: 1842,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 14, monthlyAmount: 4468, totalPayable: 40212, isNoCost: false },
+      { months: 12, interestRate: 14, monthlyAmount: 3408, totalPayable: 40896, isNoCost: false },
+      { months: 18, interestRate: 14, monthlyAmount: 2349, totalPayable: 42282, isNoCost: false },
+      { months: 24, interestRate: 14, monthlyAmount: 1842, totalPayable: 44208, isNoCost: false },
+    ],
   },
   {
-    id: "federal",
-    name: "Federal Bank",
-    code: "FDRL",
+    id: "onecard",
+    code: "onecard",
+    name: "OneCard",
+    logo: "https://getonecard.app/images/onecard-logo.svg",
     type: "credit",
     isNoCost: false,
     hasOffer: false,
     offerText: "",
-    logoBg: "bg-amber-600",
-    logoText: "FED",
+    minAmount: 3000,
+    startingEmi: 1861,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1861, totalPayable: 44664, isNoCost: false },
+    ],
   },
   {
-    id: "bajaj",
-    name: "Bajaj Finserv Insta EMI Card",
-    code: "BAJAJ",
-    type: "bajaj",
+    id: "ratn",
+    code: "RATN",
+    name: "RBL Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/rbl.png",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    minAmount: 3000,
+    startingEmi: 1879,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 16, monthlyAmount: 1879, totalPayable: 45096, isNoCost: false },
+    ],
+  },
+  {
+    id: "scbl",
+    code: "SCBL",
+    name: "Standard Chartered Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/scb.png",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    minAmount: 3000,
+    startingEmi: 3412,
+    plans: [
+      { months: 3, interestRate: 13, monthlyAmount: 12940, totalPayable: 38820, isNoCost: false },
+      { months: 6, interestRate: 13.5, monthlyAmount: 6580, totalPayable: 39480, isNoCost: false },
+      { months: 9, interestRate: 14, monthlyAmount: 4468, totalPayable: 40212, isNoCost: false },
+      { months: 12, interestRate: 14, monthlyAmount: 3408, totalPayable: 40896, isNoCost: false },
+    ],
+  },
+  {
+    id: "yesb",
+    code: "YESB",
+    name: "Yes Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/yes.png",
+    type: "credit",
+    isNoCost: false,
+    hasOffer: false,
+    offerText: "",
+    minAmount: 3000,
+    startingEmi: 1861,
+    plans: [
+      { months: 3, interestRate: 14, monthlyAmount: 12960, totalPayable: 38880, isNoCost: false },
+      { months: 6, interestRate: 14, monthlyAmount: 6590, totalPayable: 39540, isNoCost: false },
+      { months: 9, interestRate: 15, monthlyAmount: 4486, totalPayable: 40374, isNoCost: false },
+      { months: 12, interestRate: 15, monthlyAmount: 3426, totalPayable: 41112, isNoCost: false },
+      { months: 18, interestRate: 15, monthlyAmount: 2368, totalPayable: 42624, isNoCost: false },
+      { months: 24, interestRate: 15, monthlyAmount: 1861, totalPayable: 44664, isNoCost: false },
+    ],
+  },
+  {
+    id: "hdfc_dc",
+    code: "HDFC_DC",
+    name: "HDFC Bank (Debit Card)",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hdfc.png",
+    type: "debit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    logoBg: "bg-blue-600",
-    logoText: "BAJAJ",
+    hasOffer: true,
+    offerText: "10% Instant Discount",
+    minAmount: 5000,
+    startingEmi: 2388,
+    plans: [
+      { months: 3, interestRate: 16, monthlyAmount: 13002, totalPayable: 39006, isNoCost: true },
+      { months: 6, interestRate: 16, monthlyAmount: 6632, totalPayable: 39792, isNoCost: true },
+      { months: 9, interestRate: 16, monthlyAmount: 4509, totalPayable: 40581, isNoCost: false },
+      { months: 12, interestRate: 16, monthlyAmount: 3447, totalPayable: 41364, isNoCost: false },
+      { months: 18, interestRate: 16, monthlyAmount: 2388, totalPayable: 42984, isNoCost: false },
+    ],
   },
 ];
 
-const getApiPath = (endpoint: string) => {
-  const clean = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-  return `/aquaforceforautocare${clean}`;
-};
+const DEFAULT_NETBANKING_BANKS: NetbankingBankItem[] = [
+  {
+    code: "BARB_R",
+    name: "Bank of Baroda - Retail Banking",
+    shortName: "Bank of Baroda",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/bobc.png",
+    isPopular: true,
+  },
+  {
+    code: "INDB",
+    name: "Indusind Bank",
+    shortName: "IndusInd Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/indusind.png",
+    isPopular: true,
+  },
+  {
+    code: "IDFB",
+    name: "IDFC FIRST Bank",
+    shortName: "IDFC FIRST Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/idfc.png",
+    isPopular: true,
+  },
+  {
+    code: "YESB",
+    name: "Yes Bank",
+    shortName: "Yes Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/yes.png",
+    isPopular: true,
+  },
+  {
+    code: "CNRB",
+    name: "Canara Bank",
+    shortName: "Canara Bank",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/canara.png",
+    isPopular: true,
+  },
+  {
+    code: "PUNB_R",
+    name: "Punjab National Bank - Retail Banking",
+    shortName: "PNB",
+    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/pnbc.png",
+    isPopular: true,
+  },
+];
 
 const PRODUCT_DATA = {
   name: "Cordless AquaForce® 1400 High-pressure Washer System",
@@ -328,12 +796,40 @@ export default function OrderModal({
   const [isCodSuccess, setIsCodSuccess] = useState(false);
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
     const [delhiveryCodAvailable, setDelhiveryCodAvailable] = useState<boolean | null>(null);
-  const [checkoutStep, setCheckoutStep] = useState<"details" | "choose_emi">("details");
+  const [checkoutStep, setCheckoutStep] = useState<"details" | "choose_emi" | "awaiting_payment">("details");
+  const [awaitingPaymentData, setAwaitingPaymentData] = useState<{
+    orderId: string;
+    razorpayOrderId: string;
+    qrCodeUrl: string;
+    upiIntentUrl: string;
+    amountInPaise: number;
+    amountDisplay: string;
+    isCod: boolean;
+    codBalanceDisplay: string;
+    totalDisplay: string;
+  } | null>(null);
+  const awaitingPaymentTimerRef = useRef<number>(0);
+  const [awaitingPaymentCountdown, setAwaitingPaymentCountdown] = useState<number>(900);
+  const [isAwaitingUpi, setIsAwaitingUpi] = useState(false);
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [bankSearchQuery, setBankSearchQuery] = useState("");
-  const [selectedEmiFilter, setSelectedEmiFilter] = useState<"all" | "no_cost" | "credit" | "debit" | "bajaj">("all");
-  const [expandedBankId, setExpandedBankId] = useState<string | null>("hdfc");
+  const [selectedEmiFilter, setSelectedEmiFilter] = useState<"all" | "no_cost" | "credit" | "debit">("all");
+  const [expandedBankId, setExpandedBankId] = useState<string | null>("axis");
   const [selectedTenure, setSelectedTenure] = useState<number>(6);
+  const [selectedEmiBank, setSelectedEmiBank] = useState<string>("Axis Bank");
+  const [selectedCustomPayment, setSelectedCustomPayment] = useState<"upi" | "card" | "wallet" | "netbanking" | "cod">("upi");
+  const [selectedUpiApp, setSelectedUpiApp] = useState<UpiAppId>("paytm");
+  const [showQrCode, setShowQrCode] = useState(false);
+  const [upiVpa, setUpiVpa] = useState("");
+  const [upiValidationMsg, setUpiValidationMsg] = useState("");
+  const [selectedBank, setSelectedBank] = useState("BARB_R");
+  const [selectedWallet, setSelectedWallet] = useState("payzapp");
+  const [paymentErrorMessage, setPaymentErrorMessage] = useState<string | null>(null);
 
+  // Live Razorpay Payment Methods State (populated dynamically with enabled banks only)
+  const [liveEmiBanks, setLiveEmiBanks] = useState<EmiBankItem[]>(DEFAULT_EMI_BANKS);
+  const [liveNetbankingBanks, setLiveNetbankingBanks] = useState<NetbankingBankItem[]>(DEFAULT_NETBANKING_BANKS);
+  const [isLoadingLiveMethods, setIsLoadingLiveMethods] = useState<boolean>(false);
 
   // Dynamic Pricing Calculations
   const currentOfferPrice = selectedVacuumOption === "without" ? 35999 : 37999;
@@ -344,9 +840,92 @@ export default function OrderModal({
   const totalSavings = unitSavings * quantity;
   const savingsPercentage = Math.round((unitSavings / currentMRP) * 100);
   const taxAmount = Math.round(((totalPrice * 18) / 118) * 100) / 100;
-  const monthlyEmi = Math.round(totalPrice / 6);
 
-  const filteredBanks = EMI_BANKS.filter((bank) => {
+  // Fetch Live Razorpay Payment Methods when Modal Opens or Total Price changes
+  useEffect(() => {
+    if (!isOpen) return;
+    let isMounted = true;
+
+    const fetchLiveMethods = async () => {
+      try {
+        setIsLoadingLiveMethods(true);
+        const res = await fetch(getApiPath(`/api/razorpay/methods?price=${totalPrice}`));
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data.success) {
+            if (Array.isArray(data.emi) && data.emi.length > 0) {
+              setLiveEmiBanks(data.emi);
+            }
+            if (Array.isArray(data.netbanking) && data.netbanking.length > 0) {
+              setLiveNetbankingBanks(data.netbanking);
+              // Ensure selectedBank is a valid enabled bank
+              if (!data.netbanking.some((b: NetbankingBankItem) => b.code === selectedBank)) {
+                setSelectedBank(data.netbanking[0].code);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Could not load live Razorpay methods, using enabled fallback:", err);
+      } finally {
+        if (isMounted) {
+          setIsLoadingLiveMethods(false);
+        }
+      }
+    };
+
+    fetchLiveMethods();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isOpen, totalPrice]);
+
+  // Dynamic 15-Minute QR Session & Countdown Timer
+  const [upiSessionRef, setUpiSessionRef] = useState<string>(() => `AMEC${Date.now().toString(36).toUpperCase()}`);
+  const [qrCountdownSecs, setQrCountdownSecs] = useState<number>(900);
+
+  // Reset Show QR state and timer when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setShowQrCode(false);
+      setQrCountdownSecs(900);
+    }
+  }, [isOpen]);
+
+  // QR Countdown Timer - Only runs when user clicks "Show QR"
+  useEffect(() => {
+    if (!isOpen || !showQrCode) return;
+    const timer = setInterval(() => {
+      setQrCountdownSecs((prev) => {
+        if (prev <= 1) {
+          setUpiSessionRef(`AMEC${Date.now().toString(36).toUpperCase()}`);
+          return 900;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [isOpen, showQrCode]);
+
+  const formatQrTimer = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m}:${s < 10 ? "0" : ""}${s}`;
+  };
+
+  // Selected Bank & Plan Helpers
+  const selectedEmiBankObj =
+    liveEmiBanks.find((b) => b.name.toLowerCase() === selectedEmiBank.toLowerCase()) ||
+    liveEmiBanks.find((b) => b.code.toLowerCase() === selectedEmiBank.toLowerCase()) ||
+    liveEmiBanks[0];
+  const selectedEmiPlan = selectedEmiBankObj?.plans?.find((p) => p.months === selectedTenure);
+  const monthlyEmi = selectedEmiBankObj?.startingEmi || (liveEmiBanks.length > 0 ? Math.min(...liveEmiBanks.map(b => b.startingEmi)) : Math.round(totalPrice / 6));
+
+  const popularNetbankingBanks = liveNetbankingBanks.filter((b) => b.isPopular).slice(0, 6);
+  const selectedBankObj = liveNetbankingBanks.find((b) => b.code === selectedBank);
+
+  const filteredBanks = liveEmiBanks.filter((bank) => {
     const matchesSearch =
       bank.name.toLowerCase().includes(bankSearchQuery.toLowerCase()) ||
       bank.code.toLowerCase().includes(bankSearchQuery.toLowerCase());
@@ -354,7 +933,6 @@ export default function OrderModal({
     if (selectedEmiFilter === "no_cost") return bank.isNoCost;
     if (selectedEmiFilter === "credit") return bank.type === "credit" || bank.type === "both";
     if (selectedEmiFilter === "debit") return bank.type === "debit" || bank.type === "both";
-    if (selectedEmiFilter === "bajaj") return bank.type === "bajaj";
     return true;
   });
 
@@ -569,24 +1147,38 @@ export default function OrderModal({
   const currentColor = PRODUCT_DATA.colors[selectedColorIndex];
   const images = currentColor.images;
 
-  // Load Razorpay Magic Checkout Script dynamically
+  // Load Razorpay Checkout SDK dynamically
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
-      if ((window as any).Razorpay) {
+      if (typeof window === "undefined") {
+        resolve(false);
+        return;
+      }
+      if (typeof (window as any).Razorpay === "function") {
         resolve(true);
         return;
       }
+      const existing = document.querySelector('script[src*="checkout.razorpay.com"]');
+      if (existing) {
+        let attempts = 0;
+        const check = setInterval(() => {
+          attempts++;
+          if (typeof (window as any).Razorpay === "function") {
+            clearInterval(check);
+            resolve(true);
+          } else if (attempts > 30) {
+            clearInterval(check);
+            resolve(false);
+          }
+        }, 100);
+        return;
+      }
+
       const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/magic-checkout.js";
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
       script.onload = () => resolve(true);
-      script.onerror = () => {
-        // Graceful fallback to standard checkout.js if magic-checkout.js fails
-        const fallbackScript = document.createElement("script");
-        fallbackScript.src = "https://checkout.razorpay.com/v1/checkout.js";
-        fallbackScript.onload = () => resolve(true);
-        fallbackScript.onerror = () => resolve(false);
-        document.body.appendChild(fallbackScript);
-      };
+      script.onerror = () => resolve(false);
       document.body.appendChild(script);
     });
   };
@@ -765,8 +1357,96 @@ export default function OrderModal({
     setQuantity((prev) => Math.min(MAX_QUANTITY_LIMIT, Math.max(1, prev + delta)));
   };
 
-  const handleCheckoutSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+interface CheckoutSubmitOptions {
+  paymentMethod?: "FULL_ONLINE" | "10_PERCENT_COD";
+  onlinePaymentMode?: "FULL" | "EMI";
+  selectedCustomPayment?: "upi" | "card" | "wallet" | "netbanking" | "cod";
+  selectedEmiBank?: string;
+  selectedTenure?: number;
+}
+
+  const handleContinueEmi = (bankName: string, tenure: number) => {
+    setSelectedEmiBank(bankName);
+    setSelectedTenure(tenure);
+    setPaymentMethod("FULL_ONLINE");
+    setOnlinePaymentMode("EMI");
+    setSelectedCustomPayment("card");
+
+    const cleanPhone = formData.phone.replace(/\D/g, "");
+    const isAddressFilled =
+      Boolean(formData.fullName?.trim()) &&
+      cleanPhone.length === 10 &&
+      Boolean(formData.email?.trim()) &&
+      isValidEmail(formData.email) &&
+      Boolean(formData.deliveryAddress?.trim()) &&
+      Boolean(formData.city?.trim()) &&
+      Boolean(formData.state?.trim()) &&
+      Boolean(formData.pincode) &&
+      formData.pincode.length === 6;
+
+    if (isAddressFilled) {
+      handleCheckoutSubmit({
+        paymentMethod: "FULL_ONLINE",
+        onlinePaymentMode: "EMI",
+        selectedCustomPayment: "card",
+        selectedEmiBank: bankName,
+        selectedTenure: tenure,
+      });
+    } else {
+      setCheckoutStep("details");
+    }
+  };
+
+  const handleDebitCreditCardClick = () => {
+    setPaymentMethod("FULL_ONLINE");
+    setSelectedCustomPayment("card");
+    setOnlinePaymentMode("FULL");
+
+    const cleanPhone = formData.phone.replace(/\D/g, "");
+    const isAddressFilled =
+      Boolean(formData.fullName?.trim()) &&
+      cleanPhone.length === 10 &&
+      Boolean(formData.email?.trim()) &&
+      isValidEmail(formData.email) &&
+      Boolean(formData.deliveryAddress?.trim()) &&
+      Boolean(formData.city?.trim()) &&
+      Boolean(formData.state?.trim()) &&
+      Boolean(formData.pincode) &&
+      formData.pincode.length === 6;
+
+    if (isAddressFilled) {
+      handleCheckoutSubmit({
+        paymentMethod: "FULL_ONLINE",
+        onlinePaymentMode: "FULL",
+        selectedCustomPayment: "card",
+      });
+    } else {
+      const formEl = document.getElementById("checkout-form");
+      if (formEl) {
+        formEl.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      setPaymentErrorMessage("Please complete your delivery details above before proceeding to Card payment.");
+    }
+  };
+
+  const handleCheckoutSubmit = async (
+    eOrOptions?: React.FormEvent | CheckoutSubmitOptions,
+    optionsArg?: CheckoutSubmitOptions
+  ) => {
+    let options: CheckoutSubmitOptions | undefined;
+    if (eOrOptions && "preventDefault" in eOrOptions) {
+      eOrOptions.preventDefault();
+      options = optionsArg;
+    } else if (eOrOptions && typeof eOrOptions === "object") {
+      options = eOrOptions as CheckoutSubmitOptions;
+    }
+
+    const effectivePaymentMethod = options?.paymentMethod ?? paymentMethod;
+    const effectiveOnlinePaymentMode = options?.onlinePaymentMode ?? onlinePaymentMode;
+    const effectiveCustomPayment = options?.selectedCustomPayment ?? selectedCustomPayment;
+    const effectiveEmiBank = options?.selectedEmiBank ?? selectedEmiBank;
+    const effectiveTenure = options?.selectedTenure ?? selectedTenure;
+
     if (!currentColor.inStock) return;
 
     const errors: { phone?: string; altPhone?: string; email?: string; pincode?: string } = {};
@@ -791,6 +1471,7 @@ export default function OrderModal({
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
+      setCheckoutStep("details");
       return;
     }
 
@@ -805,36 +1486,37 @@ export default function OrderModal({
         return;
       }
 
-      const totalAmount = currentOfferPrice * quantity;
-      const isCod = paymentMethod === "10_PERCENT_COD";
-      const chargeAmount = isCod ? advanceAmount : totalAmount;
-      const partialCodAmount = advanceAmount;
-      const partialCodBalance = codBalance;
+      const isCodOrder = effectivePaymentMethod === "10_PERCENT_COD";
+      const isEmiMode = effectiveOnlinePaymentMode === "EMI" && !isCodOrder;
 
-      const res = await fetch(getApiPath("/api/razorpay/order"), {
+      // 1. Authoritative Server-Side Order Creation (Server calculates true pricing)
+      const res = await fetch(getApiPath("/api/orders/create"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: chargeAmount,
-          notes: {
+          customer: {
             fullName: formData.fullName,
-            email: formData.email,
             phone: formData.phone,
             altPhone: formData.altPhone || "N/A",
+            email: formData.email,
             deliveryAddress: formData.deliveryAddress,
             city: formData.city,
             state: formData.state,
             pincode: formData.pincode,
             gstNumber: formData.gstNumber || "N/A",
-            product: `${PRODUCT_DATA.name} (${currentColor.name}) [${selectedVacuumOption === "without" ? "Without Vacuum" : "With Vacuum"}]`,
-            quantity: String(quantity),
-            paymentMethod: isCod
-              ? "10% Cash on Delivery"
-              : "100% Online Payment / No Cost EMI",
-            totalOrderAmount: String(totalAmount),
-            advanceAmount: String(chargeAmount),
-            codBalance: String(isCod ? partialCodBalance : 0),
           },
+          variantId: selectedVacuumOption === "without" ? "without-vacuum" : "with-vacuum",
+          colorName: currentColor.name,
+          quantity: quantity,
+          paymentMethod: isCodOrder ? "COD_ADVANCE" : isEmiMode ? "EMI" : "FULL_ONLINE",
+          emiDetails: isEmiMode
+            ? {
+                bank: effectiveEmiBank,
+                tenure: effectiveTenure,
+                monthlyAmount: Math.round(totalPrice / (effectiveTenure || 1)),
+              }
+            : undefined,
+          idempotencyKey: `promec_${formData.phone.replace(/\D/g, "")}_${Date.now()}`,
         }),
       });
 
@@ -850,183 +1532,48 @@ export default function OrderModal({
         throw new Error(orderData?.error || `Order creation failed (${res.status})`);
       }
 
-      // 2. Configure Razorpay options with Magic Checkout enabled
-      const options: any = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa",
-        amount: orderData.amount,
-        currency: orderData.currency || "INR",
-        name: "Promec India",
-        description: isCod
-          ? `10% COD Booking - ${PRODUCT_DATA.name} (${currentColor.name})`
-          : `${PRODUCT_DATA.name} (${currentColor.name}) x ${quantity}`,
-        order_id: orderData.id,
-        one_click_checkout: true, // Enables Razorpay Magic Checkout
-        show_coupons: false,
-        prefill: {
-          name: formData.fullName,
-          email: formData.email,
-          contact: formData.phone.startsWith("+91") ? formData.phone : `+91${formData.phone}`,
-          ...(onlinePaymentMode === "EMI" && !isCod ? { method: "emi" } : {}),
-        },
-        ...(onlinePaymentMode === "EMI" && !isCod
-          ? {
-              config: {
-                display: {
-                  blocks: {
-                    emi_banks: {
-                      name: "Choose Credit Card EMI",
-                      instruments: [
-                        {
-                          method: "emi",
-                          types: ["credit"],
-                        },
-                      ],
-                    },
-                  },
-                  sequence: ["block.emi_banks"],
-                  preferences: {
-                    show_default_blocks: true,
-                  },
-                },
-              },
-            }
-          : {}),
-        notes: {
-          order_type: isCod
-            ? "10% Advance COD Booking"
-            : "100% Online Payment / No Cost EMI",
-          total_order_amount: `₹${totalAmount}`,
-          advance_amount: `₹${chargeAmount}`,
-          balance_on_delivery: `₹${isCod ? partialCodBalance : 0}`,
-          pincode: formData.pincode,
-          city: formData.city,
-        },
-        theme: {
-          color: "#005a9c",
-        },
-        handler: async function (response: any) {
-          const payId = response.razorpay_payment_id || "";
-          setPaymentId(payId);
-          setIsProcessingPayment(false);
+      const activeKeyId =
+        orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      if (!activeKeyId) {
+        throw new Error("Razorpay Key ID is not configured on the server.");
+      }
+      const totalAmount = currentOfferPrice * quantity;
+      const advanceAmountPaid = orderData.advanceAmount ?? (isCodOrder ? advanceAmount : totalAmount);
+      const codBalanceDue = orderData.codBalance ?? (isCodOrder ? codBalance : 0);
 
-          let generatedWaybill = "";
+      // Central Success & Server-Side Verification + Idempotent Fulfillment Handler
+      const handlePaymentSuccess = async (response: any) => {
+        const payId = response.razorpay_payment_id || "";
+        setPaymentId(payId);
+        setIsProcessingPayment(false);
 
-          const isCodOrder = paymentMethod === "10_PERCENT_COD" || Boolean(response.is_partial_cod || response.partial_payment);
-          setIsCodSuccess(isCodOrder);
-          setIsSubmitted(true);
-          const advanceAmountPaid = isCodOrder ? partialCodAmount : totalAmount;
-          const codBalanceDue = isCodOrder ? partialCodBalance : 0;
+        let generatedWaybill = "";
 
-          // Step 1: Create Shiprocket shipment first (we need the waybill for subsequent calls)
-          try {
-            const shipRes = await fetch(getApiPath("/api/shiprocket/create-shipment"), {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                orderId: orderData.id,
-                fullName: formData.fullName,
-                email: formData.email,
-                phone: formData.phone,
-                altPhone: formData.altPhone || "N/A",
-                deliveryAddress: formData.deliveryAddress,
-                city: formData.city,
-                state: formData.state,
-                pincode: formData.pincode,
-                product: `${PRODUCT_DATA.name} (${currentColor.name})`,
-                quantity: quantity,
-                amount: totalAmount,
-                paymentMode: isCodOrder ? "COD" : "Pre-paid",
-                codAmount: codBalanceDue,
-                advanceAmount: advanceAmountPaid,
-              }),
-            });
-            const shipData = await shipRes.json();
-            if (shipData?.waybill) {
-              generatedWaybill = shipData.waybill;
-            }
-          } catch (shiprocketErr) {
-            console.error("Failed to create Shiprocket shipment:", shiprocketErr);
+        // Verify payment signature and trigger server-side fulfillment (with double-run protection)
+        try {
+          const verifyRes = await fetch(getApiPath("/api/payments/verify"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderId: orderData.orderId,
+              razorpayOrderId: orderData.razorpayOrderId || orderData.id,
+              razorpayPaymentId: payId,
+              razorpaySignature: response.razorpay_signature,
+            }),
+          });
+          const verifyData = await verifyRes.json();
+
+          if (!verifyRes.ok || !verifyData?.success) {
+            throw new Error(verifyData?.error || "Payment verification failed.");
           }
 
-          // Step 2: Fire Google Sheets, Email, and SMS in parallel (they all depend on waybill from step 1)
-          await Promise.allSettled([
-            // Record purchase into Google Sheets
-            fetch(getApiPath("/api/purchase"), {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                orderId: orderData.id,
-                paymentId: payId,
-                fullName: formData.fullName,
-                email: formData.email,
-                phone: formData.phone,
-                altPhone: formData.altPhone || "N/A",
-                deliveryAddress: formData.deliveryAddress,
-                city: formData.city,
-                state: formData.state,
-                pincode: formData.pincode,
-                gstNumber: formData.gstNumber || "N/A",
-                product: `${PRODUCT_DATA.name} (${currentColor.name})`,
-                quantity: quantity,
-                amount: totalAmount,
-                paymentMethod: isCodOrder
-                  ? "10% Cash on Delivery"
-                  : "100% Online Payment / No Cost EMI",
-                advanceAmount: advanceAmountPaid,
-                codBalance: codBalanceDue,
-                waybill: generatedWaybill,
-                status: isCodOrder ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed",
-              }),
-            }).catch((sheetErr) => {
-              console.error("Failed to forward purchase to Google Sheets:", sheetErr);
-            }),
+          if (verifyData?.waybill) {
+            generatedWaybill = verifyData.waybill;
+          }
 
-            // Send Email Confirmation from promec.india@gmail.com via SMTP
-            fetch(getApiPath("/api/send-email"), {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email: formData.email,
-                fullName: formData.fullName,
-                orderId: orderData.id,
-                paymentId: payId,
-                product: `${PRODUCT_DATA.name} (${currentColor.name})`,
-                amount: totalAmount,
-                deliveryAddress: formData.deliveryAddress,
-                city: formData.city,
-                state: formData.state,
-                pincode: formData.pincode,
-                altPhone: formData.altPhone || "N/A",
-                paymentMethod: isCodOrder
-                  ? "10% Cash on Delivery"
-                  : "100% Online Payment / No Cost EMI",
-                advanceAmount: advanceAmountPaid,
-                codBalance: codBalanceDue,
-                waybill: generatedWaybill,
-              }),
-            }).catch((emailErr) => {
-              console.error("Failed to send email confirmation:", emailErr);
-            }),
+          setIsCodSuccess(isCodOrder);
+          setIsSubmitted(true);
 
-            // Send SMS Confirmation via YourBulkSMS (http://control.yourbulksms.com/)
-            fetch(getApiPath("/api/send-sms"), {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                phone: formData.phone,
-                fullName: formData.fullName,
-                orderId: orderData.id,
-                amount: advanceAmountPaid,
-                product: isCodOrder
-                  ? `${PRODUCT_DATA.name} (10% COD Booking - Balance Rs.${codBalanceDue.toLocaleString("en-IN")})`
-                  : `${PRODUCT_DATA.name} (${currentColor.name})`,
-              }),
-            }).catch((smsErr) => {
-              console.error("Failed to send SMS confirmation:", smsErr);
-            }),
-          ]);
-
-          // Track Meta Pixel Purchase event
           if (typeof window !== "undefined" && (window as any).fbq) {
             (window as any).fbq("track", "Purchase", {
               value: advanceAmountPaid,
@@ -1037,24 +1584,261 @@ export default function OrderModal({
             });
           }
 
-          // Redirect to Thank You page AFTER all API calls have completed
           const targetThankYou = window.location.pathname.startsWith("/aquaforceforautocare")
             ? "/aquaforceforautocare/thank-you"
             : "/thank-you";
-          window.location.href = `${targetThankYou}?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.id)}&amount=${encodeURIComponent(advanceAmountPaid)}&total_amount=${encodeURIComponent(totalAmount)}&cod_balance=${encodeURIComponent(codBalanceDue)}&name=${encodeURIComponent(formData.fullName)}&method=${encodeURIComponent(isCodOrder ? "10% Cash on Delivery" : "Full Online Payment")}${generatedWaybill ? `&waybill=${encodeURIComponent(generatedWaybill)}` : ""}`;
-        },
-        modal: {
-          ondismiss: function () {
-            setIsProcessingPayment(false);
-          },
-        },
+          setTimeout(() => {
+            window.location.href = `${targetThankYou}?payment_id=${encodeURIComponent(payId)}&order_id=${encodeURIComponent(orderData.orderId || orderData.id)}&amount=${encodeURIComponent(advanceAmountPaid)}&total_amount=${encodeURIComponent(totalAmount)}&cod_balance=${encodeURIComponent(codBalanceDue)}&name=${encodeURIComponent(formData.fullName)}&method=${encodeURIComponent(isCodOrder ? "10% Cash on Delivery" : isEmiMode ? "No Cost EMI" : "Full Online Payment")}${generatedWaybill ? `&waybill=${encodeURIComponent(generatedWaybill)}` : ""}`;
+          }, 3000);
+        } catch (verifyErr: any) {
+          console.error("Payment verification error:", verifyErr);
+          setIsSubmitted(false);
+          setIsCodSuccess(false);
+          setIsProcessingPayment(false);
+          setPaymentErrorMessage(
+            verifyErr?.message || "Payment verification failed. Please contact customer support."
+          );
+        }
       };
 
-      const paymentObject = new (window as any).Razorpay(options);
-      paymentObject.open();
+      // Fallback & Standard Razorpay modal launcher
+      const launchRazorpayModal = (customConfig?: any) => {
+        setIsProcessingPayment(false);
+        const options: any = {
+          key: activeKeyId,
+          amount: orderData.amount,
+          currency: orderData.currency || "INR",
+          name: "AMEC Aquaforce",
+          description: isCodOrder
+            ? "10% Advance Deposit for COD"
+            : isEmiMode
+            ? `${effectiveEmiBank || "Bank"} No-Cost EMI (${effectiveTenure} Months)`
+            : "Cordless High-pressure Washer",
+          image: "https://files.catbox.moe/jpksbs.png",
+          order_id: orderData.razorpayOrderId || orderData.id,
+          prefill: {
+            name: formData.fullName,
+            email: formData.email,
+            contact: formData.phone.startsWith("+91") ? formData.phone : `+91${formData.phone}`,
+            method: isEmiMode ? "emi" : effectiveCustomPayment === "cod" ? "upi" : effectiveCustomPayment,
+            vpa: upiVpa?.trim() || undefined,
+          },
+          theme: {
+            color: "#005a9c",
+          },
+          modal: {
+            ondismiss: function () {
+              setIsProcessingPayment(false);
+            },
+          },
+          handler: handlePaymentSuccess,
+        };
+
+        if (customConfig) {
+          options.config = customConfig;
+        }
+
+        if (effectiveCustomPayment === "card") {
+          options.method = {
+            card: true,
+            netbanking: false,
+            upi: false,
+            wallet: false,
+            emi: false,
+            paylater: false,
+          };
+        }
+
+        const rzp = new (window as any).Razorpay(options);
+        if (typeof rzp.on === "function") {
+          rzp.on("payment.failed", function (failResp: any) {
+            console.warn("Payment failed:", failResp);
+            setPaymentErrorMessage(failResp?.error?.description || "Payment was not completed.");
+          });
+        }
+        if (typeof rzp.open === "function") {
+          rzp.open();
+        } else if (typeof (window as any).Razorpay?.open === "function") {
+          (window as any).Razorpay.open(options);
+        } else {
+          console.error("Razorpay SDK open method not ready.");
+        }
+      };
+
+      // === PAYMENT FLOW ROUTING ===
+      // 1. EMI flow: Check isEmiMode FIRST so it NEVER falls into UPI or COD QR code!
+      if (isEmiMode) {
+        const bankObj =
+          liveEmiBanks.find((b) => b.name.toLowerCase() === (effectiveEmiBank || "").toLowerCase()) ||
+          liveEmiBanks.find((b) => b.code.toLowerCase() === (effectiveEmiBank || "").toLowerCase()) ||
+          liveEmiBanks.find((b) => b.id.toLowerCase() === (effectiveEmiBank || "").toLowerCase()) ||
+          liveEmiBanks[0];
+        const bankCode = bankObj?.code || "ICIC";
+        const emiConfig = {
+          display: {
+            blocks: {
+              emi_only: {
+                name: `${effectiveEmiBank || "Bank"} No-Cost EMI (${effectiveTenure} Months)`,
+                instruments: [
+                  { method: "emi", issuers: [bankCode] },
+                ],
+              },
+            },
+            sequence: ["block.emi_only"],
+            preferences: {
+              show_default_blocks: false,
+            },
+          },
+        };
+        launchRazorpayModal(emiConfig);
+      } else if (isCodOrder || effectiveCustomPayment === "upi") {
+        // COD (10% advance) and Full Online UPI: in-modal "Awaiting Payment" screen with QR code
+        // ZERO rzp.open() or launchRazorpayModal() calls for COD or UPI!
+        const displayAmount = isCodOrder ? advanceAmountPaid : totalAmount;
+        const displayCodBalance = isCodOrder ? codBalanceDue : 0;
+
+        setAwaitingPaymentData({
+          orderId: orderData.orderId,
+          razorpayOrderId: orderData.razorpayOrderId || orderData.id,
+          qrCodeUrl: orderData.qrCodeUrl || "",
+          upiIntentUrl: orderData.upiIntentUrl || "",
+          amountInPaise: orderData.amount,
+          amountDisplay: `₹${displayAmount.toLocaleString("en-IN")}`,
+          isCod: isCodOrder,
+          codBalanceDisplay: isCodOrder ? `₹${displayCodBalance.toLocaleString("en-IN")}` : "",
+          totalDisplay: `₹${totalAmount.toLocaleString("en-IN")}`,
+        });
+
+        awaitingPaymentTimerRef.current = 900;
+        setAwaitingPaymentCountdown(900);
+        setCheckoutStep("awaiting_payment");
+        setIsProcessingPayment(true);
+        setIsAwaitingUpi(true);
+
+        const isMobileDevice = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          typeof navigator !== "undefined" ? navigator.userAgent : ""
+        );
+        if (isMobileDevice) {
+          const rawUpi =
+            orderData.upiIntentUrl ||
+            `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${orderData.orderId || upiSessionRef}&am=${totalAmount}&cu=INR&tn=AMEC%20Aquaforce%20${orderData.orderId || upiSessionRef}`;
+          const targetUrl = getAppSpecificUpiUrl(rawUpi, selectedUpiApp);
+          window.location.href = targetUrl;
+        }
+
+        if (pollingIntervalRef.current) {
+          clearInterval(pollingIntervalRef.current);
+          pollingIntervalRef.current = null;
+        }
+
+        const pollStartTime = Date.now();
+        pollingIntervalRef.current = setInterval(async () => {
+          const elapsedSecs = Math.floor((Date.now() - pollStartTime) / 1000);
+          const remainingSecs = Math.max(0, 900 - elapsedSecs);
+          awaitingPaymentTimerRef.current = remainingSecs;
+          setAwaitingPaymentCountdown(remainingSecs);
+
+          if (Date.now() - pollStartTime > 900000) {
+            if (pollingIntervalRef.current) {
+              clearInterval(pollingIntervalRef.current);
+              pollingIntervalRef.current = null;
+            }
+            setIsProcessingPayment(false);
+            setIsAwaitingUpi(false);
+            setCheckoutStep("details");
+            setPaymentErrorMessage("Payment timed out. Please try again.");
+            return;
+          }
+
+          try {
+            const verifyRes = await fetch(getApiPath("/api/payments/verify"), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: orderData.orderId,
+                razorpayOrderId: orderData.razorpayOrderId || orderData.id,
+              }),
+            });
+            const verifyData = await verifyRes.json();
+            if (verifyData?.success) {
+              if (pollingIntervalRef.current) {
+                clearInterval(pollingIntervalRef.current);
+                pollingIntervalRef.current = null;
+              }
+              setIsAwaitingUpi(false);
+              handlePaymentSuccess({
+                razorpay_payment_id: verifyData.paymentId,
+                razorpay_order_id: orderData.razorpayOrderId || orderData.id,
+              });
+            }
+          } catch (pollErr) {
+            console.warn("UPI status check error:", pollErr);
+          }
+        }, 2500);
+      } else if (effectiveCustomPayment === "card") {
+        // Card-only flow: Strictly hide all non-card payment methods (UPI, Netbanking, Wallets, EMI)
+        // so only the Card screen is shown
+        const cardConfig = {
+          display: {
+            hide: [
+              { method: "upi" },
+              { method: "netbanking" },
+              { method: "wallet" },
+              { method: "emi" },
+              { method: "paylater" },
+            ],
+            preferences: {
+              show_default_blocks: true,
+            },
+          },
+        };
+        launchRazorpayModal(cardConfig);
+      } else if (effectiveCustomPayment === "netbanking") {
+        // Netbanking flow: Restrict Razorpay Checkout to the chosen bank
+        const nbBank = selectedBank || "BARB_R";
+        const netbankingConfig = {
+          display: {
+            blocks: {
+              nb_only: {
+                name: `${nbBank} Netbanking`,
+                instruments: [
+                  { method: "netbanking", banks: [nbBank] },
+                ],
+              },
+            },
+            sequence: ["block.nb_only"],
+            preferences: {
+              show_default_blocks: false,
+            },
+          },
+        };
+        launchRazorpayModal(netbankingConfig);
+      } else if (effectiveCustomPayment === "wallet") {
+        // Wallet flow: Restrict Razorpay Checkout to the chosen wallet provider
+        const walletCode = selectedWallet || "payzapp";
+        const walletConfig = {
+          display: {
+            blocks: {
+              wallet_only: {
+                name: "Wallet Payment",
+                instruments: [
+                  { method: "wallet", wallets: [walletCode] },
+                ],
+              },
+            },
+            sequence: ["block.wallet_only"],
+            preferences: {
+              show_default_blocks: false,
+            },
+          },
+        };
+        launchRazorpayModal(walletConfig);
+      } else {
+        launchRazorpayModal();
+      }
     } catch (err: any) {
       console.error("Payment error:", err);
-      alert(err.message || "Payment initiation failed. Please try again.");
+      setPaymentErrorMessage(err.message || "Payment initiation failed. Please try again.");
       setIsProcessingPayment(false);
     }
   };
@@ -1193,280 +1977,742 @@ export default function OrderModal({
             </button>
           </div>
         ) : isCheckingOut ? (
-          /* Exact Delivery Checkout Form Matching Reference Mockups (Desktop & Mobile) */
-          <div className="flex flex-col h-full flex-1 overflow-hidden">
-            {/* Header row: Promec Logo/Back button on left, Close button right */}
-            <div className="shrink-0 px-4 sm:px-8 md:px-10 lg:px-12 pt-3.5 sm:pt-4 pb-3 border-b border-slate-100 flex items-center justify-between bg-white z-20">
-              <button
-                type="button"
-                onClick={handleBackToProduct}
-                className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 font-bold text-xs sm:text-sm font-montserrat cursor-pointer hover:bg-slate-100 px-2 py-1 rounded-lg transition-colors"
-                aria-label="Back"
-              >
-                <ArrowLeft size={16} />
-                <span>PROMEC</span>
-              </button>
+          checkoutStep === "awaiting_payment" && awaitingPaymentData ? (
+            /* ========================================================= */
+            /* SCREEN C: AWAITING UPI PAYMENT (In-Modal QR Payment Hub)  */
+            /* ========================================================= */
+            <div className="flex flex-col h-full flex-1 overflow-hidden">
+              {/* Header */}
+              <div className="shrink-0 px-4 sm:px-8 md:px-10 lg:px-12 pt-3.5 sm:pt-4 pb-3 border-b border-slate-100 flex items-center justify-between bg-white z-20">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (pollingIntervalRef.current) {
+                      clearInterval(pollingIntervalRef.current);
+                      pollingIntervalRef.current = null;
+                    }
+                    setIsProcessingPayment(false);
+                    setIsAwaitingUpi(false);
+                    setCheckoutStep("details");
+                    setAwaitingPaymentData(null);
+                  }}
+                  className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 font-bold text-xs sm:text-sm font-montserrat cursor-pointer hover:bg-slate-100 px-2 py-1 rounded-lg transition-colors"
+                  aria-label="Back to checkout"
+                >
+                  <ArrowLeft size={16} />
+                  <span>Back to Checkout</span>
+                </button>
 
-              <button
-                type="button"
-                onClick={handleClose}
-                className="w-8 h-8 bg-slate-100/80 hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-2xs shrink-0"
-                aria-label="Close modal"
-              >
-                <X size={16} />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="w-8 h-8 bg-slate-100/80 hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-2xs shrink-0"
+                  aria-label="Close modal"
+                >
+                  <X size={16} />
+                </button>
+              </div>
 
-            <form
-              id="checkout-form"
-              onSubmit={handleCheckoutSubmit}
-              className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-10 lg:px-12 py-5 sm:py-6 space-y-5 no-scrollbar"
-            >
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-10 lg:px-12 py-5 sm:py-6 space-y-5 no-scrollbar">
 
-              {/* Section 1: Personal Information */}
-              <div>
-                <div className="text-[11px] sm:text-xs font-bold tracking-wider text-slate-500 uppercase font-montserrat mb-2.5 sm:mb-3">
-                  PERSONAL INFORMATION
+                {/* Order Summary Pill */}
+                <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-4 sm:p-5 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-[#005a9c]/10 flex items-center justify-center shrink-0">
+                        <ShoppingCart size={18} className="text-[#005a9c]" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm text-slate-900 font-montserrat">
+                          {awaitingPaymentData.isCod ? "COD 10% Advance Deposit" : "UPI Payment"}
+                        </div>
+                        <div className="text-[11px] text-slate-500 font-medium font-open-sans">
+                          Order ID: {awaitingPaymentData.orderId}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-lg sm:text-xl font-extrabold text-slate-900 font-montserrat">
+                        {awaitingPaymentData.amountDisplay}
+                      </div>
+                      {awaitingPaymentData.isCod && (
+                        <div className="text-[10.5px] text-slate-400 font-open-sans">
+                          10% of {awaitingPaymentData.totalDisplay}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {awaitingPaymentData.isCod && (
+                    <div className="p-2.5 rounded-xl bg-[#ecfdf5] border border-[#a7f3d0] flex items-center justify-between text-xs font-bold text-[#065f46]">
+                      <span>Balance on Delivery:</span>
+                      <span className="text-sm font-extrabold text-emerald-700">
+                        {awaitingPaymentData.codBalanceDisplay}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
-                <div className="space-y-3 sm:space-y-3.5">
-                  {/* Row 1: Full Name & Mobile Number */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                    <div>
-                      <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Rahul Sharma"
-                        value={formData.fullName}
-                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
-                      />
+                {/* QR Code Section */}
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="text-center space-y-1">
+                    <div className="text-sm sm:text-base font-bold text-slate-900 font-montserrat">
+                      Scan QR Code to Pay {awaitingPaymentData.amountDisplay}
                     </div>
+                    <div className="text-xs text-slate-500 font-open-sans">
+                      Use any UPI app (Google Pay, PhonePe, Paytm, BHIM)
+                    </div>
+                  </div>
 
-                    <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 font-open-sans">
-                          Mobile Number
-                        </label>
-                        {verifiedUser?.phone && formData.phone === verifiedUser.phone && (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full select-none">
-                            <CheckCircle2 size={12} className="text-emerald-600" />
-                            <span>Verified</span>
-                          </span>
+                  {/* QR Code Image (No Border) */}
+                  <div className="relative w-56 h-56 sm:w-64 sm:h-64 bg-white flex items-center justify-center shrink-0">
+                    {awaitingPaymentData.upiIntentUrl ? (
+                      <QRCodeSVG
+                        value={awaitingPaymentData.upiIntentUrl}
+                        size={220}
+                        level="M"
+                        className="w-full h-full"
+                      />
+                    ) : awaitingPaymentData.qrCodeUrl ? (
+                      <img
+                        src={awaitingPaymentData.qrCodeUrl}
+                        alt="Razorpay UPI QR Code"
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-center space-y-2">
+                        <span className="w-8 h-8 border-3 border-[#005a9c] border-t-transparent rounded-full animate-spin block" />
+                        <span className="text-xs text-slate-500 font-open-sans">Generating QR Code...</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Tooltip Pill: QR valid for 14:58 mins with upward arrow */}
+                  <div className="relative -mt-1 flex flex-col items-center">
+                    <div className="w-0 h-0 border-x-[5px] border-x-transparent border-b-[5px] border-b-slate-100" />
+                    <div className="bg-slate-100 text-slate-700 text-[11.5px] font-semibold px-3 py-1 rounded-lg select-none whitespace-nowrap shadow-2xs font-open-sans">
+                      QR valid for <span className="font-bold text-slate-900">{formatQrTimer(awaitingPaymentCountdown)}</span> mins
+                    </div>
+                  </div>
+
+                  {/* UPI App Quick-Launch Buttons (Overlapping Circular Stack) */}
+                  <div className="flex items-center -space-x-2.5 justify-center py-1">
+                    {UPI_APP_OPTIONS.map((app, idx) => (
+                      <div
+                        key={app.id}
+                        onClick={() => {
+                          setSelectedUpiApp(app.id);
+                          if (awaitingPaymentData.upiIntentUrl) {
+                            window.location.href = getAppSpecificUpiUrl(awaitingPaymentData.upiIntentUrl, app.id);
+                          }
+                        }}
+                        style={{ zIndex: 10 * (idx + 1) }}
+                        className={`relative w-11 h-11 rounded-full ${app.avatarBg} ring-2 ring-white flex items-center justify-center p-2 shadow-2xs shrink-0 select-none overflow-hidden cursor-pointer hover:scale-110 active:scale-95 transition-all`}
+                        title={`Pay with ${app.name}`}
+                      >
+                        <img src={getApiPath(app.logo)} alt={app.name} className="w-full h-full object-contain" />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Mobile UPI Intent Button */}
+                  {awaitingPaymentData.upiIntentUrl && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (awaitingPaymentData.upiIntentUrl) {
+                          window.location.href = getAppSpecificUpiUrl(awaitingPaymentData.upiIntentUrl, selectedUpiApp);
+                        }
+                      }}
+                      className="w-full max-w-xs bg-[#005a9c] hover:bg-[#004f8a] active:bg-[#004478] text-white font-bold font-montserrat text-sm py-3.5 rounded-xl shadow-sm transition-all cursor-pointer flex items-center justify-center gap-2 uppercase tracking-wider sm:hidden"
+                    >
+                      <span>⚡</span>
+                      <span>Pay via {UPI_APP_OPTIONS.find((a) => a.id === selectedUpiApp)?.name || "UPI App"}</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Live Status Indicator */}
+                <div className="bg-[#fffbeb] border border-[#fde68a] rounded-2xl p-4 space-y-3">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shrink-0" />
+                    <span className="text-sm font-bold text-amber-900 font-montserrat">
+                      Waiting for payment confirmation...
+                    </span>
+                  </div>
+                  <div className="text-xs text-amber-800/80 font-open-sans leading-relaxed">
+                    Complete the payment in your UPI app. This page will update automatically once your payment is received. Please do not close or refresh this window.
+                  </div>
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="w-4 h-4 border-2 border-amber-600 border-t-transparent rounded-full animate-spin block shrink-0" />
+                    <span className="text-[11px] text-amber-700 font-semibold font-open-sans">
+                      Checking payment status...
+                    </span>
+                  </div>
+                </div>
+
+                {/* Security Badge */}
+                <div className="flex items-center justify-center gap-2 text-xs text-slate-400 font-open-sans py-2">
+                  <Lock size={12} className="text-slate-400" />
+                  <span>Secured by Razorpay • 256-bit SSL Encryption</span>
+                </div>
+              </div>
+            </div>
+          ) : checkoutStep === "choose_emi" ? (
+            /* ========================================================= */
+            /* SCREEN B: CHOOSE EMI OPTIONS (Exact Match to Screenshot)  */
+            /* ========================================================= */
+            <div className="flex flex-col h-full flex-1 overflow-hidden bg-white">
+              {/* Header with Back Arrow */}
+              <div className="shrink-0 px-4 sm:px-8 py-3.5 sm:py-4 border-b border-slate-100 flex items-center justify-between bg-white z-20">
+                <button
+                  type="button"
+                  onClick={() => setCheckoutStep("details")}
+                  className="flex items-center gap-2 text-slate-800 hover:text-slate-950 font-bold text-sm sm:text-base font-montserrat cursor-pointer hover:bg-slate-100 px-2 py-1 rounded-lg transition-colors"
+                  aria-label="Back to checkout"
+                >
+                  <ArrowLeft size={18} />
+                  <span>Choose EMI Options</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="w-8 h-8 bg-slate-100/80 hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-2xs shrink-0"
+                  aria-label="Close modal"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4 no-scrollbar">
+                {/* Promo Offer Banner */}
+                <div className="p-3 bg-red-50/90 border border-red-200/80 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-800 shadow-2xs">
+                  <span className="w-5 h-5 rounded-md bg-red-600 text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+                    %
+                  </span>
+                  <span>10% off on using HDFC Bank CC&amp;DC EMI</span>
+                </div>
+
+                {/* Search Bank Input */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search your bank"
+                    value={bankSearchQuery}
+                    onChange={(e) => setBankSearchQuery(e.target.value)}
+                    className="w-full bg-white border border-slate-200 focus:border-[#005a9c] rounded-xl pl-3.5 pr-9 py-2.5 text-xs sm:text-sm placeholder-slate-400 font-medium outline-none transition-all"
+                  />
+                  <Search size={16} className="absolute right-3 top-3 text-slate-400 pointer-events-none" />
+                </div>
+
+                {/* Filter Chips: No Cost EMI | Credit Card | Debit Card */}
+                <div className="flex items-center gap-2 flex-wrap text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEmiFilter(selectedEmiFilter === "no_cost" ? "all" : "no_cost")}
+                    className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
+                      selectedEmiFilter === "no_cost"
+                        ? "bg-slate-900 text-white shadow-xs"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    }`}
+                  >
+                    No Cost EMI
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEmiFilter(selectedEmiFilter === "credit" ? "all" : "credit")}
+                    className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
+                      selectedEmiFilter === "credit"
+                        ? "bg-slate-900 text-white shadow-xs"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    }`}
+                  >
+                    Credit Card
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEmiFilter(selectedEmiFilter === "debit" ? "all" : "debit")}
+                    className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
+                      selectedEmiFilter === "debit"
+                        ? "bg-slate-900 text-white shadow-xs"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    }`}
+                  >
+                    Debit Card
+                  </button>
+                </div>
+
+                {/* Section Title */}
+                <div className="pt-2 flex items-center justify-between">
+                  <div className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 font-montserrat">
+                    {selectedEmiFilter === "debit" ? "Debit Cards" : selectedEmiFilter === "credit" ? "Credit Cards" : "Available Bank Cards"} ({filteredBanks.length})
+                  </div>
+                  {isLoadingLiveMethods && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-[#005a9c] font-medium mb-2">
+                      <span className="w-3 h-3 border-2 border-[#005a9c] border-t-transparent rounded-full animate-spin" />
+                      <span>Updating live plans...</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bank List */}
+                <div className="divide-y divide-slate-100 border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-2xs">
+                  {filteredBanks.map((bank) => {
+                    const isSelected =
+                      selectedEmiBank.toLowerCase() === bank.name.toLowerCase() ||
+                      selectedEmiBank.toLowerCase() === bank.code.toLowerCase();
+                    const startingEmi = bank.startingEmi || Math.round(totalPrice / 12);
+                    return (
+                      <div key={bank.id} className="transition-all">
+                        <div
+                          onClick={() => {
+                            setSelectedEmiBank(bank.name);
+                            if (bank.plans && bank.plans.length > 0) {
+                              if (!bank.plans.some((p) => p.months === selectedTenure)) {
+                                setSelectedTenure(bank.plans[0].months);
+                              }
+                            }
+                          }}
+                          className={`p-3.5 flex items-center justify-between cursor-pointer select-none transition-all ${
+                            isSelected
+                              ? "bg-blue-50/60 border-l-4 border-l-[#005a9c]"
+                              : "hover:bg-slate-50"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-white border border-slate-200/90 p-1 flex items-center justify-center shadow-2xs shrink-0 overflow-hidden">
+                              {bank.logo ? (
+                                <img
+                                  src={bank.logo}
+                                  alt={bank.name}
+                                  className="w-full h-full object-contain"
+                                  onError={(e) => {
+                                    (e.target as HTMLElement).style.display = "none";
+                                  }}
+                                />
+                              ) : (
+                                <span className="font-bold text-xs text-slate-700">
+                                  {bank.code.slice(0, 3)}
+                                </span>
+                              )}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat">
+                                  {bank.name}
+                                </span>
+                                {bank.hasOffer && (
+                                  <span className="text-[9.5px] font-bold bg-cyan-100 text-cyan-800 px-1.5 py-0.5 rounded leading-tight">
+                                    {bank.offerText || "Instant Discount"}
+                                  </span>
+                                )}
+                                {bank.isNoCost && (
+                                  <span className="text-[9.5px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded leading-tight">
+                                    No Cost
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-[11px] text-slate-500 font-open-sans mt-0.5">
+                                EMI starts from ₹{startingEmi.toLocaleString("en-IN")}/m
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Radio Selection Indicator */}
+                          <div
+                            className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all shrink-0 ${
+                              isSelected
+                                ? "border-[#005a9c] bg-[#005a9c] text-white"
+                                : "border-slate-300 bg-white"
+                            }`}
+                          >
+                            {isSelected && (
+                              <Check size={12} className="text-white stroke-[3]" />
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Accordion / Expanded Tenure Selection */}
+                        {isSelected && bank.plans && bank.plans.length > 0 && (
+                          <div className="bg-slate-50/60 p-1 sm:p-1.5 border-t border-slate-100">
+                            {/* Table Header Row */}
+                            <div className="bg-[#f1f5f9] rounded-md px-2.5 py-1.5 grid grid-cols-[24px_1fr_1fr_1fr_1fr] items-center text-[11px] sm:text-xs font-normal text-slate-500 mb-0.5">
+                              <div />
+                              <div className="text-left font-montserrat">EMI</div>
+                              <div className="text-left font-montserrat">Duration</div>
+                              <div className="text-left font-montserrat">Interest</div>
+                              <div className="text-right font-montserrat">Total Cost</div>
+                            </div>
+
+                            {/* Plan Rows */}
+                            <div className="space-y-0.5">
+                              {bank.plans.map((plan) => {
+                                const isTenureSelected = selectedTenure === plan.months;
+                                return (
+                                  <div
+                                    key={plan.months}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedTenure(plan.months);
+                                    }}
+                                    className={`px-2.5 py-1.5 sm:py-2 grid grid-cols-[24px_1fr_1fr_1fr_1fr] items-center cursor-pointer transition-all select-none ${
+                                      isTenureSelected
+                                        ? "border border-[#005a9c] rounded-md bg-white shadow-2xs"
+                                        : "border border-transparent hover:bg-white/70 rounded-md"
+                                    }`}
+                                  >
+                                    {/* Radio Indicator */}
+                                    <div className="flex items-center">
+                                      <div
+                                        className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-all ${
+                                          isTenureSelected
+                                            ? "border-[#005a9c] bg-white"
+                                            : "border-slate-300 bg-white"
+                                        }`}
+                                      >
+                                        {isTenureSelected && (
+                                          <div className="w-1.5 h-1.5 rounded-full bg-[#005a9c]" />
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    {/* EMI */}
+                                    <div className="text-xs sm:text-sm font-normal text-slate-800 font-montserrat">
+                                      ₹{plan.monthlyAmount.toLocaleString("en-IN")}
+                                    </div>
+
+                                    {/* Duration */}
+                                    <div className="text-xs sm:text-sm font-normal text-slate-700 font-montserrat">
+                                      {String(plan.months).padStart(2, "0")} months
+                                    </div>
+
+                                    {/* Interest */}
+                                    <div>
+                                      {plan.isNoCost ? (
+                                        <span className="bg-[#e6fbf0] text-[#059669] px-1.5 py-0.5 rounded text-[10.5px] sm:text-[11px] font-normal inline-block font-montserrat">
+                                          No Cost
+                                        </span>
+                                      ) : (
+                                        <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10.5px] sm:text-[11px] font-normal inline-block font-montserrat">
+                                          {plan.interestRate}%
+                                        </span>
+                                      )}
+                                    </div>
+
+                                    {/* Total Cost */}
+                                    <div className="text-xs sm:text-sm font-normal text-slate-800 font-montserrat text-right">
+                                      ₹{plan.totalPayable.toLocaleString("en-IN")}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
                         )}
                       </div>
-                      <input
-                        type="tel"
-                        inputMode="numeric"
-                        maxLength={10}
-                        required
-                        placeholder="9876543210"
-                        value={formData.phone}
-                        onChange={handlePhoneChange}
-                        className={`w-full bg-white border ${
-                          formErrors.phone
-                            ? "border-red-500 ring-1 ring-red-500"
-                            : "border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c]"
-                        } rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
-                      />
-                      {formErrors.phone && (
-                        <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
-                          {formErrors.phone}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Row 2: Email Address & Alternative Mobile Number */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                    <div>
-                      <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="rahul.sharma@example.com"
-                        value={formData.email}
-                        onChange={handleEmailChange}
-                        className={`w-full bg-white border ${
-                          formErrors.email
-                            ? "border-red-500 ring-1 ring-red-500"
-                            : "border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c]"
-                        } rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
-                      />
-                      {formErrors.email && (
-                        <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
-                          {formErrors.email}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                        Alt. Mobile Number <span className="text-slate-400 font-normal">(Optional)</span>
-                      </label>
-                      <input
-                        type="tel"
-                        inputMode="numeric"
-                        maxLength={10}
-                        placeholder="9876543210"
-                        value={formData.altPhone}
-                        onChange={handleAltPhoneChange}
-                        className={`w-full bg-white border ${
-                          formErrors.altPhone
-                            ? "border-red-500 ring-1 ring-red-500"
-                            : "border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c]"
-                        } rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
-                      />
-                      {formErrors.altPhone && (
-                        <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
-                          {formErrors.altPhone}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Section 2: Delivery Address */}
-              <div className="pt-1">
-                <div className="text-[11px] sm:text-xs font-bold tracking-wider text-slate-500 uppercase font-montserrat mb-2.5 sm:mb-3">
-                  DELIVERY ADDRESS
-                </div>
+              {/* Bottom Sticky Action Button */}
+              <div
+                style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+                className="shrink-0 bg-white/95 backdrop-blur-md border-t border-slate-100 px-4 sm:px-8 py-3.5 shadow-[0_-6px_20px_rgba(0,0,0,0.06)] z-20"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleContinueEmi(selectedEmiBank, selectedTenure)}
+                  className="w-full bg-[#005a9c] hover:bg-[#004f8a] active:bg-[#004478] text-white font-bold font-montserrat text-sm sm:text-base tracking-wider py-3.5 rounded-xl shadow-sm transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center uppercase"
+                >
+                  <span>CONTINUE WITH {selectedEmiBank.toUpperCase()} EMI ({selectedTenure}M)</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* ========================================================= */
+            /* SCREEN A: MAIN CHECKOUT FORM (Exact Match to Screenshot)  */
+            /* ========================================================= */
+            <div className="flex flex-col h-full flex-1 overflow-hidden">
+              {/* Header row: Back button on left, Close button right */}
+              <div className="shrink-0 px-4 sm:px-8 md:px-10 lg:px-12 pt-3.5 sm:pt-4 pb-3 border-b border-slate-100 flex items-center justify-between bg-white z-20">
+                <button
+                  type="button"
+                  onClick={handleBackToProduct}
+                  className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 font-bold text-xs sm:text-sm font-montserrat cursor-pointer hover:bg-slate-100 px-2 py-1 rounded-lg transition-colors"
+                  aria-label="Back"
+                >
+                  <ArrowLeft size={16} />
+                  <span>PROMEC</span>
+                </button>
 
-                <div className="space-y-3 sm:space-y-3.5">
-                  {/* Complete Delivery Address */}
-                  <div>
-                    <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                      Complete Delivery Address
-                    </label>
-                    <textarea
-                      rows={2}
-                      required
-                      placeholder="Street name, house/apartment number"
-                      value={formData.deliveryAddress}
-                      onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                      className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[64px] sm:h-[68px] font-open-sans"
-                    />
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="w-8 h-8 bg-slate-100/80 hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full flex items-center justify-center transition-colors focus:outline-none cursor-pointer shadow-2xs shrink-0"
+                  aria-label="Close modal"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <form
+                id="checkout-form"
+                onSubmit={handleCheckoutSubmit}
+                className="flex-1 overflow-y-auto px-4 sm:px-8 md:px-10 lg:px-12 py-5 sm:py-6 space-y-5 no-scrollbar"
+              >
+                {/* Optional Payment Error Alert */}
+                {paymentErrorMessage && (
+                  <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold">⚠️</span>
+                      <span>{paymentErrorMessage}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setPaymentErrorMessage(null)}
+                      className="text-red-500 hover:text-red-800 font-bold text-xs cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+
+                {/* Section 1: Personal Information */}
+                <div>
+                  <div className="text-[11px] sm:text-xs font-bold tracking-wider text-slate-500 uppercase font-montserrat mb-2.5 sm:mb-3">
+                    PERSONAL INFORMATION
                   </div>
 
-                  {/* Row 3: Pincode (1st), City (2nd), State (3rd) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-                    <div>
-                      <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                        Pincode
-                      </label>
-                      <div className="relative">
+                  <div className="space-y-3 sm:space-y-3.5">
+                    {/* Row 1: Full Name & Mobile Number */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          Full Name
+                        </label>
                         <input
                           type="text"
                           required
+                          placeholder="Rahul Sharma"
+                          value={formData.fullName}
+                          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                          className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <label className="block text-xs sm:text-[13px] font-bold text-slate-800 font-open-sans">
+                            Mobile Number
+                          </label>
+                          {verifiedUser?.phone && formData.phone === verifiedUser.phone && (
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full select-none">
+                              <CheckCircle2 size={12} className="text-emerald-600" />
+                              <span>Verified</span>
+                            </span>
+                          )}
+                        </div>
+                        <input
+                          type="tel"
                           inputMode="numeric"
-                          maxLength={6}
-                          placeholder="560010"
-                          value={formData.pincode}
-                          onChange={handlePincodeChange}
+                          maxLength={10}
+                          required
+                          placeholder="9876543210"
+                          value={formData.phone}
+                          onChange={handlePhoneChange}
                           className={`w-full bg-white border ${
-                            formErrors.pincode
+                            formErrors.phone
                               ? "border-red-500 ring-1 ring-red-500"
                               : "border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c]"
                           } rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
                         />
-                        {isLoadingPincode && (
-                          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
-                            <span className="w-3.5 h-3.5 border-2 border-[#005a9c] border-t-transparent rounded-full animate-spin block" />
-                          </div>
+                        {formErrors.phone && (
+                          <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
+                            {formErrors.phone}
+                          </p>
                         )}
                       </div>
-                      {formErrors.pincode && (
-                        <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
-                          {formErrors.pincode}
-                        </p>
-                      )}
                     </div>
 
+                    {/* Row 2: Email Address & Alternative Mobile Number */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          Email Address
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="rahul.sharma@example.com"
+                          value={formData.email}
+                          onChange={handleEmailChange}
+                          className={`w-full bg-white border ${
+                            formErrors.email
+                              ? "border-red-500 ring-1 ring-red-500"
+                              : "border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c]"
+                          } rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
+                        />
+                        {formErrors.email && (
+                          <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
+                            {formErrors.email}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          Alt. Mobile Number <span className="text-slate-400 font-normal">(Optional)</span>
+                        </label>
+                        <input
+                          type="tel"
+                          inputMode="numeric"
+                          maxLength={10}
+                          placeholder="9876543210"
+                          value={formData.altPhone}
+                          onChange={handleAltPhoneChange}
+                          className={`w-full bg-white border ${
+                            formErrors.altPhone
+                              ? "border-red-500 ring-1 ring-red-500"
+                              : "border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c]"
+                          } rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
+                        />
+                        {formErrors.altPhone && (
+                          <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
+                            {formErrors.altPhone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 2: Delivery Address */}
+                <div className="pt-1">
+                  <div className="text-[11px] sm:text-xs font-bold tracking-wider text-slate-500 uppercase font-montserrat mb-2.5 sm:mb-3">
+                    DELIVERY ADDRESS
+                  </div>
+
+                  <div className="space-y-3 sm:space-y-3.5">
+                    {/* Complete Delivery Address */}
                     <div>
                       <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                        City
+                        Complete Delivery Address
                       </label>
-                      <input
-                        type="text"
+                      <textarea
+                        rows={2}
                         required
-                        placeholder="Bengaluru"
-                        value={formData.city}
-                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                        placeholder="Street name, house/apartment number"
+                        value={formData.deliveryAddress}
+                        onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
+                        className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none h-[64px] sm:h-[68px] font-open-sans"
                       />
                     </div>
 
+                    {/* Row 3: Pincode, City, State */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          Pincode
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            required
+                            inputMode="numeric"
+                            maxLength={6}
+                            placeholder="560010"
+                            value={formData.pincode}
+                            onChange={handlePincodeChange}
+                            className={`w-full bg-white border ${
+                              formErrors.pincode
+                                ? "border-red-500 ring-1 ring-red-500"
+                                : "border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c]"
+                            } rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans`}
+                          />
+                          {isLoadingPincode && (
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+                              <span className="w-3.5 h-3.5 border-2 border-[#005a9c] border-t-transparent rounded-full animate-spin block" />
+                            </div>
+                          )}
+                        </div>
+                        {formErrors.pincode && (
+                          <p className="text-red-500 text-[11px] mt-1 font-open-sans font-medium">
+                            {formErrors.pincode}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          City
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Bengaluru"
+                          value={formData.city}
+                          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                          className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          State
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Karnataka"
+                          value={formData.state}
+                          onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                          className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                        />
+                      </div>
+                    </div>
+
+                    {/* GST Number (Optional) */}
                     <div>
                       <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                        State
+                        GST Number <span className="text-slate-400 font-normal">(Optional)</span>
                       </label>
                       <input
                         type="text"
-                        required
-                        placeholder="Karnataka"
-                        value={formData.state}
-                        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                        className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                        placeholder="E.g: 27AAAAA0000A1Z5"
+                        value={formData.gstNumber}
+                        onChange={(e) => setFormData({ ...formData, gstNumber: e.target.value.toUpperCase() })}
+                        className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans uppercase"
                       />
                     </div>
                   </div>
+                </div>
 
-                  {/* GST Number (Optional) */}
-                  <div>
-                    <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
-                      GST Number <span className="text-slate-400 font-normal">(Optional)</span>
+                {/* Section 3: Select Payment Method */}
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-sm sm:text-base font-bold text-slate-900 font-montserrat">
+                      Select Payment Method:
                     </label>
-                    <input
-                      type="text"
-                      placeholder="E.g. 27AAAAA0000A1Z5"
-                      value={formData.gstNumber}
-                      onChange={(e) => setFormData({ ...formData, gstNumber: e.target.value.toUpperCase() })}
-                      className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans uppercase"
-                    />
+                    <span className="bg-[#eafaf1] text-[#0a8961] border border-[#a7f3d0]/70 text-[10px] sm:text-[11.5px] font-bold px-2.5 sm:px-3 py-1 rounded-full flex items-center gap-1.5 font-montserrat tracking-tight shrink-0">
+                      <Lock size={12} className="text-[#0a8961] shrink-0 stroke-[2.5]" />
+                      <span>100% SECURE CHECKOUT</span>
+                    </span>
                   </div>
-                </div>
-              </div>
 
-              {/* Section 3: Select Payment Method */}
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center justify-between">
-                  <label className="block text-sm sm:text-base font-bold text-slate-900 font-montserrat">
-                    Select Payment Method:
-                  </label>
-                  <span className="bg-[#eafaf1] text-[#0a8961] border border-[#a7f3d0]/70 text-[10px] sm:text-[11.5px] font-bold px-2.5 sm:px-3 py-1 rounded-full flex items-center gap-1.5 font-montserrat tracking-tight shrink-0">
-                    <Lock size={12} className="text-[#0a8961] shrink-0 stroke-[2.5]" />
-                    <span>100% SECURE CHECKOUT</span>
-                  </span>
-                </div>
-
-                <div className="space-y-4 sm:space-y-5 font-open-sans">
-                  {/* Option 1: 100% Online Payment / No Cost EMI (Segmented Button in 1 section) */}
-                  <div
-                    onClick={() => {
-                      setPaymentMethod("FULL_ONLINE");
-                    }}
-                    className={`relative p-2 sm:p-2.5 rounded-2xl sm:rounded-3xl border transition-all select-none bg-white cursor-pointer ${
-                      paymentMethod === "FULL_ONLINE"
-                        ? "border-[#005a9c] ring-1 ring-[#005a9c] shadow-2xs"
-                        : "border-slate-200/90 hover:border-slate-300"
-                    }`}
-                  >
+                  {/* Segmented Full vs. EMI Button */}
+                  <div className="relative pt-2 sm:pt-2.5">
                     <div className="bg-[#edf2f7] p-1.5 rounded-[18px] sm:rounded-[22px] grid grid-cols-2 gap-1.5 relative">
                       {/* Segment 1: Pay in full */}
                       <button
                         type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
+                        onClick={() => {
                           setPaymentMethod("FULL_ONLINE");
                           setOnlinePaymentMode("FULL");
                         }}
-                        className={`py-2.5 sm:py-3.5 px-2 sm:px-4 rounded-[14px] sm:rounded-[18px] flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+                        className={`h-[54px] sm:h-[58px] px-2 sm:px-4 rounded-[14px] sm:rounded-[18px] flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
                           paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "FULL"
                             ? "bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
                             : "hover:bg-white/40"
@@ -1492,40 +2738,22 @@ export default function OrderModal({
                         </span>
                       </button>
 
-                      {/* Segment 2: EMI on Credit/Debit Cards (Instant Choose EMI Transition) */}
+                      {/* Segment 2: EMI on UPI & Cards (Opens dedicated EMI Screen) */}
                       <button
                         type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
+                        onClick={() => {
                           setPaymentMethod("FULL_ONLINE");
                           setOnlinePaymentMode("EMI");
+                          setCheckoutStep("choose_emi");
                         }}
-                        className={`relative py-2.5 sm:py-3.5 px-2 sm:px-4 rounded-[14px] sm:rounded-[18px] flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+                        className={`relative h-[54px] sm:h-[58px] px-2 sm:px-4 rounded-[14px] sm:rounded-[18px] flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
                           paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "EMI"
                             ? "bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
                             : "hover:bg-white/40"
                         }`}
                       >
                         {/* No Cost EMI Ribbon Badge */}
-                        <div className="absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
-                          <div className="relative bg-[#16a34a] text-white font-montserrat font-bold text-[9px] sm:text-[10px] tracking-tight px-2.5 sm:px-3 py-0.5 rounded-b-[4px] shadow-xs whitespace-nowrap">
-                            <svg
-                              className="absolute top-0 -left-1.5 w-1.5 h-2.5 text-[#147d5a]"
-                              viewBox="0 0 6 10"
-                              fill="currentColor"
-                            >
-                              <polygon points="0,10 6,0 6,10" />
-                            </svg>
-                            <svg
-                              className="absolute top-0 -right-1.5 w-1.5 h-2.5 text-[#147d5a]"
-                              viewBox="0 0 6 10"
-                              fill="currentColor"
-                            >
-                              <polygon points="6,10 0,0 0,10" />
-                            </svg>
-                            No Cost EMI
-                          </div>
-                        </div>
+                        <RibbonBadge text="No Cost EMI" />
 
                         <span
                           className={`text-xs sm:text-[13px] font-semibold font-montserrat leading-tight ${
@@ -1547,192 +2775,540 @@ export default function OrderModal({
                         </span>
                       </button>
                     </div>
-                  </div>
 
-                  {/* Option 2: Cash on Delivery */}
-                  <div
-                    onClick={() => setPaymentMethod("10_PERCENT_COD")}
-                    className={`relative mt-4 sm:mt-5 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 select-none bg-white ${
-                      paymentMethod === "10_PERCENT_COD"
-                        ? "border-[#005a9c] ring-1 ring-[#005a9c] shadow-2xs"
-                        : "border-slate-200/90 hover:border-slate-300"
-                    }`}
-                  >
-                    {/* Green Ribbon on Top Border */}
-                    <div className="absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center pointer-events-none">
-                      <div className="relative bg-[#16a34a] text-white font-montserrat font-bold text-[10.5px] sm:text-xs tracking-tight sm:tracking-normal px-4 sm:px-6 py-0.5 sm:py-1 rounded-b-md shadow-xs whitespace-nowrap">
-                        {/* Left triangular fold ear */}
-                        <svg
-                          className="absolute top-0 -left-2 sm:-left-2.5 w-2 sm:w-2.5 h-3 sm:h-3.5 text-[#147d5a]"
-                          viewBox="0 0 10 14"
-                          fill="currentColor"
+                    {/* Selected EMI Plan Banner */}
+                    {onlinePaymentMode === "EMI" && paymentMethod !== "10_PERCENT_COD" && (
+                      <div className="mt-2.5 p-3 bg-blue-50/90 border border-blue-200/90 rounded-xl flex items-center justify-between text-xs shadow-2xs">
+                        <div className="flex items-center gap-2.5">
+                          {selectedEmiBankObj?.logo ? (
+                            <div className="w-8 h-8 rounded-full bg-white border border-slate-200 p-1 shrink-0 flex items-center justify-center overflow-hidden">
+                              <img
+                                src={selectedEmiBankObj.logo}
+                                alt={selectedEmiBank}
+                                className="w-full h-full object-contain"
+                              />
+                            </div>
+                          ) : (
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                          )}
+                          <div>
+                            <div className="font-bold text-slate-800 font-montserrat">
+                              {selectedEmiBank} • {selectedTenure} Months {selectedEmiPlan?.isNoCost ? "No-Cost EMI" : "EMI"}
+                            </div>
+                            <div className="text-[11px] text-slate-500 font-open-sans">
+                              ₹{(selectedEmiPlan?.monthlyAmount || Math.round(totalPrice / selectedTenure)).toLocaleString("en-IN")}/month {selectedEmiPlan && !selectedEmiPlan.isNoCost && `(${selectedEmiPlan.interestRate}% p.a.)`}
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setCheckoutStep("choose_emi")}
+                          className="text-[#005a9c] hover:text-[#004478] font-bold text-xs uppercase tracking-wider underline cursor-pointer font-montserrat"
                         >
-                          <polygon points="0,14 10,0 10,14" />
-                        </svg>
-                        {/* Right triangular fold ear */}
-                        <svg
-                          className="absolute top-0 -right-2 sm:-right-2.5 w-2 sm:w-2.5 h-3 sm:h-3.5 text-[#147d5a]"
-                          viewBox="0 0 10 14"
-                          fill="currentColor"
-                        >
-                          <polygon points="10,14 0,0 0,14" />
-                        </svg>
-                        Pay Just 10% Now, Rest on Delivery
+                          Change Plan
+                        </button>
                       </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 pr-2">
-                      <CodPaymentIcon className="w-7 h-7 sm:w-8 sm:h-8 shrink-0" />
-                      <div className="min-w-0">
-                        <h4 className="text-sm sm:text-base font-bold text-slate-900 font-montserrat tracking-tight leading-snug">
-                          Cash on Delivery
-                        </h4>
-                        <p className="text-[11px] sm:text-xs text-slate-400 font-normal font-open-sans mt-0.5 leading-snug">
-                          Safe Upfront Payment
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-base sm:text-lg md:text-xl font-bold text-slate-900 font-montserrat shrink-0 whitespace-nowrap">
-                      ₹{advanceAmount.toLocaleString("en-IN")}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Section 4: Price Breakdown Card */}
-              <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2.5 font-open-sans shadow-2xs">
-                <div className="flex items-center justify-between pb-1">
-                  <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat uppercase tracking-wide">
-                    PRICE BREAKDOWN
-                  </span>
-                  <span className="bg-blue-50 text-[#005a9c] border border-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full font-open-sans">
-                    {selectedVacuumOption === "without" ? "Without Vacuum" : "With Vacuum"}
-                  </span>
-                </div>
-
-                <div className="space-y-1.5 text-xs sm:text-[13px] font-open-sans">
-                  {/* MRP Total */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500 font-medium">MRP Total</span>
-                    <span className="text-slate-500 font-normal text-right">₹{totalMRP.toLocaleString("en-IN")}</span>
+                    )}
                   </div>
 
-                  {/* Discount on MRP */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500 font-medium">Discount on MRP</span>
-                    <span className="text-emerald-600 font-bold text-right">-₹{totalSavings.toLocaleString("en-IN")}</span>
-                  </div>
-
-                  {/* Subtotal */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-900 font-bold">Subtotal</span>
-                    <span className="text-slate-900 font-bold text-right">₹{totalPrice.toLocaleString("en-IN")}</span>
-                  </div>
-
-                  {/* Shipping */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500 font-medium">Shipping</span>
-                    <div className="flex items-center justify-end gap-1.5 text-right shrink-0">
-                      <span className="text-emerald-600 font-bold uppercase">FREE</span>
-                      <span className="text-slate-400 line-through font-normal">₹1,500</span>
-                    </div>
-                  </div>
-
-                  {/* Handling & Packaging Fee */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500 font-medium">Handling &amp; Packaging Fee</span>
-                    <div className="flex items-center justify-end gap-1.5 text-right shrink-0">
-                      <span className="text-emerald-600 font-bold uppercase">FREE</span>
-                      <span className="text-slate-400 line-through font-normal">₹550</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full h-px bg-slate-100 my-2" />
-
-                {/* Total Order Value */}
-                <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-900 font-montserrat">
-                  <span>Total Order Value</span>
-                  <span className="font-extrabold text-base sm:text-lg text-right">₹{totalPrice.toLocaleString("en-IN")}</span>
-                </div>
-
-                {paymentMethod === "10_PERCENT_COD" && (
-                  <div className="pt-2.5 border-t border-slate-100 space-y-2 font-open-sans">
-                    <div className="flex items-center justify-between text-xs sm:text-[13px] font-bold text-[#005a9c]">
-                      <span>Advance Payable Now (10%)</span>
-                      <span className="text-sm font-extrabold text-right">₹{advanceAmount.toLocaleString("en-IN")}</span>
-                    </div>
-                    <div className="flex items-start justify-between text-xs sm:text-[13px] pt-0.5">
-                      <span className="font-bold text-slate-900 font-montserrat pt-0.5">Pay on Delivery</span>
-                      <div className="flex flex-col items-end text-right">
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-slate-400 text-xs font-normal font-open-sans">90% Balance</span>
-                          <span className="text-sm sm:text-base font-extrabold text-slate-900 font-montserrat">
-                            ₹{codBalance.toLocaleString("en-IN")}
+                  {/* Payment Methods Accordion (Exact Icons & Structure) */}
+                  <div className="space-y-2.5 pt-1">
+                    
+                    {/* Method 1: UPI (Expanded by default) */}
+                    <div
+                      className={`rounded-2xl overflow-hidden transition-all bg-white ${
+                        selectedCustomPayment === "upi" && paymentMethod !== "10_PERCENT_COD"
+                          ? "border-2 border-[#005a9c] shadow-xs"
+                          : "border border-slate-200 hover:border-slate-300"
+                      }`}
+                    >
+                      <div
+                        onClick={() => {
+                          setPaymentMethod("FULL_ONLINE");
+                          setSelectedCustomPayment("upi");
+                          setOnlinePaymentMode("FULL");
+                        }}
+                        className="h-[54px] sm:h-[58px] px-3.5 sm:px-4 flex items-center justify-between cursor-pointer select-none"
+                      >
+                        <div className="flex items-center gap-2.5 sm:gap-3">
+                          <UpiPaymentIcon className="w-5 h-5 text-[#005DA6] shrink-0" />
+                          <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat tracking-tight">
+                            UPI
                           </span>
                         </div>
-                        <span className="text-[11px] sm:text-xs text-slate-400 font-normal font-open-sans mt-0.5">
-                          COD fee of <span className="font-semibold text-slate-700">₹{codFee}</span> is added
+                        <div className="flex items-center gap-1.5 text-right">
+                          <span className="text-[11px] text-slate-400 line-through font-normal font-open-sans">
+                            ₹{totalMRP.toLocaleString("en-IN")}
+                          </span>
+                          <span className="text-xs sm:text-sm font-extrabold text-slate-900 font-montserrat">
+                            ₹{totalPrice.toLocaleString("en-IN")}
+                          </span>
+                          <ChevronRight className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${selectedCustomPayment === "upi" && paymentMethod !== "10_PERCENT_COD" ? "rotate-90" : ""}`} strokeWidth={2.5} />
+                        </div>
+                      </div>
+
+                      {/* UPI Expanded Content with Real QR and Real Icons */}
+                      {selectedCustomPayment === "upi" && paymentMethod !== "10_PERCENT_COD" && (
+                        <div className="px-4 pb-5 pt-2 bg-white">
+                          {/* Desktop Layout: Exactly matching Image media_1790176929349.png */}
+                          <div className="hidden sm:flex items-center justify-center gap-10 py-2">
+                            {/* Left: Dynamic QR Code + 15 min Validity Pill Badge */}
+                            <div className="flex flex-col items-center">
+                              <div className="relative w-36 h-36 bg-white flex items-center justify-center shrink-0">
+                                <QRCodeSVG
+                                  value={`upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${upiSessionRef}&am=${totalPrice}&cu=INR&tn=AMEC%20Aquaforce%20${upiSessionRef}`}
+                                  size={144}
+                                  level="M"
+                                  className={`w-full h-full transition-all duration-300 ${
+                                    !showQrCode ? "blur-[5px] select-none pointer-events-none opacity-85" : "blur-none"
+                                  }`}
+                                />
+
+                                {/* Show QR Button Overlay (Exact Match to media_1790177917865.png) */}
+                                {!showQrCode && (
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setQrCountdownSecs(900);
+                                        setUpiSessionRef(`AMEC${Date.now().toString(36).toUpperCase()}`);
+                                        setShowQrCode(true);
+                                      }}
+                                      className="bg-white border border-slate-700/80 hover:border-black text-slate-900 rounded-[8px] px-3.5 py-1.5 flex items-center gap-2 shadow-xs hover:bg-slate-50 transition-all cursor-pointer font-montserrat active:scale-95"
+                                    >
+                                      <svg className="w-4 h-4 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                                        <circle cx="12" cy="12" r="3.2" fill="currentColor" />
+                                      </svg>
+                                      <span className="text-xs sm:text-[13px] font-semibold tracking-tight text-slate-900 select-none">
+                                        Show QR
+                                      </span>
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Tooltip Pill: QR valid for 14:58 mins with upward arrow (Only appears after clicking Show QR) */}
+                              {showQrCode && (
+                                <div className="relative mt-2.5 flex flex-col items-center">
+                                  <div className="w-0 h-0 border-x-[5px] border-x-transparent border-b-[5px] border-b-slate-100" />
+                                  <div className="bg-slate-100 text-slate-700 text-[11.5px] font-semibold px-3 py-1 rounded-lg select-none whitespace-nowrap shadow-2xs font-open-sans">
+                                    QR valid for <span className="font-bold text-slate-900">{formatQrTimer(qrCountdownSecs)}</span> mins
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Right: Text + 5 Overlapping UPI Partner Brand Icons (Exact match to screenshot) */}
+                            <div className="flex flex-col items-center space-y-3.5">
+                              <div className="text-xs sm:text-[13px] font-semibold text-slate-800 font-open-sans text-center">
+                                Scan the QR using any UPI App
+                              </div>
+                              <div className="flex items-center -space-x-2">
+                                <div className="relative z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#e8f7fd] ring-2 ring-white flex items-center justify-center p-1.5 shadow-2xs shrink-0 select-none overflow-hidden" title="Paytm">
+                                  <img src={getApiPath("/UPI options/paytm_logo.svg.png")} alt="Paytm" className="w-full h-full object-contain" />
+                                </div>
+                                <div className="relative z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#5f259f] ring-2 ring-white flex items-center justify-center shrink-0 select-none overflow-hidden shadow-2xs" title="PhonePe">
+                                  <img src={getApiPath("/UPI options/phonepe_symbol.svg.png")} alt="PhonePe" className="w-full h-full object-cover" />
+                                </div>
+                                <div className="relative z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#f0f4f9] ring-2 ring-white flex items-center justify-center p-1.5 shadow-2xs shrink-0 select-none overflow-hidden" title="Google Pay">
+                                  <img src={getApiPath("/UPI options/google.png")} alt="Google Pay" className="w-full h-full object-contain" />
+                                </div>
+                                <div className="relative z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#232f3e] ring-2 ring-white flex items-center justify-center p-1.5 shadow-2xs shrink-0 select-none overflow-hidden" title="Amazon Pay">
+                                  <img src={getApiPath("/UPI options/amazonpay.png")} alt="Amazon Pay" className="w-full h-full object-contain" />
+                                </div>
+                                <div className="relative z-50 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#eef8ee] ring-2 ring-white flex items-center justify-center p-1.5 shadow-2xs shrink-0 select-none overflow-hidden" title="BHIM UPI">
+                                  <img src={getApiPath("/UPI options/bhim_logo.svg.png")} alt="BHIM UPI" className="w-full h-full object-contain" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Mobile Layout: UPI App Cards (Exact Match to media_1790178909732.png) */}
+                          <div className="sm:hidden py-1 space-y-2.5">
+                            <div className="flex items-stretch gap-2.5 overflow-x-auto no-scrollbar py-1.5 px-0.5 scroll-smooth snap-x">
+                              {UPI_APP_OPTIONS.map((app) => {
+                                const isSelected = selectedUpiApp === app.id;
+                                return (
+                                  <div
+                                    key={app.id}
+                                    onClick={() => setSelectedUpiApp(app.id)}
+                                    className={`relative shrink-0 w-[84px] xs:w-[92px] h-[106px] rounded-2xl flex flex-col items-center justify-between cursor-pointer transition-all duration-200 select-none snap-start overflow-hidden ${
+                                      isSelected
+                                        ? "border-2 border-[#005a9c] ring-2 ring-[#005a9c]/15 shadow-sm scale-[1.02]"
+                                        : `border ${app.borderClass} hover:border-slate-300`
+                                    } ${app.bgClass}`}
+                                  >
+                                    {/* Top Cashback Badge if present */}
+                                    {app.badge ? (
+                                      <div className="w-full text-center py-0.5 text-[9px] font-bold text-[#0a8961] bg-[#eafaf1] border-b border-[#a7f3d0]/60 uppercase tracking-tight">
+                                        {app.badge}
+                                      </div>
+                                    ) : (
+                                      <div className="h-[18px] w-full" />
+                                    )}
+
+                                    {/* App Logo Avatar */}
+                                    <div
+                                      className={`w-11 h-11 rounded-full ${app.avatarBg} ring-1 ring-black/5 flex items-center justify-center p-1.5 shadow-2xs shrink-0 overflow-hidden my-auto`}
+                                    >
+                                      <img
+                                        src={getApiPath(app.logo)}
+                                        alt={app.name}
+                                        className="w-full h-full object-contain"
+                                      />
+                                    </div>
+
+                                    {/* App Name Label */}
+                                    <div className="w-full text-center pb-2 px-1">
+                                      <span
+                                        className={`text-xs font-bold font-montserrat truncate block ${
+                                          isSelected ? "text-[#005a9c]" : "text-slate-800"
+                                        }`}
+                                      >
+                                        {app.shortName}
+                                      </span>
+                                    </div>
+
+                                    {/* Selected Checkmark Badge */}
+                                    {isSelected && (
+                                      <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#005a9c] text-white flex items-center justify-center shadow-xs">
+                                        <Check size={10} strokeWidth={3.5} />
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+
+                            {/* Active App Indicator */}
+                            <div className="flex items-center justify-between px-3 py-2 bg-slate-50/90 rounded-xl border border-slate-200/70 text-[11.5px] font-open-sans">
+                              <span className="text-slate-500">Selected UPI App:</span>
+                              <span className="font-bold text-slate-900 font-montserrat flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                {UPI_APP_OPTIONS.find((a) => a.id === selectedUpiApp)?.name}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Method 2: Cash on Delivery */}
+                    <div
+                      onClick={() => {
+                        setPaymentMethod("10_PERCENT_COD");
+                        setOnlinePaymentMode("FULL");
+                      }}
+                      className={`relative !mt-6 sm:!mt-7 rounded-2xl transition-all bg-white cursor-pointer select-none ${
+                        paymentMethod === "10_PERCENT_COD"
+                          ? "border-2 border-[#16a34a] shadow-xs"
+                          : "border border-slate-200 hover:border-slate-300"
+                      }`}
+                    >
+                      {/* Green Folded Ribbon on Top Edge */}
+                      <RibbonBadge text="Pay Just 10% Now, Rest on Delivery" />
+
+                      <div className="h-[54px] sm:h-[58px] px-3.5 sm:px-4 flex items-center justify-between">
+                        <div className="flex items-center gap-2.5 sm:gap-3">
+                          <CodPaymentIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#005a9c] shrink-0" />
+                          <div className="flex flex-col text-left">
+                            <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat tracking-tight leading-tight">
+                              Cash on Delivery
+                            </span>
+                            <span className="text-[10px] sm:text-xs text-slate-400 font-medium font-montserrat leading-tight mt-0.5">
+                              Safe Upfront Payment
+                            </span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-sm sm:text-base font-extrabold text-slate-900 font-montserrat">
+                            ₹{advanceAmount.toLocaleString("en-IN")}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Method 3: Debit/Credit Cards */}
+                    <div
+                      className={`rounded-2xl overflow-hidden transition-all bg-white ${
+                        selectedCustomPayment === "card" && paymentMethod !== "10_PERCENT_COD"
+                          ? "border-2 border-[#005a9c] shadow-xs"
+                          : "border border-slate-200 hover:border-slate-300"
+                      }`}
+                    >
+                      <div
+                        onClick={handleDebitCreditCardClick}
+                        className="h-[54px] sm:h-[58px] px-3.5 sm:px-4 flex items-center justify-between cursor-pointer select-none hover:bg-slate-50/70 transition-colors"
+                      >
+                        <div className="flex items-center gap-2.5 sm:gap-3">
+                          <CardPaymentIcon className="w-5 h-5 text-[#005a9c] shrink-0" />
+                          <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat tracking-tight">
+                            Debit/Credit Cards
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs sm:text-sm font-extrabold text-slate-900 font-montserrat">
+                            ₹{totalPrice.toLocaleString("en-IN")}
+                          </span>
+                          {isProcessingPayment && selectedCustomPayment === "card" ? (
+                            <span className="w-4 h-4 border-2 border-[#005a9c] border-t-transparent rounded-full animate-spin shrink-0" />
+                          ) : (
+                            <ChevronRight className="w-5 h-5 text-slate-400 shrink-0" strokeWidth={2.5} />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Method 4: Netbanking */}
+                    <div
+                      className={`rounded-2xl overflow-hidden transition-all bg-white ${
+                        selectedCustomPayment === "netbanking" && paymentMethod !== "10_PERCENT_COD"
+                          ? "border-2 border-[#005a9c] shadow-xs"
+                          : "border border-slate-200 hover:border-slate-300"
+                      }`}
+                    >
+                      <div
+                        onClick={() => {
+                          setPaymentMethod("FULL_ONLINE");
+                          setSelectedCustomPayment("netbanking");
+                          setOnlinePaymentMode("FULL");
+                        }}
+                        className="h-[54px] sm:h-[58px] px-3.5 sm:px-4 flex items-center justify-between cursor-pointer select-none"
+                      >
+                        <div className="flex items-center gap-2.5 sm:gap-3">
+                          <BankPaymentIcon className="w-5 h-5 text-[#005a9c] shrink-0" />
+                          <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat tracking-tight">
+                            Netbanking
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs sm:text-sm font-extrabold text-slate-900 font-montserrat">
+                            ₹{totalPrice.toLocaleString("en-IN")}
+                          </span>
+                          <ChevronRight className="w-5 h-5 text-slate-400 shrink-0" strokeWidth={2.5} />
+                        </div>
+                      </div>
+
+                      {selectedCustomPayment === "netbanking" && paymentMethod !== "10_PERCENT_COD" && (
+                        <div className="p-4 bg-slate-50/70 border-t border-slate-100 space-y-3">
+                          {/* Popular Enabled Banks Grid */}
+                          <div>
+                            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 font-montserrat">
+                              Popular Banks
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                              {popularNetbankingBanks.map((b) => {
+                                const isBankSelected = selectedBank === b.code;
+                                return (
+                                  <button
+                                    key={b.code}
+                                    type="button"
+                                    onClick={() => setSelectedBank(b.code)}
+                                    className={`p-2.5 rounded-xl border flex items-center gap-2 transition-all cursor-pointer text-left ${
+                                      isBankSelected
+                                        ? "border-[#005a9c] bg-blue-50/80 ring-2 ring-[#005a9c]/20 shadow-xs"
+                                        : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50"
+                                    }`}
+                                  >
+                                    <div className="w-7 h-7 rounded-full bg-white border border-slate-200 p-0.5 shrink-0 flex items-center justify-center overflow-hidden">
+                                      <img
+                                        src={b.logo}
+                                        alt={b.shortName}
+                                        className="w-full h-full object-contain"
+                                        onError={(e) => {
+                                          (e.target as HTMLElement).style.display = "none";
+                                        }}
+                                      />
+                                    </div>
+                                    <span className="text-xs font-bold text-slate-800 font-montserrat truncate flex-1">
+                                      {b.shortName}
+                                    </span>
+                                    {isBankSelected && (
+                                      <Check size={14} className="text-[#005a9c] stroke-[3] shrink-0" />
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* All Enabled Banks Dropdown */}
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5 font-montserrat">
+                              All Other Banks ({liveNetbankingBanks.length} available)
+                            </label>
+                            <div className="relative">
+                              <select
+                                value={selectedBank}
+                                onChange={(e) => setSelectedBank(e.target.value)}
+                                className="w-full bg-white border border-slate-200 focus:border-[#005a9c] rounded-xl pl-3.5 pr-9 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 outline-none cursor-pointer appearance-none shadow-2xs"
+                              >
+                                {liveNetbankingBanks.map((b) => (
+                                  <option key={b.code} value={b.code}>
+                                    {b.name}
+                                  </option>
+                                ))}
+                              </select>
+                              <ChevronDown size={16} className="absolute right-3 top-3 text-slate-400 pointer-events-none" />
+                            </div>
+                          </div>
+
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Section 4: Price Breakdown Card */}
+                <div className="bg-[#fafbfc] border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2.5 font-open-sans shadow-2xs">
+                  <div className="flex items-center justify-between pb-1">
+                    <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat uppercase tracking-wide">
+                      PRICE BREAKDOWN
+                    </span>
+                    <span className="bg-[#eff6ff] text-[#2563eb] border border-blue-200/70 text-[11px] font-semibold px-2.5 py-0.5 rounded-full font-open-sans">
+                      {selectedVacuumOption === "without" ? "Without Vacuum" : "With Vacuum"}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs sm:text-[13px] font-open-sans">
+                    {/* MRP Total */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500 font-medium">MRP Total</span>
+                      <span className="text-slate-400 line-through font-normal text-right">
+                        ₹{totalMRP.toLocaleString("en-IN")}
+                      </span>
+                    </div>
+
+                    {/* Discount on MRP */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500 font-medium">Discount on MRP</span>
+                      <span className="text-emerald-600 font-bold text-right">
+                        -₹{totalSavings.toLocaleString("en-IN")}
+                      </span>
+                    </div>
+
+                    {/* Subtotal */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-900 font-bold">Subtotal</span>
+                      <span className="text-slate-900 font-bold text-right">
+                        ₹{totalPrice.toLocaleString("en-IN")}
+                      </span>
+                    </div>
+
+                    {/* Shipping */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500 font-medium">Shipping</span>
+                      <div className="flex items-center justify-end gap-1.5 text-right shrink-0">
+                        <span className="text-slate-400 line-through font-normal">₹1,500</span>
+                        <span className="text-emerald-600 font-bold uppercase">
+                          FREE (DELHIVERY EXPRESS)
                         </span>
                       </div>
                     </div>
+
+                    {/* Handling & Packaging Fee */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500 font-medium">Handling &amp; Packaging Fee</span>
+                      <div className="flex items-center justify-end gap-1.5 text-right shrink-0">
+                        <span className="text-slate-400 line-through font-normal">₹550</span>
+                        <span className="text-emerald-600 font-bold uppercase">FREE</span>
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
 
-              {/* Savings Banner Pill */}
-              <div className="p-3 bg-[#e6fbf2] border border-[#a3f0cb] rounded-xl text-center text-emerald-800 font-bold text-xs sm:text-[13px] font-open-sans flex items-center justify-center gap-2">
-                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
-                <span>You are Saving ₹{totalSavings.toLocaleString("en-IN")} ({savingsPercentage}% OFF) on this order.</span>
-              </div>
+                  <div className="w-full h-px bg-slate-200/80 my-2" />
 
-              {/* Terms Agreement Checkbox */}
-              <label className="flex items-center gap-2.5 pt-1 cursor-pointer select-none font-open-sans">
-                <input
-                  type="checkbox"
-                  checked={formData.agreedToTerms}
-                  onChange={(e) => setFormData({ ...formData, agreedToTerms: e.target.checked })}
-                  className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 accent-emerald-600 cursor-pointer shrink-0"
-                  required
-                />
-                <span className="text-[11.5px] sm:text-xs text-slate-600 font-medium leading-tight">
-                  I agree to receive order confirmation &amp; delivery updates via Email and WhatsApp.
-                </span>
-              </label>
-            </form>
+                  {/* Total Order Value */}
+                  <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-900 font-montserrat">
+                    <span>Total Order Value</span>
+                    <span className="font-extrabold text-base sm:text-lg text-right">
+                      ₹{totalPrice.toLocaleString("en-IN")}
+                    </span>
+                  </div>
 
-            {/* Sticky Bottom Action Bar (in both Desktop & Mobile screens) */}
-            <div
-              style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
-              className="shrink-0 bg-white/95 backdrop-blur-md border-t border-slate-100 px-4 sm:px-8 md:px-10 lg:px-12 pt-3.5 pb-3.5 sm:pb-4 shadow-[0_-6px_20px_rgba(0,0,0,0.06)] z-20"
-            >
-              <button
-                type="submit"
-                form="checkout-form"
-                disabled={isProcessingPayment}
-                className="w-full bg-[#005a9c] hover:bg-[#004f8a] active:bg-[#004478] text-white font-bold font-montserrat text-sm sm:text-base tracking-wider py-3.5 sm:py-4 rounded-xl shadow-sm transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed uppercase"
+                  {paymentMethod === "10_PERCENT_COD" && (
+                    <div className="pt-2 border-t border-slate-200/80 space-y-2 font-open-sans">
+                      <div className="flex items-start justify-between text-xs sm:text-[13px]">
+                        <span className="font-bold text-slate-800 font-montserrat">Pay on Delivery</span>
+                        <div className="flex flex-col items-end text-right">
+                          <span className="text-xs sm:text-sm font-extrabold text-slate-900 font-montserrat">
+                            90% Balance ₹{codBalance.toLocaleString("en-IN")}
+                          </span>
+                          <span className="text-[10.5px] text-slate-400 font-open-sans">
+                            COD fee of <span className="font-semibold text-slate-700">₹{codFee}</span> is added
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p-2.5 rounded-xl bg-[#ecfdf5] border border-[#a7f3d0] flex items-center justify-between text-xs font-bold text-[#065f46]">
+                        <span>Pay Now:</span>
+                        <span className="text-sm font-extrabold text-emerald-700">
+                          10% Advance Deposit ₹{advanceAmount.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Savings Banner */}
+                <div className="p-3 bg-[#ecfdf5] border border-[#a7f3d0] rounded-xl text-center text-emerald-800 font-bold text-xs sm:text-[13px] font-open-sans flex items-center justify-center gap-2">
+                  <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                  <span>
+                    You are Saving ₹{totalSavings.toLocaleString("en-IN")} ({savingsPercentage}% OFF) on this order.
+                  </span>
+                </div>
+
+                {/* Agreement Checkbox */}
+                <label className="flex items-center gap-2.5 pt-1 cursor-pointer select-none font-open-sans">
+                  <input
+                    type="checkbox"
+                    checked={formData.agreedToTerms}
+                    onChange={(e) => setFormData({ ...formData, agreedToTerms: e.target.checked })}
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 accent-emerald-600 cursor-pointer shrink-0"
+                    required
+                  />
+                  <span className="text-[11.5px] sm:text-xs text-slate-600 font-medium leading-tight">
+                    I agree to receive order confirmation &amp; delivery updates via Email and WhatsApp.
+                  </span>
+                </label>
+              </form>
+
+              {/* Sticky Bottom Action Bar */}
+              <div
+                style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+                className="shrink-0 bg-white/95 backdrop-blur-md border-t border-slate-100 px-4 sm:px-8 md:px-10 lg:px-12 pt-3.5 pb-3.5 sm:pb-4 shadow-[0_-6px_20px_rgba(0,0,0,0.06)] z-20"
               >
-                {isProcessingPayment ? (
-                  <span className="flex items-center gap-2">
-                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    PROCESSING ORDER...
-                  </span>
-                ) : paymentMethod === "10_PERCENT_COD" ? (
-                  <span>
-                    PAY ₹{advanceAmount.toLocaleString("en-IN")} ADVANCE
-                  </span>
-                ) : onlinePaymentMode === "EMI" ? (
-                  <span>
-                    PAY ₹{totalPrice.toLocaleString("en-IN")} ON EMI
-                  </span>
-                ) : (
-                  <span>
-                    PAY ₹{totalPrice.toLocaleString("en-IN")}
-                  </span>
-                )}
-              </button>
+                <button
+                  type="submit"
+                  form="checkout-form"
+                  disabled={isProcessingPayment}
+                  className="w-full bg-[#005a9c] hover:bg-[#004f8a] active:bg-[#004478] text-white font-bold font-montserrat text-sm sm:text-base tracking-wider py-3.5 sm:py-4 rounded-xl shadow-sm transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed uppercase"
+                >
+                  {isProcessingPayment ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      PROCESSING ORDER...
+                    </span>
+                  ) : paymentMethod === "10_PERCENT_COD" ? (
+                    <span>PAY ₹{advanceAmount.toLocaleString("en-IN")} &amp; CONFIRM ORDER</span>
+                  ) : onlinePaymentMode === "EMI" ? (
+                    <span>PAY ₹{totalPrice.toLocaleString("en-IN")} ON NO-COST EMI</span>
+                  ) : selectedCustomPayment === "upi" ? (
+                    <span>PAY ₹{totalPrice.toLocaleString("en-IN")} VIA ANY UPI</span>
+                  ) : selectedCustomPayment === "card" ? (
+                    <span>PAY ₹{totalPrice.toLocaleString("en-IN")} VIA CARD</span>
+                  ) : selectedCustomPayment === "netbanking" ? (
+                    <span>PAY ₹{totalPrice.toLocaleString("en-IN")} VIA NETBANKING</span>
+                  ) : (
+                    <span>PAY ₹{totalPrice.toLocaleString("en-IN")} &amp; CONFIRM ORDER</span>
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
+          )
         ) : (
           /* Main Product Detail Layout */
           <>
@@ -2510,3 +4086,4 @@ export default function OrderModal({
     </div>
   );
 }
+            
