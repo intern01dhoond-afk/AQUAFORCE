@@ -142,7 +142,9 @@ export async function GET(req: Request) {
     const priceParam = searchParams.get("price");
     const totalPrice = priceParam ? Math.max(1, parseInt(priceParam, 10)) : 37999;
 
-    const key_id = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+    const key_id = (
+      process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || ""
+    ).trim();
     if (!key_id) {
       return NextResponse.json({ error: "Razorpay Key ID not configured" }, { status: 500 });
     }
