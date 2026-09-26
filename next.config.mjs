@@ -15,6 +15,12 @@ const nextConfig = {
         basePath: false,
         permanent: false,
       },
+      {
+        source: "/:path((?!aquaforceforautocare|_next|favicon.ico).*)",
+        destination: "/aquaforceforautocare/:path*",
+        basePath: false,
+        permanent: false,
+      },
     ];
   },
   images: {

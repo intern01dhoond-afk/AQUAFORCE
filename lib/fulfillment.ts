@@ -73,6 +73,39 @@ export async function executeOrderFulfillment(
       console.log(`[Fulfillment] Shiprocket shipment created. Waybill: ${resolvedWaybill}`);
     } else {
       console.warn(`[Fulfillment] Shiprocket shipment creation returned error:`, shipResult.error);
+
+      // Automatic fallback to Delhivery if Shiprocket fails (e.g. account locked or API down)
+      if (process.env.DELHIVERY_API_TOKEN) {
+        console.log(`[Fulfillment] Attempting automatic fallback to Delhivery...`);
+        try {
+          const { createDelhiveryShipment } = await import("./delhivery");
+          const delhiveryResult = await createDelhiveryShipment({
+            orderId: order.id,
+            fullName: order.customer.fullName,
+            email: order.customer.email,
+            phone: order.customer.phone,
+            altPhone: order.customer.altPhone,
+            deliveryAddress: order.customer.shippingAddress,
+            city: order.customer.city,
+            state: order.customer.state,
+            pincode: order.customer.pincode,
+            product: `${primaryItem.productName} (${primaryItem.color})`,
+            quantity: primaryItem.quantity,
+            amount: order.pricing.finalTotalInINR,
+            paymentMode: isCod ? "COD" : "Pre-paid",
+            codAmount: isCod ? Math.round(order.payment.amountDueInPaise / 100) : 0,
+            advanceAmount: Math.round(order.payment.amountPaidInPaise / 100),
+          });
+          if (delhiveryResult.success && delhiveryResult.waybill) {
+            resolvedWaybill = delhiveryResult.waybill;
+            console.log(`[Fulfillment] Delhivery fallback shipment created. Waybill: ${resolvedWaybill}`);
+          } else {
+            console.warn(`[Fulfillment] Delhivery fallback returned error:`, delhiveryResult.error);
+          }
+        } catch (dErr: any) {
+          console.error(`[Fulfillment] Delhivery fallback exception:`, dErr.message);
+        }
+      }
     }
   } catch (shipErr: any) {
     console.error("[Fulfillment] Shiprocket creation exception:", shipErr.message);

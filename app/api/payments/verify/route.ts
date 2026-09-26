@@ -84,11 +84,30 @@ export async function POST(req: Request) {
       }
 
       try {
-        const paymentsResponse: any = await razorpay.orders.fetchPayments(activeRzpOrderId);
-        const paymentsList = paymentsResponse?.items || [];
-        let capturedOrAuthPayment = paymentsList.find(
-          (p: any) => p.status === "captured" || p.status === "authorized"
-        );
+        let capturedOrAuthPayment: any = null;
+
+        if (razorpayPaymentId) {
+          try {
+            const directP: any = await razorpay.payments.fetch(razorpayPaymentId);
+            if (
+              directP &&
+              directP.order_id === activeRzpOrderId &&
+              (directP.status === "captured" || directP.status === "authorized")
+            ) {
+              capturedOrAuthPayment = directP;
+            }
+          } catch (e: any) {
+            console.warn("[Payment Verify] Direct payment fetch warning:", e?.message);
+          }
+        }
+
+        if (!capturedOrAuthPayment) {
+          const paymentsResponse: any = await razorpay.orders.fetchPayments(activeRzpOrderId);
+          const paymentsList = paymentsResponse?.items || [];
+          capturedOrAuthPayment = paymentsList.find(
+            (p: any) => p.status === "captured" || p.status === "authorized"
+          );
+        }
 
         if (!capturedOrAuthPayment && order.payment.qrCodeId) {
           try {

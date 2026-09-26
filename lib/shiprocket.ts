@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 export const SHIPROCKET_EMAIL = process.env.SHIPROCKET_EMAIL || "";
 export const SHIPROCKET_PASSWORD = process.env.SHIPROCKET_PASSWORD || "";
 export const SHIPROCKET_PICKUP_LOCATION =
@@ -5,45 +8,120 @@ export const SHIPROCKET_PICKUP_LOCATION =
 export const SHIPROCKET_PICKUP_PINCODE =
   process.env.SHIPROCKET_PICKUP_PINCODE || "440016";
 
-// Token caching in memory
+// Persistent disk cache for token to prevent repeated /auth/login calls that trigger Shiprocket lockout
+const TOKEN_FILE_PATH = path.join(process.cwd(), "data", "shiprocket_token.json");
+
 let cachedToken: string | null = null;
 let tokenExpiresAt: number = 0;
+let activeAuthPromise: Promise<string> | null = null;
+
+function loadTokenFromDisk(): boolean {
+  try {
+    if (fs.existsSync(TOKEN_FILE_PATH)) {
+      const data = JSON.parse(fs.readFileSync(TOKEN_FILE_PATH, "utf-8"));
+      const now = Date.now();
+      // Valid if it has at least 2 hours remaining
+      if (data && data.token && data.expiresAt && now < data.expiresAt - 2 * 60 * 60 * 1000) {
+        cachedToken = data.token;
+        tokenExpiresAt = data.expiresAt;
+        return true;
+      }
+    }
+  } catch (e) {
+    console.warn("[Shiprocket] Could not read token from disk cache:", e);
+  }
+  return false;
+}
+
+function saveTokenToDisk(token: string, expiresAt: number) {
+  try {
+    const dataDir = path.join(process.cwd(), "data");
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(TOKEN_FILE_PATH, JSON.stringify({ token, expiresAt }, null, 2), "utf-8");
+  } catch (e) {
+    console.warn("[Shiprocket] Could not write token to disk cache:", e);
+  }
+}
 
 /**
- * Obtain Shiprocket API JWT Bearer Token
+ * Obtain Shiprocket API JWT Bearer Token.
+ * Utilizes persistent disk caching (8 days) and in-flight request deduplication
+ * so Shiprocket is never spammed with repeated logins that trigger account lockouts.
  */
 export async function getShiprocketToken(): Promise<string> {
+  // 1. Static token support if user configured SHIPROCKET_TOKEN or SHIPROCKET_API_TOKEN
+  const staticToken = (process.env.SHIPROCKET_TOKEN || process.env.SHIPROCKET_API_TOKEN || "").trim();
+  if (staticToken) {
+    return staticToken;
+  }
+
   const now = Date.now();
-  // Return cached token if still valid (tokens are valid for 10 days)
-  if (cachedToken && now < tokenExpiresAt) {
+
+  // 2. Return memory-cached token if still valid
+  if (cachedToken && now < tokenExpiresAt - 2 * 60 * 60 * 1000) {
     return cachedToken;
   }
 
-  try {
-    const res = await fetch("https://apiv2.shiprocket.in/v1/external/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: SHIPROCKET_EMAIL,
-        password: SHIPROCKET_PASSWORD,
-      }),
-    });
-
-    const data = await res.json();
-    if (res.ok && data.token) {
-      cachedToken = data.token;
-      // Cache token for 7 days (7 * 24 * 60 * 60 * 1000 ms)
-      tokenExpiresAt = now + 7 * 24 * 60 * 60 * 1000;
-      return data.token;
-    }
-
-    throw new Error(
-      data.message || data.error || `Shiprocket Auth Failed (${res.status})`
-    );
-  } catch (err: any) {
-    console.error("Shiprocket Auth Login Error:", err);
-    throw new Error(err.message || "Failed to authenticate with Shiprocket");
+  // 3. Return disk-cached token if valid
+  if (loadTokenFromDisk()) {
+    return cachedToken!;
   }
+
+  // 4. Return in-flight login promise if already authenticating (deduplication)
+  if (activeAuthPromise) {
+    return activeAuthPromise;
+  }
+
+  activeAuthPromise = (async () => {
+    try {
+      if (!SHIPROCKET_EMAIL || !SHIPROCKET_PASSWORD) {
+        throw new Error(
+          "Shiprocket credentials (SHIPROCKET_EMAIL, SHIPROCKET_PASSWORD) are not set in environment."
+        );
+      }
+
+      console.log("[Shiprocket] Requesting fresh JWT Bearer token from Shiprocket API...");
+      const res = await fetch("https://apiv2.shiprocket.in/v1/external/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: SHIPROCKET_EMAIL,
+          password: SHIPROCKET_PASSWORD,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.token) {
+        cachedToken = data.token;
+        // Shiprocket JWT tokens last 10 days (240 hours). Cache for 8 days to avoid repeated logins.
+        tokenExpiresAt = Date.now() + 8 * 24 * 60 * 60 * 1000;
+        saveTokenToDisk(data.token, tokenExpiresAt);
+        console.log(
+          "[Shiprocket] Token generated successfully and saved to persistent disk cache (valid for 8 days)."
+        );
+        return data.token;
+      }
+
+      if (res.status === 403 || data.message?.includes("Invalid email and password") || data.message?.includes("locked")) {
+        throw new Error(
+          `Shiprocket Account Locked / Invalid Credentials (status 403): ${data.message || "Invalid email and password"}. Please unlock your account at https://app.shiprocket.in or generate a token under Settings > API.`
+        );
+      }
+
+      throw new Error(
+        data.message || data.error || `Shiprocket Auth Failed (${res.status})`
+      );
+    } catch (err: any) {
+      console.error("[Shiprocket Auth Login Error]:", err.message);
+      throw err;
+    } finally {
+      activeAuthPromise = null;
+    }
+  })();
+
+  return activeAuthPromise;
 }
 
 export interface CreateShiprocketShipmentOptions {
@@ -179,7 +257,7 @@ export async function createShiprocketShipment(
         success: true,
         orderId: data.order_id,
         shipmentId: data.shipment_id,
-        awbCode: data.awb_code || data.shipment_id ? String(data.shipment_id) : undefined,
+        awbCode: data.awb_code || (data.shipment_id ? String(data.shipment_id) : undefined),
         courierName: data.courier_name || "Shiprocket Express",
         raw: data,
       };
@@ -205,12 +283,23 @@ export async function createShiprocketShipment(
 }
 
 /**
- * Check Pincode Serviceability via Shiprocket
+ * In-memory cache for pincode serviceability to avoid calling Shiprocket repeatedly
+ */
+const serviceabilityCache = new Map<string, { result: any; expiresAt: number }>();
+
+/**
+ * Check Pincode Serviceability via Shiprocket (with 6-hour caching per pincode)
  */
 export async function checkShiprocketServiceability(
   pincode: string,
   isCod: boolean = true
 ) {
+  const cacheKey = `${pincode}_${isCod ? "cod" : "prepaid"}`;
+  const cached = serviceabilityCache.get(cacheKey);
+  if (cached && Date.now() < cached.expiresAt) {
+    return cached.result;
+  }
+
   try {
     const token = await getShiprocketToken();
     const url = `https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=${SHIPROCKET_PICKUP_PINCODE}&delivery_postcode=${pincode}&weight=8.5&cod=${
@@ -233,13 +322,21 @@ export async function checkShiprocketServiceability(
         (c: any) => c.cod === 1 || c.is_cod === 1
       );
 
-      return {
+      const result = {
         success: true,
         serviceable,
         cod: codAvailable,
         couriersCount: companies.length,
         raw: data,
       };
+
+      // Cache successful response for 6 hours
+      serviceabilityCache.set(cacheKey, {
+        result,
+        expiresAt: Date.now() + 6 * 60 * 60 * 1000,
+      });
+
+      return result;
     }
 
     return {

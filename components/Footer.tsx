@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, Phone, Youtube } from "lucide-react";
 import { useOrderModal } from "@/context/OrderModalContext";
 import ReturnPolicyModal from "./ReturnPolicyModal";
 import ScrollReveal from "./ScrollReveal";
@@ -56,8 +56,29 @@ export default function Footer() {
             </button>
           </nav>
 
-        {/* Divider Line */}
-        <div className="w-full h-px bg-white/10 my-8 sm:my-10" />
+          {/* Contact Bar: Email on Left, Sales/Service Phone on Right (Exact Match to media_1790421257240.png) */}
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 mt-8 sm:mt-10 text-xs sm:text-sm text-white/60 font-open-sans">
+            <a
+              href="mailto:promec.india@gmail.com"
+              title="Email: promec.india@gmail.com"
+              className="flex items-center gap-2 hover:text-white transition-colors group cursor-pointer"
+            >
+              <Mail size={15} className="text-white/60 group-hover:text-white transition-colors shrink-0" />
+              <span>promec.india@gmail.com</span>
+            </a>
+
+            <a
+              href="tel:+917387588963"
+              title="Sales/Service: +91 7387588963"
+              className="flex items-center gap-2 hover:text-white transition-colors group cursor-pointer"
+            >
+              <Phone size={15} className="text-white/60 group-hover:text-white transition-colors shrink-0" />
+              <span>+91 7387588963</span>
+            </a>
+          </div>
+
+          {/* Divider Line */}
+          <div className="w-full h-px bg-white/10 my-4 sm:my-5" />
 
         {/* Bottom Bar: Copyright on Left, Social Icons in Middle, Policy Links on Right */}
         <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-5 sm:gap-6 text-xs text-white/50">
@@ -119,21 +140,21 @@ export default function Footer() {
 
           {/* Right: Policy Links separated by pipes */}
           <div className="flex flex-wrap items-center justify-center lg:justify-end gap-x-2 text-xs text-white/50">
-            <a href="/privacy-policy" className="hover:text-white transition-colors">
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">
               Privacy Policy
-            </a>
+            </Link>
             <span className="text-white/20 select-none">|</span>
-            <a href="/terms-of-service" className="hover:text-white transition-colors">
+            <Link href="/terms-of-service" className="hover:text-white transition-colors">
               Terms of Use
-            </a>
+            </Link>
             <span className="text-white/20 select-none">|</span>
-            <a href="/cancellation-policy" className="hover:text-white transition-colors">
+            <Link href="/cancellation-policy" className="hover:text-white transition-colors">
               Cancelation Policy
-            </a>
+            </Link>
             <span className="text-white/20 select-none">|</span>
-            <a href="/refund-policy" className="hover:text-white transition-colors">
+            <Link href="/refund-policy" className="hover:text-white transition-colors">
               Refund Policy
-            </a>
+            </Link>
           </div>
         </div>
       </ScrollReveal>
