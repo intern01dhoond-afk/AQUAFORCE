@@ -1,27 +1,23 @@
 import { NextResponse } from "next/server";
-import { getShiprocketToken } from "@/lib/shiprocket";
+
+const DELHIVERY_API_TOKEN = process.env.DELHIVERY_API_TOKEN || "896739f8bbc9a0d080336cd9504af9fd22c324a3";
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const shipmentId = searchParams.get("shipment_id") || searchParams.get("id");
-    const awb = searchParams.get("awb") || searchParams.get("waybill");
+    const waybill = searchParams.get("awb") || searchParams.get("waybill") || searchParams.get("shipment_id") || searchParams.get("id");
 
-    if (!shipmentId && !awb) {
+    if (!waybill) {
       return NextResponse.json(
-        { success: false, error: "Either shipment_id or awb parameter is required" },
+        { success: false, error: "waybill or awb parameter is required" },
         { status: 400 }
       );
     }
 
-    const token = await getShiprocketToken();
-    const endpoint = awb
-      ? `https://apiv2.shiprocket.in/v1/external/courier/track/awb/${awb}`
-      : `https://apiv2.shiprocket.in/v1/external/courier/track/shipment/${shipmentId}`;
-
-    const res = await fetch(endpoint, {
+    const url = `https://track.delhivery.com/api/v1/packages/json/?waybill=${waybill}`;
+    const res = await fetch(url, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Token ${DELHIVERY_API_TOKEN}` },
     });
 
     const data = await res.json();
@@ -34,11 +30,11 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json(
-      { success: false, error: data.message || "Failed to fetch tracking info" },
+      { success: false, error: data?.Error || "Failed to fetch tracking info" },
       { status: 400 }
     );
   } catch (error: any) {
-    console.error("Shiprocket Tracking Endpoint Error:", error);
+    console.error("Delhivery Tracking Endpoint Error:", error);
     return NextResponse.json(
       { success: false, error: error.message || "Tracking request failed" },
       { status: 500 }

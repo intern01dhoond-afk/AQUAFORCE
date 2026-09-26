@@ -1886,7 +1886,7 @@ interface CheckoutFormData {
           }));
         }
 
-        // Live Shiprocket Serviceability Check
+        // Live Delhivery Serviceability Check
         const shipRes = await fetch(getApiPath(`/api/shiprocket/serviceability?pincode=${cleanVal}`));
         const shipData = await shipRes.json();
         if (shipData.success && shipData.serviceable) {
@@ -1896,8 +1896,8 @@ interface CheckoutFormData {
             serviceable: true,
             cod: codOk,
             message: codOk
-              ? "✓ Shiprocket Express: Prepaid & Cash on Delivery Available"
-              : "✓ Shiprocket Express: Prepaid Delivery Available (COD Not Serviceable)",
+              ? "✓ Delhivery Express: Prepaid & Cash on Delivery Available"
+              : "✓ Delhivery Express: Prepaid Delivery Available (COD Not Serviceable)",
           });
         } else if (shipData.remarks) {
           setDelhiveryCodAvailable(false);

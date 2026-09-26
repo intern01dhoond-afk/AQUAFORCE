@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createShiprocketShipment } from "@/lib/shiprocket";
+import { createDelhiveryShipment } from "@/lib/delhivery";
 
 const processedOrdersCache = new Map<string, number>();
 
@@ -64,21 +64,21 @@ export async function POST(req: Request) {
     const isCodOrder = paymentMethod === "10_PERCENT_COD" || Number(codBalance) > 0;
     const resolvedStatus = status || (isCodOrder ? "10% Advance Paid - COD Balance Pending" : "Paid & Confirmed");
 
-    // Auto-create Shiprocket shipment if waybill was not already created by client
+    // Auto-create Delhivery shipment if waybill was not already created by client
     let resolvedWaybill = (waybill && waybill !== "AUTO_GENERATED") ? waybill : "";
 
     if (!resolvedWaybill) {
       try {
-        console.log(`Auto-creating Shiprocket shipment for order ${orderId || "new"}...`);
-        const shipResult = await createShiprocketShipment({
+        console.log(`Auto-creating Delhivery shipment for order ${orderId || "new"}...`);
+        const shipResult = await createDelhiveryShipment({
           orderId: orderId || `ORD_${Date.now()}`,
           fullName,
           email,
           phone,
           altPhone,
           deliveryAddress,
-          city,
-          state,
+          city: city || "Nagpur",
+          state: state || "Maharashtra",
           pincode,
           product: product || "Cordless AquaForce 1400 High-pressure Washer System",
           quantity: quantity || 1,
@@ -87,14 +87,14 @@ export async function POST(req: Request) {
           codAmount: isCodOrder ? (Number(codBalance) || (Number(amount) - Math.floor(Number(amount) * 0.1) + 149)) : 0,
         });
 
-        if (shipResult.success && (shipResult.awbCode || shipResult.shipmentId)) {
-          resolvedWaybill = String(shipResult.awbCode || shipResult.shipmentId);
-          console.log(`Auto-created Shiprocket shipment successfully! Waybill/ShipmentId: ${resolvedWaybill}`);
+        if (shipResult.success && shipResult.waybill) {
+          resolvedWaybill = shipResult.waybill;
+          console.log(`Auto-created Delhivery shipment successfully! Waybill: ${resolvedWaybill}`);
         } else {
-          console.warn("Auto-creation of Shiprocket shipment failed:", shipResult.error);
+          console.warn("Auto-creation of Delhivery shipment failed:", shipResult.error);
         }
       } catch (shipErr) {
-        console.error("Error auto-creating Shiprocket shipment in /api/purchase:", shipErr);
+        console.error("Error auto-creating Delhivery shipment in /api/purchase:", shipErr);
       }
     }
 
@@ -107,7 +107,7 @@ export async function POST(req: Request) {
       advanceAmount: Number(advanceAmount) || (isCodOrder ? Math.floor(Number(amount) * 0.1) : Number(amount)),
       codBalance: isCodOrder ? (Number(codBalance) || (Number(amount) - Math.floor(Number(amount) * 0.1) + 149)) : 0,
       waybill: resolvedWaybill || "AUTO_GENERATED",
-      shiprocketWaybill: resolvedWaybill || "AUTO_GENERATED",
+      delhiveryWaybill: resolvedWaybill || "AUTO_GENERATED",
       fullName,
       email: email || "N/A",
       phone,

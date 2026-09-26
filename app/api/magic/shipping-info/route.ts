@@ -18,8 +18,8 @@ export async function POST(req: Request) {
       cod_fee: 0, // 0 paise (Free COD processing)
       shipping_methods: [
         {
-          id: "shiprocket_express",
-          name: "Shiprocket Express Delivery",
+          id: "delhivery_express",
+          name: "Delhivery Express Delivery",
           description: "Fast Delivery (2-4 Days) across India",
           shipping_fee: 0,
           cod: true,
@@ -49,8 +49,8 @@ export async function GET() {
     cod_fee: 0,
     shipping_methods: [
       {
-        id: "shiprocket_express",
-        name: "Shiprocket Express Delivery",
+        id: "delhivery_express",
+        name: "Delhivery Express Delivery",
         shipping_fee: 0,
         cod: true,
         cod_fee: 0,

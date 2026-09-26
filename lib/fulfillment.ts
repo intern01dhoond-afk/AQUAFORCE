@@ -1,5 +1,5 @@
 import { PromecOrder, orderStore } from "./orderStore";
-import { createShiprocketShipment } from "./shiprocket";
+import { createDelhiveryShipment } from "./delhivery";
 import nodemailer from "nodemailer";
 
 export interface FulfillmentResult {
@@ -47,9 +47,9 @@ export async function executeOrderFulfillment(
   let emailSuccess = false;
   let smsSuccess = false;
 
-  // 1. Shiprocket Shipment
+  // 1. Delhivery Shipment
   try {
-    const shipResult = await createShiprocketShipment({
+    const shipResult = await createDelhiveryShipment({
       orderId: order.id,
       fullName: order.customer.fullName,
       email: order.customer.email,
@@ -67,48 +67,14 @@ export async function executeOrderFulfillment(
       advanceAmount: Math.round(order.payment.amountPaidInPaise / 100),
     });
 
-    if (shipResult.success) {
-      resolvedWaybill = String(shipResult.awbCode || shipResult.shipmentId || "");
-      resolvedShipmentId = String(shipResult.shipmentId || "");
-      console.log(`[Fulfillment] Shiprocket shipment created. Waybill: ${resolvedWaybill}`);
+    if (shipResult.success && shipResult.waybill) {
+      resolvedWaybill = shipResult.waybill;
+      console.log(`[Fulfillment] Delhivery shipment created. Waybill: ${resolvedWaybill}`);
     } else {
-      console.warn(`[Fulfillment] Shiprocket shipment creation returned error:`, shipResult.error);
-
-      // Automatic fallback to Delhivery if Shiprocket fails (e.g. account locked or API down)
-      if (process.env.DELHIVERY_API_TOKEN) {
-        console.log(`[Fulfillment] Attempting automatic fallback to Delhivery...`);
-        try {
-          const { createDelhiveryShipment } = await import("./delhivery");
-          const delhiveryResult = await createDelhiveryShipment({
-            orderId: order.id,
-            fullName: order.customer.fullName,
-            email: order.customer.email,
-            phone: order.customer.phone,
-            altPhone: order.customer.altPhone,
-            deliveryAddress: order.customer.shippingAddress,
-            city: order.customer.city,
-            state: order.customer.state,
-            pincode: order.customer.pincode,
-            product: `${primaryItem.productName} (${primaryItem.color})`,
-            quantity: primaryItem.quantity,
-            amount: order.pricing.finalTotalInINR,
-            paymentMode: isCod ? "COD" : "Pre-paid",
-            codAmount: isCod ? Math.round(order.payment.amountDueInPaise / 100) : 0,
-            advanceAmount: Math.round(order.payment.amountPaidInPaise / 100),
-          });
-          if (delhiveryResult.success && delhiveryResult.waybill) {
-            resolvedWaybill = delhiveryResult.waybill;
-            console.log(`[Fulfillment] Delhivery fallback shipment created. Waybill: ${resolvedWaybill}`);
-          } else {
-            console.warn(`[Fulfillment] Delhivery fallback returned error:`, delhiveryResult.error);
-          }
-        } catch (dErr: any) {
-          console.error(`[Fulfillment] Delhivery fallback exception:`, dErr.message);
-        }
-      }
+      console.warn(`[Fulfillment] Delhivery shipment creation returned error:`, shipResult.error);
     }
   } catch (shipErr: any) {
-    console.error("[Fulfillment] Shiprocket creation exception:", shipErr.message);
+    console.error("[Fulfillment] Delhivery creation exception:", shipErr.message);
   }
 
   // 2. Google Sheets Webhook Log
@@ -137,7 +103,7 @@ export async function executeOrderFulfillment(
       advanceAmount: Math.round(order.payment.amountPaidInPaise / 100),
       codBalance: Math.round(order.payment.amountDueInPaise / 100),
       waybill: resolvedWaybill || "PENDING",
-      shiprocketWaybill: resolvedWaybill || "PENDING",
+      delhiveryWaybill: resolvedWaybill || "PENDING",
       fullName: order.customer.fullName,
       email: order.customer.email || "N/A",
       phone: order.customer.phone,

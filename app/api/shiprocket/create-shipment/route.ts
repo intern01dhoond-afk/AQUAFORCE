@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createShiprocketShipment } from "@/lib/shiprocket";
+import { createDelhiveryShipment } from "@/lib/delhivery";
 
 export async function POST(req: Request) {
   try {
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = await createShiprocketShipment({
+    const result = await createDelhiveryShipment({
       orderId,
       fullName,
       email,
@@ -56,26 +56,23 @@ export async function POST(req: Request) {
     if (result.success) {
       return NextResponse.json({
         success: true,
-        waybill: result.awbCode || String(result.shipmentId || result.orderId),
-        orderId: result.orderId,
-        shipmentId: result.shipmentId,
-        courierName: result.courierName,
-        shiprocketData: result.raw,
+        waybill: result.waybill,
+        courierName: "Delhivery",
       });
     }
 
     return NextResponse.json(
       {
         success: false,
-        error: result.error || "Failed to create Shiprocket shipment",
-        shiprocketData: result.raw,
+        error: result.error || "Failed to create Delhivery shipment",
+        raw: result.raw,
       },
       { status: 400 }
     );
   } catch (error: any) {
-    console.error("Shiprocket Order Creation Endpoint Error:", error);
+    console.error("Delhivery Order Creation Endpoint Error:", error);
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to create Shiprocket shipment" },
+      { success: false, error: error.message || "Failed to create Delhivery shipment" },
       { status: 500 }
     );
   }

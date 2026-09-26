@@ -9,25 +9,25 @@ export async function POST(req: Request) {
       // Empty or urlencoded payload
     }
 
-    console.log("Shiprocket Webhook Received:", JSON.stringify(payload, null, 2));
+    console.log("Delhivery Webhook Received:", JSON.stringify(payload, null, 2));
 
-    const orderId = payload?.order_id || payload?.channel_order_id;
-    const awb = payload?.awb || payload?.awb_code;
-    const currentStatus = payload?.current_status || payload?.status;
+    const waybill = payload?.Waybill || payload?.waybill;
+    const currentStatus = payload?.Status?.Status || payload?.status;
+    const orderId = payload?.ReferenceNo || payload?.order_id;
 
-    if (orderId || awb) {
+    if (waybill || orderId) {
       console.log(
-        `Shiprocket Webhook Event -> Order: ${orderId}, AWB: ${awb}, Status: ${currentStatus}`
+        `Delhivery Webhook Event -> Order: ${orderId}, Waybill: ${waybill}, Status: ${currentStatus}`
       );
     }
 
     return NextResponse.json({
       status: "ok",
       received: true,
-      service: "Shiprocket Webhook Listener for Promec India",
+      service: "Delhivery Webhook Listener for Promec India",
     });
   } catch (error: any) {
-    console.error("Shiprocket Webhook Error:", error);
+    console.error("Delhivery Webhook Error:", error);
     return NextResponse.json({ status: "ok" });
   }
 }
@@ -35,6 +35,6 @@ export async function POST(req: Request) {
 export async function GET() {
   return NextResponse.json({
     status: "ok",
-    service: "Shiprocket Webhook Endpoint",
+    service: "Delhivery Webhook Endpoint",
   });
 }

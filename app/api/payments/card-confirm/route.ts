@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // Execute automated fulfillment pipeline (Shiprocket, Waybill, Email notifications)
+    // Execute automated fulfillment pipeline (Delhivery, Waybill, Email notifications)
     const fulfillmentResult = await executeOrderFulfillment(order.id);
 
     return NextResponse.json({
