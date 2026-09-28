@@ -401,19 +401,6 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     plans: [],
   },
   {
-    id: "hdfc_cc",
-    code: "HDFC",
-    name: "HDFC Bank",
-    logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hdfc.png",
-    type: "credit",
-    isNoCost: true,
-    hasOffer: true,
-    offerText: "Instant Discount",
-    minAmount: 3000,
-    startingEmi: 5364,
-    plans: [],
-  },
-  {
     id: "icic",
     code: "ICIC",
     name: "ICICI Bank",
@@ -686,21 +673,6 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     offerText: "",
     minAmount: 5000,
     startingEmi: 5488,
-    plans: [],
-  },
-
-  // Bajaj Finserv (Matching media_1790418307016.png)
-  {
-    id: "bajaj",
-    code: "BAJAJ",
-    name: "Bajaj Finserv",
-    logo: "https://cdn.razorpay.com/app/bajaj.png",
-    type: "cardless",
-    isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 3000,
-    startingEmi: 6167,
     plans: [],
   },
 ];
@@ -1396,7 +1368,7 @@ export default function OrderModal({
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
     const [delhiveryCodAvailable, setDelhiveryCodAvailable] = useState<boolean | null>(null);
   const [checkoutStep, setCheckoutStep] = useState<"details" | "choose_emi" | "emi_plan_select" | "emi_add_card" | "awaiting_payment" | "select_netbanking" | "card_payment" | "card_otp">("details");
-  const [selectedEmiBankObj, setSelectedEmiBankObj] = useState<EmiBankItem | null>(() => DEFAULT_EMI_BANKS[1]);
+  const [selectedEmiBankObj, setSelectedEmiBankObj] = useState<EmiBankItem | null>(() => DEFAULT_EMI_BANKS.find((b) => b.id === "hdfc_dc") || DEFAULT_EMI_BANKS[0]);
   const [selectedEmiPlan, setSelectedEmiPlan] = useState<DynamicEmiPlan | null>(null);
   const [isEmiPlanCollapsed, setIsEmiPlanCollapsed] = useState(false);
   const [isEmiAccordionOpen, setIsEmiAccordionOpen] = useState(true);
@@ -3608,7 +3580,7 @@ interface CheckoutSubmitOptions {
                     className="w-5 h-5 object-contain rounded shrink-0"
                   />
                   <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat">
-                    10% off on using HDFC Bank CC&amp;DC EMI
+                    10% off on using HDFC Bank Debit Card EMI
                   </span>
                 </div>
 
@@ -3625,59 +3597,75 @@ interface CheckoutSubmitOptions {
                 </div>
 
                 {/* Filter Chips: No Cost EMI | Credit Card | Debit Card | Bajaj Finserv */}
-                <div className="flex items-center gap-2 flex-wrap text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedEmiFilter(selectedEmiFilter === "no_cost" ? "all" : "no_cost")}
-                    className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
-                      selectedEmiFilter === "no_cost"
-                        ? "bg-slate-900 text-white shadow-xs"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    <span>No Cost EMI</span>
-                    {selectedEmiFilter === "no_cost" && (
-                      <X size={13} className="text-white/80 hover:text-white" />
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedEmiFilter(selectedEmiFilter === "credit" ? "all" : "credit")}
-                    className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
-                      selectedEmiFilter === "credit"
-                        ? "bg-slate-900 text-white shadow-xs"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    Credit Card
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedEmiFilter(selectedEmiFilter === "debit" ? "all" : "debit")}
-                    className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
-                      selectedEmiFilter === "debit"
-                        ? "bg-slate-900 text-white shadow-xs"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    Debit Card
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedEmiFilter(selectedEmiFilter === "bajaj" ? "all" : "bajaj")}
-                    className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
-                      selectedEmiFilter === "bajaj"
-                        ? "bg-slate-900 text-white shadow-xs"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    Bajaj Finserv
-                  </button>
-                </div>
+                {/* Filter Chips: No Cost EMI | Credit Card | Debit Card | Bajaj Finserv (only if enabled) */}
+                {(() => {
+                  const availableBanks = (liveEmiBanks && liveEmiBanks.length > 0) ? liveEmiBanks : DEFAULT_EMI_BANKS;
+                  const hasCredit = availableBanks.some((b) => b.type === "credit" || b.type === "both");
+                  const hasDebit = availableBanks.some((b) => b.type === "debit" || b.type === "both");
+                  const hasBajaj = availableBanks.some((b) => b.type === "cardless" || b.id === "bajaj");
+
+                  return (
+                    <div className="flex items-center gap-2 flex-wrap text-xs">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedEmiFilter(selectedEmiFilter === "no_cost" ? "all" : "no_cost")}
+                        className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                          selectedEmiFilter === "no_cost"
+                            ? "bg-slate-900 text-white shadow-xs"
+                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                        }`}
+                      >
+                        <span>No Cost EMI</span>
+                        {selectedEmiFilter === "no_cost" && (
+                          <X size={13} className="text-white/80 hover:text-white" />
+                        )}
+                      </button>
+                      {hasCredit && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEmiFilter(selectedEmiFilter === "credit" ? "all" : "credit")}
+                          className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
+                            selectedEmiFilter === "credit"
+                              ? "bg-slate-900 text-white shadow-xs"
+                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                          }`}
+                        >
+                          Credit Card
+                        </button>
+                      )}
+                      {hasDebit && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEmiFilter(selectedEmiFilter === "debit" ? "all" : "debit")}
+                          className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
+                            selectedEmiFilter === "debit"
+                              ? "bg-slate-900 text-white shadow-xs"
+                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                          }`}
+                        >
+                          Debit Card
+                        </button>
+                      )}
+                      {hasBajaj && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEmiFilter(selectedEmiFilter === "bajaj" ? "all" : "bajaj")}
+                          className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
+                            selectedEmiFilter === "bajaj"
+                              ? "bg-slate-900 text-white shadow-xs"
+                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                          }`}
+                        >
+                          Bajaj Finserv
+                        </button>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 {/* Section 1: Credit Cards */}
                 {selectedEmiFilter !== "debit" && selectedEmiFilter !== "bajaj" && (() => {
-                  const availableBanks = (liveEmiBanks && liveEmiBanks.length >= DEFAULT_EMI_BANKS.length) ? liveEmiBanks : DEFAULT_EMI_BANKS;
+                  const availableBanks = (liveEmiBanks && liveEmiBanks.length > 0) ? liveEmiBanks : DEFAULT_EMI_BANKS;
                   const creditBanks = availableBanks.filter((b) => b.type === "credit" || b.type === "both")
                     .filter((b) => {
                       if (selectedEmiFilter === "no_cost") return b.isNoCost;
@@ -3753,7 +3741,7 @@ interface CheckoutSubmitOptions {
 
                 {/* Section 2: Debit Cards */}
                 {selectedEmiFilter !== "credit" && selectedEmiFilter !== "bajaj" && (() => {
-                  const availableBanks = (liveEmiBanks && liveEmiBanks.length >= DEFAULT_EMI_BANKS.length) ? liveEmiBanks : DEFAULT_EMI_BANKS;
+                  const availableBanks = (liveEmiBanks && liveEmiBanks.length > 0) ? liveEmiBanks : DEFAULT_EMI_BANKS;
                   const debitBanks = availableBanks.filter((b) => b.type === "debit" || b.type === "both")
                     .filter((b) => {
                       if (selectedEmiFilter === "no_cost") return b.isNoCost;
@@ -3829,7 +3817,7 @@ interface CheckoutSubmitOptions {
 
                 {/* Section 3: Bajaj Finserv (Matching media_1790418307016.png) */}
                 {selectedEmiFilter !== "credit" && selectedEmiFilter !== "debit" && (() => {
-                  const availableBanks = (liveEmiBanks && liveEmiBanks.length >= DEFAULT_EMI_BANKS.length) ? liveEmiBanks : DEFAULT_EMI_BANKS;
+                  const availableBanks = (liveEmiBanks && liveEmiBanks.length > 0) ? liveEmiBanks : DEFAULT_EMI_BANKS;
                   const bajajBanks = availableBanks.filter((b) => b.type === "cardless" || b.id === "bajaj")
                     .filter((b) => {
                       if (selectedEmiFilter === "no_cost") return b.isNoCost;
@@ -5490,134 +5478,71 @@ interface CheckoutSubmitOptions {
                                 className="w-5 h-5 object-contain rounded shrink-0"
                               />
                               <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-montserrat">
-                                10% off on using HDFC Bank CC&amp;DC EMI
+                                10% off on using HDFC Bank Debit Card EMI
                               </span>
                             </div>
 
-                            {/* 3 Quick Recommended Banks (Exact Match to media_1790415930939.png) */}
+                            {/* 3 Quick Recommended Banks (Dynamically selected from enabled banks) */}
                             <div className="space-y-2.5">
-                              {/* Bank 1: HDFC Bank Debit Card */}
-                              <div
-                                onClick={() => {
-                                  const bank = DEFAULT_EMI_BANKS.find((b) => b.id === "hdfc_dc") || DEFAULT_EMI_BANKS[0];
-                                  setSelectedEmiBankObj(bank);
-                                  setSelectedEmiBank(bank.name);
-                                  const plans = calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
-                                  const popular = plans.find((p) => p.isMostPopular) || plans[0];
-                                  setSelectedTenure(popular ? popular.months : 6);
-                                  setSelectedEmiPlan(popular || null);
-                                  setCheckoutStep("emi_plan_select");
-                                }}
-                                className="p-3 sm:p-3.5 border border-slate-200 hover:border-slate-300 rounded-2xl flex items-center justify-between cursor-pointer transition-all hover:bg-slate-50/60 select-none shadow-2xs"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-white border border-slate-100 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
-                                    <img
-                                      src="https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hdfc.png"
-                                      alt="HDFC Bank Debit Card"
-                                      className="w-full h-full object-contain"
-                                    />
-                                  </div>
-                                  <div>
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat">
-                                        HDFC Bank Debit Card
-                                      </span>
-                                      <span className="bg-[#e0f7f6] text-[#007b7b] text-[10px] font-bold px-2 py-0.5 rounded leading-tight">
-                                        Instant Discount
-                                      </span>
-                                      <span className="bg-[#fef3c7] text-[#92400e] text-[10px] font-bold px-2 py-0.5 rounded leading-tight">
-                                        No Cost
-                                      </span>
-                                    </div>
-                                    <div className="text-[11.5px] text-slate-500 font-open-sans mt-0.5">
-                                      EMI starts from ₹{calculateStartingEmi("hdfc_dc", "HDFC_DC", "HDFC Bank Debit Card", totalPrice).toLocaleString("en-IN")}/m
-                                    </div>
-                                  </div>
-                                </div>
-                                <ChevronRight size={18} className="text-slate-400 shrink-0" />
-                              </div>
+                              {(() => {
+                                const availableBanks = (liveEmiBanks && liveEmiBanks.length > 0) ? liveEmiBanks : DEFAULT_EMI_BANKS;
+                                const validBanks = availableBanks.filter(
+                                  (b) => b.id !== "hdfc_cc" && b.id !== "sbin" && b.id !== "bajaj" && b.id !== "icic_dc" && b.id !== "axis_dc" && b.id !== "sbin_dc"
+                                );
+                                const hdfcDc = validBanks.find((b) => b.id === "hdfc_dc");
+                                const otherBanks = validBanks.filter((b) => b.id !== "hdfc_dc");
+                                const quickBanks = hdfcDc ? [hdfcDc, ...otherBanks.slice(0, 2)] : validBanks.slice(0, 3);
 
-                              {/* Bank 2: HDFC Bank Credit Card */}
-                              <div
-                                onClick={() => {
-                                  const bank = DEFAULT_EMI_BANKS.find((b) => b.id === "hdfc_cc") || DEFAULT_EMI_BANKS[1];
-                                  setSelectedEmiBankObj(bank);
-                                  setSelectedEmiBank(bank.name);
-                                  const plans = calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
-                                  const popular = plans.find((p) => p.isMostPopular) || plans[0];
-                                  setSelectedTenure(popular ? popular.months : 6);
-                                  setSelectedEmiPlan(popular || null);
-                                  setCheckoutStep("emi_plan_select");
-                                }}
-                                className="p-3 sm:p-3.5 border border-slate-200 hover:border-slate-300 rounded-2xl flex items-center justify-between cursor-pointer transition-all hover:bg-slate-50/60 select-none shadow-2xs"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-white border border-slate-100 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
-                                    <img
-                                      src="https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hdfc.png"
-                                      alt="HDFC Bank Credit Card"
-                                      className="w-full h-full object-contain"
-                                    />
-                                  </div>
-                                  <div>
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat">
-                                        HDFC Bank Credit Card
-                                      </span>
-                                      <span className="bg-[#e0f7f6] text-[#007b7b] text-[10px] font-bold px-2 py-0.5 rounded leading-tight">
-                                        Instant Discount
-                                      </span>
-                                      <span className="bg-[#fef3c7] text-[#92400e] text-[10px] font-bold px-2 py-0.5 rounded leading-tight">
-                                        No Cost
-                                      </span>
+                                return quickBanks.map((bank) => (
+                                  <div
+                                    key={bank.id}
+                                    onClick={() => {
+                                      setSelectedEmiBankObj(bank);
+                                      setSelectedEmiBank(bank.name);
+                                      const plans = calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
+                                      const popular = plans.find((p) => p.isMostPopular) || plans[0];
+                                      setSelectedTenure(popular ? popular.months : 6);
+                                      setSelectedEmiPlan(popular || null);
+                                      setCheckoutStep("emi_plan_select");
+                                    }}
+                                    className="p-3 sm:p-3.5 border border-slate-200 hover:border-slate-300 rounded-2xl flex items-center justify-between cursor-pointer transition-all hover:bg-slate-50/60 select-none shadow-2xs"
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-10 h-10 rounded-full bg-white border border-slate-100 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+                                        <img
+                                          src={bank.logo}
+                                          alt={bank.name}
+                                          className="w-full h-full object-contain"
+                                          onError={(e) => {
+                                            (e.target as HTMLImageElement).src = "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/axis.png";
+                                          }}
+                                        />
+                                      </div>
+                                      <div>
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                          <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat">
+                                            {bank.name}
+                                          </span>
+                                          {bank.hasOffer && bank.offerText && (
+                                            <span className="bg-[#e0f7f6] text-[#007b7b] text-[10px] font-bold px-2 py-0.5 rounded leading-tight">
+                                              {bank.offerText}
+                                            </span>
+                                          )}
+                                          {bank.isNoCost && (
+                                            <span className="bg-[#fef3c7] text-[#92400e] text-[10px] font-bold px-2 py-0.5 rounded leading-tight">
+                                              No Cost
+                                            </span>
+                                          )}
+                                        </div>
+                                        <div className="text-[11.5px] text-slate-500 font-open-sans mt-0.5">
+                                          EMI starts from ₹{calculateStartingEmi(bank.id, bank.code, bank.name, totalPrice).toLocaleString("en-IN")}/m
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className="text-[11.5px] text-slate-500 font-open-sans mt-0.5">
-                                      EMI starts from ₹{calculateStartingEmi("hdfc_cc", "HDFC", "HDFC Bank Credit Card", totalPrice).toLocaleString("en-IN")}/m
-                                    </div>
+                                    <ChevronRight size={18} className="text-slate-400 shrink-0" />
                                   </div>
-                                </div>
-                                <ChevronRight size={18} className="text-slate-400 shrink-0" />
-                              </div>
-
-                              {/* Bank 3: IndusInd Bank */}
-                              <div
-                                onClick={() => {
-                                  const bank = DEFAULT_EMI_BANKS.find((b) => b.id === "indb") || DEFAULT_EMI_BANKS[5];
-                                  setSelectedEmiBankObj(bank);
-                                  setSelectedEmiBank(bank.name);
-                                  const plans = calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
-                                  const popular = plans.find((p) => p.isMostPopular) || plans[0];
-                                  setSelectedTenure(popular ? popular.months : 6);
-                                  setSelectedEmiPlan(popular || null);
-                                  setCheckoutStep("emi_plan_select");
-                                }}
-                                className="p-3 sm:p-3.5 border border-slate-200 hover:border-slate-300 rounded-2xl flex items-center justify-between cursor-pointer transition-all hover:bg-slate-50/60 select-none shadow-2xs"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-white border border-slate-100 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
-                                    <img
-                                      src="https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/indusind.png"
-                                      alt="Indus Ind Bank"
-                                      className="w-full h-full object-contain"
-                                    />
-                                  </div>
-                                  <div>
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      <span className="font-bold text-xs sm:text-sm text-slate-900 font-montserrat">
-                                        Indus Ind Bank
-                                      </span>
-                                      <span className="bg-[#fef3c7] text-[#92400e] text-[10px] font-bold px-2 py-0.5 rounded leading-tight">
-                                        No Cost
-                                      </span>
-                                    </div>
-                                    <div className="text-[11.5px] text-slate-500 font-open-sans mt-0.5">
-                                      EMI starts from ₹{calculateStartingEmi("indb", "INDB", "Indus Ind Bank", totalPrice).toLocaleString("en-IN")}/m
-                                    </div>
-                                  </div>
-                                </div>
-                                <ChevronRight size={18} className="text-slate-400 shrink-0" />
-                              </div>
+                                ));
+                              })()}
                             </div>
 
                             {/* View all banks Button */}

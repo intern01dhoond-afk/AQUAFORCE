@@ -556,10 +556,18 @@ export async function GET(req: Request) {
       });
     }
 
-    // 2. Process All 24 EMI Banks (19 Credit Cards + 4 Debit Cards + 1 Bajaj Finserv)
-    // Ensures all banks appear under "No Cost EMI" filter without dropping any banks
+    // 2. Process EMI Banks — only show banks actually enabled on Razorpay
+    // When live emi_plans are available, filter to only include activated banks.
+    // Fall back to full master list with generated plans only if Razorpay returned no data.
     const emiPlans = rawMethods.emi_plans || {};
-    const emiBanks: EmiBankItem[] = MASTER_EMI_BANKS.map((cfg) => {
+    const hasLiveEmiData = Object.keys(emiPlans).length > 0;
+
+    // Filter master list to only banks that exist in Razorpay's live emi_plans
+    const eligibleBanks = hasLiveEmiData
+      ? MASTER_EMI_BANKS.filter((cfg) => emiPlans[cfg.code])
+      : MASTER_EMI_BANKS; // fallback: show all if Razorpay API didn't return data
+
+    const emiBanks: EmiBankItem[] = eligibleBanks.map((cfg) => {
       const livePlanObj = emiPlans[cfg.code];
       let plans: EmiPlan[] = [];
 

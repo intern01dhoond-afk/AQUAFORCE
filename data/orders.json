@@ -25539,5 +25539,59 @@
       "status": "pending"
     },
     "processedWebhookEvents": []
+  },
+  {
+    "id": "PROMEC-ORD-1790572429606-T7AQ",
+    "createdAt": "2026-09-28T05:13:50.780Z",
+    "updatedAt": "2026-09-28T05:13:50.780Z",
+    "idempotencyKey": "promec_nb_CNRB_7204948579_1790572429500",
+    "orderStatus": "pending_payment",
+    "customer": {
+      "fullName": "hh",
+      "phone": "7204948579",
+      "email": "hemanthk.cse.rymec@gmail.com",
+      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560029",
+      "altPhone": "N/A",
+      "gstNumber": "N/A"
+    },
+    "items": [
+      {
+        "productId": "aquaforce-1400",
+        "productName": "Cordless AquaForce® 1400 High-pressure Washer System",
+        "variantId": "with-vacuum",
+        "variantName": "With Vacuum",
+        "color": "Yellow",
+        "quantity": 1,
+        "unitPriceInINR": 37999,
+        "unitMrpInINR": 51350,
+        "totalAmountInINR": 37999
+      }
+    ],
+    "pricing": {
+      "subtotalInINR": 37999,
+      "discountInINR": 13351,
+      "shippingFeeInINR": 0,
+      "handlingFeeInINR": 0,
+      "codFeeInINR": 0,
+      "finalTotalInINR": 37999,
+      "currency": "INR"
+    },
+    "payment": {
+      "method": "FULL_ONLINE",
+      "provider": "RAZORPAY",
+      "status": "pending",
+      "razorpayOrderId": "order_ThKyxBwX3Vps7V",
+      "qrCodeId": "qr_ThKyxe9tdEjgRL",
+      "amountRequiredInPaise": 3799900,
+      "amountPaidInPaise": 0,
+      "amountDueInPaise": 0
+    },
+    "fulfillment": {
+      "status": "pending"
+    },
+    "processedWebhookEvents": []
   }
 ]
