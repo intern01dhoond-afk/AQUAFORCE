@@ -114,13 +114,13 @@ export default function FourSteps() {
 
         {/* ── Desktop: 4-col grid ── */}
         <ScrollRevealStagger
-          className="hidden sm:grid sm:grid-cols-4 gap-5 lg:gap-7 max-w-[1286px] mx-auto"
+          className="hidden sm:grid sm:grid-cols-4 gap-5 lg:gap-7 max-w-[960px] mx-auto"
           staggerDelay={0.08}
         >
           {STEPS.map((step) => (
             <ScrollRevealItem key={step.n} className="flex flex-col">
               {/* Image Thumbnail */}
-              <div className="relative aspect-[16/10] w-full rounded-[20px] overflow-hidden border border-white/10 shadow-lg">
+              <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-white/10 shadow-lg">
                 <Image
                   src={step.imgSrc}
                   alt={step.title}
@@ -130,8 +130,8 @@ export default function FourSteps() {
                 />
               </div>
               {/* Title & Description */}
-              <div className="mt-3.5">
-                <h3 className="font-montserrat text-lg lg:text-xl font-bold text-white leading-snug">
+              <div className="mt-3">
+                <h3 className="font-open-sans text-base lg:text-[20px] font-bold text-white leading-snug">
                   {step.title}
                 </h3>
                 <p className="font-open-sans text-[13px] lg:text-sm text-white/70 leading-relaxed mt-1">

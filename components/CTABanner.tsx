@@ -23,7 +23,7 @@ export default function CTABanner() {
           <div className="sm:hidden relative w-full aspect-[3/4] max-w-[420px] mx-auto overflow-hidden flex flex-col justify-end p-5 xs:p-6 pb-5 xs:pb-6 rounded-[22px]">
             {/* Background Yellow Machine Graphic */}
             <Image
-              src="/aquaforceforautocare/images/mobile-banner-2-y.0.webp"
+              src="/aquaforceforautocare/images/bottom-cta-mobile.webp"
               alt="Aquaforce 1400 Portable Pressure Washer"
               fill
               priority
@@ -64,13 +64,13 @@ export default function CTABanner() {
           <div className="hidden sm:flex relative w-full min-h-[300px] md:min-h-[340px] lg:min-h-[380px] xl:min-h-[420px] items-center">
             {/* Desktop Background Image */}
             <Image
-              src="/aquaforceforautocare/images/pressure-washer-banner-5b.webp"
+              src="/aquaforceforautocare/images/bottom-cta-desktop.webp"
               alt="Aquaforce 1400 Portable Pressure Washer"
               fill
               priority
               quality={100}
               sizes="(max-width: 1280px) 100vw, 1280px"
-              className="object-cover object-center z-0"
+              className="object-cover object-left z-0"
             />
 
             {/* Desktop Card Content (Positioned on the Right Side) */}
