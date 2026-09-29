@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/aquaforceforgigworkers/:path*",
+      "destination": "https://gig-workers-aquaforce.vercel.app/aquaforceforgigworkers/:path*"
+    },
+    {
       "source": "/",
       "destination": "/aquaforceforautocare"
     },
