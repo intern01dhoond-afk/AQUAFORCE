@@ -138,37 +138,11 @@ export async function POST(req: Request) {
 
     const rzpOrder = await razorpay.orders.create(orderOptions);
 
-    // Generate dynamic UPI QR Code and Intent URL only if explicitly requested for UPI QR
-    let qrCodeUrl = "";
-    let upiIntentUrl = "";
-    let qrCodeId = "";
-
-    const isUpiQrRequested = Boolean(body.generateQr === true || paymentMethod === "UPI_QR");
-
-    if (isUpiQrRequested) {
-      try {
-        const qrResponse: any = await (razorpay as any).qrCode.create({
-          type: "upi_qr",
-          name: "AMEC Aquaforce",
-          usage: "single_use",
-          fixed_amount: true,
-          payment_amount: pricing.amountRequiredInPaise,
-          description: `Order ${promecOrderId}`,
-          notes: {
-            promecOrderId,
-            razorpayOrderId: rzpOrder.id,
-          },
-        });
-
-        if (qrResponse) {
-          qrCodeId = qrResponse.id || "";
-          qrCodeUrl = qrResponse.image_url || "";
-          upiIntentUrl = qrResponse.image_content || "";
-        }
-      } catch (qrErr: any) {
-        console.warn("[Orders Create] Razorpay QR Code creation note:", qrErr?.message || qrErr);
-      }
-    }
+    // Generate instant, non-blocking standard merchant UPI Intent URL
+    const upiAmount = Math.round(pricing.amountRequiredInPaise / 100);
+    const upiIntentUrl = `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${promecOrderId}&am=${upiAmount}&cu=INR&tn=AMEC%20Aquaforce%20${promecOrderId}`;
+    const qrCodeUrl = "";
+    const qrCodeId = "";
 
     // Construct persistent Promec Order record
     const newOrder: PromecOrder = {

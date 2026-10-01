@@ -3147,11 +3147,14 @@ interface CheckoutSubmitOptions {
       const displayAmount = isCodOrder ? advanceAmountPaid : totalAmount;
       const displayCodBalance = isCodOrder ? codBalanceDue : 0;
 
+      const fallbackUpiUrl = `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${orderData.orderId || upiSessionRef}&am=${displayAmount}&cu=INR&tn=AMEC%20Aquaforce%20${orderData.orderId || upiSessionRef}`;
+      const effectiveUpiIntentUrl = orderData.upiIntentUrl || fallbackUpiUrl;
+
       setAwaitingPaymentData({
         orderId: orderData.orderId,
         razorpayOrderId: orderData.razorpayOrderId || orderData.id,
         qrCodeUrl: orderData.qrCodeUrl || "",
-        upiIntentUrl: orderData.upiIntentUrl || "",
+        upiIntentUrl: effectiveUpiIntentUrl,
         amountInPaise: orderData.amount,
         amountDisplay: `₹${displayAmount.toLocaleString("en-IN")}`,
         isCod: isCodOrder,
@@ -3173,10 +3176,7 @@ interface CheckoutSubmitOptions {
         typeof navigator !== "undefined" ? navigator.userAgent : ""
       );
       if (isMobileDevice && (effectiveCustomPayment === "upi" || isCodOrder)) {
-        const rawUpi =
-          orderData.upiIntentUrl ||
-          `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${orderData.orderId || upiSessionRef}&am=${totalAmount}&cu=INR&tn=AMEC%20Aquaforce%20${orderData.orderId || upiSessionRef}`;
-        const targetUrl = getAppSpecificUpiUrl(rawUpi, effectiveUpiApp);
+        const targetUrl = getAppSpecificUpiUrl(effectiveUpiIntentUrl, effectiveUpiApp);
         window.location.href = targetUrl;
       }
 
