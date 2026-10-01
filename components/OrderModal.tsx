@@ -2974,7 +2974,9 @@ interface CheckoutSubmitOptions {
       return;
     }
 
-    if (effectiveCustomPayment === "card") {
+    const isCodOrder = effectivePaymentMethod === "10_PERCENT_COD";
+
+    if (!isCodOrder && effectiveCustomPayment === "card") {
       if (!cardHolderName && formData.fullName) {
         setCardHolderName(formData.fullName);
       }
@@ -2984,7 +2986,7 @@ interface CheckoutSubmitOptions {
       return;
     }
 
-    if (effectiveCustomPayment === "netbanking") {
+    if (!isCodOrder && effectiveCustomPayment === "netbanking") {
       setNetbankingSearchQuery("");
       setSelectedNetbankingTab("popular");
       setSelectedBankForSheet(null);
@@ -3000,7 +3002,6 @@ interface CheckoutSubmitOptions {
       // Non-blocking SDK preload
       loadRazorpayScript().catch(() => {});
 
-      const isCodOrder = effectivePaymentMethod === "10_PERCENT_COD";
       const isEmiMode = effectiveOnlinePaymentMode === "EMI" && !isCodOrder;
 
       // 1. Authoritative Server-Side Order Creation (Server calculates true pricing)
@@ -5477,6 +5478,9 @@ interface CheckoutSubmitOptions {
                         onClick={() => {
                           setPaymentMethod("FULL_ONLINE");
                           setOnlinePaymentMode("FULL");
+                          if (selectedCustomPayment === "cod") {
+                            setSelectedCustomPayment("upi");
+                          }
                         }}
                         className={`h-[56px] sm:h-[60px] px-2 sm:px-4 rounded-[14px] sm:rounded-[18px] flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
                           paymentMethod === "FULL_ONLINE" && onlinePaymentMode === "FULL"
@@ -5854,6 +5858,7 @@ interface CheckoutSubmitOptions {
                       onClick={() => {
                         setPaymentMethod("10_PERCENT_COD");
                         setOnlinePaymentMode("FULL");
+                        setSelectedCustomPayment("cod");
                       }}
                       className={`relative !mt-6 sm:!mt-7 rounded-2xl transition-all bg-white cursor-pointer select-none ${
                         paymentMethod === "10_PERCENT_COD"
