@@ -4,6 +4,7 @@ import { Inter, Montserrat, Montserrat_Alternates, Open_Sans, Unbounded } from "
 import "./globals.css";
 import { OrderModalProvider } from "@/context/OrderModalContext";
 import { BulkEnquiryProvider } from "@/context/BulkEnquiryContext";
+import Preloader from "@/components/Preloader";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -101,8 +102,16 @@ export default function RootLayout({
           />
         </noscript>
         {/* End Meta Pixel Code */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes preloader-slide {
+            0% { transform: translateX(-10%); }
+            50% { transform: translateX(130%); }
+            100% { transform: translateX(290%); }
+          }
+        ` }} />
       </head>
       <body className={`${inter.variable} ${montserrat.variable} ${montserratAlternates.variable} ${openSans.variable} ${unbounded.variable} antialiased font-sans`}>
+        <Preloader />
         <OrderModalProvider>
           <BulkEnquiryProvider>{children}</BulkEnquiryProvider>
         </OrderModalProvider>

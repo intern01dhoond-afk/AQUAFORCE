@@ -123,7 +123,13 @@ export default function MobileVerificationModal({
         }),
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data: any = {};
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Unable to connect to verification server. Please try again.");
+      }
 
       if (!res.ok || !data.success) {
         throw new Error(data.error || "Failed to send verification code. Please try again.");
@@ -213,7 +219,13 @@ export default function MobileVerificationModal({
         }),
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data: any = {};
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Unable to verify code. Please try again.");
+      }
 
       if (!res.ok || !data.success) {
         throw new Error(data.error || "Invalid verification code. Please try again.");
@@ -258,8 +270,8 @@ export default function MobileVerificationModal({
         </button>
 
         {/* Modal Header & Title */}
-        <div className="w-full px-6 sm:px-7 pb-4">
-          <h2 className="text-[22px] sm:text-[24px] font-bold font-montserrat text-[#0f172a] tracking-tight leading-snug">
+        <div className="w-full px-5 xs:px-6 sm:px-7 pb-4">
+          <h2 className="text-[20px] sm:text-[24px] font-bold font-montserrat text-[#0f172a] tracking-tight leading-snug">
             {step === "DETAILS" ? "Verify Mobile Number" : "Enter Verification Code"}
           </h2>
           <p className="text-[13px] sm:text-[14px] text-[#64748b] font-open-sans mt-0.5">
@@ -270,7 +282,7 @@ export default function MobileVerificationModal({
         </div>
 
         {/* Form Body */}
-        <div className="w-full px-6 sm:px-7">
+        <div className="w-full px-5 xs:px-6 sm:px-7">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 font-medium flex items-start gap-2">
               <AlertCircle size={15} className="text-red-500 shrink-0 mt-0.5" />
@@ -279,7 +291,7 @@ export default function MobileVerificationModal({
           )}
 
           {devOtpNotice && (
-            <div className="mb-4 p-2.5 bg-amber-50 border border-amber-300 rounded-xl text-xs text-amber-900 flex items-center justify-between">
+            <div className="mb-4 p-2.5 bg-amber-50 border border-amber-300 rounded-xl text-xs text-amber-900 flex items-center justify-between flex-wrap gap-1.5">
               <span>
                 Test OTP: <strong className="text-sm font-mono tracking-wider text-amber-950">{devOtpNotice}</strong>
               </span>
@@ -351,7 +363,7 @@ export default function MobileVerificationModal({
               </div>
 
               {/* Bottom Border & Action Button */}
-              <div className="pt-4 pb-6 mt-4 border-t border-[#f1f5f9] -mx-6 sm:-mx-7 px-6 sm:px-7">
+              <div className="pt-4 pb-6 mt-4 border-t border-[#f1f5f9] -mx-5 xs:-mx-6 sm:-mx-7 px-5 xs:px-6 sm:px-7">
                 <button
                   type="submit"
                   disabled={isLoading || phone.length !== 10 || fullName.trim().length < 2}
@@ -371,12 +383,25 @@ export default function MobileVerificationModal({
           ) : (
             <div className="space-y-4">
               <div>
-                <label className="block text-[14px] font-semibold text-[#1e293b] mb-2.5 font-open-sans">
-                  Enter 6-digit OTP
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-[14px] font-semibold text-[#1e293b] font-open-sans">
+                    Enter 6-digit OTP
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStep("DETAILS");
+                      setOtp(["", "", "", "", "", ""]);
+                      setError(null);
+                    }}
+                    className="text-[12px] font-semibold text-[#005da6] hover:underline font-open-sans cursor-pointer"
+                  >
+                    Change Number
+                  </button>
+                </div>
 
-                {/* 6 Individual OTP boxes with bullet placeholders */}
-                <div className="flex items-center justify-between gap-2 pt-0.5">
+                {/* 6 Individual OTP boxes with responsive flex widths */}
+                <div className="flex items-center justify-between gap-1.5 xs:gap-2 sm:gap-2.5 pt-0.5 w-full">
                   {otp.map((digit, idx) => (
                     <input
                       key={idx}
@@ -391,7 +416,7 @@ export default function MobileVerificationModal({
                       onChange={(e) => handleOtpChange(idx, e.target.value)}
                       onKeyDown={(e) => handleOtpKeyDown(idx, e)}
                       onPaste={handleOtpPaste}
-                      className="w-13 h-14 sm:w-14 sm:h-15 text-center text-xl font-bold font-montserrat border border-[#e2e8f0] focus:border-[#005da6] rounded-[12px] outline-none transition-all bg-white text-[#0f172a] placeholder:text-slate-300 placeholder:text-2xl"
+                      className="flex-1 min-w-0 aspect-square max-w-[50px] sm:max-w-[54px] h-11 xs:h-12 sm:h-14 text-center text-lg sm:text-xl font-bold font-montserrat border border-[#e2e8f0] focus:border-[#005da6] rounded-[10px] sm:rounded-[12px] outline-none transition-all bg-white text-[#0f172a] placeholder:text-slate-300 placeholder:text-xl sm:placeholder:text-2xl shadow-2xs focus:ring-2 focus:ring-[#005da6]/20"
                     />
                   ))}
                 </div>
@@ -424,7 +449,7 @@ export default function MobileVerificationModal({
               </div>
 
               {/* Bottom Border & VERIFY OTP Button */}
-              <div className="pt-4 pb-6 mt-4 border-t border-[#f1f5f9] -mx-6 sm:-mx-7 px-6 sm:px-7">
+              <div className="pt-4 pb-6 mt-4 border-t border-[#f1f5f9] -mx-5 xs:-mx-6 sm:-mx-7 px-5 xs:px-6 sm:px-7">
                 <button
                   type="button"
                   onClick={() => handleVerifyCode()}

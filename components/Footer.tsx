@@ -47,6 +47,9 @@ export default function Footer() {
             >
               Return Policy
             </button>
+            <Link href="/account" className="text-[#38bdf8] hover:text-white transition-colors py-1 px-1 font-semibold">
+              My Account
+            </Link>
             <button
               type="button"
               onClick={openModal}

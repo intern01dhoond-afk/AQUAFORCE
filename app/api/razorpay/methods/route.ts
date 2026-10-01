@@ -448,12 +448,7 @@ function generateDynamicPlans(bankCode: string, totalAmount: number): EmiPlan[] 
     : [3, 6, 9, 12, 18, 24];
 
   return tenures.map((months) => {
-    const isNoCost = isBajaj
-      ? true
-      : isHdfc
-      ? months === 3 || months === 6 || months === 9 || months === 12
-      : months === 3 || months === 6;
-
+    const isNoCost = isBajaj;
     const rate = isNoCost ? 0 : 16;
     const monthlyAmount = calculateEmi(principal, rate, months);
     const totalPayable = isNoCost ? principal : monthlyAmount * months;
@@ -578,7 +573,7 @@ export async function GET(req: Request) {
             const interestRate = typeof interestRateVal === "number" ? interestRateVal : parseFloat(interestRateVal);
             const monthlyAmount = calculateEmi(totalPrice, interestRate, months);
             const totalPayable = monthlyAmount * months;
-            const isNoCost = cfg.isNoCost && (interestRate === 0 || months === 3 || months === 6 || cfg.code.startsWith("HDFC") || cfg.code === "BAJAJ");
+            const isNoCost = interestRate === 0 || cfg.code === "BAJAJ";
             return {
               months,
               interestRate,
@@ -602,7 +597,7 @@ export async function GET(req: Request) {
         name: cfg.name,
         logo: cfg.logo,
         type: cfg.type,
-        isNoCost: cfg.isNoCost,
+        isNoCost: plans.some((p) => p.isNoCost),
         hasOffer: cfg.hasOffer,
         offerText: cfg.offerText,
         minAmount: cfg.minAmount,

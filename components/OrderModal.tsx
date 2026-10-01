@@ -361,6 +361,7 @@ export interface EmiPlan {
   monthlyAmount: number;
   totalPayable: number;
   isNoCost: boolean;
+  isMostPopular?: boolean;
 }
 
 export interface EmiBankItem {
@@ -719,16 +720,10 @@ export const calculateBankEmiPlans = (
     : [3, 6, 9, 12, 18, 24];
 
   return tenures.map((months) => {
-    // 3, 6, 9, 12 for HDFC; all for Bajaj; 3 & 6 for other banks are No Cost
-    const isNoCost = isBajaj
-      ? true
-      : isHdfc
-      ? months === 3 || months === 6 || months === 9 || months === 12
-      : months === 3 || months === 6;
-
+    const isNoCost = isBajaj;
     let monthlyAmount: number;
     let totalPayable: number;
-    const interestRate = 16;
+    const interestRate = isNoCost ? 0 : 16;
 
     if (isNoCost) {
       monthlyAmount = Math.round(principal / months);
@@ -743,7 +738,7 @@ export const calculateBankEmiPlans = (
     return {
       months,
       monthlyAmount,
-      interestRate: 16,
+      interestRate,
       totalPayable,
       isNoCost,
       isMostPopular: months === 6,
@@ -777,158 +772,33 @@ export const isCardEligibleForEmiBank = (
   const lowerCode = (bankCode || "").toLowerCase();
   const lowerName = (bankName || "").toLowerCase();
 
-  // HDFC: 4160, 4214, 4375, 4506, 4629, 5497, 5241, 652166, 4052
-  if (lowerCode.includes("hdfc") || lowerName.includes("hdfc")) {
-    return (
-      clean.startsWith("4160") ||
-      clean.startsWith("4214") ||
-      clean.startsWith("4375") ||
-      clean.startsWith("4506") ||
-      clean.startsWith("4629") ||
-      clean.startsWith("5497") ||
-      clean.startsWith("5241") ||
-      clean.startsWith("652166") ||
-      clean.startsWith("4052")
-    );
+  // Amex validation
+  const isAmexCard = clean.startsWith("34") || clean.startsWith("37");
+  const isAmexBank = lowerCode.includes("amex") || lowerName.includes("american express");
+  if (isAmexCard && !isAmexBank) {
+    return false;
+  }
+  if (!isAmexCard && isAmexBank) {
+    return false;
   }
 
-  // Axis: 4033, 416019, 437552, 450650, 5125, 652188, 5401, 5242
-  if (lowerCode.includes("utib") || lowerCode.includes("axis") || lowerName.includes("axis")) {
-    return (
-      clean.startsWith("4033") ||
-      clean.startsWith("416019") ||
-      clean.startsWith("437552") ||
-      clean.startsWith("450650") ||
-      clean.startsWith("5125") ||
-      clean.startsWith("652188") ||
-      clean.startsWith("5401") ||
-      clean.startsWith("5242")
-    );
-  }
+  // Valid card networks: Visa (4), Mastercard (51-55, 22-27), RuPay (6, 508, 81, 82), Diners (36, 38, 30)
+  const isRecognizedNetwork =
+    clean.startsWith("4") ||
+    clean.startsWith("5") ||
+    clean.startsWith("2") ||
+    clean.startsWith("6") ||
+    clean.startsWith("508") ||
+    clean.startsWith("81") ||
+    clean.startsWith("82") ||
+    clean.startsWith("34") ||
+    clean.startsWith("37") ||
+    clean.startsWith("36") ||
+    clean.startsWith("38") ||
+    clean.startsWith("30");
 
-  // ICICI: 4055, 4060, 416012, 4315, 438628, 5181, 5433, 652177
-  if (lowerCode.includes("icic") || lowerName.includes("icici")) {
-    return (
-      clean.startsWith("4055") ||
-      clean.startsWith("4060") ||
-      clean.startsWith("416012") ||
-      clean.startsWith("4315") ||
-      clean.startsWith("438628") ||
-      clean.startsWith("5181") ||
-      clean.startsWith("5433") ||
-      clean.startsWith("652177")
-    );
-  }
-
-  // SBI: 608221, 6082, 652150, 4591, 4592, 4593, 4594, 421388, 437551, 524129, 524130, 608
-  if (
-    lowerCode.includes("sbin") ||
-    lowerCode.includes("sbi") ||
-    lowerName.includes("sbi") ||
-    lowerName.includes("state bank")
-  ) {
-    return (
-      clean.startsWith("6082") ||
-      clean.startsWith("652150") ||
-      clean.startsWith("4591") ||
-      clean.startsWith("4592") ||
-      clean.startsWith("4593") ||
-      clean.startsWith("4594") ||
-      clean.startsWith("421388") ||
-      clean.startsWith("437551") ||
-      clean.startsWith("524129") ||
-      clean.startsWith("524130") ||
-      clean.startsWith("608")
-    );
-  }
-
-  // Amex: 34, 37
-  if (lowerCode.includes("amex") || lowerName.includes("american express")) {
-    return clean.startsWith("34") || clean.startsWith("37");
-  }
-
-  // IndusInd: 4034, 524168, 549772
-  if (lowerCode.includes("indb") || lowerCode.includes("indus") || lowerName.includes("indus")) {
-    return (
-      clean.startsWith("4034") ||
-      clean.startsWith("524168") ||
-      clean.startsWith("549772")
-    );
-  }
-
-  // Kotak: 4166, 438652, 4854, 652199
-  if (lowerCode.includes("kkbk") || lowerCode.includes("kotak") || lowerName.includes("kotak")) {
-    return (
-      clean.startsWith("4166") ||
-      clean.startsWith("438652") ||
-      clean.startsWith("4854") ||
-      clean.startsWith("652199")
-    );
-  }
-
-  // Bank of Baroda: 437553, 450653, 652151
-  if (lowerCode.includes("barb") || lowerName.includes("baroda")) {
-    return clean.startsWith("437553") || clean.startsWith("450653") || clean.startsWith("652151");
-  }
-
-  // Federal: 450652, 512520, 652153
-  if (lowerCode.includes("fdrl") || lowerName.includes("federal")) {
-    return clean.startsWith("450652") || clean.startsWith("512520") || clean.startsWith("652153");
-  }
-
-  // IDFC FIRST: 4188, 4288, 4568, 5199, 5289
-  if (lowerCode.includes("idfb") || lowerName.includes("idfc")) {
-    return clean.startsWith("4188") || clean.startsWith("4288") || clean.startsWith("4568") || clean.startsWith("5199") || clean.startsWith("5289");
-  }
-
-  // RBL: 4066, 4199, 4299, 5144, 5290
-  if (lowerCode.includes("ratn") || lowerName.includes("rbl")) {
-    return clean.startsWith("4066") || clean.startsWith("4199") || clean.startsWith("4299") || clean.startsWith("5144") || clean.startsWith("5290");
-  }
-
-  // IDBI: 4003, 4016, 4038, 4104, 4340, 5130, 5243
-  if (lowerCode.includes("ibkl") || lowerName.includes("idbi")) {
-    return clean.startsWith("4003") || clean.startsWith("4016") || clean.startsWith("4038") || clean.startsWith("4104") || clean.startsWith("4340") || clean.startsWith("5130") || clean.startsWith("5243");
-  }
-
-  // Yes Bank: 4124, 4216, 4217, 4390, 5174, 5248
-  if (lowerCode.includes("yesb") || lowerName.includes("yes")) {
-    return clean.startsWith("4124") || clean.startsWith("4216") || clean.startsWith("4217") || clean.startsWith("4390") || clean.startsWith("5174") || clean.startsWith("5248");
-  }
-
-  // HSBC: 4008, 4012, 4106, 4215, 5186, 5246
-  if (lowerCode.includes("hsbc")) {
-    return clean.startsWith("4008") || clean.startsWith("4012") || clean.startsWith("4106") || clean.startsWith("4215") || clean.startsWith("5186") || clean.startsWith("5246");
-  }
-
-  // Canara: 4029, 4053, 4165, 4216, 5182, 5247, 6072, 652190
-  if (lowerCode.includes("cnrb") || lowerName.includes("canara")) {
-    return clean.startsWith("4029") || clean.startsWith("4053") || clean.startsWith("4165") || clean.startsWith("4216") || clean.startsWith("5182") || clean.startsWith("5247") || clean.startsWith("6072") || clean.startsWith("652190");
-  }
-
-  // Standard Chartered: 4017, 4129, 4219, 4385, 5184, 5240
-  if (lowerCode.includes("scbl") || lowerName.includes("standard chartered")) {
-    return clean.startsWith("4017") || clean.startsWith("4129") || clean.startsWith("4219") || clean.startsWith("4385") || clean.startsWith("5184") || clean.startsWith("5240");
-  }
-
-  // DBS: 4022, 4136, 4236, 5188, 5250
-  if (lowerCode.includes("dbss") || lowerName.includes("dbs")) {
-    return clean.startsWith("4022") || clean.startsWith("4136") || clean.startsWith("4236") || clean.startsWith("5188") || clean.startsWith("5250");
-  }
-
-  // One Card: 4514, 4515, 4516, 4517, 5116, 5117, 5267
-  if (lowerCode.includes("onecard") || lowerName.includes("one card")) {
-    return clean.startsWith("4514") || clean.startsWith("4515") || clean.startsWith("4516") || clean.startsWith("4517") || clean.startsWith("5116") || clean.startsWith("5117") || clean.startsWith("5267");
-  }
-
-  // AU Small Finance: 4045, 4145, 4554, 5154, 5254
-  if (lowerCode.includes("aubl") || lowerName.includes("au small")) {
-    return clean.startsWith("4045") || clean.startsWith("4145") || clean.startsWith("4554") || clean.startsWith("5154") || clean.startsWith("5254");
-  }
-
-  // Bajaj Finserv: 2030, 504, 402, 607, 6521
-  if (lowerCode.includes("bajaj") || lowerName.includes("bajaj")) {
-    return clean.startsWith("2030") || clean.startsWith("504") || clean.startsWith("402") || clean.startsWith("607") || clean.startsWith("6521");
+  if (!isRecognizedNetwork && clean.length >= 6) {
+    return false;
   }
 
   return true;
@@ -1433,6 +1303,8 @@ export default function OrderModal({
   const [isOrderSummaryOpen, setIsOrderSummaryOpen] = useState(false);
   const [isProcessingCard, setIsProcessingCard] = useState(false);
   const [cardErrorMessage, setCardErrorMessage] = useState<string | null>(null);
+  const [debitEmiDeclinedMsg, setDebitEmiDeclinedMsg] = useState<string | null>(null);
+  const [failedCardPayload, setFailedCardPayload] = useState<any>(null);
   const [cardPhone, setCardPhone] = useState("");
   const [cardOtpRecipient, setCardOtpRecipient] = useState<string>("");
 
@@ -1785,6 +1657,17 @@ interface CheckoutFormData {
     }
   }, [formData]);
 
+  // Auto-sync customer fullName from step 1 into cardHolderName
+  useEffect(() => {
+    if (
+      (checkoutStep === "emi_add_card" || checkoutStep === "card_payment") &&
+      !cardHolderName.trim() &&
+      formData.fullName?.trim()
+    ) {
+      setCardHolderName(formData.fullName.trim());
+    }
+  }, [checkoutStep, formData.fullName, cardHolderName]);
+
   const [formErrors, setFormErrors] = useState<{
     fullName?: string;
     phone?: string;
@@ -1890,33 +1773,28 @@ interface CheckoutFormData {
   const currentColor = PRODUCT_DATA.colors[selectedColorIndex];
   const images = currentColor.images;
 
-  // Load Razorpay Custom Checkout SDK dynamically
+  // Load official Razorpay Custom Checkout SDK dynamically (In-Website native checkout, zero external popups)
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
       if (typeof window === "undefined") {
         resolve(false);
         return;
       }
-      if (
-        typeof (window as any).Razorpay === "function" &&
-        typeof (window as any).Razorpay.prototype?.createPayment === "function"
-      ) {
-        resolve(true);
-        return;
+
+      // If standard checkout.js was loaded previously, purge it so Custom Checkout SDK takes over
+      const existingCheckoutJs = document.querySelector('script[src*="checkout.js"]');
+      if (existingCheckoutJs) {
+        existingCheckoutJs.remove();
+        try {
+          delete (window as any).Razorpay;
+        } catch (_) {}
       }
 
-      // If an older checkout.js without createPayment is loaded, remove it so razorpay.js can load
-      const existing = document.querySelector('script[src*="checkout.razorpay.com"]');
-      if (existing) {
-        if (typeof (window as any).Razorpay?.prototype?.createPayment !== "function") {
-          existing.remove();
-          try {
-            delete (window as any).Razorpay;
-          } catch (_) {}
-        } else {
-          resolve(true);
-          return;
-        }
+      // If official custom razorpay.js is already loaded and ready
+      const existingRzpJs = document.querySelector('script[src*="razorpay.js"]');
+      if (existingRzpJs && typeof (window as any).Razorpay === "function") {
+        resolve(true);
+        return;
       }
 
       const script = document.createElement("script");
@@ -2319,16 +2197,20 @@ interface CheckoutSubmitOptions {
 
   const rawCardDigits = cardNumber.replace(/\D/g, "");
   const isCardValid =
-    cardHolderName.trim().length > 0 &&
+    (cardHolderName.trim().length > 0 || (formData.fullName || "").trim().length > 0) &&
     rawCardDigits.length >= 15 &&
     cardExpiry.includes("/") &&
     cardExpiry.length === 5 &&
     cardCvv.length >= 3;
 
   const handleProceedCardPayment = async () => {
-    if (!cardHolderName.trim()) {
+    const customerFullName = cardHolderName.trim() || (formData.fullName || "").trim() || "Customer";
+    if (!customerFullName) {
       setCardErrorMessage("Please enter full name.");
       return;
+    }
+    if (!cardHolderName.trim()) {
+      setCardHolderName(customerFullName);
     }
 
     if (rawCardDigits.length < 15) {
@@ -2349,8 +2231,7 @@ interface CheckoutSubmitOptions {
 
     // Behind-the-scenes contact & email for Razorpay backend processing
     const cleanPhone = (formData.phone || "").replace(/\D/g, "").slice(-10) || "9019623259";
-    const cleanEmail = (formData.email || "").trim() || `${cardHolderName.trim().toLowerCase().replace(/[^a-z0-9]/g, "") || "customer"}@gmail.com`;
-    const customerFullName = cardHolderName.trim() || (formData.fullName || "").trim() || "Customer";
+    const cleanEmail = (formData.email || "").trim() || `${customerFullName.toLowerCase().replace(/[^a-z0-9]/g, "") || "customer"}@gmail.com`;
     setCardLast4(rawCardDigits.slice(-4));
     setCardOtpRecipient("");
 
@@ -2364,27 +2245,45 @@ interface CheckoutSubmitOptions {
 
     setIsProcessingCard(true);
     setCardErrorMessage(null);
+    setDebitEmiDeclinedMsg(null);
 
-    const isEmi = onlinePaymentMode === "EMI" || checkoutStep === "emi_add_card";
+    const isEmiMode = onlinePaymentMode === "EMI" || checkoutStep === "emi_add_card";
+    const isEmi = isEmiMode;
+    const targetBankCode = (selectedEmiBankObj?.code || "").toUpperCase();
+    const isDebitCard = selectedEmiBankObj?.type === "debit";
 
-    // Pre-validate EMI card eligibility with backend Razorpay check
-    if (isEmi && selectedEmiBankObj) {
+    // === STEP 1: EXPLICIT PRE-CHECK FOR DEBIT CARD EMI ===
+    if (isEmiMode && isDebitCard) {
       try {
-        const verifyRes = await fetch(getApiPath("/api/payments/check-card-eligibility"), {
+        const eligibilityRes = await fetch(getApiPath("/api/payments/check-card-eligibility"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             cardNumber: rawCardDigits,
-            bankCode: selectedEmiBankObj.code,
-            bankName: selectedEmiBankObj.name,
-            tenure: selectedTenure,
+            bankCode: targetBankCode,
+            phone: cleanPhone,
             amount: totalPrice,
           }),
         });
-        const verifyData = await verifyRes.json();
-        if (!verifyData?.eligible) {
+
+        const eligibilityData = await eligibilityRes.json();
+
+        // If the bank system explicitly states this debit card/phone is not pre-approved:
+        if (eligibilityData && eligibilityData.eligible === false) {
           setIsProcessingCard(false);
-          setCardErrorMessage(verifyData?.error || "This card is not eligible for EMI with selected bank.");
+          setDebitEmiDeclinedMsg(
+            eligibilityData.error ||
+            `Your bank (${selectedEmiBankObj?.name}) has not pre-approved this debit card for an instant EMI loan. To enable it, please SMS 'MYHDFC' (or your bank's keyword) to 56767 from your registered mobile number.`
+          );
+
+          // Cache data locally to allow a one-click fallback to a full payment if desired
+          setFailedCardPayload({
+            "card[number]": rawCardDigits,
+            "card[expiry_month]": expMonth,
+            "card[expiry_year]": expYear,
+            "card[cvv]": cardCvv,
+            "card[name]": customerFullName,
+          });
           return;
         }
       } catch (checkErr) {
@@ -2432,62 +2331,60 @@ interface CheckoutSubmitOptions {
       setCardRazorpayOrderId(orderData.razorpayOrderId || orderData.id);
       setCardLast4(rawCardDigits.slice(-4));
 
-      // 2. Load Razorpay SDK
+      // 2. Load Razorpay Custom Checkout SDK
       await loadRazorpayScript();
       if (typeof (window as any).Razorpay !== "function") {
         throw new Error("Razorpay gateway is initializing. Please try again.");
       }
 
-      // 3. Instantiate Razorpay with real order details
-      const rzpInstance = new (window as any).Razorpay({
-        key: orderData.keyId,
-        order_id: orderData.razorpayOrderId || orderData.id,
-        amount: orderData.amount,
-        currency: "INR",
-        name: "Aquaforce",
-        description: "Cordless Pressure Washer System",
-        prefill: {
-          name: customerFullName,
-          email: cleanEmail,
-          contact: cleanPhone,
-        },
-        theme: {
-          color: "#0c192c",
-        },
-      });
+      let rzpInstance: any = null;
+      let hasRetriedAsCard = false;
 
-      rzpCardInstanceRef.current = rzpInstance;
+      let paymentResponded = false;
+      const processingTimeout = setTimeout(() => {
+        if (!paymentResponded) {
+          console.warn("[Custom Checkout] Payment request timed out after 20s");
+          setIsProcessingCard(false);
+          setIsVerifyingCardOtp(false);
+          if (isEmiMode && isDebitCard) {
+            setDebitEmiDeclinedMsg(
+              `Your bank (${selectedEmiBankObj?.name || "HDFC Bank"}) is taking too long to verify Debit Card EMI. Debit Card EMI requires prior bank pre-approval (SMS 'MYHDFC' to 56767). Click below to pay in full with this Card.`
+            );
+            setFailedCardPayload({
+              "card[number]": rawCardDigits,
+              "card[expiry_month]": expMonth,
+              "card[expiry_year]": expYear,
+              "card[cvv]": cardCvv,
+              "card[name]": customerFullName,
+            });
+          } else {
+            setCardErrorMessage("Bank gateway took too long to respond. Please try again or use another payment method.");
+          }
+        }
+      }, 20000);
 
-      // 4. Handle Real Bank OTP Event
+      // 3. Handle Real Bank OTP Event (Native OTP within our website UI)
       const handleOtpRequired = (data: any) => {
+        paymentResponded = true;
+        clearTimeout(processingTimeout);
         setIsProcessingCard(false);
         setIsVerifyingCardOtp(false);
         setCheckoutStep("card_otp");
         setCardOtpTimer(29);
         setCardOtp(["", "", "", "", "", ""]);
 
-        // Dynamically capture live recipient phone/masked contact from Razorpay SDK event if available
+        // Dynamically capture live recipient phone/masked contact from bank event only
         let detectedRecipient = "";
         if (data && typeof data === "object") {
           detectedRecipient =
-            data.contact ||
-            data.phone ||
-            data.mobile ||
-            data.registered_phone ||
             data.bank_phone ||
             data.masked_contact ||
             data.masked_phone ||
-            data.card?.contact ||
-            data.card?.phone ||
-            data.data?.contact ||
-            data.data?.phone ||
+            data.registered_phone ||
             "";
         }
-        if (detectedRecipient) {
-          setCardOtpRecipient(String(detectedRecipient));
-        } else {
-          setCardOtpRecipient("");
-        }
+        // Never default to checkout delivery phone number, as the issuing bank sends OTP to the card's registered phone
+        setCardOtpRecipient(detectedRecipient ? String(detectedRecipient) : "");
 
         if (data === "incorrect_otp_retry") {
           setCardErrorMessage("Incorrect OTP. Please enter the valid OTP received on your mobile from your bank.");
@@ -2499,19 +2396,26 @@ interface CheckoutSubmitOptions {
         }, 150);
       };
 
-      // 5. Handle Bank 3DS redirect if required by issuing bank
-      const handle3dsRequired = () => {
+      // 4. Handle Bank 3DS redirect if required by issuing bank
+      const handle3dsRequired = (data?: any) => {
+        paymentResponded = true;
+        clearTimeout(processingTimeout);
         setIsProcessingCard(false);
         setIsVerifyingCardOtp(false);
-        if (typeof (rzpInstance as any).gotoBank === "function") {
-          (rzpInstance as any).gotoBank();
-        } else if (typeof (rzpInstance as any)._payment?.gotoBank === "function") {
-          (rzpInstance as any)._payment.gotoBank();
+        const rzp = rzpInstance || rzpCardInstanceRef.current;
+        if (rzp && typeof rzp.gotoBank === "function") {
+          rzp.gotoBank();
+        } else if (rzp && typeof rzp._payment?.gotoBank === "function") {
+          rzp._payment.gotoBank();
+        } else if (data?.redirect_url) {
+          window.location.href = data.redirect_url;
         }
       };
 
-      // 6. Handle Payment Success (Only triggered when captured by Razorpay)
+      // 5. Handle Payment Success (Triggered after successful OTP authorization)
       const handlePaymentSuccess = async (response: any) => {
+        paymentResponded = true;
+        clearTimeout(processingTimeout);
         setIsVerifyingCardOtp(true);
         setCardErrorMessage(null);
 
@@ -2562,94 +2466,167 @@ interface CheckoutSubmitOptions {
         }
       };
 
+      // 6. Verified baseline mapping for Supported Native Razorpay EMI Issuers on merchant account
+      const RZP_NATIVE_EMI_BANKS = new Set([
+        "AMEX", "AUBL", "BARB", "FDRL", "HDFC_DC", "HSBC", "ICIC", "IDFB",
+        "INDB", "KKBK", "RATN", "SCBL", "UTIB", "YESB", "ONECARD", "HDFC"
+      ]);
+      const targetBankCode = (selectedEmiBankObj?.code || "").toUpperCase().replace(/_DC$/, "_DC");
+
       // 7. Handle Payment Error / Decline from Bank
       const handlePaymentError = (err: any) => {
-        console.error("Razorpay payment error:", err);
+        paymentResponded = true;
+        clearTimeout(processingTimeout);
+        console.error("Custom checkout core error catch:", err);
         const errMsg =
           err?.error?.description ||
           err?.description ||
           err?.message ||
           "Payment was declined by your bank. Please check your card details.";
 
-        const lowerErr = errMsg.toLowerCase();
-        // If Razorpay gives "inappropriate option" or "no appropriate payment method found",
-        // automatically fallback to standard card authorization so the user is never blocked!
-        if (
-          isEmi &&
-          (lowerErr.includes("inappropriate") ||
-           lowerErr.includes("no appropriate") ||
-           lowerErr.includes("not supported") ||
-           lowerErr.includes("invalid payment method"))
-        ) {
-          console.warn("[OrderModal] Caught Razorpay inappropriate option error. Seamlessly retrying as card authorization:", errMsg);
-          const fallbackPayload: any = {
-            ...paymentPayload,
-            method: "card",
-          };
-          delete fallbackPayload.bank;
-          delete fallbackPayload.emi_duration;
+        // Close any blank/orphaned popup window opened by Razorpay
+        const rzp = rzpInstance || rzpCardInstanceRef.current;
+        const paymentObj = rzp?._payment || rzp;
+        if (paymentObj?.popup) {
           try {
-            rzpInstance.createPayment(fallbackPayload, {
-              nativeotp: true,
-            });
-            return;
-          } catch (retryErr) {
-            console.error("[OrderModal] Fallback retry failed:", retryErr);
-          }
+            if (typeof paymentObj.popup.close === "function") {
+              paymentObj.popup.close();
+            } else if (paymentObj.popup.window && typeof paymentObj.popup.window.close === "function") {
+              paymentObj.popup.window.close();
+            }
+          } catch (_) {}
         }
 
         setIsProcessingCard(false);
         setIsVerifyingCardOtp(false);
-        setCardErrorMessage(errMsg);
+
+        if (isEmiMode && isDebitCard) {
+          setDebitEmiDeclinedMsg(
+            `Your bank (${selectedEmiBankObj?.name || "HDFC Bank"}) has not pre-approved this debit card for an instant EMI loan. To enable it, please SMS 'MYHDFC' (or your bank's keyword) to 56767 from your registered mobile number.`
+          );
+          setFailedCardPayload({
+            "card[number]": rawCardDigits,
+            "card[expiry_month]": expMonth,
+            "card[expiry_year]": expYear,
+            "card[cvv]": cardCvv,
+            "card[name]": customerFullName,
+          });
+        } else {
+          setCardErrorMessage(errMsg);
+        }
       };
 
-      rzpInstance.on("payment.otp.required", handleOtpRequired);
-      rzpInstance.on("otp.required", handleOtpRequired);
-      rzpInstance.on("payment.3ds.required", handle3dsRequired);
-      rzpInstance.on("3ds.required", handle3dsRequired);
-      rzpInstance.on("payment.success", handlePaymentSuccess);
-      rzpInstance.on("payment.error", handlePaymentError);
-      rzpInstance.on("payment.failed", handlePaymentError);
+      // 8. Pre-calculate Customer Fee Bearer (CFB) convenience fee via Razorpay Fees API
+      const paymentMethod = isEmiMode ? "emi" : "card";
+      const emiBankCode = isEmiMode && RZP_NATIVE_EMI_BANKS.has(targetBankCode) ? targetBankCode : undefined;
+      let calculatedAmount = orderData.amount;
+      let calculatedFee = 0;
+      let calculatedTax = 0;
 
-      // 8. Submit Card to Razorpay with Native OTP enabled (including contact & email)
+      try {
+        const feesRes = await fetch(getApiPath("/api/payments/calculate-fees"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: orderData.amount,
+            currency: "INR",
+            method: paymentMethod,
+            order_id: orderData.razorpayOrderId || orderData.id,
+            card: {
+              number: rawCardDigits,
+              name: customerFullName,
+              expiry_month: expMonth,
+              expiry_year: expYear,
+              cvv: cardCvv,
+            },
+            email: cleanEmail,
+            contact: cleanPhone,
+            ...(isEmiMode ? { emi_duration: Number(selectedTenure) || 6 } : {}),
+            ...(emiBankCode ? { bank: emiBankCode } : {}),
+          }),
+        });
+
+        const feesData = await feesRes.json();
+        if (feesData?.input?.amount) {
+          calculatedAmount = feesData.input.amount;
+        }
+        if (feesData?.input?.fee) {
+          calculatedFee = feesData.input.fee;
+        }
+        if (feesData?.input?.tax) {
+          calculatedTax = feesData.input.tax;
+        }
+        console.log("[Custom Checkout] CFB calculated:", {
+          amount: calculatedAmount,
+          fee: calculatedFee,
+          tax: calculatedTax,
+        });
+      } catch (feeErr) {
+        console.warn("[Custom Checkout] Fee calculation failed, proceeding with default amount:", feeErr);
+      }
+
+      // 9. Initialize Razorpay Custom Checkout instance with accurate amount
+      rzpInstance = new (window as any).Razorpay({
+        key: orderData.keyId,
+        order_id: orderData.razorpayOrderId || orderData.id,
+        amount: calculatedAmount,
+        currency: "INR",
+      });
+      rzpCardInstanceRef.current = rzpInstance;
+
+      // 10. Register Native OTP and Payment Handlers
+      if (typeof rzpInstance.on === "function") {
+        rzpInstance.on("payment.otp.required", handleOtpRequired);
+        rzpInstance.on("payment.3ds.required", handle3dsRequired);
+        rzpInstance.on("payment.success", handlePaymentSuccess);
+        rzpInstance.on("payment.error", handlePaymentError);
+        rzpInstance.on("payment.failed", handlePaymentError);
+      }
+
+      // 11. Dispatch createPayment directly to bank (100% In-Website, zero external popup)
       const paymentPayload: any = {
+        "card[name]": customerFullName,
         "card[number]": rawCardDigits,
         "card[expiry_month]": expMonth,
         "card[expiry_year]": expYear,
         "card[cvv]": cardCvv,
-        "card[name]": cardHolderName.trim() || customerFullName,
         contact: cleanPhone,
         email: cleanEmail,
         order_id: orderData.razorpayOrderId || orderData.id,
-        amount: orderData.amount,
+        amount: calculatedAmount,
         currency: "INR",
-        save: 0,
       };
 
-      if (isEmi) {
-        const bankCodeUpper = (selectedEmiBankObj?.code || "").toUpperCase();
-        if (RZP_NATIVE_EMI_BANKS.has(bankCodeUpper)) {
-          paymentPayload.method = "emi";
-          paymentPayload.bank = bankCodeUpper;
-          paymentPayload.emi_duration = selectedTenure || 6;
-        } else {
-          // For non-native EMI banks (e.g. SBIN, CNRB, IBKL, DBSS, BAJAJ):
-          // Send as standard card auth so Razorpay processes it smoothly without
-          // "inappropriate option" error, and the bank converts it on statement.
-          paymentPayload.method = "card";
+      // Include the pre-calculated fee and tax for Customer Fee Bearer compliance
+      if (calculatedFee > 0) {
+        paymentPayload.fee = calculatedFee;
+      }
+      if (calculatedTax > 0) {
+        paymentPayload.tax = calculatedTax;
+      }
+
+      if (isEmiMode) {
+        paymentPayload.method = "emi";
+        paymentPayload.emi_duration = Number(selectedTenure) || 6;
+        if (RZP_NATIVE_EMI_BANKS.has(targetBankCode)) {
+          paymentPayload.bank = targetBankCode;
         }
       } else {
         paymentPayload.method = "card";
       }
 
-      rzpInstance.createPayment(paymentPayload, {
-        nativeotp: true,
-      });
-
+      console.log("[Custom Checkout] Dispatching createPayment with method:", paymentPayload.method, "amount:", calculatedAmount, "fee:", calculatedFee);
+      if (typeof rzpInstance.createPayment === "function") {
+        rzpInstance.createPayment(paymentPayload, { nativeotp: true });
+      } else {
+        clearTimeout(processingTimeout);
+        throw new Error("Razorpay Custom Checkout SDK is initializing. Please try again.");
+      }
 
     } catch (err: any) {
       console.error("Card payment initiation error:", err);
       setIsProcessingCard(false);
+      setIsVerifyingCardOtp(false);
       setCardErrorMessage(err.message || "Failed to process card details. Please try again.");
     }
   };
@@ -2912,15 +2889,55 @@ interface CheckoutSubmitOptions {
       }
 
       if (typeof rzp.createPayment === "function") {
-        rzp.createPayment({
-          amount: orderData.amount,
+        // Pre-calculate CFB convenience fee for netbanking
+        let nbAmount = orderData.amount;
+        let nbFee = 0;
+        let nbTax = 0;
+        try {
+          const nbFeesRes = await fetch(getApiPath("/api/payments/calculate-fees"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              amount: orderData.amount,
+              currency: "INR",
+              method: "netbanking",
+              order_id: orderData.razorpayOrderId || orderData.id,
+              bank: bank.code,
+              email: formData.email,
+              contact: formData.phone.startsWith("+91") ? formData.phone : `+91${formData.phone}`,
+            }),
+          });
+          const nbFeesData = await nbFeesRes.json();
+          if (nbFeesData?.input?.amount) {
+            nbAmount = nbFeesData.input.amount;
+          }
+          if (nbFeesData?.input?.fee) {
+            nbFee = nbFeesData.input.fee;
+          }
+          if (nbFeesData?.input?.tax) {
+            nbTax = nbFeesData.input.tax;
+          }
+          console.log("[Netbanking] CFB calculated:", { amount: nbAmount, fee: nbFee, tax: nbTax });
+        } catch (feeErr) {
+          console.warn("[Netbanking] Fee calculation failed, proceeding with default amount:", feeErr);
+        }
+
+        const nbPayload: any = {
+          amount: nbAmount,
           currency: "INR",
           order_id: orderData.razorpayOrderId || orderData.id,
           email: formData.email,
           contact: formData.phone.startsWith("+91") ? formData.phone : `+91${formData.phone}`,
           method: "netbanking",
           bank: bank.code,
-        });
+        };
+        if (nbFee > 0) {
+          nbPayload.fee = nbFee;
+        }
+        if (nbTax > 0) {
+          nbPayload.tax = nbTax;
+        }
+        rzp.createPayment(nbPayload);
       } else {
         throw new Error("Netbanking gateway is currently unavailable. Please try again.");
       }
@@ -3690,8 +3707,10 @@ interface CheckoutSubmitOptions {
                               onClick={() => {
                                 setSelectedEmiBankObj(bank);
                                 setSelectedEmiBank(bank.name);
-                                const plans = calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
-                                const popular = plans.find((p) => p.isMostPopular) || plans[0];
+                                const plans = (bank.plans && bank.plans.length > 0)
+                                  ? bank.plans
+                                  : calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
+                                const popular = plans.find((p) => (p as any).isMostPopular) || plans[0];
                                 setSelectedTenure(popular ? popular.months : 6);
                                 setSelectedEmiPlan(popular || null);
                                 setCheckoutStep("emi_plan_select");
@@ -3766,8 +3785,10 @@ interface CheckoutSubmitOptions {
                               onClick={() => {
                                 setSelectedEmiBankObj(bank);
                                 setSelectedEmiBank(bank.name);
-                                const plans = calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
-                                const popular = plans.find((p) => p.isMostPopular) || plans[0];
+                                const plans = (bank.plans && bank.plans.length > 0)
+                                  ? bank.plans
+                                  : calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
+                                const popular = plans.find((p) => (p as any).isMostPopular) || plans[0];
                                 setSelectedTenure(popular ? popular.months : 6);
                                 setSelectedEmiPlan(popular || null);
                                 setCheckoutStep("emi_plan_select");
@@ -3842,8 +3863,10 @@ interface CheckoutSubmitOptions {
                               onClick={() => {
                                 setSelectedEmiBankObj(bank);
                                 setSelectedEmiBank(bank.name);
-                                const plans = calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
-                                const popular = plans.find((p) => p.isMostPopular) || plans[0];
+                                const plans = (bank.plans && bank.plans.length > 0)
+                                  ? bank.plans
+                                  : calculateBankEmiPlans(bank.id, bank.code, bank.name, totalPrice);
+                                const popular = plans.find((p) => (p as any).isMostPopular) || plans[0];
                                 setSelectedTenure(popular ? popular.months : 6);
                                 setSelectedEmiPlan(popular || null);
                                 setCheckoutStep("emi_plan_select");
@@ -3936,12 +3959,14 @@ interface CheckoutSubmitOptions {
 
                 {/* Plans Table */}
                 {(() => {
-                  const plans = calculateBankEmiPlans(
-                    selectedEmiBankObj.id,
-                    selectedEmiBankObj.code,
-                    selectedEmiBankObj.name,
-                    totalPrice
-                  );
+                  const plans = (selectedEmiBankObj?.plans && selectedEmiBankObj.plans.length > 0)
+                    ? selectedEmiBankObj.plans
+                    : calculateBankEmiPlans(
+                        selectedEmiBankObj.id,
+                        selectedEmiBankObj.code,
+                        selectedEmiBankObj.name,
+                        totalPrice
+                      );
 
                   return (
                     <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-2xs">
@@ -3972,6 +3997,9 @@ interface CheckoutSubmitOptions {
                                 onClick={() => {
                                   setSelectedTenure(plan.months);
                                   setSelectedEmiPlan(plan);
+                                  if (!cardHolderName && formData.fullName) {
+                                    setCardHolderName(formData.fullName);
+                                  }
                                   setCheckoutStep("emi_add_card");
                                 }}
                                 className={`px-3.5 sm:px-4 py-3 grid grid-cols-[28px_1fr_1fr_1fr_1fr] items-center cursor-pointer transition-colors select-none ${
@@ -4077,22 +4105,107 @@ interface CheckoutSubmitOptions {
                   </span>
                 </div>
 
+                {/* Debit Card Pre-Approval Advisory */}
+                {selectedEmiBankObj.type === "debit" && !cardErrorMessage && !debitEmiDeclinedMsg && (
+                  <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-xl text-amber-900 text-xs flex items-start gap-2.5">
+                    <span className="text-amber-600 text-sm font-bold shrink-0 mt-0.5">ℹ️</span>
+                    <div className="leading-relaxed">
+                      <span className="font-bold">Debit Card Pre-Approval:</span> HDFC requires your debit card to be pre-approved for EMI (SMS <span className="font-mono font-bold bg-amber-100 px-1 py-0.5 rounded text-amber-950">MYHDFC to 56767</span>). If not pre-approved, you can use a Credit Card or pay in full with this Card.
+                    </div>
+                  </div>
+                )}
+
+                {/* Dedicated Debit EMI Pre-Approval Failure Alert & Fallback */}
+                {debitEmiDeclinedMsg && (
+                  <div className="p-4 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs text-amber-950 flex flex-col gap-3 animate-in fade-in shadow-sm">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start gap-2.5">
+                        <span className="text-amber-600 text-base shrink-0 mt-0.5">⚠️</span>
+                        <div className="space-y-1">
+                          <p className="font-bold text-amber-900 text-[13px]">Bank Pre-Approval Required</p>
+                          <p className="leading-relaxed text-slate-700">{debitEmiDeclinedMsg}</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setDebitEmiDeclinedMsg(null)}
+                        className="text-amber-500 hover:text-amber-800 font-bold p-1 cursor-pointer shrink-0"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (failedCardPayload) {
+                          setCardNumber(failedCardPayload["card[number]"] || cardNumber);
+                          const m = failedCardPayload["card[expiry_month]"] || "";
+                          const y = failedCardPayload["card[expiry_year]"] || "";
+                          if (m && y) setCardExpiry(`${m}/${y}`);
+                          setCardCvv(failedCardPayload["card[cvv]"] || cardCvv);
+                          setCardHolderName(failedCardPayload["card[name]"] || cardHolderName);
+                        }
+                        setPaymentMethod("FULL_ONLINE");
+                        setOnlinePaymentMode("FULL");
+                        setSelectedCustomPayment("card");
+                        setCheckoutStep("card_payment");
+                        setDebitEmiDeclinedMsg(null);
+                        setCardErrorMessage(null);
+                      }}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-bold rounded-xl text-xs sm:text-sm transition cursor-pointer shadow-md"
+                    >
+                      ⚡ Pay ₹{totalPrice.toLocaleString("en-IN")} in Full with this Card →
+                    </button>
+                  </div>
+                )}
+
+                {/* Optional Card Error Alert */}
+                {cardErrorMessage && (
+                  <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800 flex flex-col gap-2.5 animate-in fade-in shadow-2xs">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start gap-2">
+                        <span className="text-red-500 text-sm shrink-0 mt-0.5">⚠️</span>
+                        <span className="font-semibold leading-relaxed">{cardErrorMessage}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setCardErrorMessage(null)}
+                        className="text-red-400 hover:text-red-700 font-bold ml-1 cursor-pointer shrink-0"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPaymentMethod("FULL_ONLINE");
+                        setOnlinePaymentMode("FULL");
+                        setSelectedCustomPayment("card");
+                        setCheckoutStep("card_payment");
+                        setCardErrorMessage(null);
+                      }}
+                      className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-bold rounded-lg text-xs transition cursor-pointer shadow-2xs"
+                    >
+                      ⚡ Pay ₹{totalPrice.toLocaleString("en-IN")} in Full with this Card →
+                    </button>
+                  </div>
+                )}
+
                 {/* Collapsible EMI Plan Box */}
                 {(() => {
+                  const availablePlans = (selectedEmiBankObj?.plans && selectedEmiBankObj.plans.length > 0)
+                    ? selectedEmiBankObj.plans
+                    : calculateBankEmiPlans(
+                        selectedEmiBankObj.id,
+                        selectedEmiBankObj.code,
+                        selectedEmiBankObj.name,
+                        totalPrice
+                      );
                   const currentPlan =
                     selectedEmiPlan ||
-                    calculateBankEmiPlans(
-                      selectedEmiBankObj.id,
-                      selectedEmiBankObj.code,
-                      selectedEmiBankObj.name,
-                      totalPrice
-                    ).find((p) => p.months === selectedTenure) ||
-                    calculateBankEmiPlans(
-                      selectedEmiBankObj.id,
-                      selectedEmiBankObj.code,
-                      selectedEmiBankObj.name,
-                      totalPrice
-                    )[0];
+                    availablePlans.find((p) => p.months === selectedTenure) ||
+                    availablePlans[0];
 
                   return (
                     <div className="border border-slate-200 rounded-2xl p-4 bg-white shadow-2xs space-y-2">
@@ -4462,7 +4575,7 @@ interface CheckoutSubmitOptions {
                     </legend>
                     <input
                       type="text"
-                      value={cardHolderName}
+                      value={cardHolderName || formData.fullName || ""}
                       onChange={(e) => {
                         setCardHolderName(e.target.value);
                         if (cardErrorMessage) setCardErrorMessage(null);
@@ -4718,18 +4831,14 @@ interface CheckoutSubmitOptions {
 
                 {/* 2. Heading & Subtitle */}
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 text-center font-montserrat mt-5 tracking-tight">
-                  Securely saving your card
+                  Bank OTP Verification
                 </h3>
-                <p className="text-xs sm:text-[13.5px] text-slate-600 text-center font-open-sans mt-2 max-w-[340px] leading-relaxed">
-                  OTP sent to{" "}
+                <p className="text-xs sm:text-[13.5px] text-slate-600 text-center font-open-sans mt-2 max-w-[360px] leading-relaxed">
+                  Enter the OTP sent to{" "}
                   <span className="font-semibold text-slate-900">
-                    {cardOtpRecipient
-                      ? cardOtpRecipient.startsWith("+")
-                        ? cardOtpRecipient
-                        : `+91${cardOtpRecipient.replace(/\D/g, "").slice(-10)}`
-                      : "your bank registered mobile number"}
+                    {cardOtpRecipient || "your bank-registered mobile number"}
                   </span>{" "}
-                  for your card ending with{" "}
+                  for card ending with{" "}
                   <span className="font-semibold text-slate-900">
                     ****{cardLast4 || rawCardDigits.slice(-4) || "card"}
                   </span>

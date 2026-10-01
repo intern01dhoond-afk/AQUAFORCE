@@ -277,7 +277,12 @@ export async function POST(req: Request) {
       );
     }
 
-    // 4. Update Promec Order State
+    // 4. Update Promec Order State (including subvention metrics if No-Cost EMI offer was applied)
+    const discountInPaise = Number(paymentDetails?.discount || 0);
+    const discountInINR = Math.round(discountInPaise / 100);
+    const grossAmountInINR = Math.round(order.payment.amountRequiredInPaise / 100);
+    const netSettlementInINR = grossAmountInINR - discountInINR;
+
     await orderStore.updateOrder(order.id, {
       orderStatus: "confirmed",
       payment: {
@@ -288,6 +293,13 @@ export async function POST(req: Request) {
         razorpaySignature,
         amountPaidInPaise: order.payment.amountRequiredInPaise,
         capturedAt: new Date().toISOString(),
+        ...(discountInINR > 0
+          ? {
+              subventionDiscountInINR: discountInINR,
+              netSettlementInINR: netSettlementInINR,
+              isNoCostEmi: true,
+            }
+          : {}),
       },
     });
 

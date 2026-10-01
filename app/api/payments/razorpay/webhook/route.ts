@@ -101,6 +101,12 @@ export async function POST(req: Request) {
         const payId = paymentEntity?.id || order.payment.razorpayPaymentId;
         const method = paymentEntity?.method?.toUpperCase();
 
+        // Extract subvention discount and net settlement if No-Cost EMI offer was applied
+        const discountInPaise = Number(paymentEntity?.discount || 0);
+        const discountInINR = Math.round(discountInPaise / 100);
+        const grossAmountInINR = Math.round(order.payment.amountRequiredInPaise / 100);
+        const netSettlementInINR = grossAmountInINR - discountInINR;
+
         await orderStore.updateOrder(order.id, {
           orderStatus: "confirmed",
           payment: {
@@ -110,6 +116,13 @@ export async function POST(req: Request) {
             razorpayPaymentId: payId,
             amountPaidInPaise: order.payment.amountRequiredInPaise,
             capturedAt: new Date().toISOString(),
+            ...(discountInINR > 0
+              ? {
+                  subventionDiscountInINR: discountInINR,
+                  netSettlementInINR: netSettlementInINR,
+                  isNoCostEmi: true,
+                }
+              : {}),
           },
         });
 

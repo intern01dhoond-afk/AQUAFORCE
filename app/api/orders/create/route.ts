@@ -99,8 +99,22 @@ export async function POST(req: Request) {
       key_secret,
     });
 
+    // Optional: Razorpay No-Cost EMI Subvention Offers (from env vars or request body)
+    const applicableOffers: string[] = [];
+    if (Array.isArray(body.offers) && body.offers.length > 0) {
+      applicableOffers.push(...body.offers.filter(Boolean));
+    } else if (body.offerId) {
+      applicableOffers.push(String(body.offerId));
+    } else if (resolvedMethod === "EMI" && emiDetails) {
+      if (emiDetails.tenure === 3 && process.env.RZP_OFFER_NO_COST_3M) {
+        applicableOffers.push(process.env.RZP_OFFER_NO_COST_3M);
+      } else if (emiDetails.tenure === 6 && process.env.RZP_OFFER_NO_COST_6M) {
+        applicableOffers.push(process.env.RZP_OFFER_NO_COST_6M);
+      }
+    }
+
     // Create order with Razorpay Orders API
-    const rzpOrder = await razorpay.orders.create({
+    const orderOptions: any = {
       amount: pricing.amountRequiredInPaise, // in paise
       currency: "INR",
       receipt: promecOrderId.substring(0, 40),
@@ -119,34 +133,41 @@ export async function POST(req: Request) {
             }
           : {}),
       },
-    });
+      ...(applicableOffers.length > 0 ? { offers: applicableOffers } : {}),
+    };
 
-    // Generate dynamic UPI QR Code and Intent URL via Razorpay QR Code API
+    const rzpOrder = await razorpay.orders.create(orderOptions);
+
+    // Generate dynamic UPI QR Code and Intent URL only if explicitly requested for UPI QR
     let qrCodeUrl = "";
     let upiIntentUrl = "";
     let qrCodeId = "";
 
-    try {
-      const qrResponse: any = await (razorpay as any).qrCode.create({
-        type: "upi_qr",
-        name: "AMEC Aquaforce",
-        usage: "single_use",
-        fixed_amount: true,
-        payment_amount: pricing.amountRequiredInPaise,
-        description: `Order ${promecOrderId}`,
-        notes: {
-          promecOrderId,
-          razorpayOrderId: rzpOrder.id,
-        },
-      });
+    const isUpiQrRequested = Boolean(body.generateQr === true || paymentMethod === "UPI_QR");
 
-      if (qrResponse) {
-        qrCodeId = qrResponse.id || "";
-        qrCodeUrl = qrResponse.image_url || "";
-        upiIntentUrl = qrResponse.image_content || "";
+    if (isUpiQrRequested) {
+      try {
+        const qrResponse: any = await (razorpay as any).qrCode.create({
+          type: "upi_qr",
+          name: "AMEC Aquaforce",
+          usage: "single_use",
+          fixed_amount: true,
+          payment_amount: pricing.amountRequiredInPaise,
+          description: `Order ${promecOrderId}`,
+          notes: {
+            promecOrderId,
+            razorpayOrderId: rzpOrder.id,
+          },
+        });
+
+        if (qrResponse) {
+          qrCodeId = qrResponse.id || "";
+          qrCodeUrl = qrResponse.image_url || "";
+          upiIntentUrl = qrResponse.image_content || "";
+        }
+      } catch (qrErr: any) {
+        console.warn("[Orders Create] Razorpay QR Code creation note:", qrErr?.message || qrErr);
       }
-    } catch (qrErr: any) {
-      console.warn("[Orders Create] Razorpay QR Code creation note:", qrErr?.message || qrErr);
     }
 
     // Construct persistent Promec Order record
