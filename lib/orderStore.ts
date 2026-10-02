@@ -26,6 +26,8 @@ export interface PromecOrder {
     pincode: string;
     altPhone?: string;
     gstNumber?: string;
+    customerType?: "retail" | "commercial";
+    companyName?: string;
   };
 
   items: Array<{

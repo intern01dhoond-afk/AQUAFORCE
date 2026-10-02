@@ -9,6 +9,30 @@
       "destination": "/aquaforceforautocare"
     },
     {
+      "source": "/aquaforceforhomecare",
+      "destination": "/aquaforceforautocare?enquiry=bulk&category=homecare"
+    },
+    {
+      "source": "/aquaforceforcorporatecare",
+      "destination": "/aquaforceforautocare?enquiry=bulk&category=corporate"
+    },
+    {
+      "source": "/aquaforceforhome",
+      "destination": "/aquaforceforautocare?enquiry=bulk&category=homecare"
+    },
+    {
+      "source": "/aquaforceforcorporate",
+      "destination": "/aquaforceforautocare?enquiry=bulk&category=corporate"
+    },
+    {
+      "source": "/homecare",
+      "destination": "/aquaforceforautocare?enquiry=bulk&category=homecare"
+    },
+    {
+      "source": "/corporatecare",
+      "destination": "/aquaforceforautocare?enquiry=bulk&category=corporate"
+    },
+    {
       "source": "/thank-you",
       "destination": "/aquaforceforautocare/thank-you"
     },

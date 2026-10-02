@@ -81,13 +81,30 @@ export default function ReturnPolicyModal({ isOpen, onClose }: ReturnPolicyModal
             </ul>
           </div>
 
-          {/* Unboxing Video */}
+          {/* Mandatory Verification for Warranty, Claims & Replacements */}
           <div className="space-y-2 border-b border-slate-100 pb-4">
-            <h4 className="font-bold text-sm sm:text-base text-slate-900 font-open-sans">
-              Unboxing Video
-            </h4>
-            <p className="pl-5 text-slate-600 leading-relaxed">
-              Customers are strongly advised to record a complete unboxing video. It may be required for claims related to transit damage, missing parts, or incorrect products.
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+              <h4 className="font-bold text-sm sm:text-base text-slate-900 font-open-sans">
+                Mandatory for Warranty Registration, Claims & Replacements
+              </h4>
+            </div>
+            <p className="pl-4 font-semibold text-slate-800 text-xs sm:text-sm">
+              The following three verification items are strictly mandatory to activate warranty, file a claim, or request a replacement:
+            </p>
+            <ol className="pl-8 space-y-1.5 text-slate-600 list-decimal text-xs sm:text-sm">
+              <li>
+                <span className="font-semibold text-slate-800">Unboxing video</span> of the washer system showing seal integrity and package contents.
+              </li>
+              <li>
+                <span className="font-semibold text-slate-800">Testing video</span> of the washer system operated along with the vacuum unit.
+              </li>
+              <li>
+                <span className="font-semibold text-slate-800">Customer review & feedback</span> (video clip or detailed rating comment).
+              </li>
+            </ol>
+            <p className="pl-4 text-[11px] text-amber-700 font-medium">
+              * Requests submitted without these 3 verification proofs cannot be processed for claims or replacement.
             </p>
           </div>
 
@@ -96,15 +113,15 @@ export default function ReturnPolicyModal({ isOpen, onClose }: ReturnPolicyModal
             <h4 className="font-bold text-sm sm:text-base text-slate-900 font-open-sans">
               Return Request
             </h4>
-            <p className="pl-5 font-semibold text-slate-800">To request a return, contact AquaForce® Customer Support with:</p>
+            <p className="pl-5 font-semibold text-slate-800">To request a return or replacement, submit via your Account Dashboard or Support with:</p>
             <ul className="pl-9 space-y-1.5 text-slate-600 list-disc">
-              <li>Order number</li>
-              <li>Reason for return</li>
-              <li>Photos/videos of the product and packaging</li>
-              <li>Unboxing video, if available</li>
+              <li>Order number & registered contact details</li>
+              <li>Reason for claim / replacement</li>
+              <li>Mandatory unboxing and testing videos (Google Drive / YouTube / Cloud link or upload)</li>
+              <li>Customer review & feedback verification</li>
             </ul>
             <p className="pl-5 text-xs text-slate-500 font-medium italic mt-1">
-              All return requests are subject to verification and approval.
+              All return and claim requests are subject to technical verification and approval.
             </p>
           </div>
 
@@ -113,21 +130,20 @@ export default function ReturnPolicyModal({ isOpen, onClose }: ReturnPolicyModal
             <h4 className="font-bold text-sm sm:text-base text-slate-900 font-open-sans">
               Refund / Replacement
             </h4>
-            <p className="pl-5 font-semibold text-slate-800">After inspection and approval:</p>
             <ul className="pl-9 space-y-1.5 text-slate-600 list-disc">
-              <li>A replacement may be provided where applicable.</li>
-              <li>If a refund is approved, it will be processed through the applicable payment method.</li>
-              <li>Refunds may be adjusted for missing parts, customer-caused damage, or other applicable charges.</li>
+              <li>A replacement unit or component is dispatched upon technical verification approval.</li>
+              <li>If a refund is approved, it will be processed through the original payment method.</li>
+              <li>Refunds may be adjusted for missing accessories, customer-caused damage, or physical abuse.</li>
             </ul>
           </div>
 
           {/* Warranty */}
           <div className="space-y-2">
             <h4 className="font-bold text-sm sm:text-base text-slate-900 font-open-sans">
-              Warranty
+              Warranty Coverage
             </h4>
             <p className="pl-5 text-slate-600 leading-relaxed">
-              Technical issues reported after the return period may be covered under the manufacturer warranty, subject to warranty terms and conditions.
+              AquaForce® pressure washers carry a comprehensive 1-year manufacturer warranty covering motor, pump, and electrical failures when registered with mandatory unboxing and testing proof.
             </p>
           </div>
 

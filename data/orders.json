@@ -60,11 +60,11 @@
   {
     "id": "PROMEC-ORD-1790836663524-5PQB",
     "createdAt": "2026-10-01T06:37:44.812Z",
-    "updatedAt": "2026-10-01T06:37:44.812Z",
+    "updatedAt": "2026-10-02T13:23:36.885Z",
     "idempotencyKey": "promec_emi_7204948579_1790836654239",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "dd",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -72,7 +72,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -118,11 +118,11 @@
   {
     "id": "PROMEC-ORD-1790837561865-J5NI",
     "createdAt": "2026-10-01T06:52:43.356Z",
-    "updatedAt": "2026-10-01T06:52:43.356Z",
+    "updatedAt": "2026-10-02T13:23:36.427Z",
     "idempotencyKey": "promec_emi_7204948579_1790837552895",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "dd",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -130,7 +130,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -176,11 +176,11 @@
   {
     "id": "PROMEC-ORD-1790838089890-VJCR",
     "createdAt": "2026-10-01T07:01:30.759Z",
-    "updatedAt": "2026-10-01T07:01:30.759Z",
+    "updatedAt": "2026-10-02T13:23:35.800Z",
     "idempotencyKey": "promec_emi_7204948579_1790838083628",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "dd",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -188,7 +188,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -292,11 +292,11 @@
   {
     "id": "PROMEC-ORD-1790838771056-CM38",
     "createdAt": "2026-10-01T07:12:51.347Z",
-    "updatedAt": "2026-10-01T07:12:51.347Z",
+    "updatedAt": "2026-10-02T13:23:35.216Z",
     "idempotencyKey": "promec_emi_7204948579_1790838759546",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "dd",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -304,7 +304,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -350,11 +350,11 @@
   {
     "id": "PROMEC-ORD-1790838874306-R8ZU",
     "createdAt": "2026-10-01T07:14:34.637Z",
-    "updatedAt": "2026-10-01T07:14:34.637Z",
+    "updatedAt": "2026-10-02T13:23:34.569Z",
     "idempotencyKey": "promec_7204948579_1790838872245",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "dd",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -362,7 +362,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -408,11 +408,11 @@
   {
     "id": "PROMEC-ORD-1790839000497-XQIX",
     "createdAt": "2026-10-01T07:16:40.827Z",
-    "updatedAt": "2026-10-01T07:16:40.827Z",
+    "updatedAt": "2026-10-02T13:23:34.083Z",
     "idempotencyKey": "promec_emi_7204948579_1790838994675",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "dd",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -420,7 +420,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -577,19 +577,19 @@
   {
     "id": "PROMEC-ORD-1790842506190-LR85",
     "createdAt": "2026-10-01T08:15:06.473Z",
-    "updatedAt": "2026-10-01T08:15:06.473Z",
+    "updatedAt": "2026-10-02T13:23:33.511Z",
     "idempotencyKey": "test_live_verify_7204948579_1790842504074",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "Hemanth K",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
-      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage",
-      "city": "Bengaluru",
+      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
+      "city": "Bangalore",
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -630,19 +630,19 @@
   {
     "id": "PROMEC-ORD-1790842514966-LKJL",
     "createdAt": "2026-10-01T08:15:15.710Z",
-    "updatedAt": "2026-10-01T08:15:15.710Z",
+    "updatedAt": "2026-10-02T13:23:32.846Z",
     "idempotencyKey": "test_cod_advance_7204948579_1790842514760",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "Hemanth K",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
-      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage",
-      "city": "Bengaluru",
+      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
+      "city": "Bangalore",
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -683,19 +683,19 @@
   {
     "id": "PROMEC-ORD-1790842538913-HSP4",
     "createdAt": "2026-10-01T08:15:39.294Z",
-    "updatedAt": "2026-10-01T08:15:39.294Z",
+    "updatedAt": "2026-10-02T13:23:32.090Z",
     "idempotencyKey": "test_emi_7204948579_1790842538702",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "Hemanth K",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
-      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage",
-      "city": "Bengaluru",
+      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
+      "city": "Bangalore",
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -741,7 +741,7 @@
   {
     "id": "PROMEC-ORD-1790842672895-PFU0",
     "createdAt": "2026-10-01T08:17:53.165Z",
-    "updatedAt": "2026-10-01T08:17:53.165Z",
+    "updatedAt": "2026-10-02T13:23:31.345Z",
     "idempotencyKey": "promec_emi_7204948579_1790842670393",
     "orderStatus": "pending_payment",
     "customer": {
@@ -753,7 +753,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -799,7 +799,7 @@
   {
     "id": "PROMEC-ORD-1790842684311-LNDP",
     "createdAt": "2026-10-01T08:18:04.516Z",
-    "updatedAt": "2026-10-01T08:18:04.517Z",
+    "updatedAt": "2026-10-02T13:23:30.965Z",
     "idempotencyKey": "promec_emi_7204948579_1790842684011",
     "orderStatus": "pending_payment",
     "customer": {
@@ -811,7 +811,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -857,7 +857,7 @@
   {
     "id": "PROMEC-ORD-1790842710616-OZWU",
     "createdAt": "2026-10-01T08:18:30.836Z",
-    "updatedAt": "2026-10-01T08:18:30.836Z",
+    "updatedAt": "2026-10-02T13:23:30.100Z",
     "idempotencyKey": "promec_emi_7204948579_1790842710332",
     "orderStatus": "pending_payment",
     "customer": {
@@ -869,7 +869,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -915,7 +915,7 @@
   {
     "id": "PROMEC-ORD-1790842730185-WJ2L",
     "createdAt": "2026-10-01T08:18:50.439Z",
-    "updatedAt": "2026-10-01T08:18:50.439Z",
+    "updatedAt": "2026-10-02T13:23:29.540Z",
     "idempotencyKey": "promec_emi_7204948579_1790842729905",
     "orderStatus": "pending_payment",
     "customer": {
@@ -927,7 +927,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -973,7 +973,7 @@
   {
     "id": "PROMEC-ORD-1790842740585-1MH9",
     "createdAt": "2026-10-01T08:19:00.948Z",
-    "updatedAt": "2026-10-01T08:19:00.948Z",
+    "updatedAt": "2026-10-02T13:23:28.838Z",
     "idempotencyKey": "promec_emi_7204948579_1790842739431",
     "orderStatus": "pending_payment",
     "customer": {
@@ -985,7 +985,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1031,7 +1031,7 @@
   {
     "id": "PROMEC-ORD-1790842747866-C9X3",
     "createdAt": "2026-10-01T08:19:08.100Z",
-    "updatedAt": "2026-10-01T08:19:08.100Z",
+    "updatedAt": "2026-10-02T13:23:28.389Z",
     "idempotencyKey": "promec_emi_7204948579_1790842747558",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1043,7 +1043,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1089,7 +1089,7 @@
   {
     "id": "PROMEC-ORD-1790842757282-GWZR",
     "createdAt": "2026-10-01T08:19:17.506Z",
-    "updatedAt": "2026-10-01T08:19:17.506Z",
+    "updatedAt": "2026-10-02T13:23:27.672Z",
     "idempotencyKey": "promec_emi_7204948579_1790842756957",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1101,7 +1101,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1147,7 +1147,7 @@
   {
     "id": "PROMEC-ORD-1790843188389-ULZN",
     "createdAt": "2026-10-01T08:26:28.753Z",
-    "updatedAt": "2026-10-01T08:26:28.753Z",
+    "updatedAt": "2026-10-02T13:23:27.110Z",
     "idempotencyKey": "promec_emi_7204948579_1790843176465",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1159,7 +1159,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1205,7 +1205,7 @@
   {
     "id": "PROMEC-ORD-1790843256593-ZN1E",
     "createdAt": "2026-10-01T08:27:36.911Z",
-    "updatedAt": "2026-10-01T08:27:36.911Z",
+    "updatedAt": "2026-10-02T13:23:26.367Z",
     "idempotencyKey": "promec_emi_7204948579_1790843256051",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1217,7 +1217,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1263,7 +1263,7 @@
   {
     "id": "PROMEC-ORD-1790843565218-IERQ",
     "createdAt": "2026-10-01T08:32:45.542Z",
-    "updatedAt": "2026-10-01T08:35:27.472Z",
+    "updatedAt": "2026-10-02T13:23:25.862Z",
     "idempotencyKey": "promec_emi_7204948579_1790843564295",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1275,7 +1275,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1321,7 +1321,7 @@
   {
     "id": "PROMEC-ORD-1790845467732-R0NF",
     "createdAt": "2026-10-01T09:04:28.155Z",
-    "updatedAt": "2026-10-01T09:04:28.157Z",
+    "updatedAt": "2026-10-02T13:23:25.144Z",
     "idempotencyKey": "promec_emi_7204948579_1790845456043",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1333,7 +1333,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1379,7 +1379,7 @@
   {
     "id": "PROMEC-ORD-1790845544984-UM7C",
     "createdAt": "2026-10-01T09:05:45.293Z",
-    "updatedAt": "2026-10-01T09:05:45.293Z",
+    "updatedAt": "2026-10-02T13:23:24.884Z",
     "idempotencyKey": "promec_emi_7204948579_1790845544138",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1391,7 +1391,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1437,7 +1437,7 @@
   {
     "id": "PROMEC-ORD-1790845578403-BPPK",
     "createdAt": "2026-10-01T09:06:18.632Z",
-    "updatedAt": "2026-10-01T09:06:18.633Z",
+    "updatedAt": "2026-10-02T13:23:24.001Z",
     "idempotencyKey": "promec_card_7204948579_1790845578017",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1449,7 +1449,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1490,7 +1490,7 @@
   {
     "id": "PROMEC-ORD-1790845644110-83H8",
     "createdAt": "2026-10-01T09:07:24.378Z",
-    "updatedAt": "2026-10-01T09:07:24.378Z",
+    "updatedAt": "2026-10-02T13:23:23.467Z",
     "idempotencyKey": "promec_card_7204948579_1790845642986",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1502,7 +1502,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1543,7 +1543,7 @@
   {
     "id": "PROMEC-ORD-1790845665969-ZA4U",
     "createdAt": "2026-10-01T09:07:46.266Z",
-    "updatedAt": "2026-10-01T09:07:46.266Z",
+    "updatedAt": "2026-10-02T13:23:22.681Z",
     "idempotencyKey": "promec_nb_HDFC_7204948579_1790845665316",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1555,7 +1555,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1596,11 +1596,11 @@
   {
     "id": "PROMEC-ORD-1790845697662-A6EO",
     "createdAt": "2026-10-01T09:08:17.881Z",
-    "updatedAt": "2026-10-01T09:08:17.881Z",
+    "updatedAt": "2026-10-02T13:23:22.026Z",
     "idempotencyKey": "promec_card_7204948579_1790845697165",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "Hemant",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -1608,7 +1608,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1649,11 +1649,11 @@
   {
     "id": "PROMEC-ORD-1790845950877-TG1U",
     "createdAt": "2026-10-01T09:12:31.151Z",
-    "updatedAt": "2026-10-01T09:12:31.151Z",
+    "updatedAt": "2026-10-02T13:23:21.319Z",
     "idempotencyKey": "promec_card_7204948579_1790845949895",
     "orderStatus": "pending_payment",
     "customer": {
-      "fullName": "Hemant",
+      "fullName": "Hemanth",
       "phone": "7204948579",
       "email": "hemanthk.cse.rymec@gmail.com",
       "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
@@ -1661,7 +1661,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1702,7 +1702,7 @@
   {
     "id": "PROMEC-ORD-1790848795736-FLRJ",
     "createdAt": "2026-10-01T09:59:56.010Z",
-    "updatedAt": "2026-10-01T09:59:56.011Z",
+    "updatedAt": "2026-10-02T13:23:20.264Z",
     "idempotencyKey": "promec_emi_7204948579_1790848789661",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1714,7 +1714,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1760,7 +1760,7 @@
   {
     "id": "PROMEC-ORD-1790848843454-YEWO",
     "createdAt": "2026-10-01T10:00:43.677Z",
-    "updatedAt": "2026-10-01T10:00:43.677Z",
+    "updatedAt": "2026-10-02T13:23:19.711Z",
     "idempotencyKey": "promec_emi_7204948579_1790848843119",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1772,7 +1772,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1818,7 +1818,7 @@
   {
     "id": "PROMEC-ORD-1790849627322-AVF5",
     "createdAt": "2026-10-01T10:13:47.597Z",
-    "updatedAt": "2026-10-01T10:13:47.599Z",
+    "updatedAt": "2026-10-02T13:23:19.211Z",
     "idempotencyKey": "promec_emi_7204948579_1790849620831",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1830,7 +1830,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1876,7 +1876,7 @@
   {
     "id": "PROMEC-ORD-1790849743797-SGFL",
     "createdAt": "2026-10-01T10:15:44.048Z",
-    "updatedAt": "2026-10-01T10:15:44.048Z",
+    "updatedAt": "2026-10-02T13:23:18.635Z",
     "idempotencyKey": "promec_emi_7204948579_1790849743481",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1888,7 +1888,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1934,7 +1934,7 @@
   {
     "id": "PROMEC-ORD-1790849754095-5SUZ",
     "createdAt": "2026-10-01T10:15:54.283Z",
-    "updatedAt": "2026-10-01T10:15:54.283Z",
+    "updatedAt": "2026-10-02T13:23:18.392Z",
     "idempotencyKey": "promec_card_7204948579_1790849753805",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1946,7 +1946,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -1987,7 +1987,7 @@
   {
     "id": "PROMEC-ORD-1790849833690-I4E4",
     "createdAt": "2026-10-01T10:17:13.950Z",
-    "updatedAt": "2026-10-01T10:17:13.950Z",
+    "updatedAt": "2026-10-02T13:23:17.832Z",
     "idempotencyKey": "promec_emi_7204948579_1790849833338",
     "orderStatus": "pending_payment",
     "customer": {
@@ -1999,7 +1999,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2045,7 +2045,7 @@
   {
     "id": "PROMEC-ORD-1790849906208-ZC3Z",
     "createdAt": "2026-10-01T10:18:26.427Z",
-    "updatedAt": "2026-10-01T10:18:26.427Z",
+    "updatedAt": "2026-10-02T13:23:17.430Z",
     "idempotencyKey": "promec_card_7204948579_1790849905632",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2057,7 +2057,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2098,7 +2098,7 @@
   {
     "id": "PROMEC-ORD-1790849957022-Q01B",
     "createdAt": "2026-10-01T10:19:17.222Z",
-    "updatedAt": "2026-10-01T10:19:17.222Z",
+    "updatedAt": "2026-10-02T13:23:16.910Z",
     "idempotencyKey": "promec_card_7204948579_1790849956468",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2110,7 +2110,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2325,7 +2325,7 @@
   {
     "id": "PROMEC-ORD-1790852153173-3X41",
     "createdAt": "2026-10-01T10:55:53.443Z",
-    "updatedAt": "2026-10-01T10:55:53.443Z",
+    "updatedAt": "2026-10-02T13:23:16.500Z",
     "idempotencyKey": "promec_emi_7204948579_1790852149693",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2337,7 +2337,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2383,7 +2383,7 @@
   {
     "id": "PROMEC-ORD-1790852334005-DEAT",
     "createdAt": "2026-10-01T10:58:54.278Z",
-    "updatedAt": "2026-10-01T10:58:54.278Z",
+    "updatedAt": "2026-10-02T13:23:15.947Z",
     "idempotencyKey": "promec_emi_7204948579_1790852333112",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2395,7 +2395,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2441,7 +2441,7 @@
   {
     "id": "PROMEC-ORD-1790852909554-NH5U",
     "createdAt": "2026-10-01T11:08:29.756Z",
-    "updatedAt": "2026-10-01T11:08:29.756Z",
+    "updatedAt": "2026-10-02T13:23:15.608Z",
     "idempotencyKey": "promec_emi_7204948579_1790852908665",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2453,7 +2453,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2499,7 +2499,7 @@
   {
     "id": "PROMEC-ORD-1790853073945-729K",
     "createdAt": "2026-10-01T11:11:14.201Z",
-    "updatedAt": "2026-10-01T11:11:14.201Z",
+    "updatedAt": "2026-10-02T13:23:14.924Z",
     "idempotencyKey": "promec_emi_7204948579_1790853073381",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2511,7 +2511,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2557,7 +2557,7 @@
   {
     "id": "PROMEC-ORD-1790855032237-P8DS",
     "createdAt": "2026-10-01T11:43:52.455Z",
-    "updatedAt": "2026-10-01T11:43:52.455Z",
+    "updatedAt": "2026-10-02T13:23:14.432Z",
     "idempotencyKey": "promec_card_7204948579_1790855029590",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2569,7 +2569,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2610,7 +2610,7 @@
   {
     "id": "PROMEC-ORD-1790855651093-XK9Y",
     "createdAt": "2026-10-01T11:54:11.541Z",
-    "updatedAt": "2026-10-01T11:54:11.541Z",
+    "updatedAt": "2026-10-02T13:23:13.996Z",
     "idempotencyKey": "promec_7204948579_1790855649054",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2622,7 +2622,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2663,7 +2663,7 @@
   {
     "id": "PROMEC-ORD-1790875026845-S64I",
     "createdAt": "2026-10-01T17:17:07.322Z",
-    "updatedAt": "2026-10-01T17:17:07.322Z",
+    "updatedAt": "2026-10-02T13:23:13.491Z",
     "idempotencyKey": "promec_7204948579_1790875018592",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2675,7 +2675,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2716,7 +2716,7 @@
   {
     "id": "PROMEC-ORD-1790876188846-VOY4",
     "createdAt": "2026-10-01T17:36:29.455Z",
-    "updatedAt": "2026-10-01T17:36:29.455Z",
+    "updatedAt": "2026-10-02T13:23:13.125Z",
     "idempotencyKey": "promec_7204948579_1790876173548",
     "orderStatus": "pending_payment",
     "customer": {
@@ -2728,7 +2728,7 @@
       "state": "Karnataka",
       "pincode": "560029",
       "altPhone": "N/A",
-      "gstNumber": "N/A"
+      "gstNumber": ""
     },
     "items": [
       {
@@ -2760,6 +2760,60 @@
       "amountRequiredInPaise": 380000,
       "amountPaidInPaise": 0,
       "amountDueInPaise": 3419900
+    },
+    "fulfillment": {
+      "status": "pending"
+    },
+    "processedWebhookEvents": []
+  },
+  {
+    "id": "PROMEC-ORD-1790944997279-VFKW",
+    "createdAt": "2026-10-02T12:43:18.317Z",
+    "updatedAt": "2026-10-02T13:23:12.336Z",
+    "idempotencyKey": "promec_7204948579_1790944976058",
+    "orderStatus": "pending_payment",
+    "customer": {
+      "fullName": "Hemanth",
+      "phone": "7204948579",
+      "email": "hemanthk.cse.rymec@gmail.com",
+      "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560029",
+      "altPhone": "N/A",
+      "gstNumber": "",
+      "customerType": "retail"
+    },
+    "items": [
+      {
+        "productId": "aquaforce-1400",
+        "productName": "Cordless AquaForce® 1400 High-pressure Washer System",
+        "variantId": "with-vacuum",
+        "variantName": "With Vacuum",
+        "color": "Yellow",
+        "quantity": 1,
+        "unitPriceInINR": 37999,
+        "unitMrpInINR": 51350,
+        "totalAmountInINR": 37999
+      }
+    ],
+    "pricing": {
+      "subtotalInINR": 37999,
+      "discountInINR": 13351,
+      "shippingFeeInINR": 0,
+      "handlingFeeInINR": 0,
+      "codFeeInINR": 0,
+      "finalTotalInINR": 37999,
+      "currency": "INR"
+    },
+    "payment": {
+      "method": "FULL_ONLINE",
+      "provider": "RAZORPAY",
+      "status": "pending",
+      "razorpayOrderId": "order_Tj2mF1pJuq7LvJ",
+      "amountRequiredInPaise": 3799900,
+      "amountPaidInPaise": 0,
+      "amountDueInPaise": 0
     },
     "fulfillment": {
       "status": "pending"

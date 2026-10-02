@@ -16,7 +16,63 @@ const nextConfig = {
         permanent: false,
       },
       {
-        source: "/:path((?!aquaforceforautocare|aquaforceforgigworkers|_next|favicon.ico).*)",
+        source: "/aquaforceforhomecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=homecare",
+        basePath: false,
+        permanent: false,
+      },
+      {
+        source: "/aquaforceforcorporatecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=corporate",
+        basePath: false,
+        permanent: false,
+      },
+      {
+        source: "/aquaforceforhome",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=homecare",
+        basePath: false,
+        permanent: false,
+      },
+      {
+        source: "/aquaforceforcorporate",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=corporate",
+        basePath: false,
+        permanent: false,
+      },
+      {
+        source: "/homecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=homecare",
+        basePath: false,
+        permanent: false,
+      },
+      {
+        source: "/corporatecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=corporate",
+        basePath: false,
+        permanent: false,
+      },
+      {
+        source: "/aquaforceforhomecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=homecare",
+        permanent: false,
+      },
+      {
+        source: "/aquaforceforcorporatecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=corporate",
+        permanent: false,
+      },
+      {
+        source: "/homecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=homecare",
+        permanent: false,
+      },
+      {
+        source: "/corporatecare",
+        destination: "/aquaforceforautocare?enquiry=bulk&category=corporate",
+        permanent: false,
+      },
+      {
+        source: "/:path((?!aquaforceforautocare|aquaforceforgigworkers|aquaforceforservicepartner|servicepartner|_next|favicon.ico).*)",
         destination: "/aquaforceforautocare/:path*",
         basePath: false,
         permanent: false,
@@ -34,6 +90,21 @@ const nextConfig = {
         {
           source: "/aquaforceforgigworkers/:path*",
           destination: "https://gig-workers-aquaforce.vercel.app/aquaforceforgigworkers/:path*",
+          basePath: false,
+        },
+        {
+          source: "/aquaforceforservicepartner",
+          destination: "https://gig-workers-aquaforce.vercel.app/aquaforceforgigworkers",
+          basePath: false,
+        },
+        {
+          source: "/aquaforceforservicepartner/:path*",
+          destination: "https://gig-workers-aquaforce.vercel.app/aquaforceforgigworkers/:path*",
+          basePath: false,
+        },
+        {
+          source: "/servicepartner",
+          destination: "https://gig-workers-aquaforce.vercel.app/aquaforceforgigworkers",
           basePath: false,
         },
       ],

@@ -34,7 +34,7 @@ const CATEGORY_ITEMS = [
     badge: "Current",
   },
   {
-    name: "GigWorker",
+    name: "Service Partner",
     desc: "Delivery & rider partners",
     href: "https://promectools.in/aquaforceforgigworkers",
     icon: Bike,
@@ -44,7 +44,7 @@ const CATEGORY_ITEMS = [
   {
     name: "Home Care",
     desc: "Driveway & domestic cleaning",
-    href: "/aquaforceforautocare#use-cases",
+    action: "bulk_modal",
     icon: Home,
     iconColor: "text-emerald-400",
     iconBg: "bg-emerald-500/20 border-emerald-500/30",
@@ -195,7 +195,13 @@ export default function Header() {
                           type="button"
                           onClick={() => {
                             setCategoriesOpen(false);
-                            openBulkModal();
+                            openBulkModal({
+                              category: item.name,
+                              notes:
+                                item.name === "Home Care"
+                                  ? "Requirement for Home Care & Domestic cleaning solutions"
+                                  : "Requirement for Corporate & Facility Care / Commercial Fleet solutions",
+                            });
                           }}
                           className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 active:bg-white/15 transition-all text-left cursor-pointer group/item"
                         >
@@ -345,7 +351,7 @@ export default function Header() {
             onClick={() => setOpen(false)}
           />
           <div
-            className={`md:hidden fixed left-4 right-4 z-50 bg-black/95 border border-white/20 p-5 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto ${
+            className={`md:hidden fixed left-4 right-4 z-50 bg-[#0b0c0e]/98 backdrop-blur-xl border border-white/20 p-5 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto ${
               scrolled ? "top-[72px]" : "top-[70px]"
             }`}
           >
@@ -388,7 +394,13 @@ export default function Header() {
                             type="button"
                             onClick={() => {
                               setOpen(false);
-                              openBulkModal();
+                              openBulkModal({
+                                category: item.name,
+                                notes:
+                                  item.name === "Home Care"
+                                    ? "Requirement for Home Care & Domestic cleaning solutions"
+                                    : "Requirement for Corporate & Facility Care / Commercial Fleet solutions",
+                              });
                             }}
                             className="w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-sm text-white/80 hover:text-white hover:bg-white/10 text-left cursor-pointer"
                           >
@@ -482,7 +494,7 @@ export default function Header() {
             onClick={() => setMobileNavbarCategoriesOpen(false)}
           />
           <div
-            className={`md:hidden fixed left-4 right-4 z-50 bg-[#0c121e]/98 backdrop-blur-xl border border-white/20 p-3 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto max-w-[420px] mx-auto ${
+            className={`md:hidden fixed left-4 right-4 z-50 bg-[#0b0c0e]/98 backdrop-blur-xl border border-white/20 p-3 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto max-w-[420px] mx-auto ${
               scrolled ? "top-[70px] sm:top-[76px]" : "top-[72px] sm:top-[86px]"
             }`}
           >
@@ -507,7 +519,13 @@ export default function Header() {
                       type="button"
                       onClick={() => {
                         setMobileNavbarCategoriesOpen(false);
-                        openBulkModal();
+                        openBulkModal({
+                          category: item.name,
+                          notes:
+                            item.name === "Home Care"
+                              ? "Requirement for Home Care & Domestic cleaning solutions"
+                              : "Requirement for Corporate & Facility Care / Commercial Fleet solutions",
+                        });
                       }}
                       className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 active:bg-white/15 transition-all text-left cursor-pointer group/item"
                     >

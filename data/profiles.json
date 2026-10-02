@@ -2,13 +2,15 @@
   {
     "phone": "7204948579",
     "fullName": "Hemanth",
-    "email": "hemanth@example.com",
-    "shippingAddress": "Flat 101, Lakeview Apartments, 4th Cross",
-    "city": "Bengaluru",
+    "email": "hemanthk.cse.rymec@gmail.com",
+    "shippingAddress": "1163, 8th cross, 13th Main Rd, BTM 1st Stage, Bengaluru, Karnataka 560029",
+    "city": "Bangalore",
     "state": "Karnataka",
-    "pincode": "560001",
+    "pincode": "560029",
     "altPhone": "",
     "gstNumber": "",
-    "updatedAt": "2026-10-01T04:24:53.533Z"
+    "customerType": "commercial",
+    "companyName": "",
+    "updatedAt": "2026-10-02T13:23:10.969Z"
   }
 ]
