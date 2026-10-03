@@ -186,7 +186,7 @@ export default function DisputeModal({
                 File a Replacement / Dispute
               </h3>
               <p className="text-xs text-slate-500 font-open-sans">
-                AMEC 1-Year Pan-India Warranty & 7-Day Hassle-Free Replacement
+                PROMEC 1-Year Pan-India Warranty & 7-Day Hassle-Free Replacement
               </p>
             </div>
           </div>
@@ -475,7 +475,7 @@ export default function DisputeModal({
             <div className="p-3 bg-blue-50/70 border border-blue-200 rounded-xl text-xs text-blue-900 flex items-start gap-2.5 font-open-sans">
               <ShieldAlert size={16} className="text-[#0066cc] shrink-0 mt-0.5" />
               <span>
-                <strong>Zero Delay Policy:</strong> Under AMEC India Warranty, genuine replacement parts or replacement units are approved directly without courier return friction.
+                <strong>Zero Delay Policy:</strong> Under PROMEC India Warranty, genuine replacement parts or replacement units are approved directly without courier return friction.
               </span>
             </div>
 

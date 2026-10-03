@@ -45,7 +45,7 @@ export default function SupportModal({
 
   const handleWhatsApp = () => {
     const text = encodeURIComponent(
-      `Hello AMEC Aquaforce Support Team,\nMy Name: ${customerName}\nPhone: ${customerPhone}\n${
+      `Hello PROMEC Aquaforce Support Team,\nMy Name: ${customerName}\nPhone: ${customerPhone}\n${
         latestOrder ? `Order ID: ${latestOrder.id}\n` : ""
       }I need assistance with my Aquaforce Cordless Washer.`
     );
@@ -77,7 +77,7 @@ export default function SupportModal({
       const data = await res.json();
       if (data.success) {
         setSubmittedMessage(
-          `Technician callback requested (#${data.ticketId}). An AMEC specialist will call you on +91 ${customerPhone} within the requested time.`
+          `Technician callback requested (#${data.ticketId}). A PROMEC specialist will call you on +91 ${customerPhone} within the requested time.`
         );
         if (onTicketCreated) onTicketCreated(data.ticket);
       }
@@ -175,7 +175,7 @@ export default function SupportModal({
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed font-open-sans">
                     {isCommercial
                       ? "Direct priority channel with Senior Engineers for commercial partners. Fast response under 2 minutes."
-                      : "Chat directly with AMEC customer care team. Average response under 3 minutes."}
+                      : "Chat directly with PROMEC customer care team. Average response under 3 minutes."}
                   </p>
                 </div>
                 <button
@@ -227,7 +227,7 @@ export default function SupportModal({
                       </span>
                     </div>
                     <a
-                      href={`mailto:promec.india@gmail.com?subject=AMEC Care Support Request - Phone: ${customerPhone}`}
+                      href={`mailto:promec.india@gmail.com?subject=PROMEC Care Support Request - Phone: ${customerPhone}`}
                       className="px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0 font-montserrat border border-slate-200 shadow-2xs"
                     >
                       <Mail size={15} />

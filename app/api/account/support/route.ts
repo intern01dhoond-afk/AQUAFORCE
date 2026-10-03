@@ -98,7 +98,7 @@ export async function POST(req: Request) {
       ticketId,
       ticket: newTicket,
       message: callbackRequested
-        ? `Callback request received (${ticketId}). An AMEC technician will call you at +91 ${cleanPhone}.`
+        ? `Callback request received (${ticketId}). A PROMEC technician will call you at +91 ${cleanPhone}.`
         : `Ticket ${ticketId} created. We'll update you via WhatsApp & SMS.`,
     });
   } catch (error: any) {

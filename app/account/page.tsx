@@ -1054,7 +1054,7 @@ function AccountDashboardContent() {
                   Self-Service Replacement & Claims Center
                 </h3>
                 <p className="text-xs text-slate-600 font-open-sans mt-0.5">
-                  Doorstep replacements under AMEC 1-Year Pan-India Warranty.
+                  Doorstep replacements under PROMEC 1-Year Pan-India Warranty.
                 </p>
               </div>
 
@@ -1139,7 +1139,7 @@ function AccountDashboardContent() {
                           type="button"
                           onClick={() => {
                             const text = encodeURIComponent(
-                              `Hello AMEC Team, I am following up on Case ID: ${dispute.id} (Order: ${dispute.orderId}). Registered phone: ${user.phone}.`
+                              `Hello PROMEC Team, I am following up on Case ID: ${dispute.id} (Order: ${dispute.orderId}). Registered phone: ${user.phone}.`
                             );
                             window.open(`https://wa.me/917387588963?text=${text}`, "_blank");
                           }}
@@ -1173,7 +1173,7 @@ function AccountDashboardContent() {
                   1-Year Comprehensive Warranty
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 font-open-sans max-w-xl mt-1 leading-relaxed">
-                  Your Aquaforce® 1400 is covered by AMEC Mobility Pvt Ltd. Full replacement coverage for high-pressure pump mechanism, motor, 25V battery cells, and circuit board.
+                  Your Aquaforce® 1400 is covered by PROMEC. Full replacement coverage for high-pressure pump mechanism, motor, 25V battery cells, and circuit board.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-2 mt-3 text-xs font-open-sans">
@@ -1234,13 +1234,13 @@ function AccountDashboardContent() {
                 <p className="text-xs text-slate-600 font-open-sans leading-relaxed">
                   {isCommercial
                     ? "Priority VIP channel. Directly message Senior Engineers with machine photos or diagnostics."
-                    : "Fastest response channel. Directly message AMEC customer care on WhatsApp with photos or questions."}
+                    : "Fastest response channel. Directly message PROMEC customer care on WhatsApp with photos or questions."}
                 </p>
                 <button
                   type="button"
                   onClick={() => {
                     const text = encodeURIComponent(
-                      `Hello AMEC Team, I am customer ${displayName} (${user.phone}). Need technical help with Aquaforce 1400.`
+                      `Hello PROMEC Team, I am customer ${displayName} (${user.phone}). Need technical help with Aquaforce 1400.`
                     );
                     window.open(`https://wa.me/917387588963?text=${text}`, "_blank");
                   }}
@@ -1330,8 +1330,8 @@ function AccountDashboardContent() {
 
                     <span className="block mt-0.5 text-[10px] sm:text-[11px] font-montserrat font-medium text-slate-500 truncate">
                       {isCommercial
-                        ? (profile?.companyName ? `${profile.companyName} • Commercial Partner` : "AMEC Commercial Partner")
-                        : "AMEC Aquaforce Owner (Personal Use)"}
+                        ? (profile?.companyName ? `${profile.companyName} • Commercial Partner` : "PROMEC Commercial Partner")
+                        : "PROMEC Aquaforce Owner (Personal Use)"}
                     </span>
                   </div>
                 </div>
@@ -1636,7 +1636,7 @@ function AccountDashboardContent() {
                             </span>
                           </div>
                           <p className="text-[11px] text-slate-600 font-open-sans mt-0.5 leading-relaxed">
-                            Direct priority channel with Senior AMEC Engineers for fleet equipment, high-volume orders &amp; express 24h parts replacement.
+                            Direct priority channel with Senior PROMEC Engineers for fleet equipment, high-volume orders &amp; express 24h parts replacement.
                           </p>
                         </div>
                       </div>
@@ -1647,7 +1647,7 @@ function AccountDashboardContent() {
                         type="button"
                         onClick={() => {
                           const text = encodeURIComponent(
-                            `Hello AMEC VIP Support Desk, I am commercial partner ${profile?.companyName || displayName} (GSTIN: ${profile?.gstNumber || "Commercial"}, Phone: ${user.phone}). Need technical assistance.`
+                            `Hello PROMEC VIP Support Desk, I am commercial partner ${profile?.companyName || displayName} (GSTIN: ${profile?.gstNumber || "Commercial"}, Phone: ${user.phone}). Need technical assistance.`
                           );
                           window.open(`https://wa.me/917387588963?text=${text}`, "_blank");
                         }}

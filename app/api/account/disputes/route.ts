@@ -140,7 +140,7 @@ export async function POST(req: Request) {
         {
           timestamp: now,
           status: "submitted",
-          note: "Your claim has been registered. AMEC Quality Engineering team will review details within 24 business hours.",
+          note: "Your claim has been registered. PROMEC Quality Engineering team will review details within 24 business hours.",
           author: "PROMEC Automated Care System",
         },
       ],

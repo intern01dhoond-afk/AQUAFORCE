@@ -1270,6 +1270,7 @@ export default function OrderModal({
   const cardOtpInputsRef = useRef<(HTMLInputElement | null)[]>([]);
   const cardOtpTimerRef = useRef<NodeJS.Timeout | null>(null);
   const rzpCardInstanceRef = useRef<any>(null);
+  const hasInitializedCardHolderName = useRef<boolean>(false);
 
   // Live Razorpay Payment Methods State (populated dynamically with enabled banks only)
   const [liveEmiBanks, setLiveEmiBanks] = useState<EmiBankItem[]>(DEFAULT_EMI_BANKS);
@@ -1615,16 +1616,19 @@ interface CheckoutFormData {
     }
   }, [formData]);
 
-  // Auto-sync customer fullName from step 1 into cardHolderName
+  // Auto-sync customer fullName from step 1 into cardHolderName when first entering card or EMI steps
   useEffect(() => {
-    if (
-      (checkoutStep === "emi_add_card" || checkoutStep === "card_payment") &&
-      !cardHolderName.trim() &&
-      formData.fullName?.trim()
-    ) {
-      setCardHolderName(formData.fullName.trim());
+    if (checkoutStep === "emi_add_card" || checkoutStep === "card_payment") {
+      if (!hasInitializedCardHolderName.current) {
+        if (formData.fullName?.trim() && !cardHolderName.trim()) {
+          setCardHolderName(formData.fullName.trim());
+        }
+        hasInitializedCardHolderName.current = true;
+      }
+    } else if (checkoutStep === "details") {
+      hasInitializedCardHolderName.current = false;
     }
-  }, [checkoutStep, formData.fullName, cardHolderName]);
+  }, [checkoutStep, formData.fullName]);
 
   const [formErrors, setFormErrors] = useState<{
     fullName?: string;
@@ -2155,7 +2159,7 @@ interface CheckoutSubmitOptions {
 
   const rawCardDigits = cardNumber.replace(/\D/g, "");
   const isCardValid =
-    (cardHolderName.trim().length > 0 || (formData.fullName || "").trim().length > 0) &&
+    cardHolderName.trim().length > 0 &&
     rawCardDigits.length >= 15 &&
     cardExpiry.includes("/") &&
     cardExpiry.length === 5 &&
@@ -4415,7 +4419,7 @@ interface CheckoutSubmitOptions {
                     rawDigits.length >= 15 &&
                     isExpiryValid &&
                     cardCvv.length >= 3 &&
-                    (cardHolderName.trim().length > 0 || (formData.fullName || "").trim().length > 0);
+                    cardHolderName.trim().length > 0;
 
                   return (
                     <div className="space-y-4 pt-1">
@@ -4508,16 +4512,34 @@ interface CheckoutSubmitOptions {
                         <legend className="text-xs text-slate-400 font-normal px-1.5 ml-2 select-none">
                           Full Name
                         </legend>
-                        <input
-                          type="text"
-                          value={cardHolderName || formData.fullName || ""}
-                          onChange={(e) => {
-                            setCardHolderName(e.target.value);
-                            if (cardErrorMessage) setCardErrorMessage(null);
-                          }}
-                          placeholder="Hemu"
-                          className="w-full text-slate-900 font-semibold text-sm outline-none bg-transparent px-1 placeholder:text-slate-400 font-montserrat"
-                        />
+                        <div className="flex items-center justify-between gap-2 px-1">
+                          <input
+                            type="text"
+                            value={cardHolderName}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setCardHolderName(val);
+                              setFormData((prev) => ({ ...prev, fullName: val }));
+                              if (cardErrorMessage) setCardErrorMessage(null);
+                            }}
+                            placeholder="Name on card"
+                            className="w-full text-slate-900 font-semibold text-sm outline-none bg-transparent placeholder:text-slate-400 font-montserrat"
+                          />
+                          {cardHolderName ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCardHolderName("");
+                                setFormData((prev) => ({ ...prev, fullName: "" }));
+                              }}
+                              className="text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100 cursor-pointer transition-colors"
+                              title="Clear name to edit"
+                              aria-label="Clear name"
+                            >
+                              <X size={14} />
+                            </button>
+                          ) : null}
+                        </div>
                       </fieldset>
 
                       {/* Fields 3 & 4: Expiry Date & Enter CVV */}
@@ -4698,16 +4720,34 @@ interface CheckoutSubmitOptions {
                     <legend className="text-xs text-slate-400 font-normal px-1.5 ml-2 select-none">
                       Full Name
                     </legend>
-                    <input
-                      type="text"
-                      value={cardHolderName || formData.fullName || ""}
-                      onChange={(e) => {
-                        setCardHolderName(e.target.value);
-                        if (cardErrorMessage) setCardErrorMessage(null);
-                      }}
-                      placeholder="Hemu"
-                      className="w-full text-slate-900 font-semibold text-sm outline-none bg-transparent px-1 placeholder:text-slate-400 font-montserrat"
-                    />
+                    <div className="flex items-center justify-between gap-2 px-1">
+                      <input
+                        type="text"
+                        value={cardHolderName}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCardHolderName(val);
+                          setFormData((prev) => ({ ...prev, fullName: val }));
+                          if (cardErrorMessage) setCardErrorMessage(null);
+                        }}
+                        placeholder="Name on card"
+                        className="w-full text-slate-900 font-semibold text-sm outline-none bg-transparent placeholder:text-slate-400 font-montserrat"
+                      />
+                      {cardHolderName ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCardHolderName("");
+                            setFormData((prev) => ({ ...prev, fullName: "" }));
+                          }}
+                          className="text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100 cursor-pointer transition-colors"
+                          title="Clear name to edit"
+                          aria-label="Clear name"
+                        >
+                          <X size={14} />
+                        </button>
+                      ) : null}
+                    </div>
                   </fieldset>
 
                   {/* Field 2: Card Number */}
@@ -4883,7 +4923,7 @@ interface CheckoutSubmitOptions {
                 <button
                   type="button"
                   onClick={() => {
-                    setCheckoutStep("card_payment");
+                    setCheckoutStep(onlinePaymentMode === "EMI" ? "emi_add_card" : "card_payment");
                     setCardErrorMessage(null);
                   }}
                   className="flex items-center gap-2 text-slate-800 hover:text-slate-950 font-bold text-sm sm:text-base font-montserrat cursor-pointer hover:bg-slate-100 px-2 py-1 rounded-lg transition-colors"
