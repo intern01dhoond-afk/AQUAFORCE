@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { X, Truck, CheckCircle2, Clock, MapPin, ExternalLink, RefreshCw, AlertCircle, Copy, Check } from "lucide-react";
 import { PromecOrder } from "@/lib/orderStore";
@@ -12,6 +12,35 @@ interface OrderTrackingModalProps {
   onFileDispute?: (order: PromecOrder) => void;
 }
 
+/* ─── helpers to extract live dates/locations from Delhivery scans ─── */
+function extractScanInfo(scans: any[] | undefined, keywords: string[]) {
+  if (!scans || scans.length === 0) return null;
+  for (const scan of scans) {
+    const detail = scan?.ScanDetail || scan;
+    const desc = (detail?.Scan || detail?.Instructions || "").toLowerCase();
+    if (keywords.some((kw) => desc.includes(kw))) {
+      return {
+        date: detail?.ScanDateTime || detail?.StatusDateTime || scan?.Date || "",
+        location: detail?.ScannedLocation || scan?.Location || "",
+      };
+    }
+  }
+  return null;
+}
+
+function formatScanDate(raw: string): string {
+  if (!raw) return "";
+  try {
+    const d = new Date(raw);
+    if (isNaN(d.getTime())) return raw;
+    return d.toLocaleDateString("en-IN", { month: "short", day: "numeric" }) +
+      " · " +
+      d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true });
+  } catch {
+    return raw;
+  }
+}
+
 export default function OrderTrackingModal({
   order,
   isOpen,
@@ -21,18 +50,11 @@ export default function OrderTrackingModal({
   const [copied, setCopied] = useState(false);
   const [liveData, setLiveData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const refreshTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const waybill = order?.fulfillment?.waybill || "";
 
-  useEffect(() => {
-    if (isOpen && order) {
-      fetchTracking();
-    } else {
-      setLiveData(null);
-    }
-  }, [isOpen, order]);
-
-  const fetchTracking = async () => {
+  const fetchTracking = useCallback(async () => {
     if (!order) return;
     setLoading(true);
     try {
@@ -46,7 +68,23 @@ export default function OrderTrackingModal({
     } finally {
       setLoading(false);
     }
-  };
+  }, [order]);
+
+  useEffect(() => {
+    if (isOpen && order) {
+      fetchTracking();
+      // Auto-refresh every 30 seconds while modal is open
+      refreshTimer.current = setInterval(fetchTracking, 30_000);
+    } else {
+      setLiveData(null);
+    }
+    return () => {
+      if (refreshTimer.current) {
+        clearInterval(refreshTimer.current);
+        refreshTimer.current = null;
+      }
+    };
+  }, [isOpen, order, fetchTracking]);
 
   const copyAwb = () => {
     if (!waybill) return;
@@ -57,11 +95,15 @@ export default function OrderTrackingModal({
 
   if (!isOpen || !order) return null;
 
-  // Determine shipment status stage (1 to 5)
-  let currentStep = 2; // Default: Order Confirmed & Packing
-  const isDelivered = order.orderStatus === "delivered" || liveData?.status?.toLowerCase().includes("delivered");
-  const isShipped = order.orderStatus === "shipped" || Boolean(waybill) || liveData?.status?.toLowerCase().includes("transit");
-  const isOutForDelivery = liveData?.status?.toLowerCase().includes("out for delivery");
+  // ─── Reverse scans so oldest-first for keyword matching ───
+  const scansOldestFirst = liveData?.scans ? [...liveData.scans].reverse() : [];
+
+  // ─── Determine shipment status stage (1 to 5) ───
+  const liveStatus = (liveData?.status || "").toLowerCase();
+  let currentStep = 2;
+  const isDelivered = order.orderStatus === "delivered" || liveStatus.includes("delivered");
+  const isShipped = order.orderStatus === "shipped" || Boolean(waybill) || liveStatus.includes("transit");
+  const isOutForDelivery = liveStatus.includes("out for delivery");
 
   if (isDelivered) currentStep = 5;
   else if (isOutForDelivery) currentStep = 4;
@@ -69,12 +111,48 @@ export default function OrderTrackingModal({
   else if (order.orderStatus === "confirmed" || order.payment.status === "captured") currentStep = 2;
   else currentStep = 1;
 
+  // ─── Build dynamic step descriptions from live scans ───
+  const packedScan = extractScanInfo(scansOldestFirst, ["manifest", "picked up", "packed", "booked"]);
+  const handedScan = extractScanInfo(scansOldestFirst, ["in transit", "dispatched", "shipped", "forwarded"]);
+  const ofdScan = extractScanInfo(scansOldestFirst, ["out for delivery"]);
+  const deliveredScan = extractScanInfo(scansOldestFirst, ["delivered"]);
+
   const steps = [
-    { title: "Order Placed", desc: new Date(order.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric" }), done: currentStep >= 1 },
-    { title: "Packed & Verified", desc: "Nagpur Central Hub", done: currentStep >= 2 },
-    { title: "Handed to Delhivery", desc: waybill ? `AWB: ${waybill.slice(0, 10)}...` : "Express Priority", done: currentStep >= 3 },
-    { title: "Out for Delivery", desc: "Local Courier Hub", done: currentStep >= 4 },
-    { title: "Delivered", desc: "Doorstep Handover", done: currentStep >= 5 },
+    {
+      title: "Order Placed",
+      desc: new Date(order.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric" }),
+      done: currentStep >= 1,
+    },
+    {
+      title: "Packed & Verified",
+      desc: packedScan
+        ? `${packedScan.location || "Nagpur Central Hub"} · ${formatScanDate(packedScan.date)}`
+        : "Nagpur Central Hub",
+      done: currentStep >= 2,
+    },
+    {
+      title: "Handed to Delhivery",
+      desc: handedScan
+        ? `${handedScan.location || "In Transit"} · ${formatScanDate(handedScan.date)}`
+        : waybill
+        ? `AWB: ${waybill.slice(0, 10)}...`
+        : "Express Priority",
+      done: currentStep >= 3,
+    },
+    {
+      title: "Out for Delivery",
+      desc: ofdScan
+        ? `${ofdScan.location || "Local Courier Hub"} · ${formatScanDate(ofdScan.date)}`
+        : "Local Courier Hub",
+      done: currentStep >= 4,
+    },
+    {
+      title: "Delivered",
+      desc: deliveredScan
+        ? `${deliveredScan.location || "Doorstep"} · ${formatScanDate(deliveredScan.date)}`
+        : "Doorstep Handover",
+      done: currentStep >= 5,
+    },
   ];
 
   const estimatedDelivery = liveData?.expectedDeliveryDate
