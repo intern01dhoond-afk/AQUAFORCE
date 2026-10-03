@@ -222,11 +222,7 @@ export async function executeOrderFulfillment(
             </div>
 
             <div style="padding: 24px 0;">
-              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;">
-                <span style="color: #166534; font-weight: bold; font-size: 14px;">✓ Order Verified &amp; Confirmed</span>
-              </div>
-
-              <h2 style="color: #0f172a; font-size: 18px; margin-top: 0; font-weight: 700;">Order #${order.id}</h2>
+              <h2 style="color: #0f172a; font-size: 20px; margin-top: 0; font-weight: 700;">Order Confirmed #${order.id}</h2>
               <p style="color: #475569; font-size: 14px; line-height: 1.5;">
                 Dear <strong>${order.customer.fullName}</strong>,<br/>
                 Thank you for purchasing the <strong>PROMEC Aquaforce® 1400 Cordless High-Pressure Washer</strong>. Your order is confirmed and our dispatch team is preparing your package for express delivery.
