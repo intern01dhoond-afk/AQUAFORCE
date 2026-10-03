@@ -179,7 +179,7 @@ export async function POST(req: Request) {
 
     // Generate instant, non-blocking standard merchant UPI Intent URL
     const upiAmount = Math.round(pricing.amountRequiredInPaise / 100);
-    const upiIntentUrl = `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${promecOrderId}&am=${upiAmount}&cu=INR&tn=AMEC%20Aquaforce%20${promecOrderId}`;
+    const upiIntentUrl = `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${promecOrderId}&am=${upiAmount}&cu=INR&tn=PROMEC%20Aquaforce%20${promecOrderId}`;
     const qrCodeUrl = "";
     const qrCodeId = "";
 

@@ -1,6 +1,8 @@
 import { PromecOrder, orderStore } from "./orderStore";
 import { createDelhiveryShipment } from "./delhivery";
 import nodemailer from "nodemailer";
+import path from "path";
+import fs from "fs";
 
 export interface FulfillmentResult {
   success: boolean;
@@ -193,11 +195,84 @@ export async function executeOrderFulfillment(
       });
 
       const formattedAmount = order.pricing.finalTotalInINR.toLocaleString("en-IN");
+      const logoPath = path.join(process.cwd(), "public", "images", "promec-badge-logo.png");
+      const hasLogo = fs.existsSync(logoPath);
+      const attachments: any[] = [];
+      if (hasLogo) {
+        attachments.push({
+          filename: "promec-logo.png",
+          path: logoPath,
+          cid: "promecLogo",
+          contentType: "image/png",
+          contentDisposition: "inline",
+        });
+      }
+
       const mailOptions = {
-        from: `"Promec India" <${smtpUser}>`,
+        from: `"PROMEC India" <${smtpUser}>`,
         to: order.customer.email,
         subject: `Order Confirmed: ${primaryItem.productName} [#${order.id}]`,
-        text: `Dear ${order.customer.fullName},\n\nYour order #${order.id} for ${primaryItem.productName} (Rs.${formattedAmount}) has been confirmed!\n\nDelivery Address: ${order.customer.shippingAddress}, ${order.customer.city}, ${order.customer.state} - ${order.customer.pincode}\nWaybill/Tracking: ${resolvedWaybill || "Processing"}\n\nThank you for choosing Promec India.`,
+        attachments,
+        text: `Dear ${order.customer.fullName},\n\nYour order #${order.id} for ${primaryItem.productName} (₹${formattedAmount}) has been confirmed!\n\nDelivery Address: ${order.customer.shippingAddress}, ${order.customer.city}, ${order.customer.state} - ${order.customer.pincode}\nWaybill/Tracking: ${resolvedWaybill || "Processing"}\n\nThank you for choosing PROMEC India.`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff;">
+            <!-- Brand Logo Header: ONLY PROMEC -->
+            <div style="text-align: center; padding-bottom: 20px; border-bottom: 2px solid #0066cc;">
+              ${hasLogo ? `<img src="cid:promecLogo" alt="PROMEC" style="height: 42px; width: auto; max-width: 250px; display: inline-block; border: 0;" />` : `<h1 style="color: #0066cc; margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 1px;">PROMEC</h1>`}
+            </div>
+
+            <div style="padding: 24px 0;">
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;">
+                <span style="color: #166534; font-weight: bold; font-size: 14px;">✓ Order Verified &amp; Confirmed</span>
+              </div>
+
+              <h2 style="color: #0f172a; font-size: 18px; margin-top: 0; font-weight: 700;">Order #${order.id}</h2>
+              <p style="color: #475569; font-size: 14px; line-height: 1.5;">
+                Dear <strong>${order.customer.fullName}</strong>,<br/>
+                Thank you for purchasing the <strong>PROMEC Aquaforce® 1400 Cordless High-Pressure Washer</strong>. Your order is confirmed and our dispatch team is preparing your package for express delivery.
+              </p>
+
+              <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+                <thead>
+                  <tr style="background: #f8fafc; border-bottom: 2px solid #cbd5e1; text-align: left;">
+                    <th style="padding: 10px; color: #475569;">Item</th>
+                    <th style="padding: 10px; color: #475569; text-align: center;">Qty</th>
+                    <th style="padding: 10px; color: #475569; text-align: right;">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 12px 10px;">
+                      <strong>${primaryItem.productName} (${primaryItem.color})</strong><br/>
+                      <span style="color: #64748b; font-size: 12px;">Includes 1-Year Comprehensive Warranty</span>
+                    </td>
+                    <td style="padding: 12px 10px; text-align: center;">${primaryItem.quantity}</td>
+                    <td style="padding: 12px 10px; text-align: right; font-weight: bold;">₹${formattedAmount}</td>
+                  </tr>
+                  <tr style="border-bottom: 2px solid #cbd5e1; background: #f8fafc;">
+                    <td colspan="2" style="padding: 12px 10px; font-weight: bold; text-align: right;">Total Amount:</td>
+                    <td style="padding: 12px 10px; text-align: right; font-weight: bold; color: #0066cc; font-size: 16px;">₹${formattedAmount}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-top: 16px; font-size: 13px; color: #334155;">
+                <strong>📍 Delivery Address:</strong><br/>
+                ${order.customer.shippingAddress}, ${order.customer.city}, ${order.customer.state} - ${order.customer.pincode}<br/>
+                ${resolvedWaybill ? `<strong style="margin-top: 6px; display: inline-block;">🚚 Delhivery Waybill:</strong> ${resolvedWaybill}` : ""}
+              </div>
+
+              <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px; margin-top: 16px; font-size: 13px; color: #1e40af;">
+                <strong>Warranty Protection:</strong> 1-Year Pan-India Doorstep Replacement Warranty backed by PROMEC India.
+              </div>
+            </div>
+
+            <div style="text-align: center; border-top: 1px solid #e2e8f0; padding-top: 16px; font-size: 12px; color: #94a3b8;">
+              &copy; 2026 PROMEC INDIA • Nagpur, Maharashtra, India<br/>
+              Helpline: +91 7387588963 | Email: promec.india@gmail.com
+            </div>
+          </div>
+        `,
       };
 
       await transporter.sendMail(mailOptions);

@@ -87,7 +87,7 @@ export default function Footer() {
         <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-5 sm:gap-6 text-xs text-white/50">
           {/* Left: Copyright */}
           <div className="text-center lg:text-left">
-            &copy; 2026 PROMEC. All rights reserved @ AMEC MOBILITY PRIVATE LIMITED
+            &copy; 2026 PROMEC. All rights reserved
           </div>
 
           {/* Middle: Social Media Icons in order: Facebook, Instagram, X, LinkedIn, YouTube */}

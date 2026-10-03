@@ -2800,7 +2800,7 @@ interface CheckoutSubmitOptions {
         key: activeKeyId,
         amount: orderData.amount,
         currency: "INR",
-        name: "AMEC Aquaforce",
+        name: "PROMEC Aquaforce",
         description: `${bank.name} Netbanking`,
         image: "https://files.catbox.moe/jpksbs.png",
         order_id: orderData.razorpayOrderId || orderData.id,
@@ -3096,7 +3096,7 @@ interface CheckoutSubmitOptions {
           key: activeKeyId,
           amount: orderData.amount,
           currency: "INR",
-          name: "AMEC Aquaforce",
+          name: "PROMEC Aquaforce",
           description: "Promec India PayLater • No Cost EMI",
           image: "https://files.catbox.moe/jpksbs.png",
           order_id: orderData.razorpayOrderId || orderData.id,
@@ -3163,7 +3163,7 @@ interface CheckoutSubmitOptions {
       const displayAmount = isCodOrder ? advanceAmountPaid : totalAmount;
       const displayCodBalance = isCodOrder ? codBalanceDue : 0;
 
-      const fallbackUpiUrl = `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${orderData.orderId || upiSessionRef}&am=${displayAmount}&cu=INR&tn=AMEC%20Aquaforce%20${orderData.orderId || upiSessionRef}`;
+      const fallbackUpiUrl = `upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${orderData.orderId || upiSessionRef}&am=${displayAmount}&cu=INR&tn=PROMEC%20Aquaforce%20${orderData.orderId || upiSessionRef}`;
       const effectiveUpiIntentUrl = orderData.upiIntentUrl || fallbackUpiUrl;
 
       setAwaitingPaymentData({
@@ -5975,7 +5975,7 @@ interface CheckoutSubmitOptions {
                             <div className="flex flex-col items-center">
                               <div className="relative w-36 h-36 bg-white flex items-center justify-center shrink-0">
                                 <QRCodeSVG
-                                  value={`upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${upiSessionRef}&am=${totalPrice}&cu=INR&tn=AMEC%20Aquaforce%20${upiSessionRef}`}
+                                  value={`upi://pay?pa=amectechnology.rzp@rxairtel&pn=AMECTECHNOLOGY&mc=5013&tr=${upiSessionRef}&am=${totalPrice}&cu=INR&tn=PROMEC%20Aquaforce%20${upiSessionRef}`}
                                   size={144}
                                   level="M"
                                   className={`w-full h-full transition-all duration-300 ${

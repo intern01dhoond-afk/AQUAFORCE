@@ -44,7 +44,19 @@ export async function POST(req: Request) {
     const instaIconPath = path.join(process.cwd(), "public", "images", "Email icons", "insta.png");
     const youtubeIconPath = path.join(process.cwd(), "public", "images", "Email icons", "Youtube.png");
 
+    const logoPath = path.join(process.cwd(), "public", "images", "promec-badge-logo.png");
+    const hasLogo = fs.existsSync(logoPath);
+
     const attachments: any[] = [];
+    if (hasLogo) {
+      attachments.push({
+        filename: "promec-logo.png",
+        path: logoPath,
+        cid: "promecLogo",
+        contentType: "image/png",
+        contentDisposition: "inline",
+      });
+    }
     if (hasSticker) {
       attachments.push({
         filename: "email-sticker.png",
@@ -218,6 +230,13 @@ export async function POST(req: Request) {
               <td align="center" style="padding: 16px 0; background-color: #ffffff;">
                 
                 <div class="email-container" style="max-width: 680px; width: 100%; background-color: #ffffff; border-radius: 0px; padding: 24px 20px; text-align: left; box-sizing: border-box;">
+
+                  <!-- Brand Logo Row -->
+                  ${hasLogo ? `
+                  <div style="text-align: left; padding-bottom: 20px; margin-bottom: 24px; border-bottom: 2px solid #0066cc;">
+                    <img src="cid:promecLogo" alt="PROMEC" style="height: 38px; width: auto; max-width: 220px; display: inline-block; border: 0;" />
+                  </div>
+                  ` : ""}
 
                   <!-- Top Header Row -->
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="header-table" style="margin-bottom: 28px;">

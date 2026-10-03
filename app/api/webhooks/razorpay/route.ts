@@ -53,6 +53,7 @@ export async function POST(request: Request) {
         try {
           const invoice: any = await (razorpay.invoices as any).create({
             type: "invoice",
+            description: "PROMEC Aquaforce® 1400 PSI Cordless High-Pressure Washer",
             payment_id: payment.id,
             currency: payment.currency || "INR",
             customer: {
@@ -61,12 +62,14 @@ export async function POST(request: Request) {
             },
             line_items: [
               {
-                name: `Purchase - Order ID ${payment.order_id || "Direct"}`,
+                name: `PROMEC Purchase - Order ID ${payment.order_id || "Direct"}`,
                 amount: payment.amount, // already matches currency subunits (paise)
                 currency: payment.currency || "INR",
                 quantity: 1,
               },
             ],
+            email_notify: process.env.RAZORPAY_INVOICE_EMAIL_NOTIFY === "true" ? 1 : 0,
+            sms_notify: 0,
           } as any);
 
           // 2. Issue the invoice immediately to dispatch the Email/SMS

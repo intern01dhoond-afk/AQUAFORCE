@@ -77,7 +77,7 @@ export default function InvoiceModal({ order, isOpen, onClose }: InvoiceModalPro
                   className="object-contain object-left invert"
                 />
               </div>
-              <h2 className="text-xs font-bold text-slate-900 font-montserrat">AMEC MOBILITY PRIVATE LIMITED</h2>
+              <h2 className="text-xs font-bold text-slate-900 font-montserrat">PROMEC INDIA</h2>
               <p className="text-[11px] text-slate-500 leading-tight font-open-sans">
                 Corporate Reg: Nagpur, Maharashtra, India
                 <br />
@@ -219,7 +219,7 @@ export default function InvoiceModal({ order, isOpen, onClose }: InvoiceModalPro
               * This is a computer-generated tax invoice and requires no physical signature under Indian Information Technology Act, 2000.
             </p>
             <p>
-              * Includes 1-Year Comprehensive Warranty backed by AMEC Mobility Pvt Ltd. Keep this invoice for warranty verification.
+              * Includes 1-Year Comprehensive Warranty backed by PROMEC India. Keep this invoice for warranty verification.
             </p>
           </div>
         </div>

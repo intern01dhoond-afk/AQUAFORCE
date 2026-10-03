@@ -99,7 +99,7 @@ export async function POST(req: Request) {
       color: "Yellow",
     };
 
-    const caseId = `AMEC-CARE-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
+    const caseId = `PROMEC-CARE-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
     const now = new Date().toISOString();
 
     const resolvedReason = (reason in REASON_LABELS ? reason : "OTHER") as DisputeReason;

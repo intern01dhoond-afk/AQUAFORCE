@@ -195,7 +195,7 @@ export default function EditorialLegalPage({
             <span className="w-1 h-1 bg-neutral-300 rounded-full" />
             <span>LAST UPDATED: {lastUpdated}</span>
             <span className="w-1 h-1 bg-neutral-300 rounded-full hidden xs:inline-block" />
-            <span className="hidden xs:inline-block text-neutral-400">AMEC MOBILITY PVT. LTD.</span>
+            <span className="hidden xs:inline-block text-neutral-400">PROMEC INDIA</span>
           </div>
 
           {/* Oversized Page Title */}

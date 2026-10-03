@@ -87,7 +87,7 @@ export default function WarrantyCardModal({
 
           <div>
             <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-amber-700 block font-montserrat">
-              AMEC MOBILITY PRIVATE LIMITED
+              PROMEC INDIA
             </span>
             <h3 className="text-xl sm:text-2xl font-black font-montserrat tracking-tight text-slate-900 mt-1">
               Certificate of Pan-India Warranty
@@ -156,7 +156,7 @@ export default function WarrantyCardModal({
             <span>Linked Order: <strong className="font-montserrat font-bold text-slate-800 tracking-wide">{order.id}</strong></span>
             <span className="text-amber-700 font-bold font-montserrat flex items-center gap-1">
               <Sparkles size={12} />
-              AMEC Mobility Certified
+              PROMEC Certified
             </span>
           </div>
         </div>

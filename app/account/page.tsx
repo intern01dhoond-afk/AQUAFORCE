@@ -1813,7 +1813,7 @@ function AccountDashboardContent() {
 
       {/* Footer */}
       <footer className="py-4 border-t border-slate-200 bg-white text-center text-[11px] text-slate-500 font-open-sans mt-6 px-4">
-        &copy; 2026 PROMEC INDIA • AMEC MOBILITY PRIVATE LIMITED • Nagpur, Maharashtra, India
+        &copy; 2026 PROMEC INDIA • Nagpur, Maharashtra, India
       </footer>
 
       {/* Modals */}
