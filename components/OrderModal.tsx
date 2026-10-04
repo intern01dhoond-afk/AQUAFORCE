@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, Building2, ShoppingCart, Eye, EyeOff, Landmark, ArrowUpRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, ShoppingCart, Eye, EyeOff, Landmark, ArrowUpRight } from "lucide-react";
 import EmiCalculatorModal from "./EmiCalculatorModal";
 import { QRCodeSVG } from "qrcode.react";
 import { PROMEC_PAYLATER_OFFERS_METADATA, REAL_RAZORPAY_CASHBACK_OFFERS } from "@/lib/razorpayOffers";
@@ -5605,48 +5605,33 @@ interface CheckoutSubmitOptions {
                       </div>
                     </div>
 
-                    {/* Optional Business / GSTIN Details */}
-                    <div className="pt-1">
-                      <div className="p-3 bg-slate-50 border border-slate-200/90 rounded-xl space-y-2.5">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-800 font-montserrat flex items-center gap-1.5">
-                            <Building2 size={13} className="text-[#005a9c] shrink-0" />
-                            <span>Business Invoicing / GSTIN</span>
-                            <span className="text-slate-400 font-normal text-[11px]">(Optional)</span>
-                          </span>
-                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full font-montserrat">
-                            18% GST Input Credit
-                          </span>
-                        </div>
+                    {/* Row 4: Company Name & GST Number (Optional) */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          Company / Workshop Name <span className="text-slate-400 font-normal">(Optional)</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Apex Auto Detailing Studio"
+                          value={formData.companyName}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, companyName: e.target.value }))}
+                          className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
+                        />
+                      </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                          <div>
-                            <label className="block text-xs font-bold text-slate-700 mb-1 font-open-sans">
-                              Company / Workshop Name <span className="text-slate-400 font-normal">(Optional)</span>
-                            </label>
-                            <input
-                              type="text"
-                              placeholder="e.g. Apex Auto Detailing Studio"
-                              value={formData.companyName}
-                              onChange={(e) => setFormData((prev) => ({ ...prev, companyName: e.target.value }))}
-                              className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-xs font-bold text-slate-700 mb-1 font-open-sans">
-                              GST Number (GSTIN) <span className="text-slate-400 font-normal">(Optional)</span>
-                            </label>
-                            <input
-                              type="text"
-                              placeholder="e.g. 27AAAAA0000A1Z5"
-                              maxLength={15}
-                              value={formData.gstNumber}
-                              onChange={(e) => setFormData((prev) => ({ ...prev, gstNumber: e.target.value.toUpperCase() }))}
-                              className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-montserrat uppercase font-bold"
-                            />
-                          </div>
-                        </div>
+                      <div>
+                        <label className="block text-xs sm:text-[13px] font-bold text-slate-800 mb-1.5 font-open-sans">
+                          GST Number (GSTIN) <span className="text-slate-400 font-normal">(Optional)</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="E.g: 27AAAAA0000A1Z5"
+                          maxLength={15}
+                          value={formData.gstNumber}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, gstNumber: e.target.value.toUpperCase() }))}
+                          className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans uppercase"
+                        />
                       </div>
                     </div>
 
