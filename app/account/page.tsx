@@ -31,12 +31,10 @@ import {
   ShieldAlert,
   MapPin,
   Mail,
-  Building2,
   Edit3,
   Lock,
   Headphones,
   CheckCircle,
-  Crown,
 } from "lucide-react";
 import { PromecOrder } from "@/lib/orderStore";
 import dynamic from "next/dynamic";
@@ -179,7 +177,7 @@ function AccountDashboardContent() {
       if (localAddress) {
         const parsedAddress = JSON.parse(localAddress);
         if (parsedAddress?.shippingAddress || parsedAddress?.fullName) {
-          setProfile(parsedAddress);
+          setProfile({ ...parsedAddress, customerType: "retail" });
           setProfileForm({
             fullName: parsedAddress.fullName || user?.fullName || "",
             email: parsedAddress.email || "",
@@ -187,9 +185,9 @@ function AccountDashboardContent() {
             city: parsedAddress.city || "",
             state: parsedAddress.state || "",
             pincode: parsedAddress.pincode || "",
-            gstNumber: parsedAddress.gstNumber || "",
-            customerType: parsedAddress.customerType || (parsedAddress.gstNumber ? "commercial" : "retail"),
-            companyName: parsedAddress.companyName || "",
+            gstNumber: "",
+            customerType: "retail",
+            companyName: "",
           });
         }
       }
@@ -199,7 +197,7 @@ function AccountDashboardContent() {
         if (Array.isArray(parsed?.orders)) setOrders(parsed.orders);
         if (Array.isArray(parsed?.disputes)) setDisputes(parsed.disputes);
         if (parsed?.profile && (parsed.profile.shippingAddress || parsed.profile.fullName)) {
-          setProfile(parsed.profile);
+          setProfile({ ...parsed.profile, customerType: "retail" });
           setProfileForm({
             fullName: parsed.profile.fullName || user?.fullName || "",
             email: parsed.profile.email || "",
@@ -207,9 +205,9 @@ function AccountDashboardContent() {
             city: parsed.profile.city || "",
             state: parsed.profile.state || "",
             pincode: parsed.profile.pincode || "",
-            gstNumber: parsed.profile.gstNumber || "",
-            customerType: parsed.profile.customerType || (parsed.profile.gstNumber ? "commercial" : "retail"),
-            companyName: parsed.profile.companyName || "",
+            gstNumber: "",
+            customerType: "retail",
+            companyName: "",
           });
         }
       } else {
@@ -247,7 +245,7 @@ function AccountDashboardContent() {
       }
 
       if (profileData.success && profileData.profile && (profileData.profile.shippingAddress || profileData.profile.fullName || profileData.profile.email)) {
-        newProfile = profileData.profile;
+        newProfile = { ...profileData.profile, customerType: "retail" };
         setProfile(newProfile);
         setProfileForm({
           fullName: profileData.profile.fullName || user?.fullName || "",
@@ -256,9 +254,9 @@ function AccountDashboardContent() {
           city: profileData.profile.city || "",
           state: profileData.profile.state || "",
           pincode: profileData.profile.pincode || "",
-          gstNumber: profileData.profile.gstNumber || "",
-          customerType: profileData.profile.customerType || (profileData.profile.gstNumber ? "commercial" : "retail"),
-          companyName: profileData.profile.companyName || "",
+          gstNumber: "",
+          customerType: "retail",
+          companyName: "",
         });
         try {
           localStorage.setItem(`aquaforce_saved_address_${cleanPhone}`, JSON.stringify(newProfile));
@@ -316,9 +314,9 @@ function AccountDashboardContent() {
       city: profile?.city || "",
       state: profile?.state || "",
       pincode: profile?.pincode || "",
-      gstNumber: isCommercial ? (profile?.gstNumber || "") : "",
-      customerType: isCommercial ? "commercial" : "retail",
-      companyName: isCommercial ? (profile?.companyName || "") : "",
+      gstNumber: "",
+      customerType: "retail",
+      companyName: "",
     });
     setEditingProfile(true);
   };
@@ -336,9 +334,9 @@ function AccountDashboardContent() {
         city: profileForm.city.trim(),
         state: profileForm.state.trim(),
         pincode: profileForm.pincode.trim(),
-        gstNumber: isCommercial ? profileForm.gstNumber.trim().toUpperCase() : "",
-        companyName: isCommercial ? profileForm.companyName.trim() : "",
-        customerType: isCommercial ? "commercial" : "retail",
+        gstNumber: "",
+        companyName: "",
+        customerType: "retail" as const,
         updatedAt: new Date().toISOString(),
       };
 
@@ -370,14 +368,14 @@ function AccountDashboardContent() {
         body: JSON.stringify({
           phone: cleanPhone,
           ...profileForm,
-          gstNumber: isCommercial ? profileForm.gstNumber.trim().toUpperCase() : "",
-          companyName: isCommercial ? profileForm.companyName.trim() : "",
-          customerType: isCommercial ? "commercial" : "retail",
+          gstNumber: "",
+          companyName: "",
+          customerType: "retail",
         }),
       });
       const data = await res.json();
       if (data.success && data.profile) {
-        setProfile(data.profile);
+        setProfile({ ...data.profile, customerType: "retail" });
         setProfileForm({
           fullName: data.profile.fullName || profileForm.fullName,
           email: data.profile.email || "",
@@ -385,9 +383,9 @@ function AccountDashboardContent() {
           city: data.profile.city || "",
           state: data.profile.state || "",
           pincode: data.profile.pincode || "",
-          gstNumber: isCommercial ? (data.profile.gstNumber || "") : "",
-          customerType: isCommercial ? "commercial" : "retail",
-          companyName: isCommercial ? (data.profile.companyName || "") : "",
+          gstNumber: "",
+          customerType: "retail",
+          companyName: "",
         });
       }
     } catch (err) {
@@ -437,15 +435,7 @@ function AccountDashboardContent() {
   const openDisputesCount = disputes.filter((d) => d.status !== "resolved" && d.status !== "rejected").length;
   const displayName = profile?.fullName || user.fullName || "Customer";
   const initials = displayName.charAt(0).toUpperCase();
-  const orderIsCommercial = orders.some(
-    (o) =>
-      o.customer.customerType === "commercial" ||
-      Boolean(o.customer.gstNumber && o.customer.gstNumber !== "N/A" && o.customer.gstNumber.trim().length > 0)
-  );
-  const isCommercial =
-    profile?.customerType === "commercial" ||
-    Boolean(profile?.gstNumber && profile.gstNumber.trim().length > 0 && profile.gstNumber !== "N/A") ||
-    (!profile?.customerType && orderIsCommercial);
+  const isCommercial = false;
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex flex-col font-open-sans">
@@ -468,19 +458,11 @@ function AccountDashboardContent() {
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => setIsSupportModalOpen(true)}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-bold font-montserrat tracking-wider transition-all cursor-pointer ${
-              isCommercial
-                ? "bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100"
-                : "bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100"
-            }`}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-bold font-montserrat tracking-wider transition-all cursor-pointer bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100"
           >
-            {isCommercial ? (
-              <Crown size={12} className="shrink-0 text-amber-600" />
-            ) : (
-              <Phone size={12} className="shrink-0" />
-            )}
-            <span className="hidden sm:inline">{isCommercial ? "VIP Support" : "Support"}</span>
-            <span className="sm:hidden">{isCommercial ? "VIP" : "Help"}</span>
+            <Phone size={12} className="shrink-0" />
+            <span className="hidden sm:inline">Support</span>
+            <span className="sm:hidden">Help</span>
           </button>
 
           {/* Quick logout button on mobile header */}
@@ -1223,18 +1205,16 @@ function AccountDashboardContent() {
             </div>
 
             {/* Fast Support Channels */}
-            <div className={`grid gap-3 ${isCommercial ? "grid-cols-1 md:grid-cols-3" : "grid-cols-1 max-w-lg"}`}>
+            <div className="grid gap-3 grid-cols-1 max-w-lg">
               <div className="bg-white border border-slate-200/90 rounded-2xl p-4 space-y-2 shadow-xs">
                 <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                   <MessageSquare size={17} />
                 </div>
                 <h4 className="text-sm font-bold text-slate-900 font-montserrat">
-                  {isCommercial ? "Instant WhatsApp VIP Chat" : "Instant WhatsApp Support Desk"}
+                  Instant WhatsApp Support Desk
                 </h4>
                 <p className="text-xs text-slate-600 font-open-sans leading-relaxed">
-                  {isCommercial
-                    ? "Priority VIP channel. Directly message Senior Engineers with machine photos or diagnostics."
-                    : "Fastest response channel. Directly message PROMEC customer care on WhatsApp with photos or questions."}
+                  Fastest response channel. Directly message PROMEC customer care on WhatsApp with photos or questions.
                 </p>
                 <button
                   type="button"
@@ -1249,47 +1229,6 @@ function AccountDashboardContent() {
                   Open WhatsApp Desk
                 </button>
               </div>
-
-              {isCommercial && (
-                <>
-                  <div className="bg-white border border-slate-200/90 rounded-2xl p-4 space-y-2 shadow-xs">
-                    <div className="w-9 h-9 rounded-xl bg-sky-50 text-[#0066cc] flex items-center justify-center">
-                      <Phone size={17} />
-                    </div>
-                    <h4 className="text-sm font-bold text-slate-900 font-montserrat">
-                      Direct Phone Support
-                    </h4>
-                    <p className="text-xs text-slate-600 font-open-sans leading-relaxed">
-                      Speak directly to our Nagpur customer care desk. Available 9:30 AM to 7:30 PM IST.
-                    </p>
-                    <a
-                      href="tel:+917387588963"
-                      className="block w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-center text-xs font-bold uppercase tracking-wider font-montserrat transition-all cursor-pointer border border-slate-200"
-                    >
-                      Call +91 7387588963
-                    </a>
-                  </div>
-
-                  <div className="bg-white border border-slate-200/90 rounded-2xl p-4 space-y-2 shadow-xs">
-                    <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-                      <Clock size={17} />
-                    </div>
-                    <h4 className="text-sm font-bold text-slate-900 font-montserrat">
-                      Request 30-Min Callback
-                    </h4>
-                    <p className="text-xs text-slate-600 font-open-sans leading-relaxed">
-                      Busy right now? Schedule a call and our specialist will dial your number at your chosen time.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setIsSupportModalOpen(true)}
-                      className="w-full py-2.5 rounded-xl bg-[#0066cc] hover:bg-[#0052b3] text-white text-xs font-bold uppercase tracking-wider font-montserrat transition-all cursor-pointer shadow-xs"
-                    >
-                      Schedule Callback
-                    </button>
-                  </div>
-                </>
-              )}
             </div>
           </div>
         )}
@@ -1329,9 +1268,7 @@ function AccountDashboardContent() {
                     </div>
 
                     <span className="block mt-0.5 text-[10px] sm:text-[11px] font-montserrat font-medium text-slate-500 truncate">
-                      {isCommercial
-                        ? (profile?.companyName ? `${profile.companyName} • Commercial Partner` : "PROMEC Commercial Partner")
-                        : "PROMEC Aquaforce Owner (Personal Use)"}
+                      PROMEC Aquaforce Owner (Personal Use)
                     </span>
                   </div>
                 </div>
@@ -1368,33 +1305,12 @@ function AccountDashboardContent() {
                   </span>
                 </div>
 
-                <div
-                  className={`rounded-xl p-2 border ${
-                    isCommercial
-                      ? "bg-amber-50/80 border-amber-200/70"
-                      : "bg-slate-50/80 border-slate-200/60"
-                  }`}
-                >
-                  <span
-                    className={`text-[10px] font-bold uppercase font-montserrat block ${
-                      isCommercial ? "text-amber-700" : "text-slate-400"
-                    }`}
-                  >
+                <div className="bg-slate-50/80 rounded-xl p-2 border border-slate-200/60">
+                  <span className="text-[10px] font-bold uppercase font-montserrat block text-slate-400">
                     Care Level
                   </span>
-                  <span
-                    className={`text-xs sm:text-sm font-bold font-montserrat mt-0.5 block flex items-center justify-center gap-1 ${
-                      isCommercial ? "text-amber-800 font-extrabold" : "text-slate-700"
-                    }`}
-                  >
-                    {isCommercial ? (
-                      <>
-                        <Crown size={12} className="text-amber-600 shrink-0" />
-                        <span>VIP Priority</span>
-                      </>
-                    ) : (
-                      <span>Standard Care</span>
-                    )}
+                  <span className="text-xs sm:text-sm font-bold font-montserrat mt-0.5 block flex items-center justify-center gap-1 text-slate-700">
+                    <span>Personal</span>
                   </span>
                 </div>
               </div>
@@ -1413,13 +1329,9 @@ function AccountDashboardContent() {
                 <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
                   <div>
                     <h3 className="text-sm sm:text-base font-bold font-montserrat text-slate-900 flex items-center gap-2">
-                      <span>{isCommercial ? "Edit Commercial Profile & Delivery Address" : "Edit Profile & Delivery Address"}</span>
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full font-montserrat ${
-                        isCommercial
-                          ? "bg-amber-100 text-amber-800 border border-amber-200"
-                          : "bg-slate-100 text-slate-600 border border-slate-200"
-                      }`}>
-                        {isCommercial ? "Commercial (VIP)" : "Personal"}
+                      <span>Edit Profile & Delivery Address</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full font-montserrat bg-slate-100 text-slate-600 border border-slate-200">
+                        Personal
                       </span>
                     </h3>
                     <p className="text-[11px] text-slate-500 font-open-sans mt-0.5">
@@ -1552,50 +1464,7 @@ function AccountDashboardContent() {
                     </div>
                   </div>
 
-                  {/* Company GSTIN & Company Name: ONLY if Commercial */}
-                  {isCommercial && (
-                    <div className="p-3.5 bg-indigo-50/70 border border-indigo-100 rounded-xl space-y-3 animate-in fade-in duration-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-indigo-950 font-montserrat uppercase tracking-wider flex items-center gap-1.5">
-                          <Building2 size={13} className="text-indigo-700" />
-                          <span>Business Invoicing Details</span>
-                        </span>
-                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full font-montserrat">
-                          18% GST Input Credit
-                        </span>
-                      </div>
 
-                      <div>
-                        <label className="block uppercase font-bold text-slate-500 font-montserrat mb-1 text-[10px]">
-                          Company / Workshop Name
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="e.g. Apex Auto Detailing Studio"
-                          value={profileForm.companyName}
-                          onChange={(e) => setProfileForm({ ...profileForm, companyName: e.target.value })}
-                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 text-xs font-open-sans focus:outline-none focus:border-[#0066cc]"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block uppercase font-bold text-slate-500 font-montserrat mb-1 text-[10px]">
-                          Company GSTIN (Goods &amp; Services Tax ID)
-                        </label>
-                        <div className="relative">
-                          <Building2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                          <input
-                            type="text"
-                            placeholder="e.g. 27AAMCA1234F1Z8"
-                            maxLength={15}
-                            value={profileForm.gstNumber}
-                            onChange={(e) => setProfileForm({ ...profileForm, gstNumber: e.target.value.toUpperCase() })}
-                            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-slate-900 text-xs font-montserrat uppercase tracking-wider focus:outline-none focus:border-[#0066cc]"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
 
                   {/* Form Action Buttons */}
                   <div className="grid grid-cols-2 gap-2 pt-2">
@@ -1618,57 +1487,6 @@ function AccountDashboardContent() {
               </div>
             ) : (
               <div className="space-y-3.5">
-                {/* DEDICATED COMMERCIAL VIP SUPPORT CARD - STRICTLY ONLY FOR COMMERCIAL PARTNERS */}
-                {isCommercial && (
-                  <div className="bg-gradient-to-br from-amber-500/10 via-amber-50/50 to-white border border-amber-200/90 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3 animate-in fade-in duration-200">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white flex items-center justify-center shadow-xs shrink-0">
-                          <Crown size={20} />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-xs sm:text-sm font-bold font-montserrat text-amber-950">
-                              Commercial VIP Support Desk
-                            </h3>
-                            <span className="text-[9px] uppercase tracking-wider font-extrabold bg-amber-200/80 text-amber-900 px-1.5 py-0.5 rounded font-montserrat">
-                              VIP Active
-                            </span>
-                          </div>
-                          <p className="text-[11px] text-slate-600 font-open-sans mt-0.5 leading-relaxed">
-                            Direct priority channel with Senior PROMEC Engineers for fleet equipment, high-volume orders &amp; express 24h parts replacement.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const text = encodeURIComponent(
-                            `Hello PROMEC VIP Support Desk, I am commercial partner ${profile?.companyName || displayName} (GSTIN: ${profile?.gstNumber || "Commercial"}, Phone: ${user.phone}). Need technical assistance.`
-                          );
-                          window.open(`https://wa.me/917387588963?text=${text}`, "_blank");
-                        }}
-                        className="w-full py-2.5 px-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:bg-[#1caa51] text-white text-xs font-bold font-montserrat flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
-                      >
-                        <MessageSquare size={14} />
-                        <span>Instant WhatsApp VIP Desk</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setIsSupportModalOpen(true)}
-                        className="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-montserrat flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
-                      >
-                        <Phone size={14} />
-                        <span>Request VIP Priority Call</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
-
                 {/* CONTACT & PERSONAL INFO CARD */}
                 <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
@@ -1714,39 +1532,10 @@ function AccountDashboardContent() {
                           onClick={startEditingProfile}
                           className="text-[11px] font-montserrat font-medium text-[#0066cc] hover:underline cursor-pointer"
                         >
-                          {isCommercial ? "+ Add Business Email" : "+ Add Email"}
+                          + Add Email
                         </button>
                       )}
                     </div>
-
-                    {/* Company Name: ONLY if Commercial */}
-                    {isCommercial && profile?.companyName && (
-                      <div className="flex items-center justify-between py-1.5 border-b border-slate-50 text-xs">
-                        <span className="text-slate-500 font-open-sans">Company Name</span>
-                        <span className="font-montserrat font-bold text-slate-900">
-                          {profile.companyName}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* GSTIN Row: ONLY if Commercial */}
-                    {isCommercial && (
-                      <div className="flex items-center justify-between py-1.5 text-xs">
-                        <span className="text-slate-500 font-open-sans">Business GSTIN</span>
-                        {profile?.gstNumber ? (
-                          <span className="font-montserrat font-bold text-[#0066cc] bg-sky-50 px-2 py-0.5 rounded border border-sky-100">
-                            {profile.gstNumber}
-                          </span>
-                        ) : (
-                          <button
-                            onClick={startEditingProfile}
-                            className="text-[11px] font-montserrat font-medium text-slate-500 hover:text-[#0066cc] cursor-pointer"
-                          >
-                            + Add Business GSTIN
-                          </button>
-                        )}
-                      </div>
-                    )}
                   </div>
                 </div>
 

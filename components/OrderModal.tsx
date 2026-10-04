@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, Building2, ShoppingCart, Eye, EyeOff, Landmark, ArrowUpRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, ShoppingCart, Eye, EyeOff, Landmark, ArrowUpRight } from "lucide-react";
 import EmiCalculatorModal from "./EmiCalculatorModal";
 import { QRCodeSVG } from "qrcode.react";
 import { PROMEC_PAYLATER_OFFERS_METADATA, REAL_RAZORPAY_CASHBACK_OFFERS } from "@/lib/razorpayOffers";
@@ -1573,7 +1573,7 @@ interface CheckoutFormData {
   state: string;
   pincode: string;
   gstNumber: string;
-  customerType: "retail" | "commercial";
+  customerType: "retail";
   companyName: string;
   agreedToTerms: boolean;
 }
@@ -1598,7 +1598,7 @@ interface CheckoutFormData {
         const saved = localStorage.getItem("promec_checkout_form_data");
         if (saved) {
           const parsed = JSON.parse(saved);
-          return { ...defaults, ...parsed };
+          return { ...defaults, ...parsed, customerType: "retail", gstNumber: "", companyName: "" };
         }
       } catch (err) {
         console.warn("Failed to load checkout form data from localStorage:", err);
@@ -2268,9 +2268,9 @@ interface CheckoutSubmitOptions {
             city: formData.city || "Mumbai",
             state: formData.state || "Maharashtra",
             pincode: formData.pincode || "400001",
-            gstNumber: formData.customerType === "commercial" ? (formData.gstNumber || "N/A") : "N/A",
-            customerType: formData.customerType,
-            companyName: formData.customerType === "commercial" ? formData.companyName : undefined,
+            gstNumber: "N/A",
+            customerType: "retail",
+            companyName: undefined,
           },
           variantId: selectedVacuumOption === "without" ? "without-vacuum" : "with-vacuum",
           colorName: currentColor.name,
@@ -2742,9 +2742,9 @@ interface CheckoutSubmitOptions {
             city: formData.city,
             state: formData.state,
             pincode: formData.pincode,
-            gstNumber: formData.customerType === "commercial" ? (formData.gstNumber || "N/A") : "N/A",
-            customerType: formData.customerType,
-            companyName: formData.customerType === "commercial" ? formData.companyName : undefined,
+            gstNumber: "N/A",
+            customerType: "retail",
+            companyName: undefined,
           },
           variantId: selectedVacuumOption === "without" ? "without-vacuum" : "with-vacuum",
           colorName: currentColor.name,
@@ -2985,9 +2985,9 @@ interface CheckoutSubmitOptions {
             city: formData.city,
             state: formData.state,
             pincode: formData.pincode,
-            gstNumber: formData.customerType === "commercial" ? (formData.gstNumber || "N/A") : "N/A",
-            customerType: formData.customerType,
-            companyName: formData.customerType === "commercial" ? formData.companyName : undefined,
+            gstNumber: "N/A",
+            customerType: "retail",
+            companyName: undefined,
           },
           variantId: selectedVacuumOption === "without" ? "without-vacuum" : "with-vacuum",
           colorName: currentColor.name,
@@ -5357,34 +5357,6 @@ interface CheckoutSubmitOptions {
                     CUSTOMER &amp; DELIVERY DETAILS
                   </div>
 
-                  {/* Customer Type Selector: Retail vs Commercial */}
-                  <div className="mb-3.5 p-1 bg-slate-100 rounded-xl border border-slate-200">
-                    <div className="grid grid-cols-2 gap-1">
-                      <button
-                        type="button"
-                        onClick={() => setFormData((prev) => ({ ...prev, customerType: "retail" }))}
-                        className={`py-2 px-3 rounded-lg text-xs font-bold font-montserrat transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                          formData.customerType === "retail"
-                            ? "bg-white text-[#005a9c] shadow-xs border border-slate-200"
-                            : "text-slate-600 hover:text-slate-900"
-                        }`}
-                      >
-                        <span>👤 Personal / Retail</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setFormData((prev) => ({ ...prev, customerType: "commercial" }))}
-                        className={`py-2 px-3 rounded-lg text-xs font-bold font-montserrat transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                          formData.customerType === "commercial"
-                            ? "bg-white text-indigo-950 shadow-xs border border-slate-200"
-                            : "text-slate-600 hover:text-slate-900"
-                        }`}
-                      >
-                        <span>🏢 Business / Commercial</span>
-                      </button>
-                    </div>
-                  </div>
-
                   <div className="space-y-3 sm:space-y-3.5">
                     {/* Row 1: Full Name & Mobile Number */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
@@ -5633,47 +5605,6 @@ interface CheckoutSubmitOptions {
                       </div>
                     </div>
 
-                    {/* Commercial Invoicing Details: Only shown when Commercial is selected */}
-                    {formData.customerType === "commercial" && (
-                      <div className="p-3 bg-indigo-50/70 border border-indigo-100 rounded-xl space-y-3 animate-in fade-in duration-200">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-indigo-950 font-montserrat flex items-center gap-1.5">
-                            <Building2 size={13} className="text-indigo-700 shrink-0" />
-                            <span>Business Invoicing Details</span>
-                          </span>
-                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full font-montserrat">
-                            18% GST Input Credit
-                          </span>
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-slate-800 mb-1 font-open-sans">
-                            Company / Workshop Name <span className="text-slate-400 font-normal">(Optional)</span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Apex Auto Detailing Studio"
-                            value={formData.companyName}
-                            onChange={(e) => setFormData((prev) => ({ ...prev, companyName: e.target.value }))}
-                            className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-open-sans"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-slate-800 mb-1 font-open-sans">
-                            GST Number (GSTIN) <span className="text-slate-400 font-normal">(Optional)</span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. 27AAAAA0000A1Z5"
-                            maxLength={15}
-                            value={formData.gstNumber}
-                            onChange={(e) => setFormData((prev) => ({ ...prev, gstNumber: e.target.value.toUpperCase() }))}
-                            className="w-full bg-white border border-slate-200 focus:border-[#005a9c] focus:ring-1 focus:ring-[#005a9c] rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all font-montserrat uppercase font-bold"
-                          />
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
 

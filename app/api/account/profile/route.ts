@@ -18,7 +18,10 @@ export async function GET(req: Request) {
     if (savedProfile && (savedProfile.shippingAddress || savedProfile.fullName || savedProfile.email)) {
       return NextResponse.json({
         success: true,
-        profile: savedProfile,
+        profile: {
+          ...savedProfile,
+          customerType: "retail",
+        },
       });
     }
 
@@ -36,7 +39,7 @@ export async function GET(req: Request) {
         pincode: savedProfile?.pincode || latest.pincode || "",
         altPhone: savedProfile?.altPhone || latest.altPhone || "",
         gstNumber: savedProfile?.gstNumber || latest.gstNumber || "",
-        customerType: savedProfile?.customerType || (latest as any).customerType || (savedProfile?.gstNumber || latest.gstNumber ? "commercial" : "retail"),
+        customerType: "retail" as const,
         companyName: savedProfile?.companyName || (latest as any).companyName || "",
         updatedAt: new Date().toISOString(),
       };
@@ -98,7 +101,7 @@ export async function POST(req: Request) {
       pincode: pincode ? pincode.trim() : "",
       altPhone: altPhone !== undefined ? altPhone.trim() : "",
       gstNumber: gstNumber !== undefined ? gstNumber.trim() : "",
-      customerType: customerType || (gstNumber && gstNumber.trim() ? "commercial" : "retail"),
+      customerType: "retail",
       companyName: companyName !== undefined ? companyName.trim() : "",
     });
 
