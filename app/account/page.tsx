@@ -31,6 +31,7 @@ import {
   ShieldAlert,
   MapPin,
   Mail,
+  Building2,
   Edit3,
   Lock,
   Headphones,
@@ -185,9 +186,9 @@ function AccountDashboardContent() {
             city: parsedAddress.city || "",
             state: parsedAddress.state || "",
             pincode: parsedAddress.pincode || "",
-            gstNumber: "",
+            gstNumber: parsedAddress.gstNumber || "",
             customerType: "retail",
-            companyName: "",
+            companyName: parsedAddress.companyName || "",
           });
         }
       }
@@ -205,9 +206,9 @@ function AccountDashboardContent() {
             city: parsed.profile.city || "",
             state: parsed.profile.state || "",
             pincode: parsed.profile.pincode || "",
-            gstNumber: "",
+            gstNumber: parsed.profile.gstNumber || "",
             customerType: "retail",
-            companyName: "",
+            companyName: parsed.profile.companyName || "",
           });
         }
       } else {
@@ -254,9 +255,9 @@ function AccountDashboardContent() {
           city: profileData.profile.city || "",
           state: profileData.profile.state || "",
           pincode: profileData.profile.pincode || "",
-          gstNumber: "",
+          gstNumber: profileData.profile.gstNumber || "",
           customerType: "retail",
-          companyName: "",
+          companyName: profileData.profile.companyName || "",
         });
         try {
           localStorage.setItem(`aquaforce_saved_address_${cleanPhone}`, JSON.stringify(newProfile));
@@ -314,9 +315,9 @@ function AccountDashboardContent() {
       city: profile?.city || "",
       state: profile?.state || "",
       pincode: profile?.pincode || "",
-      gstNumber: "",
+      gstNumber: profile?.gstNumber || "",
       customerType: "retail",
-      companyName: "",
+      companyName: profile?.companyName || "",
     });
     setEditingProfile(true);
   };
@@ -334,8 +335,8 @@ function AccountDashboardContent() {
         city: profileForm.city.trim(),
         state: profileForm.state.trim(),
         pincode: profileForm.pincode.trim(),
-        gstNumber: "",
-        companyName: "",
+        gstNumber: profileForm.gstNumber.trim().toUpperCase(),
+        companyName: profileForm.companyName.trim(),
         customerType: "retail" as const,
         updatedAt: new Date().toISOString(),
       };
@@ -368,8 +369,8 @@ function AccountDashboardContent() {
         body: JSON.stringify({
           phone: cleanPhone,
           ...profileForm,
-          gstNumber: "",
-          companyName: "",
+          gstNumber: profileForm.gstNumber.trim().toUpperCase(),
+          companyName: profileForm.companyName.trim(),
           customerType: "retail",
         }),
       });
@@ -383,9 +384,9 @@ function AccountDashboardContent() {
           city: data.profile.city || "",
           state: data.profile.state || "",
           pincode: data.profile.pincode || "",
-          gstNumber: "",
+          gstNumber: data.profile.gstNumber || "",
           customerType: "retail",
-          companyName: "",
+          companyName: data.profile.companyName || "",
         });
       }
     } catch (err) {
@@ -1464,7 +1465,49 @@ function AccountDashboardContent() {
                     </div>
                   </div>
 
+                  {/* Optional Company Name & GSTIN */}
+                  <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-xl space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-slate-800 font-montserrat uppercase tracking-wider flex items-center gap-1.5">
+                        <Building2 size={13} className="text-[#0066cc]" />
+                        <span>Business Invoicing Details</span>
+                        <span className="text-slate-400 font-normal lowercase text-[10px]">(optional)</span>
+                      </span>
+                      <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full font-montserrat">
+                        18% GST Input Credit
+                      </span>
+                    </div>
 
+                    <div>
+                      <label className="block uppercase font-bold text-slate-500 font-montserrat mb-1 text-[10px]">
+                        Company / Workshop Name <span className="text-slate-400 font-normal">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Apex Auto Detailing Studio"
+                        value={profileForm.companyName}
+                        onChange={(e) => setProfileForm({ ...profileForm, companyName: e.target.value })}
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 text-xs font-open-sans focus:outline-none focus:border-[#0066cc]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block uppercase font-bold text-slate-500 font-montserrat mb-1 text-[10px]">
+                        Company GSTIN (Goods &amp; Services Tax ID) <span className="text-slate-400 font-normal">(Optional)</span>
+                      </label>
+                      <div className="relative">
+                        <Building2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input
+                          type="text"
+                          placeholder="e.g. 27AAMCA1234F1Z8"
+                          maxLength={15}
+                          value={profileForm.gstNumber}
+                          onChange={(e) => setProfileForm({ ...profileForm, gstNumber: e.target.value.toUpperCase() })}
+                          className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-slate-900 text-xs font-montserrat uppercase tracking-wider focus:outline-none focus:border-[#0066cc]"
+                        />
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Form Action Buttons */}
                   <div className="grid grid-cols-2 gap-2 pt-2">
@@ -1533,6 +1576,33 @@ function AccountDashboardContent() {
                           className="text-[11px] font-montserrat font-medium text-[#0066cc] hover:underline cursor-pointer"
                         >
                           + Add Email
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Company Name: Optional */}
+                    {profile?.companyName && (
+                      <div className="flex items-center justify-between py-1.5 border-b border-slate-50 text-xs">
+                        <span className="text-slate-500 font-open-sans">Company Name</span>
+                        <span className="font-montserrat font-bold text-slate-900">
+                          {profile.companyName}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* GSTIN Row: Optional */}
+                    <div className="flex items-center justify-between py-1.5 text-xs">
+                      <span className="text-slate-500 font-open-sans">Business GSTIN</span>
+                      {profile?.gstNumber ? (
+                        <span className="font-montserrat font-bold text-[#0066cc] bg-sky-50 px-2 py-0.5 rounded border border-sky-100">
+                          {profile.gstNumber}
+                        </span>
+                      ) : (
+                        <button
+                          onClick={startEditingProfile}
+                          className="text-[11px] font-montserrat font-medium text-slate-500 hover:text-[#0066cc] cursor-pointer"
+                        >
+                          + Add GSTIN (Optional)
                         </button>
                       )}
                     </div>
