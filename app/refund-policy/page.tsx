@@ -4,7 +4,7 @@ import ScrollNumberEditorialLayout, { PolicySection } from "@/components/ScrollN
 export const metadata: Metadata = {
   title: "Refund Policy | PROMEC",
   description:
-    "Learn about PROMEC's Refund Policy, eligibility conditions, process for damaged or incorrect products, and refund timelines.",
+    "Learn about PROMEC's Refund Policy, eligibility conditions, warranty claims & replacements, process for damaged or incorrect products, and refund timelines.",
 };
 
 const preamble = (
@@ -165,6 +165,54 @@ const sections: PolicySection[] = [
   {
     id: "section-08",
     number: "08",
+    title: "Warranty Registration, Claims & Replacements",
+    category: "WARRANTY & REPLACEMENTS",
+    content: (
+      <>
+        <p>
+          To ensure a smooth warranty claim or replacement process, customers are requested to provide the following:
+        </p>
+        <ol className="space-y-4 pt-2">
+          <li className="flex items-start gap-3">
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-black text-white text-xs font-mono font-bold shrink-0 mt-0.5">
+              1
+            </span>
+            <div>
+              <p className="font-semibold text-black">Unboxing Video</p>
+              <p className="text-neutral-600 mt-0.5">
+                Record a clear, continuous video while unboxing the AquaForce washer system and its accessories.
+              </p>
+            </div>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-black text-white text-xs font-mono font-bold shrink-0 mt-0.5">
+              2
+            </span>
+            <div>
+              <p className="font-semibold text-black">Product Testing Video</p>
+              <p className="text-neutral-600 mt-0.5">
+                Record a video showing the washer system being tested along with the vacuum cleaner.
+              </p>
+            </div>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-black text-white text-xs font-mono font-bold shrink-0 mt-0.5">
+              3
+            </span>
+            <div>
+              <p className="font-semibold text-black">Customer Review &amp; Feedback</p>
+              <p className="text-neutral-600 mt-0.5">
+                Share your experience with the product through a review, feedback, video, or comment.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </>
+    ),
+  },
+  {
+    id: "section-09",
+    number: "09",
     title: "Contact Us",
     category: "REFUND & RETURN INQUIRIES",
     content: (
