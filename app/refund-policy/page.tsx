@@ -4,7 +4,7 @@ import ScrollNumberEditorialLayout, { PolicySection } from "@/components/ScrollN
 export const metadata: Metadata = {
   title: "Refund Policy | PROMEC",
   description:
-    "Learn about PROMEC's Refund Policy, eligibility conditions, warranty claims & replacements, process for damaged or incorrect products, and refund timelines.",
+    "Learn about PROMEC's Refund Policy, eligibility conditions, process for damaged or incorrect products, warranty registration, claims & replacements, and refund timelines.",
 };
 
 const preamble = (
@@ -172,41 +172,40 @@ const sections: PolicySection[] = [
         <p>
           To ensure a smooth warranty claim or replacement process, customers are requested to provide the following:
         </p>
-        <ol className="space-y-4 pt-2">
-          <li className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-black text-white text-xs font-mono font-bold shrink-0 mt-0.5">
-              1
-            </span>
-            <div>
-              <p className="font-semibold text-black">Unboxing Video</p>
-              <p className="text-neutral-600 mt-0.5">
-                Record a clear, continuous video while unboxing the AquaForce washer system and its accessories.
-              </p>
+        <div className="space-y-4 pt-1">
+          {[
+            {
+              step: "1",
+              title: "Unboxing Video",
+              description:
+                "Record a clear, continuous video while unboxing the AquaForce washer system and its accessories.",
+            },
+            {
+              step: "2",
+              title: "Product Testing Video",
+              description:
+                "Record a video showing the washer system being tested along with the vacuum cleaner.",
+            },
+            {
+              step: "3",
+              title: "Customer Review & Feedback",
+              description:
+                "Share your experience with the product through a review, feedback, video, or comment.",
+            },
+          ].map((item) => (
+            <div key={item.step} className="flex items-start gap-3 sm:gap-4">
+              <span className="w-6 h-6 rounded-full bg-black text-white text-xs font-mono font-bold flex items-center justify-center shrink-0 mt-0.5">
+                {item.step}
+              </span>
+              <div className="space-y-1">
+                <p className="font-semibold text-black leading-tight">{item.title}</p>
+                <p className="text-neutral-600 text-sm sm:text-base leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
             </div>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-black text-white text-xs font-mono font-bold shrink-0 mt-0.5">
-              2
-            </span>
-            <div>
-              <p className="font-semibold text-black">Product Testing Video</p>
-              <p className="text-neutral-600 mt-0.5">
-                Record a video showing the washer system being tested along with the vacuum cleaner.
-              </p>
-            </div>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-black text-white text-xs font-mono font-bold shrink-0 mt-0.5">
-              3
-            </span>
-            <div>
-              <p className="font-semibold text-black">Customer Review &amp; Feedback</p>
-              <p className="text-neutral-600 mt-0.5">
-                Share your experience with the product through a review, feedback, video, or comment.
-              </p>
-            </div>
-          </li>
-        </ol>
+          ))}
+        </div>
       </>
     ),
   },
