@@ -1,6 +1,10 @@
+import path from "path";
+import fs from "fs";
+import nodemailer from "nodemailer";
 import Razorpay from "razorpay";
 import { PromecOrder, orderStore } from "./orderStore";
-import { isMaharashtraState, getInvoiceNumber } from "./invoiceUtils";
+import { isMaharashtraState, getInvoiceNumber, convertOrderToInvoiceDetails } from "./invoiceUtils";
+import { generateInvoiceEmailHtml } from "./invoiceEmailTemplate";
 
 /**
  * Service to generate an official GST-compliant Invoice in Razorpay
@@ -106,13 +110,48 @@ export async function generateAndSendRazorpayInvoice({
 
       console.log(`[Razorpay Invoice] Successfully generated Razorpay Invoice: ${invoiceId} (URL: ${invoiceUrl})`);
 
-      // Dispatch explicit notifications via Razorpay's notifyBy endpoints to guarantee customer receipt
+      // Dispatch explicit notifications via Razorpay's notifyBy endpoints
       if (custEmail) {
         try {
           await (razorpay.invoices as any).notifyBy(invoiceId, "email");
           console.log(`[Razorpay Invoice] Dispatched invoice email to ${custEmail} via Razorpay`);
         } catch (emailErr: any) {
           console.warn("[Razorpay Invoice] notifyBy email warning:", emailErr?.message || emailErr);
+        }
+
+        // Also dispatch the pixel-perfect invoice sheet directly to the customer's inbox
+        try {
+          const smtpUser = process.env.SMTP_USER;
+          const smtpPass = process.env.SMTP_PASS;
+          if (smtpUser && smtpPass) {
+            const transporter = nodemailer.createTransport({
+              host: process.env.SMTP_HOST || "smtp.gmail.com",
+              port: Number(process.env.SMTP_PORT) || 465,
+              secure: Number(process.env.SMTP_PORT || 465) === 465,
+              auth: { user: smtpUser, pass: smtpPass },
+            });
+            const invoiceDetails = convertOrderToInvoiceDetails(order);
+            const html = generateInvoiceEmailHtml({ invoice: invoiceDetails });
+            const amecLogoPath = path.join(process.cwd(), "public", "images", "amec-shield-logo-email.png");
+            const rzpLogoPath = path.join(process.cwd(), "public", "images", "razorpay-logo.png");
+            const attachments: any[] = [];
+            if (fs.existsSync(amecLogoPath)) {
+              attachments.push({ filename: "amec-shield-logo.png", path: amecLogoPath, cid: "amecShieldLogo" });
+            }
+            if (fs.existsSync(rzpLogoPath)) {
+              attachments.push({ filename: "razorpay-logo.png", path: rzpLogoPath, cid: "razorpayLogo" });
+            }
+            await transporter.sendMail({
+              from: `"AMEC MOBILITY PRIVATE LIMITED" <${smtpUser}>`,
+              to: custEmail,
+              subject: `Tax Invoice #${invoiceDetails.invoiceNumber} - AMEC MOBILITY PRIVATE LIMITED`,
+              html,
+              attachments,
+            });
+            console.log(`[Razorpay Invoice] Dispatched pixel-perfect invoice email directly to ${custEmail}`);
+          }
+        } catch (directMailErr: any) {
+          console.warn("[Razorpay Invoice] Direct email dispatch warning:", directMailErr?.message || directMailErr);
         }
       }
 
