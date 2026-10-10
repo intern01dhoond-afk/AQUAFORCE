@@ -66,6 +66,11 @@ export interface PromecOrder {
     amountDueInPaise: number;
     capturedAt?: string;
     failureReason?: string;
+    razorpayInvoiceId?: string;
+    razorpayInvoiceUrl?: string;
+    subventionDiscountInINR?: number;
+    netSettlementInINR?: number;
+    isNoCostEmi?: boolean;
     emiDetails?: {
       bank: string;
       bankCode: string;

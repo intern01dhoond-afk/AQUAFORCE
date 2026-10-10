@@ -259,12 +259,18 @@ export async function executeOrderFulfillment(
               </div>
 
               <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px; margin-top: 16px; font-size: 13px; color: #1e40af;">
-                <strong>Warranty Protection:</strong> 1-Year Pan-India Doorstep Replacement Warranty backed by PROMEC India.
+                <strong>Warranty Protection:</strong> 1-Year Pan-India Doorstep Replacement Warranty backed by AMEC Mobility Private Limited.
+              </div>
+
+              <div style="text-align: center; margin-top: 20px;">
+                <a href="${process.env.NEXT_PUBLIC_BASE_URL || "https://promectools.in"}/invoices/${encodeURIComponent(order.id)}" target="_blank" style="display: inline-block; background-color: #2371ec; color: #ffffff; text-decoration: none; font-weight: bold; font-size: 13px; padding: 11px 24px; border-radius: 8px;">
+                  📄 View & Download Official Tax Invoice
+                </a>
               </div>
             </div>
 
             <div style="text-align: center; border-top: 1px solid #e2e8f0; padding-top: 16px; font-size: 12px; color: #94a3b8;">
-              &copy; 2026 PROMEC INDIA • Nagpur, Maharashtra, India<br/>
+              &copy; 2026 AMEC MOBILITY PRIVATE LIMITED • Nagpur, Maharashtra, India<br/>
               Helpline: +91 7387588963 | Email: promec.india@gmail.com
             </div>
           </div>

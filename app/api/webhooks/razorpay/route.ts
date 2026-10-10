@@ -3,6 +3,7 @@ import crypto from "crypto";
 import Razorpay from "razorpay";
 import { orderStore } from "@/lib/orderStore";
 import { executeOrderFulfillment } from "@/lib/fulfillment";
+import { generateAndSendRazorpayInvoice } from "@/lib/razorpayInvoiceService";
 
 export async function POST(request: Request) {
   try {
@@ -47,42 +48,7 @@ export async function POST(request: Request) {
       const payment = payload.payload?.payment?.entity;
 
       if (payment) {
-        let invoiceId: string | null = null;
-
-        // 1. Create a "Paid" invoice by binding the transaction ID
-        try {
-          const invoice: any = await (razorpay.invoices as any).create({
-            type: "invoice",
-            description: "PROMEC Aquaforce® 1400 PSI Cordless High-Pressure Washer",
-            payment_id: payment.id,
-            currency: payment.currency || "INR",
-            customer: {
-              ...(payment.email ? { email: payment.email } : {}),
-              ...(payment.contact ? { contact: payment.contact } : {}),
-            },
-            line_items: [
-              {
-                name: `PROMEC Purchase - Order ID ${payment.order_id || "Direct"}`,
-                amount: payment.amount, // already matches currency subunits (paise)
-                currency: payment.currency || "INR",
-                quantity: 1,
-              },
-            ],
-            email_notify: process.env.RAZORPAY_INVOICE_EMAIL_NOTIFY === "true" ? 1 : 0,
-            sms_notify: 0,
-          } as any);
-
-          // 2. Issue the invoice immediately to dispatch the Email/SMS
-          if (invoice?.id) {
-            await (razorpay.invoices as any).issue(invoice.id);
-            invoiceId = invoice.id;
-            console.log(`[Razorpay Webhook] Auto-issued Paid Invoice: ${invoice.id} for payment ${payment.id}`);
-          }
-        } catch (invoiceErr: any) {
-          console.error("[Razorpay Webhook] Razorpay invoice creation error:", invoiceErr?.message || invoiceErr);
-        }
-
-        // 3. Update order in internal store and trigger fulfillment if present
+        // 1. Locate order in internal store
         const rzpOrderId = payment.order_id;
         let order = rzpOrderId ? await orderStore.getOrderByRazorpayOrderId(rzpOrderId) : null;
         if (!order && payment.notes?.promecOrderId) {
@@ -90,6 +56,14 @@ export async function POST(request: Request) {
         }
         if (!order && payment.notes?.razorpayOrderId) {
           order = await orderStore.getOrderByRazorpayOrderId(payment.notes.razorpayOrderId);
+        }
+
+        let invoiceResult: { invoiceId: string; invoiceUrl: string } | null = null;
+        if (order) {
+          invoiceResult = await generateAndSendRazorpayInvoice({
+            order,
+            paymentId: payment.id,
+          });
         }
 
         if (order) {
@@ -111,7 +85,12 @@ export async function POST(request: Request) {
                 razorpayPaymentId: payment.id,
                 amountPaidInPaise: payment.amount,
                 capturedAt: new Date().toISOString(),
-                ...(invoiceId ? { razorpayInvoiceId: invoiceId } : {}),
+                ...(invoiceResult
+                  ? {
+                      razorpayInvoiceId: invoiceResult.invoiceId,
+                      razorpayInvoiceUrl: invoiceResult.invoiceUrl,
+                    }
+                  : {}),
                 ...(discountInINR > 0
                   ? {
                       subventionDiscountInINR: discountInINR,

@@ -3,6 +3,7 @@ import crypto from "crypto";
 import Razorpay from "razorpay";
 import { orderStore } from "@/lib/orderStore";
 import { executeOrderFulfillment } from "@/lib/fulfillment";
+import { generateAndSendRazorpayInvoice } from "@/lib/razorpayInvoiceService";
 
 export async function POST(req: Request) {
   try {
@@ -283,6 +284,15 @@ export async function POST(req: Request) {
     const grossAmountInINR = Math.round(order.payment.amountRequiredInPaise / 100);
     const netSettlementInINR = grossAmountInINR - discountInINR;
 
+    // Auto-create & dispatch Paid Razorpay Invoice directly via Razorpay Email & SMS
+    let invoiceResult: { invoiceId: string; invoiceUrl: string } | null = null;
+    if (!order.payment?.razorpayInvoiceId) {
+      invoiceResult = await generateAndSendRazorpayInvoice({
+        order,
+        paymentId: razorpayPaymentId,
+      });
+    }
+
     await orderStore.updateOrder(order.id, {
       orderStatus: "confirmed",
       payment: {
@@ -293,6 +303,12 @@ export async function POST(req: Request) {
         razorpaySignature,
         amountPaidInPaise: order.payment.amountRequiredInPaise,
         capturedAt: new Date().toISOString(),
+        ...(invoiceResult
+          ? {
+              razorpayInvoiceId: invoiceResult.invoiceId,
+              razorpayInvoiceUrl: invoiceResult.invoiceUrl,
+            }
+          : {}),
         ...(discountInINR > 0
           ? {
               subventionDiscountInINR: discountInINR,

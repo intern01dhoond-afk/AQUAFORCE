@@ -12,7 +12,16 @@ export async function GET(
       return NextResponse.json({ success: false, error: "Order ID is required" }, { status: 400 });
     }
 
-    const order = await orderStore.getOrderById(id);
+    let order = await orderStore.getOrderById(id);
+    if (!order) {
+      order = await orderStore.getOrderByRazorpayOrderId(id);
+    }
+    if (!order && !id.startsWith("PROMEC-ORD-")) {
+      order = await orderStore.getOrderById(`PROMEC-ORD-${id}`);
+    }
+    if (!order && id.startsWith("PROMEC-ORD-")) {
+      order = await orderStore.getOrderById(id.replace("PROMEC-ORD-", ""));
+    }
     if (!order) {
       return NextResponse.json({ success: false, error: "Order not found" }, { status: 404 });
     }
