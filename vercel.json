@@ -57,6 +57,18 @@
       "destination": "/aquaforceforautocare/refund-policy"
     },
     {
+      "source": "/inquiryform",
+      "destination": "/aquaforceforautocare/inquiryform"
+    },
+    {
+      "source": "/inquiry-form",
+      "destination": "/aquaforceforautocare/inquiryform"
+    },
+    {
+      "source": "/inquiry",
+      "destination": "/aquaforceforautocare/inquiryform"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/aquaforceforautocare/api/:path*"
     }

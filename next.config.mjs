@@ -17,22 +17,22 @@ const nextConfig = {
       },
       {
         source: "/inquiry-form",
-        destination: "/aquaforceforautocare/inquiryform",
+        destination: "/inquiryform",
         permanent: false,
       },
       {
         source: "/inquiry",
-        destination: "/aquaforceforautocare/inquiryform",
+        destination: "/inquiryform",
         permanent: false,
       },
       {
         source: "/enquiryform",
-        destination: "/aquaforceforautocare/inquiryform",
+        destination: "/inquiryform",
         permanent: false,
       },
       {
         source: "/enquiry",
-        destination: "/aquaforceforautocare/inquiryform",
+        destination: "/inquiryform",
         permanent: false,
       },
       {
