@@ -51,17 +51,43 @@ export async function POST(req: Request) {
         ? `Other: ${otherDescription.trim()}`
         : customerType || "N/A";
 
+    const timelineVal =
+      (purchaseTimeline && purchaseTimeline.trim()) || "Not specified";
+    const customerTypeVal = resolvedCustomerType || "Not specified";
+
+    // Formatted combined notes so existing Google Sheet column shows both responses clearly
+    const notesSummary = `Plan to purchase: ${timelineVal} | Best describes: ${customerTypeVal}`;
+
     const payload = {
-      type: "INQUIRY",
+      // Legacy compatibility keys
+      type: "ENQUIRY",
+      inquiryType: "ENQUIRY",
+      status: "New Enquiry",
+      notes: notesSummary,
+      requirements: notesSummary,
+      notesSummary,
+
+      // Standard contact details
       timestamp,
       fullName: fullName.trim(),
+      name: fullName.trim(),
       phone: cleanPhone.slice(-10),
       companyName: (companyName && companyName.trim()) || "N/A",
+      company: (companyName && companyName.trim()) || "N/A",
       email: (email && email.trim()) || "N/A",
       quantity: String(quantity).trim(),
-      purchaseTimeline: purchaseTimeline || "N/A",
-      customerType: resolvedCustomerType,
-      status: "New Inquiry",
+
+      // Dedicated keys for both questionnaire fields with standard aliases
+      purchaseTimeline: timelineVal,
+      timeline: timelineVal,
+      whenDoYouPlanToPurchase: timelineVal,
+      planToPurchase: timelineVal,
+
+      customerType: customerTypeVal,
+      customerDescription: customerTypeVal,
+      whatBestDescribesYou: customerTypeVal,
+      segment: customerTypeVal,
+      otherDescription: (otherDescription && otherDescription.trim()) || "N/A",
     };
 
     // 1. Forward to Google Sheets Webhook
@@ -100,41 +126,65 @@ export async function POST(req: Request) {
       const destination =
         cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
-      try {
-        const aiRes = await fetch(
-          "https://backend.aisensy.com/campaign/t1/api/v2",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              apiKey: aisensyApiKey,
-              campaignName: aisensyCampaign,
-              destination: destination,
-              userName: fullName.trim(),
-              templateParams: [
-                fullName.trim(),
-                String(quantity).trim(),
-              ],
-              attributes: {
-                company: (companyName && companyName.trim()) || "N/A",
-                email: (email && email.trim()) || "N/A",
-                quantity: String(quantity).trim(),
-                timeline: purchaseTimeline || "N/A",
-                segment: resolvedCustomerType,
-                customMessage: INQUIRY_WHATSAPP_MESSAGE,
-              },
-              tags: ["Inquiry", "Website Form"],
-            }),
-          }
-        );
+      // Candidate parameter arrays to dynamically match the template configuration in AiSensy:
+      // Candidate 1: [] (Static template with 0 placeholders)
+      // Candidate 2: [fullName] (Template with 1 placeholder for customer name)
+      // Candidate 3: [fullName, quantity] (Template with 2 placeholders)
+      const paramVariations: string[][] = [
+        [],
+        [fullName.trim()],
+        [fullName.trim(), String(quantity).trim()],
+      ];
 
-        const resText = await aiRes.text();
-        console.log("AiSensy WhatsApp notification response:", aiRes.status, resText);
-        whatsappSent = aiRes.ok;
-        whatsappStatusMsg = aiRes.ok ? "Delivered" : resText;
-      } catch (aiErr: any) {
-        console.error("Failed to send AiSensy WhatsApp notification:", aiErr);
-        whatsappStatusMsg = aiErr?.message || "Network error";
+      for (const params of paramVariations) {
+        try {
+          const aiRes = await fetch(
+            "https://backend.aisensy.com/campaign/t1/api/v2",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                apiKey: aisensyApiKey,
+                campaignName: aisensyCampaign,
+                destination: destination,
+                userName: fullName.trim(),
+                templateParams: params,
+                attributes: {
+                  company: (companyName && companyName.trim()) || "N/A",
+                  email: (email && email.trim()) || "N/A",
+                  quantity: String(quantity).trim(),
+                  timeline: timelineVal,
+                  segment: customerTypeVal,
+                  notes: notesSummary,
+                  customMessage: INQUIRY_WHATSAPP_MESSAGE,
+                },
+                tags: ["Inquiry", "Website Form"],
+              }),
+            }
+          );
+
+          const resData = await aiRes.json().catch(() => ({}));
+          console.log(`AiSensy response (params count ${params.length}):`, aiRes.status, resData);
+
+          if (aiRes.ok) {
+            whatsappSent = true;
+            whatsappStatusMsg = "Delivered";
+            break;
+          }
+
+          const errMsg = resData.message || resData.errorMessage || "";
+          if (errMsg.includes("Template params does not match")) {
+            whatsappStatusMsg = errMsg;
+            continue; // Retry with next parameter count variation
+          }
+
+          whatsappStatusMsg = errMsg || "Failed to trigger AiSensy campaign";
+          break;
+        } catch (aiErr: any) {
+          console.error("Failed to send AiSensy WhatsApp notification:", aiErr);
+          whatsappStatusMsg = aiErr?.message || "Network error";
+          break;
+        }
       }
     }
 
