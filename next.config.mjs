@@ -16,6 +16,26 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: "/inquiry-form",
+        destination: "/aquaforceforautocare/inquiryform",
+        permanent: false,
+      },
+      {
+        source: "/inquiry",
+        destination: "/aquaforceforautocare/inquiryform",
+        permanent: false,
+      },
+      {
+        source: "/enquiryform",
+        destination: "/aquaforceforautocare/inquiryform",
+        permanent: false,
+      },
+      {
+        source: "/enquiry",
+        destination: "/aquaforceforautocare/inquiryform",
+        permanent: false,
+      },
+      {
         source: "/aquaforceforhomecare",
         destination: "/aquaforceforautocare?enquiry=bulk&category=homecare",
         basePath: false,
