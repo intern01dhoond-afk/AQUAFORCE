@@ -109,7 +109,7 @@ export async function POST(req: Request) {
     // 1. Forward to Google Sheets Webhook
     const webhookUrl =
       process.env.GOOGLE_SHEET_ENQUIRY_URL ||
-      "https://script.google.com/macros/s/AKfycbyVAJccNewtDHw_EPlY90UIIjXVdB3FeTXZCg_6OPJJq-h3p3XgIZ_AYLupETD0YRXd/exec";
+      "https://script.google.com/macros/s/AKfycby_MiQl2stqw5R2aQU_tKvnEDuAuJ9GkYu52hr-C4ggMP5SjUwMR2f_XUxckmpAPbaw/exec";
 
     if (webhookUrl) {
       try {
