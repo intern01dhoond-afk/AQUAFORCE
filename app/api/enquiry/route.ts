@@ -82,18 +82,34 @@ export async function POST(req: Request) {
       timeline: timelineVal,
       whenDoYouPlanToPurchase: timelineVal,
       planToPurchase: timelineVal,
+      "When do you plan to purchase?": timelineVal,
+      "When do you plan to purchase": timelineVal,
+      "Purchase Timeline": timelineVal,
 
       customerType: customerTypeVal,
       customerDescription: customerTypeVal,
       whatBestDescribesYou: customerTypeVal,
       segment: customerTypeVal,
+      "What best describes you?": customerTypeVal,
+      "What best describes you": customerTypeVal,
+      "Customer Type": customerTypeVal,
       otherDescription: (otherDescription && otherDescription.trim()) || "N/A",
+
+      // Literal column header names matching spreadsheet headers
+      "Full Name": fullName.trim(),
+      "Phone": cleanPhone.slice(-10),
+      "Phone No": cleanPhone.slice(-10),
+      "Company Name": (companyName && companyName.trim()) || "N/A",
+      "Email": (email && email.trim()) || "N/A",
+      "Quantity": String(quantity).trim(),
+      "Status": "New Enquiry",
+      "Timestamp": timestamp,
     };
 
     // 1. Forward to Google Sheets Webhook
     const webhookUrl =
       process.env.GOOGLE_SHEET_ENQUIRY_URL ||
-      "https://script.google.com/macros/s/AKfycbyxEECBAUMLcpbd1V3zC8Hsn2OQ-JSX6FNnSAZaNd_6MdSOWxH6GXacrvisC-h9Tqr2/exec";
+      "https://script.google.com/macros/s/AKfycbyVAJccNewtDHw_EPlY90UIIjXVdB3FeTXZCg_6OPJJq-h3p3XgIZ_AYLupETD0YRXd/exec";
 
     if (webhookUrl) {
       try {
