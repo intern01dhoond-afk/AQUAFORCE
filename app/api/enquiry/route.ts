@@ -60,9 +60,9 @@ export async function POST(req: Request) {
 
     const payload = {
       // Legacy compatibility keys
-      type: "ENQUIRY",
-      inquiryType: "ENQUIRY",
-      status: "New Enquiry",
+      type: "INQUIRY",
+      inquiryType: "INQUIRY",
+      status: "New Inquiry",
       notes: notesSummary,
       requirements: notesSummary,
       notesSummary,
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
       "Company Name": (companyName && companyName.trim()) || "N/A",
       "Email": (email && email.trim()) || "N/A",
       "Quantity": String(quantity).trim(),
-      "Status": "New Enquiry",
+      "Status": "New Inquiry",
       "Timestamp": timestamp,
     };
 

@@ -150,7 +150,7 @@ export default function Hero() {
                 onClick={openBulkModal}
                 className="w-full inline-flex items-center justify-center border border-white/70 bg-black/40 backdrop-blur-xs active:border-white text-white active:bg-white/15 font-open-sans text-[10px] xs:text-[11px] font-bold tracking-tight xs:tracking-normal uppercase py-2.5 px-1 rounded-[6px] transition-all active:scale-[0.98] drop-shadow text-center cursor-pointer whitespace-nowrap"
               >
-                Enquire Bulk Quantity
+                Inquire Bulk Quantity
               </button>
             </div>
           </div>
@@ -208,7 +208,7 @@ export default function Hero() {
                 onClick={openBulkModal}
                 className="inline-flex items-center border border-white/60 hover:border-white text-white hover:bg-white/15 bg-black/20 backdrop-blur-xs font-open-sans text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow cursor-pointer"
               >
-                Enquire Bulk Quantity
+                Inquire Bulk Quantity
               </button>
             </div>
           </div>
@@ -301,7 +301,7 @@ export default function Hero() {
                 onClick={openBulkModal}
                 className="w-full inline-flex items-center justify-center border border-white/70 bg-black/25 backdrop-blur-xs active:border-white text-white active:bg-white/15 font-open-sans text-[10px] xs:text-[11px] font-bold tracking-tight xs:tracking-normal uppercase py-3 px-1 rounded-[6px] transition-all active:scale-[0.98] drop-shadow text-center cursor-pointer whitespace-nowrap"
               >
-                Enquire Bulk Quantity
+                Inquire Bulk Quantity
               </button>
             </div>
 
@@ -358,7 +358,7 @@ export default function Hero() {
                 onClick={openBulkModal}
                 className="inline-flex items-center border border-white/60 hover:border-white text-white hover:bg-white/15 bg-black/20 backdrop-blur-xs font-open-sans text-xs sm:text-sm font-black tracking-wider uppercase px-6 sm:px-7 py-3.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow cursor-pointer"
               >
-                Enquire Bulk Quantity
+                Inquire Bulk Quantity
               </button>
             </div>
 
@@ -449,7 +449,7 @@ export default function Hero() {
                 onClick={openBulkModal}
                 className="w-full inline-flex items-center justify-center border border-white/70 bg-black/25 backdrop-blur-xs active:border-white text-white active:bg-white/15 font-open-sans text-[10px] xs:text-[11px] font-bold tracking-tight xs:tracking-normal uppercase py-3 px-1 rounded-[6px] transition-all active:scale-[0.98] drop-shadow text-center cursor-pointer whitespace-nowrap"
               >
-                Enquire Bulk Quantity
+                Inquire Bulk Quantity
               </button>
             </div>
           </div>
@@ -500,7 +500,7 @@ export default function Hero() {
                   onClick={openBulkModal}
                   className="inline-flex items-center border border-white/80 hover:border-white text-white hover:bg-white/15 bg-black/20 backdrop-blur-xs font-open-sans text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow cursor-pointer"
                 >
-                  Enquire Bulk Quantity
+                  Inquire Bulk Quantity
                 </button>
               </div>
             </div>
@@ -587,7 +587,7 @@ export default function Hero() {
                 onClick={openBulkModal}
                 className="w-full inline-flex items-center justify-center border border-white/70 bg-black/25 backdrop-blur-xs active:border-white text-white active:bg-white/15 font-open-sans text-[10px] xs:text-[11px] font-bold tracking-tight xs:tracking-normal uppercase py-3 px-1 rounded-[6px] transition-all active:scale-[0.98] drop-shadow text-center cursor-pointer whitespace-nowrap"
               >
-                Enquire Bulk Quantity
+                Inquire Bulk Quantity
               </button>
             </div>
           </div>
@@ -638,7 +638,7 @@ export default function Hero() {
                   onClick={openBulkModal}
                   className="inline-flex items-center border border-white/80 hover:border-white text-white hover:bg-white/15 bg-black/20 backdrop-blur-xs font-open-sans text-xs sm:text-sm font-black tracking-wider uppercase px-5 sm:px-6 py-2.5 rounded-[4px] transition-all active:scale-[0.98] drop-shadow cursor-pointer"
                 >
-                  Enquire Bulk Quantity
+                  Inquire Bulk Quantity
                 </button>
               </div>
             </div>
