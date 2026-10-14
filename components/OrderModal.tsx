@@ -2393,6 +2393,18 @@ interface CheckoutSubmitOptions {
               razorpayOrderId: response?.razorpay_order_id || orderData.razorpayOrderId || orderData.id,
               razorpayPaymentId: response?.razorpay_payment_id,
               razorpaySignature: response?.razorpay_signature,
+              customer: {
+                fullName: formData.fullName,
+                phone: formData.phone,
+                email: formData.email,
+                deliveryAddress: formData.deliveryAddress,
+                shippingAddress: formData.deliveryAddress,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                altPhone: formData.altPhone,
+                gstNumber: formData.gstNumber,
+              },
             }),
           });
 
@@ -2780,6 +2792,18 @@ interface CheckoutSubmitOptions {
               razorpayOrderId: orderData.razorpayOrderId || orderData.id,
               razorpayPaymentId: payId,
               razorpaySignature: response.razorpay_signature,
+              customer: {
+                fullName: formData.fullName,
+                phone: formData.phone,
+                email: formData.email,
+                deliveryAddress: formData.deliveryAddress,
+                shippingAddress: formData.deliveryAddress,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                altPhone: formData.altPhone,
+                gstNumber: formData.gstNumber,
+              },
             }),
           });
           const verifyData = await verifyRes.json();
@@ -3043,6 +3067,18 @@ interface CheckoutSubmitOptions {
               razorpayOrderId: orderData.razorpayOrderId || orderData.id,
               razorpayPaymentId: payId,
               razorpaySignature: response.razorpay_signature,
+              customer: {
+                fullName: formData.fullName,
+                phone: formData.phone,
+                email: formData.email,
+                deliveryAddress: formData.deliveryAddress,
+                shippingAddress: formData.deliveryAddress,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                altPhone: formData.altPhone,
+                gstNumber: formData.gstNumber,
+              },
             }),
           });
           const verifyData = await verifyRes.json();
@@ -3227,6 +3263,18 @@ interface CheckoutSubmitOptions {
             body: JSON.stringify({
               orderId: orderData.orderId,
               razorpayOrderId: orderData.razorpayOrderId || orderData.id,
+              customer: {
+                fullName: formData.fullName,
+                phone: formData.phone,
+                email: formData.email,
+                deliveryAddress: formData.deliveryAddress,
+                shippingAddress: formData.deliveryAddress,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                altPhone: formData.altPhone,
+                gstNumber: formData.gstNumber,
+              },
             }),
           });
           const verifyData = await verifyRes.json();

@@ -89,6 +89,8 @@ export interface PromecOrder {
     googleSheetSynced?: boolean;
     emailSent?: boolean;
     smsSent?: boolean;
+    whatsappSent?: boolean;
+    invoiceGenerated?: boolean;
   };
 
   refund?: {
@@ -114,7 +116,7 @@ export interface IOrderStore {
   getOrderByRazorpayOrderId(rzpOrderId: string): Promise<PromecOrder | null>;
   getByIdempotencyKey(key: string): Promise<PromecOrder | null>;
   updateOrder(orderId: string, patch: Partial<PromecOrder>): Promise<PromecOrder | null>;
-  claimFulfillmentLock(orderId: string): Promise<boolean>;
+  claimFulfillmentLock(orderId: string, force?: boolean): Promise<boolean>;
   completeFulfillment(
     orderId: string,
     details: Partial<PromecOrder["fulfillment"]>
@@ -237,15 +239,29 @@ class LocalFileOrderStore implements IOrderStore {
    * Only transitions to "processing" if current status is "pending".
    * Returns true if lock was claimed, false if already claimed or completed.
    */
-  async claimFulfillmentLock(orderId: string): Promise<boolean> {
+  async claimFulfillmentLock(orderId: string, force?: boolean): Promise<boolean> {
     const order = this.memoryCache.get(orderId);
     if (!order) return false;
 
-    if (order.fulfillment.status !== "pending") {
-      console.log(
-        `Fulfillment lock skipped for order ${orderId}. Current status: ${order.fulfillment.status}`
-      );
+    if (!force && order.fulfillment.status === "completed") {
       return false;
+    }
+
+    if (!force && order.fulfillment.status === "processing") {
+      const startedAt = order.fulfillment.fulfillmentStartedAt
+        ? new Date(order.fulfillment.fulfillmentStartedAt).getTime()
+        : 0;
+      const now = Date.now();
+      const isStale = !startedAt || now - startedAt > 60000;
+      if (!isStale) {
+        console.log(
+          `Fulfillment lock skipped for order ${orderId}. Current status: ${order.fulfillment.status} (active lock)`
+        );
+        return false;
+      }
+      console.warn(
+        `[Fulfillment Lock] Stale lock detected for order ${orderId} (>60s). Re-claiming lock...`
+      );
     }
 
     order.fulfillment.status = "processing";

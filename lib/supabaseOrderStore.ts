@@ -184,12 +184,26 @@ export class SupabaseOrderStore implements IOrderStore {
     }
   }
 
-  async claimFulfillmentLock(orderId: string): Promise<boolean> {
+  async claimFulfillmentLock(orderId: string, force?: boolean): Promise<boolean> {
     const order = await this.getOrderById(orderId);
     if (!order) return false;
 
-    if (order.fulfillment.status !== "pending") {
+    if (!force && order.fulfillment.status === "completed") {
       return false;
+    }
+
+    if (!force && order.fulfillment.status === "processing") {
+      const startedAt = order.fulfillment.fulfillmentStartedAt
+        ? new Date(order.fulfillment.fulfillmentStartedAt).getTime()
+        : 0;
+      const now = Date.now();
+      const isStale = !startedAt || now - startedAt > 60000;
+      if (!isStale) {
+        return false;
+      }
+      console.warn(
+        `[SupabaseOrderStore] Stale lock detected for order ${orderId} (>60s). Re-claiming lock...`
+      );
     }
 
     await this.updateOrder(orderId, {

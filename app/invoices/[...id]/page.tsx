@@ -306,15 +306,125 @@ const LEGACY_ORDERS_DATABASE: Record<string, any> = {
     },
     notes: "Add Customer Notes",
   },
+  "PROMEC-ORD-1791958704699-MGZ7": {
+    id: "PROMEC-ORD-1791958704699-MGZ7",
+    createdAt: "2026-10-14T11:48:25.000Z",
+    orderStatus: "confirmed",
+    invoiceNumber: "AQUA-R/INV-9",
+    customer: {
+      fullName: "Bhavani Balakrishnan",
+      phone: "+91 8089011625",
+      email: "bhavanibalakrishnan36@gmail.com",
+      shippingAddress: "The Retreat G 291 Panampily Nagar C, G 291 Panampilly Nagar",
+      city: "Ernakulam",
+      state: "Kerala",
+      pincode: "682036",
+    },
+    items: [
+      {
+        productName: "Cordless AquaForce® 1400 High-pressure Washer System (With Vacuum)",
+        quantity: 1,
+        unitPriceInINR: 37999,
+        totalAmountInINR: 37999,
+      },
+    ],
+    pricing: {
+      subtotalInINR: 37999,
+      finalTotalInINR: 37999,
+    },
+    payment: {
+      method: "FULL_ONLINE",
+      status: "captured",
+      razorpayPaymentId: "pay_TngdDSss1WVqJQ",
+      razorpayInvoiceId: "inv_TnigtvXWLlPEii",
+      amountPaidInPaise: 3799900,
+      amountDueInPaise: 0,
+    },
+    notes: "Delhivery Waybill: 64729710000346",
+  },
+  "AQUA-C/INV-1": {
+    id: "AQUA-C/INV-1",
+    createdAt: "2026-10-14T06:04:47.000Z",
+    orderStatus: "confirmed",
+    invoiceNumber: "AQUA-C/INV-1",
+    customer: {
+      fullName: "Hrushikesh",
+      phone: "+91 9876543210",
+      email: "hrushikesh@gmail.com",
+      shippingAddress: "Nagpur MIDC",
+      city: "Nagpur",
+      state: "Maharashtra",
+      pincode: "440016",
+    },
+    items: [
+      {
+        productName: "Cordless AquaForce® 1400 High-pressure Washer System (Commercial B2B)",
+        quantity: 1,
+        unitPriceInINR: 4499,
+        totalAmountInINR: 4499,
+      },
+    ],
+    pricing: {
+      subtotalInINR: 4499,
+      finalTotalInINR: 4499,
+    },
+    payment: {
+      method: "FULL_ONLINE",
+      status: "captured",
+      razorpayPaymentId: "pay_Captured_Live",
+      razorpayInvoiceId: "AQUA-C/INV-1",
+      amountPaidInPaise: 449900,
+      amountDueInPaise: 0,
+    },
+    notes: "Commercial Gig Worker Package",
+  },
+  order_TngOjjfbBHei28: {
+    id: "AQUA-C/INV-1",
+    createdAt: "2026-10-14T06:04:47.000Z",
+    orderStatus: "confirmed",
+    invoiceNumber: "AQUA-C/INV-1",
+    customer: {
+      fullName: "Hrushikesh",
+      phone: "+91 9876543210",
+      email: "hrushikesh@gmail.com",
+      shippingAddress: "Nagpur MIDC",
+      city: "Nagpur",
+      state: "Maharashtra",
+      pincode: "440016",
+    },
+    items: [
+      {
+        productName: "Cordless AquaForce® 1400 High-pressure Washer System (Commercial B2B)",
+        quantity: 1,
+        unitPriceInINR: 4499,
+        totalAmountInINR: 4499,
+      },
+    ],
+    pricing: {
+      subtotalInINR: 4499,
+      finalTotalInINR: 4499,
+    },
+    payment: {
+      method: "FULL_ONLINE",
+      status: "captured",
+      razorpayPaymentId: "pay_Captured_Live",
+      razorpayInvoiceId: "AQUA-C/INV-1",
+      amountPaidInPaise: 449900,
+      amountDueInPaise: 0,
+    },
+    notes: "Commercial Gig Worker Package",
+  },
 };
 
 export default function RazorpayHostedInvoicePage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string[] }>;
 }) {
   const resolvedParams = use(params);
-  const rawId = resolvedParams.id;
+  const rawId = Array.isArray(resolvedParams.id)
+    ? resolvedParams.id.join("/")
+    : resolvedParams.id;
   const decodedId = decodeURIComponent(rawId);
 
   const [invoice, setInvoice] = useState<InvoiceDetails | null>(null);

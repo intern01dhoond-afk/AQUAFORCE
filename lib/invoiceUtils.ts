@@ -190,7 +190,9 @@ export function numberToWordsINR(amount: number): string {
  * e.g. "AQUA-R/INV-1"
  */
 export function getInvoiceNumber(orderId: string, invoiceId?: string): string {
-  if (invoiceId && invoiceId.startsWith("AQUA-")) return invoiceId;
+  if (invoiceId && (invoiceId.startsWith("AQUA-") || invoiceId.startsWith("inv_"))) return invoiceId;
+  if (orderId.startsWith("AQUA-C/INV-") || orderId.startsWith("AQUA-")) return orderId;
+  if (orderId.includes("TngOjjfbBHei28")) return "AQUA-C/INV-1";
   if (orderId.includes("TVWMNCnxp7pU2C")) return "AQUA-R/INV-1";
   if (orderId.includes("TYe1byjoJmIO4u")) return "AQUA-R/INV-2";
   if (orderId.includes("TZW8eddk4xAdMW")) return "AQUA-R/INV-3";
@@ -199,6 +201,7 @@ export function getInvoiceNumber(orderId: string, invoiceId?: string): string {
   if (orderId.includes("TemZHkAYJjzQ5G")) return "AQUA-R/INV-6";
   if (orderId.includes("1790417815914")) return "AQUA-R/INV-7";
   if (orderId.includes("TjOBeOPT9LsMrS") || orderId.includes("TjOBeqWCXWTtyY")) return "AQUA-R/INV-8";
+  if (orderId.includes("1791958704699") || orderId.includes("Tngd7t7Ba1LZxQ")) return "AQUA-R/INV-9";
 
   const clean = orderId.replace("PROMEC-ORD-", "").replace("order_", "");
   return `AQUA-R/INV-${clean.slice(-6).toUpperCase()}`;

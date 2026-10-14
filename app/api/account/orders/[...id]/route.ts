@@ -4,10 +4,12 @@ import { DELHIVERY_API_TOKEN } from "@/lib/delhivery";
 
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string[] }> }
 ) {
   try {
-    const { id } = await params;
+    const resolvedParams = await params;
+    const rawId = resolvedParams.id;
+    const id = Array.isArray(rawId) ? rawId.join("/") : rawId;
     if (!id) {
       return NextResponse.json({ success: false, error: "Order ID is required" }, { status: 400 });
     }
