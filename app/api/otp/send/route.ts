@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     storeOtp(cleanPhone, fullName.trim(), otp);
 
-    const authKey = process.env.YOURBULKSMS_AUTH_KEY || "3236524f4d454338373214";
+    const authKey = process.env.YOURBULKSMS_AUTH_KEY || "";
     const senderId = process.env.YOURBULKSMS_SENDER_ID || "PROMCC";
     const route = process.env.YOURBULKSMS_ROUTE || "2";
     const templateId = process.env.YOURBULKSMS_TEMPLATE_ID || "1777178875938865009";

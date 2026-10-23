@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const DELHIVERY_API_TOKEN = process.env.DELHIVERY_API_TOKEN || "896739f8bbc9a0d080336cd9504af9fd22c324a3";
+const DELHIVERY_API_TOKEN = process.env.DELHIVERY_API_TOKEN || "";
 
 // In-memory cache for pincode serviceability (6-hour TTL)
 const serviceabilityCache = new Map<string, { result: any; expiresAt: number }>();

@@ -22,21 +22,11 @@ export interface FulfillmentOptions {
   force?: boolean;
 }
 
-// Hardcoded production fallbacks so missing environment variables in Vercel NEVER cause silent skips
-const FALLBACK_AISENSY_API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhOTgxMTQzNjYwZTk1MGU3ZDJlYTM0MyIsIm5hbWUiOiJQcm9tZWMgSW5kaWEiLCJhcHBOYW1lIjoiQWlTZW5zeSIsImNsaWVudElkIjoiNmE5ODExNDM2NjBlOTUwZTdkMmVhMzNlIiwiYWN0aXZlUGxhbiI6IkJBU0lDX01PTlRITFkiLCJpYXQiOjE3ODg3NTYzNDV9._N2prpFIwKpOsYjSUsSoOtu79upNaa72J0bRtYxgQYQ";
-const FALLBACK_AISENSY_CAMPAIGN = "order_confirmation_2";
-
-const FALLBACK_SMTP_USER = "promec.india@gmail.com";
-const FALLBACK_SMTP_PASS = "mwzfjzbrxaeiipip";
-
-const FALLBACK_YOURBULKSMS_AUTH_KEY = "3236524f4d454338373214";
-const FALLBACK_YOURBULKSMS_SENDER_ID = "PROMCC";
-const FALLBACK_YOURBULKSMS_ROUTE = "2";
-const FALLBACK_YOURBULKSMS_TEMPLATE_ID = "1777178875938865009";
-
-const FALLBACK_GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbw93k8Td-zP_4HnTq4QTio4KgbFobeXatiTR2BvPPJJczur1RFRggZHq15InxQJBthFAw/exec";
+// Service credentials are loaded strictly from environment variables.
+const DEFAULT_AISENSY_CAMPAIGN = "order_confirmation_2";
+const DEFAULT_YOURBULKSMS_SENDER_ID = "PROMCC";
+const DEFAULT_YOURBULKSMS_ROUTE = "2";
+const DEFAULT_YOURBULKSMS_TEMPLATE_ID = "1777178875938865009";
 
 export async function executeOrderFulfillment(
   orderId: string,
@@ -185,10 +175,10 @@ export async function executeOrderFulfillment(
   );
 
   // Channel B: AiSensy WhatsApp Notification
-  const aisensyApiKey = process.env.AISENSY_API_KEY || FALLBACK_AISENSY_API_KEY;
-  const aisensyCampaign = process.env.AISENSY_CAMPAIGN_NAME || FALLBACK_AISENSY_CAMPAIGN;
+  const aisensyApiKey = process.env.AISENSY_API_KEY || "";
+  const aisensyCampaign = process.env.AISENSY_CAMPAIGN_NAME || DEFAULT_AISENSY_CAMPAIGN;
 
-  if (order.customer.phone && (!whatsappSuccess || options?.force)) {
+  if (aisensyApiKey && order.customer.phone && (!whatsappSuccess || options?.force)) {
     tasks.push(
       (async () => {
         try {
@@ -243,10 +233,10 @@ export async function executeOrderFulfillment(
   }
 
   // Channel C: Nodemailer Confirmation Email
-  const smtpUser = (process.env.SMTP_USER || FALLBACK_SMTP_USER).trim();
-  const smtpPass = (process.env.SMTP_PASS || FALLBACK_SMTP_PASS).replace(/\s+/g, "");
+  const smtpUser = (process.env.SMTP_USER || "").trim();
+  const smtpPass = (process.env.SMTP_PASS || "").replace(/\s+/g, "");
 
-  if (order.customer.email && (!emailSuccess || options?.force)) {
+  if (smtpUser && smtpPass && order.customer.email && (!emailSuccess || options?.force)) {
     tasks.push(
       (async () => {
         try {
@@ -353,12 +343,12 @@ export async function executeOrderFulfillment(
   }
 
   // Channel D: YourBulkSMS SMS Notification
-  const smsAuthKey = process.env.YOURBULKSMS_AUTH_KEY || FALLBACK_YOURBULKSMS_AUTH_KEY;
-  const senderId = process.env.YOURBULKSMS_SENDER_ID || FALLBACK_YOURBULKSMS_SENDER_ID;
-  const route = process.env.YOURBULKSMS_ROUTE || FALLBACK_YOURBULKSMS_ROUTE;
-  const templateId = process.env.YOURBULKSMS_TEMPLATE_ID || FALLBACK_YOURBULKSMS_TEMPLATE_ID;
+  const smsAuthKey = process.env.YOURBULKSMS_AUTH_KEY || "";
+  const senderId = process.env.YOURBULKSMS_SENDER_ID || DEFAULT_YOURBULKSMS_SENDER_ID;
+  const route = process.env.YOURBULKSMS_ROUTE || DEFAULT_YOURBULKSMS_ROUTE;
+  const templateId = process.env.YOURBULKSMS_TEMPLATE_ID || DEFAULT_YOURBULKSMS_TEMPLATE_ID;
 
-  if (order.customer.phone && (!smsSuccess || options?.force)) {
+  if (smsAuthKey && order.customer.phone && (!smsSuccess || options?.force)) {
     tasks.push(
       (async () => {
         try {
@@ -391,8 +381,8 @@ export async function executeOrderFulfillment(
   }
 
   // Channel E: Google Sheets Webhook Log
-  const sheetUrl = process.env.GOOGLE_SHEET_PURCHASE_URL || FALLBACK_GOOGLE_SHEET_URL;
-  if (!googleSheetSuccess || options?.force) {
+  const sheetUrl = process.env.GOOGLE_SHEET_PURCHASE_URL || "";
+  if (sheetUrl && (!googleSheetSuccess || options?.force)) {
     tasks.push(
       (async () => {
         try {

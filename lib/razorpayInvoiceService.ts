@@ -17,10 +17,8 @@ export async function generateAndSendRazorpayInvoice({
   order: PromecOrder;
   paymentId?: string;
 }): Promise<{ invoiceId: string; invoiceUrl: string } | null> {
-  const key_id = (
-    process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa"
-  ).trim();
-  const key_secret = (process.env.RAZORPAY_KEY_SECRET || "0KXVl9FKyL7UlWPDw0HJancL").trim();
+  const key_id = (process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "").trim();
+  const key_secret = (process.env.RAZORPAY_KEY_SECRET || "").trim();
 
   if (!key_id || !key_secret) {
     console.error("[Razorpay Invoice] Credentials missing on server.");
@@ -213,8 +211,8 @@ export async function generateAndSendRazorpayInvoice({
     // Direct Dispatch: Always send the branded official Tax Invoice directly to customer's inbox via Nodemailer
     if (custEmail) {
       try {
-        const smtpUser = (process.env.SMTP_USER || "promec.india@gmail.com").trim();
-        const smtpPass = (process.env.SMTP_PASS || "mwzfjzbrxaeiipip").replace(/\s+/g, "");
+        const smtpUser = (process.env.SMTP_USER || "").trim();
+        const smtpPass = (process.env.SMTP_PASS || "").replace(/\s+/g, "");
         if (smtpUser && smtpPass) {
           const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST || "smtp.gmail.com",
