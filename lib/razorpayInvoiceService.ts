@@ -31,15 +31,22 @@ export async function generateAndSendRazorpayInvoice({
   });
 
   try {
-    const custName = order.customer?.fullName?.trim() || "Valued Customer";
+    const custName = order.customer?.fullName?.trim() || "";
     const custEmail = order.customer?.email?.trim() || "";
     const cleanPhone = (order.customer?.phone || "").replace(/\D/g, "");
     const formattedPhone = cleanPhone.length === 10 ? `+91${cleanPhone}` : cleanPhone ? `+${cleanPhone}` : "";
-    const state = order.customer?.state?.trim() || "Maharashtra";
+    const state = order.customer?.state?.trim() || "";
     const isMH = isMaharashtraState(state);
 
     const invoiceNumber = getInvoiceNumber(order.id, order.payment?.razorpayInvoiceId);
-    const amountInPaise = order.payment?.amountRequiredInPaise || 3799900;
+    // Invoice the full order value. amountRequiredInPaise can be only the COD
+    // advance, so it is not a safe source for the invoice total.
+    const orderTotalInINR = Number(order.pricing?.finalTotalInINR || order.pricing?.subtotalInINR);
+    if (!Number.isFinite(orderTotalInINR) || orderTotalInINR <= 0) {
+      console.error(`[Razorpay Invoice] Invalid order total for ${order.id}; refusing to create a guessed invoice.`);
+      return null;
+    }
+    const amountInPaise = Math.round(orderTotalInINR * 100);
     const resolvedPaymentId = paymentId || order.payment?.razorpayPaymentId;
 
     const primaryItem = (order.items && order.items[0]) || {
@@ -52,6 +59,10 @@ export async function generateAndSendRazorpayInvoice({
       : `Includes 1-Year Comprehensive Warranty & Free Express Delivery (HSN: 8424 | IGST @ 18% to ${state})`;
 
     const fullStreetAddress = order.customer?.shippingAddress?.trim() || "";
+    if (!custName || !order.customer?.phone?.trim() || !fullStreetAddress || !order.customer?.city?.trim() || !state || !order.customer?.pincode?.trim()) {
+      console.error(`[Razorpay Invoice] Incomplete customer details for ${order.id}; refusing to create an invoice with guessed details.`);
+      return null;
+    }
     let line1 = fullStreetAddress;
     let line2 = "";
     if (fullStreetAddress.length > 50) {
@@ -65,98 +76,37 @@ export async function generateAndSendRazorpayInvoice({
       }
     }
 
-    // Check if customer already exists in Razorpay so we don't bind to stale/placeholder addresses
-    let existingCustomerId: string | null = null;
-    if (formattedPhone || custEmail) {
-      try {
-        const custList: any = await (razorpay.customers as any).all({
-          ...(formattedPhone ? { contact: formattedPhone } : {}),
-          count: 5,
-        });
-        const match = custList?.items?.find(
-          (c: any) =>
-            (formattedPhone && c.contact === formattedPhone) ||
-            (custEmail && c.email?.toLowerCase() === custEmail.toLowerCase())
-        );
-        if (match?.id) {
-          existingCustomerId = match.id;
-          if (line1) {
-            const authHeader = Buffer.from(`${key_id}:${key_secret}`).toString("base64");
-            await Promise.allSettled([
-              fetch(`https://api.razorpay.com/v1/customers/${match.id}/addresses`, {
-                method: "POST",
-                headers: {
-                  Authorization: `Basic ${authHeader}`,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  type: "shipping_address",
-                  line1: line1.slice(0, 100),
-                  ...(line2 ? { line2: line2.slice(0, 100) } : {}),
-                  city: order.customer.city || "Nagpur",
-                  state: state,
-                  zipcode: order.customer.pincode || "440016",
-                  country: "in",
-                  primary: true,
-                }),
-              }),
-              fetch(`https://api.razorpay.com/v1/customers/${match.id}/addresses`, {
-                method: "POST",
-                headers: {
-                  Authorization: `Basic ${authHeader}`,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  type: "billing_address",
-                  line1: line1.slice(0, 100),
-                  ...(line2 ? { line2: line2.slice(0, 100) } : {}),
-                  city: order.customer.city || "Nagpur",
-                  state: state,
-                  zipcode: order.customer.pincode || "440016",
-                  country: "in",
-                  primary: true,
-                }),
-              }),
-            ]);
-          }
-        }
-      } catch (custCheckErr) {
-        console.warn("[Razorpay Invoice] Customer pre-check warning:", custCheckErr);
-      }
-    }
-
     // Construct Razorpay Invoice Creation Payload
     const invoicePayload: any = {
       type: "invoice",
       invoice_number: invoiceNumber,
       description: `Invoice to ${custName} for ${primaryItem.productName}`,
       currency: "INR",
-      ...(existingCustomerId
-        ? { customer_id: existingCustomerId }
-        : {
-            customer: {
-              name: custName,
-              ...(custEmail ? { email: custEmail } : {}),
-              ...(formattedPhone ? { contact: formattedPhone } : {}),
-              ...(order.customer?.gstNumber ? { gstin: order.customer.gstNumber } : {}),
-              billing_address: {
-                line1: (line1 || "Customer Delivery Address").slice(0, 100),
-                ...(line2 ? { line2: line2.slice(0, 100) } : {}),
-                city: order.customer.city || "Nagpur",
-                state: state,
-                zipcode: order.customer.pincode || "440016",
-                country: "in",
-              },
-              shipping_address: {
-                line1: (line1 || "Customer Delivery Address").slice(0, 100),
-                ...(line2 ? { line2: line2.slice(0, 100) } : {}),
-                city: order.customer.city || "Nagpur",
-                state: state,
-                zipcode: order.customer.pincode || "440016",
-                country: "in",
-              },
-            },
-          }),
+      // Keep customer details on the invoice itself. Reusing a Razorpay
+      // customer_id can cause Razorpay to print an old saved address/contact
+      // instead of the values from this specific order.
+      customer: {
+        name: custName,
+        ...(custEmail ? { email: custEmail } : {}),
+        contact: formattedPhone,
+        ...(order.customer?.gstNumber ? { gstin: order.customer.gstNumber } : {}),
+        billing_address: {
+          line1: line1.slice(0, 100),
+          ...(line2 ? { line2: line2.slice(0, 100) } : {}),
+          city: order.customer.city,
+          state,
+          zipcode: order.customer.pincode,
+          country: "in",
+        },
+        shipping_address: {
+          line1: line1.slice(0, 100),
+          ...(line2 ? { line2: line2.slice(0, 100) } : {}),
+          city: order.customer.city,
+          state,
+          zipcode: order.customer.pincode,
+          country: "in",
+        },
+      },
       line_items: [
         {
           name: primaryItem.productName || "Cordless AquaForce® 1400 High-pressure Washer System (R)",

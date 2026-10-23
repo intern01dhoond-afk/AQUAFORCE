@@ -118,17 +118,19 @@ export async function POST(req: Request) {
         }
 
         const notes = fetchedRzpOrder?.notes || fetchedPayment?.notes || {};
-        const fallbackName = body.customer?.fullName || notes.customerName || fetchedPayment?.description || "Valued Customer";
+        const fallbackName = body.customer?.fullName || notes.customerName || "";
         const fallbackPhone = body.customer?.phone || notes.customerPhone || (fetchedPayment?.contact ? fetchedPayment.contact.replace(/\D/g, "").slice(-10) : "");
         const fallbackEmail = body.customer?.email || notes.customerEmail || fetchedPayment?.email || "";
-        const fallbackAddress = body.customer?.deliveryAddress || body.customer?.shippingAddress || notes.customerAddress || notes.deliveryAddress || "Main Address";
-        const fallbackCity = body.customer?.city || notes.customerCity || notes.city || "Nagpur";
-        const fallbackState = body.customer?.state || notes.customerState || notes.state || "Maharashtra";
-        const fallbackPincode = body.customer?.pincode || notes.customerPincode || notes.pincode || "440016";
+        const fallbackAddress = body.customer?.deliveryAddress || body.customer?.shippingAddress || notes.customerAddress || notes.deliveryAddress || "";
+        const fallbackCity = body.customer?.city || notes.customerCity || notes.city || "";
+        const fallbackState = body.customer?.state || notes.customerState || notes.state || "";
+        const fallbackPincode = body.customer?.pincode || notes.customerPincode || notes.pincode || "";
         const fallbackId = notes.promecOrderId || orderId || (rzpOrderId ? `PROMEC-ORD-${rzpOrderId}` : `PROMEC-ORD-${Date.now()}`);
 
-        const amountPaise = Number(fetchedRzpOrder?.amount || fetchedPayment?.amount || 3799900);
+        const amountPaise = Number(fetchedRzpOrder?.amount || fetchedPayment?.amount || 0);
         const amountINR = Math.round(amountPaise / 100);
+        const orderTotalINR = Number(notes.orderTotalInINR) || amountINR;
+        const recoveredQuantity = Math.max(1, Number(notes.quantity) || 1);
 
         order = {
           id: fallbackId,
@@ -151,19 +153,19 @@ export async function POST(req: Request) {
               variantId: "with-vacuum",
               variantName: notes.variantName || "With Vacuum",
               color: notes.color || "Yellow",
-              quantity: 1,
-              unitPriceInINR: amountINR,
+              quantity: recoveredQuantity,
+              unitPriceInINR: Math.round(orderTotalINR / recoveredQuantity),
               unitMrpInINR: 44990,
-              totalAmountInINR: amountINR,
+              totalAmountInINR: orderTotalINR,
             },
           ],
           pricing: {
-            subtotalInINR: amountINR,
+            subtotalInINR: orderTotalINR,
             discountInINR: 0,
             shippingFeeInINR: 0,
             handlingFeeInINR: 0,
             codFeeInINR: 0,
-            finalTotalInINR: amountINR,
+            finalTotalInINR: orderTotalINR,
             currency: "INR",
           },
           payment: {
@@ -173,7 +175,7 @@ export async function POST(req: Request) {
             razorpayOrderId: fetchedRzpOrder?.id || rzpOrderId,
             amountRequiredInPaise: amountPaise,
             amountPaidInPaise: 0,
-            amountDueInPaise: (notes.paymentMethod === "COD_ADVANCE" || amountINR < 10000) ? Math.max(0, 3799900 - amountPaise) : 0,
+            amountDueInPaise: (notes.paymentMethod === "COD_ADVANCE" || amountINR < 10000) ? Math.max(0, orderTotalINR * 100 - amountPaise) : 0,
           },
           fulfillment: {
             status: "pending",

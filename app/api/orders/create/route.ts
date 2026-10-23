@@ -144,6 +144,8 @@ export async function POST(req: Request) {
         customerCity: (customer.city || "").slice(0, 100),
         customerState: (customer.state || "").slice(0, 100),
         customerPincode: (customer.pincode || "").slice(0, 20),
+        orderTotalInINR: String(pricing.finalTotalInINR),
+        quantity: String(pricing.quantity),
         ...(customer.altPhone ? { customerAltPhone: String(customer.altPhone).slice(0, 20) } : {}),
         ...(customer.gstNumber ? { customerGst: String(customer.gstNumber).slice(0, 30) } : {}),
         variantName: pricing.variant.name,

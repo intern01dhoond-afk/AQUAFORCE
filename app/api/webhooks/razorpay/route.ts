@@ -70,17 +70,19 @@ export async function POST(request: Request) {
             }
 
             const notes = fetchedRzpOrder?.notes || payment.notes || {};
-            const fallbackName = notes.customerName || payment.description || "Valued Customer";
+            const fallbackName = notes.customerName || "";
             const fallbackPhone = notes.customerPhone || (payment.contact ? payment.contact.replace(/\D/g, "").slice(-10) : "");
             const fallbackEmail = notes.customerEmail || payment.email || "";
-            const fallbackAddress = notes.customerAddress || notes.deliveryAddress || notes.address || "Main Address";
-            const fallbackCity = notes.customerCity || notes.city || "Nagpur";
-            const fallbackState = notes.customerState || notes.state || "Maharashtra";
-            const fallbackPincode = notes.customerPincode || notes.pincode || "440016";
+            const fallbackAddress = notes.customerAddress || notes.deliveryAddress || notes.address || "";
+            const fallbackCity = notes.customerCity || notes.city || "";
+            const fallbackState = notes.customerState || notes.state || "";
+            const fallbackPincode = notes.customerPincode || notes.pincode || "";
             const fallbackId = notes.promecOrderId || (rzpOrderId ? `PROMEC-ORD-${rzpOrderId}` : `PROMEC-ORD-${Date.now()}`);
 
-            const amountPaise = Number(payment.amount || fetchedRzpOrder?.amount || 3799900);
+            const amountPaise = Number(payment.amount || fetchedRzpOrder?.amount || 0);
             const amountINR = Math.round(amountPaise / 100);
+            const orderTotalINR = Number(notes.orderTotalInINR) || amountINR;
+            const recoveredQuantity = Math.max(1, Number(notes.quantity) || 1);
 
             order = {
               id: fallbackId,
@@ -103,19 +105,19 @@ export async function POST(request: Request) {
                   variantId: "with-vacuum",
                   variantName: notes.variantName || "With Vacuum",
                   color: notes.color || "Yellow",
-                  quantity: 1,
-                  unitPriceInINR: amountINR,
+                  quantity: recoveredQuantity,
+                  unitPriceInINR: Math.round(orderTotalINR / recoveredQuantity),
                   unitMrpInINR: 44990,
-                  totalAmountInINR: amountINR,
+                  totalAmountInINR: orderTotalINR,
                 },
               ],
               pricing: {
-                subtotalInINR: amountINR,
+                subtotalInINR: orderTotalINR,
                 discountInINR: 0,
                 shippingFeeInINR: 0,
                 handlingFeeInINR: 0,
                 codFeeInINR: 0,
-                finalTotalInINR: amountINR,
+                finalTotalInINR: orderTotalINR,
                 currency: "INR",
               },
               payment: {
@@ -125,7 +127,7 @@ export async function POST(request: Request) {
                 razorpayOrderId: rzpOrderId,
                 amountRequiredInPaise: amountPaise,
                 amountPaidInPaise: 0,
-                amountDueInPaise: (notes.paymentMethod === "COD_ADVANCE" || amountINR < 10000) ? Math.max(0, 3799900 - amountPaise) : 0,
+                amountDueInPaise: (notes.paymentMethod === "COD_ADVANCE" || amountINR < 10000) ? Math.max(0, orderTotalINR * 100 - amountPaise) : 0,
               },
               fulfillment: {
                 status: "pending",
