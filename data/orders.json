@@ -491,5 +491,68 @@
       "smsSent": true
     },
     "processedWebhookEvents": []
+  },
+  {
+    "id": "PROMEC-ORD-1792505244123-739U",
+    "createdAt": "2026-10-20T14:07:50.000Z",
+    "updatedAt": "2026-10-20T14:07:50.000Z",
+    "orderStatus": "confirmed",
+    "customer": {
+      "fullName": "Anuj Singh",
+      "email": "asingh.anuj.singh@gmail.com",
+      "phone": "9415296752",
+      "altPhone": "7898919722",
+      "shippingAddress": "S-2/1-80-G, Tagore Town Colony, Mahaveer Mandir road, Bhojuveer",
+      "city": "Varanasi",
+      "state": "Uttar Pradesh",
+      "pincode": "221002",
+      "gstNumber": "09ETGPS9040M1ZV",
+      "customerType": "retail"
+    },
+    "items": [
+      {
+        "productId": "AMEC-AQUAFORCE-1400",
+        "productName": "Cordless AquaForce® 1400 High-pressure Washer System (With Vacuum)",
+        "variantId": "with-vacuum",
+        "variantName": "With Vacuum",
+        "color": "Yellow",
+        "quantity": 1,
+        "unitPriceInINR": 37999,
+        "unitMrpInINR": 44990,
+        "totalAmountInINR": 37999
+      }
+    ],
+    "pricing": {
+      "subtotalInINR": 37999,
+      "discountInINR": 0,
+      "shippingFeeInINR": 0,
+      "handlingFeeInINR": 0,
+      "codFeeInINR": 0,
+      "finalTotalInINR": 37999,
+      "currency": "INR"
+    },
+    "payment": {
+      "method": "FULL_ONLINE",
+      "provider": "RAZORPAY",
+      "mode": "CARD",
+      "status": "captured",
+      "razorpayOrderId": "order_TqBpe3de5A40Ss",
+      "razorpayPaymentId": "pay_TqBpLVhrDrWVhX",
+      "amountRequiredInPaise": 3799900,
+      "amountPaidInPaise": 3799900,
+      "amountDueInPaise": 0,
+      "capturedAt": "2026-10-20T14:07:53.000Z",
+      "razorpayInvoiceId": "inv_TqBpdlESpKH4or",
+      "razorpayInvoiceUrl": "https://rzp.io/rzp/dxgzaOw"
+    },
+    "fulfillment": {
+      "status": "completed",
+      "waybill": "64729710000442",
+      "shipmentId": "64729710000442",
+      "googleSheetSynced": true,
+      "emailSent": true,
+      "smsSent": true
+    },
+    "processedWebhookEvents": []
   }
 ]

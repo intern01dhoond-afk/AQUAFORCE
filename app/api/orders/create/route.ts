@@ -3,6 +3,7 @@ import Razorpay from "razorpay";
 import { calculateOrderPricing } from "@/lib/pricing";
 import { orderStore, PromecOrder } from "@/lib/orderStore";
 import { profileStore } from "@/lib/profileStore";
+import { getLiveActiveOfferIds } from "@/lib/razorpayLiveOffers";
 import { getPromecPayLaterOfferIds } from "@/lib/razorpayOffers";
 
 export async function POST(req: Request) {
@@ -101,8 +102,8 @@ export async function POST(req: Request) {
       key_secret,
     });
 
-    // Razorpay No-Cost EMI Subvention Offers ('Promec India PayLater')
-    const configuredOffers = getPromecPayLaterOfferIds();
+    // Fetch live active offers directly from Razorpay (No Cost EMI & Cashback)
+    const liveActiveOffers = await getLiveActiveOfferIds();
     const applicableOffers: string[] = [];
 
     // 1. Explicit offers passed in request body
@@ -112,12 +113,10 @@ export async function POST(req: Request) {
       applicableOffers.push(String(body.offerId || body.offer_id));
     }
 
-    // 2. Global / Environment 'Promec India PayLater' offers (applied for EMI or when configured)
-    if (resolvedMethod === "EMI" || configuredOffers.length > 0) {
-      for (const offId of configuredOffers) {
-        if (!applicableOffers.includes(offId)) {
-          applicableOffers.push(offId);
-        }
+    // 2. Automatically attach all live active offers from Razorpay
+    for (const offId of liveActiveOffers) {
+      if (!applicableOffers.includes(offId)) {
+        applicableOffers.push(offId);
       }
     }
 

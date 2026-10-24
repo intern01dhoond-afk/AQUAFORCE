@@ -404,8 +404,8 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     type: "credit",
     isNoCost: true,
     hasOffer: true,
-    offerText: "5% Cashback (Up to ₹750)",
-    minAmount: 5000,
+    offerText: "No Cost EMI + 5% Cashback",
+    minAmount: 4000,
     startingEmi: 5488,
     plans: [],
   },
@@ -416,9 +416,9 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/icici.png",
     type: "credit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 1500,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 4000,
     startingEmi: 5434,
     plans: [],
   },
@@ -428,7 +428,7 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     name: "American Express Bank",
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/card/64/amex.png",
     type: "credit",
-    isNoCost: true,
+    isNoCost: false,
     hasOffer: false,
     offerText: "",
     minAmount: 5000,
@@ -443,8 +443,8 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     type: "credit",
     isNoCost: true,
     hasOffer: true,
-    offerText: "5% Cashback (Up to ₹1,500)",
-    minAmount: 5000,
+    offerText: "No Cost EMI + 5% Cashback",
+    minAmount: 4000,
     startingEmi: 5488,
     plans: [],
   },
@@ -454,10 +454,10 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     name: "HSBC",
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hsb.png",
     type: "credit",
-    isNoCost: false,
+    isNoCost: true,
     hasOffer: true,
-    offerText: "5% Cashback (Up to ₹1,000)",
-    minAmount: 5000,
+    offerText: "No Cost EMI + 5% Cashback",
+    minAmount: 4000,
     startingEmi: 5488,
     plans: [],
   },
@@ -468,9 +468,9 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/scb.png",
     type: "credit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 2500,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 4000,
     startingEmi: 5488,
     plans: [],
   },
@@ -481,10 +481,10 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/indusind.png",
     type: "credit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 2000,
-    startingEmi: 3902,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 4000,
+    startingEmi: 5488,
     plans: [],
   },
   {
@@ -494,9 +494,9 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/bobc.png",
     type: "credit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 2500,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 4000,
     startingEmi: 5488,
     plans: [],
   },
@@ -507,9 +507,9 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/federal.png",
     type: "credit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 2500,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 4000,
     startingEmi: 5488,
     plans: [],
   },
@@ -533,9 +533,9 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/aus.png",
     type: "credit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 2000,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 3000,
     startingEmi: 5488,
     plans: [],
   },
@@ -547,8 +547,8 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     type: "credit",
     isNoCost: true,
     hasOffer: true,
-    offerText: "3.5% Cashback (Up to ₹3,000)",
-    minAmount: 5000,
+    offerText: "No Cost EMI + 3.5% Cashback",
+    minAmount: 4000,
     startingEmi: 3902,
     plans: [],
   },
@@ -559,9 +559,9 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/paylater/64/kotak.png",
     type: "credit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 2500,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 4000,
     startingEmi: 5488,
     plans: [],
   },
@@ -571,7 +571,7 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     name: "RBL Bank",
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/rbl.png",
     type: "credit",
-    isNoCost: true,
+    isNoCost: false,
     hasOffer: false,
     offerText: "",
     minAmount: 2000,
@@ -587,9 +587,9 @@ const DEFAULT_EMI_BANKS: EmiBankItem[] = [
     logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hdfc.png",
     type: "debit",
     isNoCost: true,
-    hasOffer: false,
-    offerText: "",
-    minAmount: 3000,
+    hasOffer: true,
+    offerText: "No Cost EMI",
+    minAmount: 6000,
     startingEmi: 3075,
     plans: [],
   },
@@ -979,9 +979,26 @@ const DEFAULT_BANK_OFFERS: BankOffer[] = [
   },
 ];
 
-const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
+const detectCardBankAndOffer = (cardNumber: string, liveBanks?: EmiBankItem[]): BankOffer | null => {
   const clean = cardNumber.replace(/\D/g, "");
   if (clean.length < 3) return null;
+
+  const enhance = (offer: BankOffer): BankOffer => {
+    if (!liveBanks || liveBanks.length === 0) return offer;
+    const liveMatch = liveBanks.find(
+      (b) =>
+        b.name.toLowerCase().includes(offer.bankName.toLowerCase()) ||
+        offer.bankName.toLowerCase().includes(b.name.toLowerCase())
+    );
+    if (liveMatch && (liveMatch.offerText || liveMatch.badgeText)) {
+      return {
+        ...offer,
+        offerText: liveMatch.offerText || offer.offerText,
+        badge: liveMatch.badgeText || offer.badge,
+      };
+    }
+    return offer;
+  };
 
   // Yes Bank: 531849, 536303, 524167, 558918, 549921, 518851, 528694, 547122
   if (
@@ -996,14 +1013,14 @@ const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
     clean.startsWith("404638") ||
     clean.startsWith("404652")
   ) {
-    return {
+    return enhance({
       bankName: "Yes Bank",
-      offerText: "5% Cashback on Yes Bank Credit Card EMI Transactions",
+      offerText: "0% Interest No Cost EMI + 5% Cashback (Up to ₹1,500)",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/yes.png",
       accentBg: "bg-emerald-50/60",
       accentBorder: "border-emerald-200",
-      badge: "5% Cashback",
-    };
+      badge: "No Cost EMI + 5% Cashback",
+    });
   }
 
   // Axis Bank: 4033, 416019, 437552, 450650, 5125, 652188
@@ -1015,14 +1032,14 @@ const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
     clean.startsWith("5125") ||
     clean.startsWith("652188")
   ) {
-    return {
+    return enhance({
       bankName: "Axis Bank",
-      offerText: "5% Cashback on Min Cart Value of Rs 5,000 on AXIS Bank Credit Card EMI Transactions",
+      offerText: "0% Interest No Cost EMI + 5% Cashback (Up to ₹750)",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/axis.png",
       accentBg: "bg-emerald-50/60",
       accentBorder: "border-emerald-200",
-      badge: "5% Cashback",
-    };
+      badge: "No Cost EMI + 5% Cashback",
+    });
   }
 
   // HSBC: 461721, 512042, 486269, 461709, 461716, 456719, 438459, 456342, 542207, 540259
@@ -1038,14 +1055,14 @@ const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
     clean.startsWith("542207") ||
     clean.startsWith("540259")
   ) {
-    return {
+    return enhance({
       bankName: "HSBC",
-      offerText: "5% Cashback on Min Cart Value of Rs 5000 on HSBC Credit Card EMI Transactions",
+      offerText: "0% Interest No Cost EMI + 5% Cashback (Up to ₹1,000)",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hsb.png",
       accentBg: "bg-emerald-50/60",
       accentBorder: "border-emerald-200",
-      badge: "5% Cashback",
-    };
+      badge: "No Cost EMI + 5% Cashback",
+    });
   }
 
   // IDFC FIRST Bank: 401561, 428102, 439992, 440523, 444341, 515349, 525567, 528614
@@ -1059,14 +1076,14 @@ const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
     clean.startsWith("525567") ||
     clean.startsWith("528614")
   ) {
-    return {
+    return enhance({
       bankName: "IDFC FIRST Bank",
-      offerText: "3.5% Cashback on Min Cart Value of Rs 5000 using IDFC FIRST Bank Credit Card EMI Transactions",
+      offerText: "0% Interest No Cost EMI + 3.5% Cashback (Up to ₹3,000)",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/idfc.png",
       accentBg: "bg-emerald-50/60",
       accentBorder: "border-emerald-200",
-      badge: "3.5% Cashback",
-    };
+      badge: "No Cost EMI + 3.5% Cashback",
+    });
   }
 
   // Tata NeuCard (HDFC): 402219, 402359, 652925, 652926
@@ -1076,17 +1093,17 @@ const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
     clean.startsWith("652925") ||
     clean.startsWith("652926")
   ) {
-    return {
+    return enhance({
       bankName: "Tata NeuCard",
       offerText: "Upto 1.5% savings with NeuCard on EMI/ non EMI trxns",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hdfc.png",
       accentBg: "bg-emerald-50/60",
       accentBorder: "border-emerald-200",
       badge: "Up to 1.5% Back",
-    };
+    });
   }
 
-  // HDFC Bank Standard Cards: no fake offers
+  // HDFC Bank Standard Cards
   if (
     clean.startsWith("416021") ||
     clean.startsWith("421421") ||
@@ -1096,17 +1113,17 @@ const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
     clean.startsWith("549771") ||
     clean.startsWith("652166")
   ) {
-    return {
+    return enhance({
       bankName: "HDFC Bank",
       offerText: "",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/hdfc.png",
       accentBg: "bg-slate-50",
       accentBorder: "border-slate-200",
       badge: "",
-    };
+    });
   }
 
-  // ICICI Bank Standard Cards: no fake offers
+  // ICICI Bank Credit Cards: Active No Cost EMI
   if (
     clean.startsWith("4055") ||
     clean.startsWith("4060") ||
@@ -1117,43 +1134,43 @@ const detectCardBankAndOffer = (cardNumber: string): BankOffer | null => {
     clean.startsWith("5433") ||
     clean.startsWith("652177")
   ) {
-    return {
+    return enhance({
       bankName: "ICICI Bank",
-      offerText: "",
+      offerText: "0% Interest No Cost EMI available (3, 6, 9, 12 Months)",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/icici.png",
-      accentBg: "bg-slate-50",
-      accentBorder: "border-slate-200",
-      badge: "",
-    };
+      accentBg: "bg-emerald-50/60",
+      accentBorder: "border-emerald-200",
+      badge: "No Cost EMI",
+    });
   }
 
-  // Kotak Mahindra Bank: no fake offers
+  // Kotak Mahindra Bank: Active No Cost EMI
   if (
     clean.startsWith("4166") ||
     clean.startsWith("438652") ||
     clean.startsWith("4854") ||
     clean.startsWith("652199")
   ) {
-    return {
+    return enhance({
       bankName: "Kotak Mahindra Bank",
-      offerText: "",
+      offerText: "0% Interest No Cost EMI available (3, 6, 9, 12 Months)",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/kotak.png",
-      accentBg: "bg-slate-50",
-      accentBorder: "border-slate-200",
-      badge: "",
-    };
+      accentBg: "bg-emerald-50/60",
+      accentBorder: "border-emerald-200",
+      badge: "No Cost EMI",
+    });
   }
 
-  // Bank of Baroda: no fake offers
+  // Bank of Baroda: Active No Cost EMI
   if (clean.startsWith("437553") || clean.startsWith("450653") || clean.startsWith("652151")) {
-    return {
+    return enhance({
       bankName: "Bank of Baroda",
-      offerText: "",
+      offerText: "0% Interest No Cost EMI available (3, 6, 9, 12 Months)",
       logo: "https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/bobc.png",
-      accentBg: "bg-slate-50",
-      accentBorder: "border-slate-200",
-      badge: "",
-    };
+      accentBg: "bg-emerald-50/60",
+      accentBorder: "border-emerald-200",
+      badge: "No Cost EMI",
+    });
   }
 
   return null;
@@ -4705,7 +4722,7 @@ interface CheckoutSubmitOptions {
               <div className="flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4 no-scrollbar">
                 {/* 1. Dynamic Live Bank Offer Banner */}
                 {(() => {
-                  const detectedOffer = detectCardBankAndOffer(cardNumber);
+                  const detectedOffer = detectCardBankAndOffer(cardNumber, liveEmiBanks);
                   const currentOffer = detectedOffer || DEFAULT_BANK_OFFERS[cardOfferCarouselIndex % DEFAULT_BANK_OFFERS.length];
 
                   return (
@@ -7154,7 +7171,7 @@ interface CheckoutSubmitOptions {
                   Save more with payment offers
                 </h3>
                 <span className="shrink-0 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                  {REAL_RAZORPAY_CASHBACK_OFFERS.length} Offers Available
+                  {liveRazorpayOffers.length > 0 ? liveRazorpayOffers.length : (REAL_RAZORPAY_CASHBACK_OFFERS.length + PROMEC_PAYLATER_OFFERS_METADATA.length)} Offers Available
                 </span>
               </div>
               <button
@@ -7167,30 +7184,46 @@ interface CheckoutSubmitOptions {
               </button>
             </div>
 
-            {/* Modal Body: Scrollable list of 5 verified cards (Exact match to media_1790941958036.png) */}
+            {/* Modal Body: Scrollable list of verified cards */}
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 no-scrollbar bg-slate-50/40">
               {(() => {
                 const availableBanks = (liveEmiBanks && liveEmiBanks.length > 0) ? liveEmiBanks : DEFAULT_EMI_BANKS;
                 const offersToDisplay =
                   liveRazorpayOffers.length > 0
                     ? liveRazorpayOffers
-                    : REAL_RAZORPAY_CASHBACK_OFFERS.map((meta) => ({
-                        id: meta.id,
-                        name: meta.title,
-                        displayName: meta.title,
-                        bankCode: meta.bankCode,
-                        bankName: meta.bankName,
-                        bankLogo: meta.logo,
-                        cardType: "credit",
-                        description: meta.subtitle,
-                        tnc: meta.tnc,
-                        cashbackAmount: Math.min(
-                          Math.round((totalPrice * meta.cashbackPercent) / 100),
-                          meta.maxBenefitRupees
-                        ),
-                        cashbackText: `${meta.cashbackPercent}% Cashback`,
-                        badgeText: `${meta.cashbackPercent}% Cashback`,
-                      }));
+                    : [
+                        ...REAL_RAZORPAY_CASHBACK_OFFERS.map((meta) => ({
+                          id: meta.id,
+                          name: meta.title,
+                          displayName: meta.title,
+                          bankCode: meta.bankCode,
+                          bankName: meta.bankName,
+                          bankLogo: meta.logo,
+                          cardType: "credit",
+                          description: meta.subtitle,
+                          tnc: meta.tnc,
+                          cashbackAmount: Math.min(
+                            Math.round((totalPrice * meta.cashbackPercent) / 100),
+                            meta.maxBenefitRupees
+                          ),
+                          cashbackText: `${meta.cashbackPercent}% Cashback`,
+                          badgeText: `${meta.cashbackPercent}% Cashback`,
+                        })),
+                        ...PROMEC_PAYLATER_OFFERS_METADATA.map((meta) => ({
+                          id: meta.id,
+                          name: meta.displayName,
+                          displayName: meta.displayName,
+                          bankCode: meta.bankCode,
+                          bankName: meta.bankName,
+                          bankLogo: `https://cashfreelogo.cashfree.com/assets_images/pg/nb/64/${meta.bankCode.toLowerCase()}.png`,
+                          cardType: meta.cardType,
+                          description: meta.description,
+                          tnc: meta.tnc,
+                          cashbackAmount: 0,
+                          cashbackText: "0% Interest No Cost EMI",
+                          badgeText: "NO COST EMI",
+                        })),
+                      ];
 
                 return offersToDisplay.map((off: any) => {
                   const matchingBank = availableBanks.find(

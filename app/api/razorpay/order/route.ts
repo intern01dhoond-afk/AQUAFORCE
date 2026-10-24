@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
-import { getPromecPayLaterOfferIds } from "@/lib/razorpayOffers";
+import { getLiveActiveOfferIds } from "@/lib/razorpayLiveOffers";
 
 export async function POST(req: Request) {
   try {
@@ -34,8 +34,8 @@ export async function POST(req: Request) {
       key_secret,
     });
 
-    // Resolve No-Cost EMI Subvention Offers ('Promec India PayLater')
-    const configuredOffers = getPromecPayLaterOfferIds();
+    // Resolve live active offers directly from Razorpay
+    const liveOffers = await getLiveActiveOfferIds();
     const applicableOffers: string[] = [];
 
     if (Array.isArray(offers) && offers.length > 0) {
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       applicableOffers.push(String(offer_id || offerId));
     }
 
-    for (const off of configuredOffers) {
+    for (const off of liveOffers) {
       if (!applicableOffers.includes(off)) {
         applicableOffers.push(off);
       }

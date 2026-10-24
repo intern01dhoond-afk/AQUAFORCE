@@ -414,6 +414,120 @@ const LEGACY_ORDERS_DATABASE: Record<string, any> = {
     },
     notes: "Commercial Gig Worker Package",
   },
+  "PROMEC-ORD-1792505244123-739U": {
+    id: "PROMEC-ORD-1792505244123-739U",
+    createdAt: "2026-10-20T14:07:50.000Z",
+    orderStatus: "confirmed",
+    invoiceNumber: "AQUA-R/INV-3-739U",
+    customer: {
+      fullName: "Anuj Singh",
+      phone: "+91 9415296752",
+      email: "asingh.anuj.singh@gmail.com",
+      shippingAddress: "S-2/1-80-G, Tagore Town Colony, Mahaveer Mandir road, Bhojuveer",
+      city: "Varanasi",
+      state: "Uttar Pradesh",
+      pincode: "221002",
+      gstin: "09ETGPS9040M1ZV",
+    },
+    items: [
+      {
+        productName: "Cordless AquaForce® 1400 High-pressure Washer System (With Vacuum)",
+        quantity: 1,
+        unitPriceInINR: 37999,
+        totalAmountInINR: 37999,
+      },
+    ],
+    pricing: {
+      subtotalInINR: 37999,
+      finalTotalInINR: 37999,
+    },
+    payment: {
+      method: "FULL_ONLINE",
+      status: "captured",
+      razorpayPaymentId: "pay_TqBpLVhrDrWVhX",
+      razorpayInvoiceId: "inv_TqBpdlESpKH4or",
+      razorpayInvoiceUrl: "https://rzp.io/rzp/dxgzaOw",
+      amountPaidInPaise: 3799900,
+      amountDueInPaise: 0,
+    },
+    notes: "Delhivery Waybill: 64729710000442",
+  },
+  inv_TqBpdlESpKH4or: {
+    id: "PROMEC-ORD-1792505244123-739U",
+    createdAt: "2026-10-20T14:07:50.000Z",
+    orderStatus: "confirmed",
+    invoiceNumber: "AQUA-R/INV-3-739U",
+    customer: {
+      fullName: "Anuj Singh",
+      phone: "+91 9415296752",
+      email: "asingh.anuj.singh@gmail.com",
+      shippingAddress: "S-2/1-80-G, Tagore Town Colony, Mahaveer Mandir road, Bhojuveer",
+      city: "Varanasi",
+      state: "Uttar Pradesh",
+      pincode: "221002",
+      gstin: "09ETGPS9040M1ZV",
+    },
+    items: [
+      {
+        productName: "Cordless AquaForce® 1400 High-pressure Washer System (With Vacuum)",
+        quantity: 1,
+        unitPriceInINR: 37999,
+        totalAmountInINR: 37999,
+      },
+    ],
+    pricing: {
+      subtotalInINR: 37999,
+      finalTotalInINR: 37999,
+    },
+    payment: {
+      method: "FULL_ONLINE",
+      status: "captured",
+      razorpayPaymentId: "pay_TqBpLVhrDrWVhX",
+      razorpayInvoiceId: "inv_TqBpdlESpKH4or",
+      razorpayInvoiceUrl: "https://rzp.io/rzp/dxgzaOw",
+      amountPaidInPaise: 3799900,
+      amountDueInPaise: 0,
+    },
+    notes: "Delhivery Waybill: 64729710000442",
+  },
+  "AQUA-R/INV-3-739U": {
+    id: "PROMEC-ORD-1792505244123-739U",
+    createdAt: "2026-10-20T14:07:50.000Z",
+    orderStatus: "confirmed",
+    invoiceNumber: "AQUA-R/INV-3-739U",
+    customer: {
+      fullName: "Anuj Singh",
+      phone: "+91 9415296752",
+      email: "asingh.anuj.singh@gmail.com",
+      shippingAddress: "S-2/1-80-G, Tagore Town Colony, Mahaveer Mandir road, Bhojuveer",
+      city: "Varanasi",
+      state: "Uttar Pradesh",
+      pincode: "221002",
+      gstin: "09ETGPS9040M1ZV",
+    },
+    items: [
+      {
+        productName: "Cordless AquaForce® 1400 High-pressure Washer System (With Vacuum)",
+        quantity: 1,
+        unitPriceInINR: 37999,
+        totalAmountInINR: 37999,
+      },
+    ],
+    pricing: {
+      subtotalInINR: 37999,
+      finalTotalInINR: 37999,
+    },
+    payment: {
+      method: "FULL_ONLINE",
+      status: "captured",
+      razorpayPaymentId: "pay_TqBpLVhrDrWVhX",
+      razorpayInvoiceId: "inv_TqBpdlESpKH4or",
+      razorpayInvoiceUrl: "https://rzp.io/rzp/dxgzaOw",
+      amountPaidInPaise: 3799900,
+      amountDueInPaise: 0,
+    },
+    notes: "Delhivery Waybill: 64729710000442",
+  },
 };
 
 export default function RazorpayHostedInvoicePage({
@@ -429,6 +543,7 @@ export default function RazorpayHostedInvoicePage({
 
   const [invoice, setInvoice] = useState<InvoiceDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -452,7 +567,7 @@ export default function RazorpayHostedInvoicePage({
         return;
       }
 
-      // 2. Fetch dynamically from /api/account/orders/[id]
+      // 2. Fetch dynamically from /api/account/orders/[id] (which auto-recovers from live Razorpay)
       try {
         const res = await fetch(
           `/api/account/orders/${encodeURIComponent(decodedId)}`
@@ -471,13 +586,9 @@ export default function RazorpayHostedInvoicePage({
         console.warn("Could not fetch order from API:", err);
       }
 
-      // 3. Fallback to default Kilanbha Kynta order (exact match to reference screenshot)
+      // 3. If not found, safely mark as not found rather than defaulting to someone else's data
       if (isMounted) {
-        setInvoice(
-          convertOrderToInvoiceDetails(
-            LEGACY_ORDERS_DATABASE["order_TVWMNCnxp7pU2C"]
-          )
-        );
+        setNotFound(true);
         setLoading(false);
       }
     }
@@ -493,12 +604,40 @@ export default function RazorpayHostedInvoicePage({
     window.print();
   };
 
-  if (loading || !invoice) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-[#f4f6f9] flex items-center justify-center">
         <div className="flex items-center gap-2 text-slate-500 text-sm font-medium">
           <Loader2 className="animate-spin" size={18} />
           <span>Loading Tax Invoice...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (notFound || !invoice) {
+    return (
+      <div className="min-h-screen bg-[#f4f6f9] flex flex-col items-center justify-center p-4">
+        <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-md w-full text-center">
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Invoice Not Found</h2>
+          <p className="text-slate-600 text-sm mb-6">
+            We could not locate the tax invoice for reference <strong className="text-slate-900">{decodedId}</strong>.
+            Please verify the order reference or contact customer support.
+          </p>
+          <div className="space-y-3">
+            <Link
+              href="/"
+              className="block w-full py-2.5 px-4 bg-[#2371ec] text-white rounded-xl font-semibold text-sm hover:bg-blue-600 transition-colors"
+            >
+              Back to Store
+            </Link>
+            <a
+              href="mailto:promec.india@gmail.com"
+              className="block w-full py-2.5 px-4 bg-slate-100 text-slate-700 rounded-xl font-semibold text-sm hover:bg-slate-200 transition-colors"
+            >
+              Contact Support
+            </a>
+          </div>
         </div>
       </div>
     );
