@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { X } from "lucide-react";
 import Footer from "@/components/Footer";
+import { trackPurchase } from "@/lib/analytics";
 
 function ThankYouContent() {
   const router = useRouter();
@@ -24,16 +25,27 @@ function ThankYouContent() {
   const formattedCodBalance = Number(codBalance).toLocaleString("en-IN");
 
   useEffect(() => {
+    const numericAmount = Number(amount) || 37999;
+
     // Trigger Meta Pixel Purchase Conversion Event
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "Purchase", {
-        value: Number(amount) || 37999,
+        value: numericAmount,
         currency: "INR",
         content_name: "AQUAFORCE 1400 PSI TECH Cordless Washer",
         content_type: "product",
       });
     }
-  }, [amount]);
+
+    // Trigger Google Analytics 4 (GA4) Purchase Event
+    trackPurchase({
+      orderId: orderId || paymentId || `ORD_${Date.now()}`,
+      value: numericAmount,
+      paymentMethod: method,
+      productName: "AquaForce 1400 High-pressure Washer",
+      quantity: 1,
+    });
+  }, [amount, orderId, paymentId, method]);
 
   const handleReturn = () => {
     router.push("/");

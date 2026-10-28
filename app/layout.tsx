@@ -5,6 +5,7 @@ import "./globals.css";
 import { OrderModalProvider } from "@/context/OrderModalContext";
 import { BulkEnquiryProvider } from "@/context/BulkEnquiryContext";
 import Preloader from "@/components/Preloader";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -101,7 +102,8 @@ export default function RootLayout({
             alt=""
           />
         </noscript>
-        {/* End Meta Pixel Code */}
+        {/* Google Analytics 4 (GA4) */}
+        <GoogleAnalytics />
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes preloader-slide {
             0% { transform: translateX(-10%); }
