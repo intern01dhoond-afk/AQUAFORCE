@@ -48,9 +48,10 @@ export const trackClickShopNow = (buttonLocation: string = "Hero", productName: 
 };
 
 /**
- * 3. Track Checkout Page Visits (User arrives at checkout form)
+ * 3. Track Checkout Page Visits (User arrives at checkout form modal)
  */
 export const trackBeginCheckout = (price: number = 37999, quantity: number = 1, variant: string = "Yellow") => {
+  // 1. Standard GA4 E-Commerce funnel event
   gtag("event", "begin_checkout", {
     currency: "INR",
     value: price * quantity,
@@ -65,11 +66,18 @@ export const trackBeginCheckout = (price: number = 37999, quantity: number = 1, 
     ],
   });
 
-  // Custom funnel event
+  // 2. Custom funnel event for easy funnel exploration
   gtag("event", "checkout_page_visit", {
     value: price * quantity,
     currency: "INR",
     quantity: quantity,
+  });
+
+  // 3. Virtual Page View: registers in GA4 "Pages and Screens" report as /checkout
+  gtag("event", "page_view", {
+    page_title: "Checkout - AquaForce",
+    page_location: typeof window !== "undefined" ? `${window.location.origin}/checkout` : "https://promectools.in/checkout",
+    page_path: "/checkout",
   });
 };
 

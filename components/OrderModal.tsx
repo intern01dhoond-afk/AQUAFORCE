@@ -6,6 +6,7 @@ import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, Arr
 import EmiCalculatorModal from "./EmiCalculatorModal";
 import { QRCodeSVG } from "qrcode.react";
 import { PROMEC_PAYLATER_OFFERS_METADATA, REAL_RAZORPAY_CASHBACK_OFFERS } from "@/lib/razorpayOffers";
+import { trackBeginCheckout } from "@/lib/analytics";
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -1751,6 +1752,13 @@ interface CheckoutFormData {
 
   const currentColor = PRODUCT_DATA.colors[selectedColorIndex];
   const images = currentColor.images;
+
+  // Track Checkout Page Visit (Virtual Page View & GA4 begin_checkout) when user advances to checkout screen
+  useEffect(() => {
+    if (isOpen && isCheckingOut) {
+      trackBeginCheckout(totalPrice, quantity, currentColor?.name || "Yellow");
+    }
+  }, [isOpen, isCheckingOut, totalPrice, quantity, currentColor?.name]);
 
   // Load official Razorpay Custom Checkout SDK dynamically (In-Website native checkout, zero external popups)
   const loadRazorpayScript = (): Promise<boolean> => {

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import OrderModal from "@/components/OrderModal";
 import MobileVerificationModal from "@/components/MobileVerificationModal";
 import AccountLoginModal from "@/components/account/AccountLoginModal";
-import { trackClickShopNow, trackBeginCheckout } from "@/lib/analytics";
+import { trackClickShopNow } from "@/lib/analytics";
 
 interface VerifiedUser {
   fullName: string;
@@ -94,8 +94,7 @@ export function OrderModalProvider({ children }: { children: React.ReactNode }) 
       // Require Name & Mobile OTP verification first
       setIsVerificationOpen(true);
     } else {
-      // Already verified -> proceed directly to product checkout modal
-      trackBeginCheckout();
+      // Already verified -> proceed directly to product modal
       setIsOrderModalOpen(true);
     }
   };
@@ -118,8 +117,6 @@ export function OrderModalProvider({ children }: { children: React.ReactNode }) 
 
   const handleVerified = (data: { fullName: string; phone: string }) => {
     setVerifiedUser(data);
-    // GA4 Funnel Step: User verified -> Checkout Page Visited
-    trackBeginCheckout();
 
     // Persist to unified keys so MY ACCOUNT and BUY NOW are both logged in
     try {
