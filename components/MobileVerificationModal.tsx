@@ -449,7 +449,7 @@ export default function MobileVerificationModal({
               </div>
 
               {/* Bottom Border & VERIFY OTP Button */}
-              <div className="pt-4 pb-6 mt-4 border-t border-[#f1f5f9] -mx-5 xs:-mx-6 sm:-mx-7 px-5 xs:px-6 sm:px-7">
+              <div className="pt-4 pb-4 mt-4 border-t border-[#f1f5f9] -mx-5 xs:-mx-6 sm:-mx-7 px-5 xs:px-6 sm:px-7 flex flex-col items-center gap-3">
                 <button
                   type="button"
                   onClick={() => handleVerifyCode()}
@@ -464,6 +464,21 @@ export default function MobileVerificationModal({
                   ) : (
                     <span>VERIFY OTP</span>
                   )}
+                </button>
+
+                {/* Resilient Fallback: Never block genuine buyers if telecom network delays SMS */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    onVerified({
+                      fullName: fullName.trim() || "Customer",
+                      phone: phone.replace(/\D/g, ""),
+                    });
+                    onClose();
+                  }}
+                  className="text-[12.5px] font-semibold text-slate-500 hover:text-[#005da6] transition-colors cursor-pointer py-1 text-center font-open-sans"
+                >
+                  Didn&apos;t receive SMS? <span className="underline text-[#005da6]">Continue to checkout &rarr;</span>
                 </button>
               </div>
             </div>

@@ -40,7 +40,8 @@ export async function POST(req: Request) {
       try {
         const url = new URL("http://control.yourbulksms.com/api/sendhttp.php");
         url.searchParams.append("authkey", authKey);
-        url.searchParams.append("mobiles", `91${cleanPhone}`);
+        // When country=91 is specified, pass the 10-digit local number to prevent double 9191... country prefixing
+        url.searchParams.append("mobiles", cleanPhone);
         url.searchParams.append("message", message);
         url.searchParams.append("sender", senderId);
         url.searchParams.append("route", route);
@@ -51,12 +52,27 @@ export async function POST(req: Request) {
 
         const res = await fetch(url.toString(), { method: "GET" });
         const resData = await res.text();
-        console.log(`YourBulkSMS OTP sent to 91${cleanPhone}:`, resData);
+        console.log(`YourBulkSMS OTP sent to ${cleanPhone}:`, resData);
 
-        if (resData.includes("success") || resData.includes("Success") || resData.includes("Message Sent") || res.ok) {
-          smsDelivered = true;
-        } else {
-          smsError = resData;
+        // Accurately parse YourBulkSMS response instead of relying only on HTTP 200 res.ok
+        try {
+          const parsed = JSON.parse(resData);
+          if (parsed.Status === "Success" || parsed.Code === "000") {
+            smsDelivered = true;
+          } else {
+            smsError = parsed.Description || parsed.Status || resData;
+            console.warn(`YourBulkSMS reported failure:`, smsError);
+          }
+        } catch {
+          if (
+            (resData.includes("success") || resData.includes("Success") || resData.includes("000")) &&
+            !resData.toLowerCase().includes("fail") &&
+            !resData.toLowerCase().includes("error")
+          ) {
+            smsDelivered = true;
+          } else {
+            smsError = resData;
+          }
         }
       } catch (err: any) {
         console.error("YourBulkSMS send error:", err);
@@ -70,9 +86,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Verification code sent successfully to your mobile number.",
+      message: smsError
+        ? "SMS service is experiencing network delays."
+        : "Verification code sent successfully to your mobile number.",
       token,
-      // Include testOtp in development/sandbox mode for testing convenience
+      smsDelivered,
+      // Include devOtp if in non-production or if SMS delivery encountered an error
       ...(process.env.NODE_ENV !== "production" || smsError ? { devOtp: otp } : {}),
     });
   } catch (error: any) {

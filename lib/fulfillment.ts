@@ -352,8 +352,7 @@ export async function executeOrderFulfillment(
     tasks.push(
       (async () => {
         try {
-          let cleanPhone = order.customer.phone.replace(/\D/g, "");
-          if (cleanPhone.length === 10) cleanPhone = `91${cleanPhone}`;
+          const cleanPhone = order.customer.phone.replace(/\D/g, "").slice(-10);
           const formattedAmount = order.pricing.finalTotalInINR.toLocaleString("en-IN");
           const message = `Dear ${order.customer.fullName}, your order #${order.id} for ${primaryItem.productName} (Rs.${formattedAmount}) has been confirmed! Thank you for choosing Promec India.`;
 

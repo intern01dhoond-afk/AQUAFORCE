@@ -9,11 +9,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing mobile phone number" }, { status: 400 });
     }
 
-    // Clean mobile number (strip non-digits, ensure 10 digits or 91 prefix)
-    let cleanPhone = String(phone).replace(/\D/g, "");
-    if (cleanPhone.length === 10) {
-      cleanPhone = `91${cleanPhone}`;
-    }
+    // Clean mobile number (keep 10 digits without country prefix when country=91 is passed)
+    const cleanPhone = String(phone).replace(/\D/g, "").slice(-10);
 
     const authKey = process.env.YOURBULKSMS_AUTH_KEY || "";
     const senderId = process.env.YOURBULKSMS_SENDER_ID || "PROMCC";
