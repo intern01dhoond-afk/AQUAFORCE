@@ -343,7 +343,7 @@ export async function executeOrderFulfillment(
   }
 
   // Channel D: YourBulkSMS SMS Notification
-  const smsAuthKey = process.env.YOURBULKSMS_AUTH_KEY || "";
+  const smsAuthKey = process.env.YOURBULKSMS_AUTH_KEY || "3236524f4d454338373214";
   const senderId = process.env.YOURBULKSMS_SENDER_ID || DEFAULT_YOURBULKSMS_SENDER_ID;
   const route = process.env.YOURBULKSMS_ROUTE || DEFAULT_YOURBULKSMS_ROUTE;
   const templateId = process.env.YOURBULKSMS_TEMPLATE_ID || DEFAULT_YOURBULKSMS_TEMPLATE_ID;
