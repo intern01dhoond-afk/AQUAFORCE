@@ -56,7 +56,6 @@ export class SupabaseDisputeStore implements IDisputeStore {
       status: dispute.status,
       customer: dispute.customer,
       item_details: dispute.itemDetails,
-      attachment_names: dispute.attachmentNames || [],
       media_urls: dispute.attachmentNames || [],
       timeline: dispute.timeline || [],
       resolution_notes: dispute.resolutionDetails?.notes || null,

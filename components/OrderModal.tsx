@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, ShoppingCart, Eye, EyeOff, Landmark, ArrowUpRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Star, Truck, RotateCcw, CheckCircle2, ArrowRight, ArrowLeft, Lock, FileText, ChevronDown, ChevronUp, Share2, Gift, Check, Info, Headphones, PackageCheck, Smartphone, Zap, CreditCard, Sparkles, Search, Percent, ShoppingCart, Eye, EyeOff, Landmark, ArrowUpRight, AlertTriangle } from "lucide-react";
 import EmiCalculatorModal from "./EmiCalculatorModal";
 import { QRCodeSVG } from "qrcode.react";
 import { PROMEC_PAYLATER_OFFERS_METADATA, REAL_RAZORPAY_CASHBACK_OFFERS } from "@/lib/razorpayOffers";
@@ -1198,6 +1198,7 @@ export default function OrderModal({
   const [isReplacementOpen, setIsReplacementOpen] = useState(false);
   const [isKnowMoreOpen, setIsKnowMoreOpen] = useState(false);
   const [isFullReturnPolicyOpen, setIsFullReturnPolicyOpen] = useState(false);
+  const [isImportantNoteOpen, setIsImportantNoteOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"FULL_ONLINE" | "10_PERCENT_COD">("FULL_ONLINE");
   const [onlinePaymentMode, setOnlinePaymentMode] = useState<"FULL" | "EMI">("FULL");
   const [isCodSuccess, setIsCodSuccess] = useState(false);
@@ -6712,6 +6713,57 @@ interface CheckoutSubmitOptions {
                         />
                         <span>Express delivery in 6 to 8 days</span>
                       </div>
+                    </div>
+
+                    {/* Collapsible Note: Personal Use Only */}
+                    <div className="rounded-xl border border-amber-200/90 bg-amber-50/80 px-3 py-1.5 sm:py-2 text-xs font-open-sans text-amber-950 transition-all duration-200">
+                      {!isImportantNoteOpen ? (
+                        <div className="flex items-center gap-1.5 min-w-0 whitespace-nowrap overflow-hidden leading-tight">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <strong className="font-bold text-amber-950 shrink-0">Note:</strong>
+                          <span className="text-amber-900/90 truncate min-w-0">
+                            This product is designed for personal use only and is not suitable for heavy commercial applications
+                          </span>
+                          <span className="text-slate-400 shrink-0">...</span>
+                          <button
+                            type="button"
+                            onClick={() => setIsImportantNoteOpen(true)}
+                            className="font-bold text-[#0066cc] hover:text-[#004d99] hover:underline cursor-pointer shrink-0"
+                          >
+                            Show more
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-start gap-1.5 leading-relaxed animate-in fade-in duration-150">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                          <div className="text-amber-900/90 flex-1">
+                            <strong className="font-bold text-amber-950 mr-1">Note:</strong>
+                            <span>
+                              This product is designed for personal use only and is not suitable for heavy commercial applications. Commercial support will not be provided for this model.
+                            </span>
+                            <div className="pt-1">
+                              If you require a product for commercial use, please purchase our Commercial Model:{" "}
+                              <a
+                                href="https://promectools.in/aquaforceforgigworkers"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-bold text-[#0066cc] hover:text-[#004d99] hover:underline inline-flex items-center gap-0.5"
+                              >
+                                Commercial Model
+                                <ArrowUpRight className="w-3 h-3 inline shrink-0" />
+                              </a>
+                              .{" "}
+                              <button
+                                type="button"
+                                onClick={() => setIsImportantNoteOpen(false)}
+                                className="font-bold text-[#0066cc] hover:text-[#004d99] hover:underline cursor-pointer inline whitespace-nowrap ml-1"
+                              >
+                                Show less
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="w-full h-px bg-slate-100 my-2" />
